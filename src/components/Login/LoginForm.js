@@ -10,15 +10,16 @@ import Swal from 'sweetalert2';
 import qs from 'qs';
 import westroad from '../../westroad_logo-02.jpg';
 import { Form, Input } from 'reactstrap';
+import rect from '../../Rectangle.png';
 
-// commit to west-13 branch and merge to release
 function LoginForm() {
 
   const [email, setemail] = useState('')
   const [password, setPassword] = useState('')
+  const [userName, setuserName] = useState('')
 
   const changeUser = (e) => {
-    setemail(e.target.value)
+    setuserName(e.target.value)
 
   }
 
@@ -47,10 +48,11 @@ function LoginForm() {
   }
 
   const resetLink = (e) => {
+    e.preventDefault()
+
     const user = {
       email: email
     }
-    e.preventDefault()
     if (email === '') {
       Swal.fire({
         icon: 'error',
@@ -64,84 +66,105 @@ function LoginForm() {
         text: 'email cannot be left empty!'
       })
     }
-    const data = {
-      email: email,
+    else {
+      const data = {
+        email: email,
+      }
+
+      axios.post(`${BASE_URL}` + '', qs.stringify(data))
+        .then((response) => {
+          console.log(response)
+          var message = document.querySelector("#message");
+          message.style.display = "block";
+
+          var error = document.querySelector("#error");
+          error.style.display = "none";
+        })
+        .catch((error) => {
+          console.log(error);
+
+        })
     }
-
-    axios.post(`${BASE_URL}` + '/api/v1.0/broker/forgotpassword', qs.stringify(data))
-      .then((response) => {
-        console.log(response)
-        var message = document.querySelector("#message");
-        message.style.display = "block";
-
-        var error = document.querySelector("#error");
-        error.style.display = "none";
-      })
-      .catch((error) => {
-        console.log(error);
-
-      })
   }
 
 
-
   const submitHandler = (e) => {
-    const data = {
-      email: email,
-      password: password,
-    }
 
-    if (email === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ooops',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        text: 'email cannot be left empty!'
-      })
-    }
-
-    if (password === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ooops',
-        text: 'Password is empty!',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        }
-      })
-    }
     e.preventDefault()
 
-    axios
-      .post(`${BASE_URL}` + '/api/v1.0/broker/login', {})
-      .then((response) => {
-        console.log(response);
-        if (response.status == 200) {
-          Cookies.set('Token', response.data.token)
-          Cookies.set('FirstName', response.data.firstName)
-          Cookies.set('email', response.data.email)
-          Cookies.set('SuperUser', response.data.isSuperuser)
-          navigate("/tbro")
+    if (email === '' || password === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'email and password cannot be left empty!'
+      })
+    }
+    else {
+      const data = {
+        userName: userName,
+        password: password,
+      }
+      axios
+        .post('http://52.66.99.255:8050/api/v1/user/login', qs.stringify(data))
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            // Cookies.set('Token', response.data.token)
+            //  Cookies.set('FirstName', response.data.firstName)
+            // Cookies.set('email', response.data.email)
+            // Cookies.set('SuperUser', response.data.isSuperuser)
+            //  navigate("/tbro")
+            Swal.fire({
+              icon: 'error',
+              title: 'Ooops',
+              showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+              },
+              hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+              },
+              text: 'Login successful'
+            })
+          }
+          else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Ooops',
+              showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+              },
+              hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+              },
+              text: response.message
+            })
+          }
 
+        })
+        .catch((error) => {
+          console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Ooops',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            },
+            text: error.message
+          })
         }
 
-      })
-      .catch((error) => {
-        console.log(error);
+        )
 
-      }
-
-      )
-
-
+    }
 
   }
 
@@ -177,7 +200,7 @@ function LoginForm() {
                       </div>
                       <Form className="user" onSubmit={submitHandler}>
                         <div className="form-group">
-                          <Input type="text" className="form-control form-control-user" id="email" value={email} name="email" onChange={changeUser} placeholder="email address" />
+                          <Input type="text" className="form-control form-control-user" id="email" value={userName} name="email" onChange={changeUser} placeholder="Username" />
                         </div>
                         <div className="form-group">
                           <Input type="password" className="form-control form-control-user" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (8+ characters)" />
