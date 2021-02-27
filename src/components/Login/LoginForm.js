@@ -175,8 +175,9 @@ function LoginForm() {
 
       <div className="container" style={{ height: "100vh" }}>
         {/* Outer Row */}
-        <img src={westroad} style={{ height: '260px', marginTop: '-90px' }} />
-
+        <div>
+          <img src={westroad} style={{ height: '260px', marginTop: '-90px' }} />
+        </div>
         <div className="row pt-5 justify-content-center" style={{
           position: 'fixed',
           width: '500px',
