@@ -11,7 +11,19 @@
     background-color: #f3a1ac;
     border: #f3a1ac;
     width: 100%;
-    height: 65px;
+    height: 55px;
+    border-radius: 46px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    display: inline;
+}
+
+.left-button{
+    border-bottom-right-radius: 0;
+}
+
+.right-button{
+    border-bottom-left-radius: 0;
 }
 
 .button:hover{
