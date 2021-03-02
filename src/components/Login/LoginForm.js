@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { navigate } from "@reach/router";
+import { Link ,  useHistory } from 'react-router-dom';
 import { BASE_URL } from '../../config/url.js';
 import WestRoad from '../../westroad.png';
 import zivaka from '../../zivaka.png';
@@ -74,32 +74,15 @@ class LoginForm extends Component {
   }
 
   submitHandler = (e) => {
-    const user = {
-      brokerID: this.state.brokerID,
-      password: this.state.password,
-    }
-    e.preventDefault()
+    const history = useHistory()
+    
 
-    axios
-      .post(`${BASE_URL}` + '/api/v1.0/broker/login', { brokerID: user.brokerID, password: user.password })
-      .then((response) => {
-        console.log(response);
-        if (response.status == 200) {
-          Cookies.set('Token', response.data.token)
-          Cookies.set('FirstName', response.data.firstName)
-          Cookies.set('brokerID', response.data.brokerID)
-          Cookies.set('SuperUser', response.data.isSuperuser)
-          navigate("/tbro")
+   
+    history.push("/test1")
 
-        }
+       
 
-      })
-      .catch((error) => {
-        console.log(error);
-
-      }
-
-      )
+    
 
 
 
