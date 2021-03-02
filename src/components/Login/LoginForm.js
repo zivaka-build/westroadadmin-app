@@ -263,13 +263,15 @@ function LoginForm() {
               </div>
 
             </div>
-
+            <img src={zivaka} style={{
+              height: '80px',
+              /* margin-top: 0%; */
+              position: 'absolute',
+              top: '85vh',
+              right: '5vh'
+            }} />
           </div>
-          <img src={zivaka} style={{
-            height: '80px', position: 'absolute',
-            top: '90vh',
-            right: '5vh',
-          }} />
+
 
         </div>
 
