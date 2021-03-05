@@ -1,4 +1,13 @@
 .MuiStepIcon-root.MuiStepIcon-active {
-  color: #faecec;
-  border: 1px solid #000000;
+  color: #faecec !important;
+  
 }
+
+.MuiStepIcon-text {
+  fill : black !important;
+}
+
+.MuiStepIcon-root.MuiStepIcon-completed {
+  color: #faecec !important;
+}
+

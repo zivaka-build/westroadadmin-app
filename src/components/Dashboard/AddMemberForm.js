@@ -12,6 +12,8 @@ import Cookies from "js-cookie";
 import { navigate } from "@reach/router";
 import { MenuItem } from "@material-ui/core";
 import { BASE_URL } from "../../config/url";
+import "./../../assets/css/addmember.css"
+import BackOffice from "./../../assets/img/backoffice.png"
 
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -372,34 +374,34 @@ function AddMember() {
                     <label class="text-align left">Gender</label>
                   </div>
                   <div className="col-10">
-                    <label class="form-check-label px-4" for="male">
+                    <label class="form-check-label px-4" >
                       Male
                       <input
                         type="radio"
-                        class="form-check-input"
+                        className="form-check-input"
                         id="male"
-                        name="male"
+                        name="gender"
                         value="male"
                       />
                     </label>
 
-                    <label class="form-check-label px-4" for="female">
+                    <label class="form-check-label px-4">
                       Female
                       <input
                         type="radio"
-                        class="form-check-input"
+                        className="form-check-input"
                         id="female"
-                        name="female"
+                        name="gender"
                         value="female"
                       />
                     </label>
-                    <label class="form-check-label px-4" for="other">
+                    <label class="form-check-label px-4" >
                       Other
                       <input
                         type="radio"
-                        class="form-check-input"
+                        className="form-check-input"
                         id="other"
-                        name="other"
+                        name="gender"
                         value="other"
                       />
                     </label>
@@ -557,14 +559,14 @@ function AddMember() {
             </StepLabel>
             <StepContent>
               <Form.Group as={Row}>
-                <img
-                  src={require("../../assets/img/Addmember/bankOfficeRadio.png")}
-                />
+                
                 <Col lg={4}>
+                  <img src={BackOffice} height="40" width="40" />
                   <Form.Check
                     type="radio"
                     label="first radio"
-                    class="-ml-8"
+                    className="mb-3"
+                    inline
                     name="formHorizontalRadios"
                     id="formHorizontalRadios1"
                   />
@@ -573,7 +575,8 @@ function AddMember() {
                   <Form.Check
                     type="radio"
                     label="second radio"
-                    class="px"
+                    className="mb-3"
+                    inline
                     name="formHorizontalRadios"
                     id="formHorizontalRadios2"
                   />
@@ -582,39 +585,45 @@ function AddMember() {
                   <Form.Check
                     type="radio"
                     label="Bank Office"
-                    class="px"
+                    className="mb-3"
+                    inline
                     name="formHorizontalRadios"
                     id="formHorizontalRadios3"
+                  />
+                </Col>
+                
+                <Col lg={4}>
+                  <Form.Check
+                    type="radio"
+                    label="Bank Office"
+                    className="mb-3"
+                    inline
+                    name="formHorizontalRadios"
+                    id="formHorizontalRadios4"
                   />
                 </Col>
                 <Col lg={4}>
                   <Form.Check
                     type="radio"
                     label="Bank Office"
-                    class="px"
+                    className="mb-3"
+                    inline
                     name="formHorizontalRadios"
-                    id="formHorizontalRadios3"
+                    id="formHorizontalRadios5"
                   />
                 </Col>
                 <Col lg={4}>
                   <Form.Check
                     type="radio"
                     label="Bank Office"
-                    class="px"
+                    className="mb-3"
+                    inline
                     name="formHorizontalRadios"
-                    id="formHorizontalRadios3"
+                    id="formHorizontalRadios6"
                   />
                 </Col>
-                <Col lg={4}>
-                  <Form.Check
-                    type="radio"
-                    label="Bank Office"
-                    class="px"
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios3"
-                  />
-                </Col>
-              </Form.Group>
+                </Form.Group>
+              
             </StepContent>
           </Step>
           <Step>
