@@ -1,3 +1,7 @@
+.addmember{
+    padding-top: 50px;
+}
+
 .MuiStepIcon-root.MuiStepIcon-active {
   color: #faecec !important;
   
@@ -17,3 +21,4 @@ background: #0FBF61;
 border-radius: 29px;
 
 }
+
