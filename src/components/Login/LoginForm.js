@@ -11,6 +11,8 @@ import qs from 'qs';
 import westroad from '../../westroad_logo-02.jpg';
 import { Form, Input } from 'reactstrap';
 import rect from '../../Rectangle.png';
+import squares from '../../square-dots.png';
+import Squares from '../../square_dots.png';
 
 function LoginForm() {
 
@@ -39,7 +41,7 @@ function LoginForm() {
     forgotpassword.style.display = "block";
   }
 
-  const back = (e) => {
+  const back = () => {
     var login = document.querySelector("#login");
     login.style.display = "block";
 
@@ -92,7 +94,7 @@ function LoginForm() {
 
     e.preventDefault()
 
-    if (email === '' || password === '') {
+    if (userName === '' || password === '') {
       Swal.fire({
         icon: 'error',
         title: 'Ooops',
@@ -115,14 +117,16 @@ function LoginForm() {
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
-            // Cookies.set('Token', response.data.token)
-            //  Cookies.set('FirstName', response.data.firstName)
-            // Cookies.set('email', response.data.email)
-            // Cookies.set('SuperUser', response.data.isSuperuser)
-            //  navigate("/tbro")
+            Cookies.set('Token', response.data.message)
+            Cookies.set('FirstName', response.data.firstName)
+            Cookies.set('LastName', response.data.lastName)
+            Cookies.set('userId', response.data.userId)
+
+            Cookies.set('Role', response.data.role)
+            navigate("/dashboard/addmember")
             Swal.fire({
-              icon: 'error',
-              title: 'Ooops',
+              icon: 'success',
+              title: 'Success!',
               showClass: {
                 popup: 'animate__animated animate__fadeInDown'
               },
@@ -171,119 +175,143 @@ function LoginForm() {
 
   return (
     //jsx-a11y/anchor-is-valid
-    <div className="bg-gradient-primary align-items-center">
+    <>
 
-      <div className="container" style={{ height: "100vh" }}>
-        {/* Outer Row */}
+      <div className="bg-gradient-primary align-items-center">
         <div>
-          <img src={westroad} style={{ height: '260px', marginTop: '-90px' }} />
+          <img src={westroad} style={{ height: '100px', position: 'absolute', top: -30, left: 0 }} />
+          <img src={rect} style={{ height: '5px', width: '300px', position: 'absolute', top: 60, left: 40 }} />
+          <img src={rect} style={{ height: '5px', width: '250px', position: 'absolute', top: 68, left: 40 }} />
+
         </div>
-        <div className="row pt-5 justify-content-center" style={{
-          position: 'fixed',
-          width: '500px',
-          right: '-10px',
-          top: '-10px'
-        }}>
+        <img src={base} style={{
+          height: '135px',
+          width: '160px',
+          /* margin-top: 0%; */
+          position: 'absolute',
+          bottom: 0,
+          left: 10
+        }} />
+        <img src={zivaka} style={{
+          height: '80px',
+          /* margin-top: 0%; */
+          position: 'absolute',
+          bottom: 0,
+          right: 30
+        }} />
+        <img src={squares} style={{
+          height: '200px',
+          /* margin-top: 0%; */
+          position: 'absolute',
+          bottom: 400,
+          right: 540
+        }} />
+        <img src={Squares} style={{
+          height: '30px',
+          width: '200px',
+          /* margin-top: 0%; */
+          position: 'absolute',
+          bottom: 100,
+          right: 100
+        }} />
+        <div className="container" style={{ height: "100vh" }}>
+          {/* Outer Row */}
 
-          <div className="col-xl-10 col-lg-12 col-md-9">
-            <div className="card o-hidden border-0 shadow-lg my-5">
-              <div className="card-body p-0" >
-                {/* Nested Row within Card Body */}
-                <div className="row">
+          <div className="row pt-5 justify-content-center" style={{
+            position: 'fixed',
+            width: '600px',
+            right: '-10px',
+            top: '-10px'
+          }}>
 
-                  <div className="col-lg-12" id="login" name="login" style={{ display: "block" }}>
+            <div className="col-xl-10 col-lg-12 col-md-9">
+              <div className="card o-hidden border-0 shadow-lg my-5">
+                <div className="card-body p-0" >
+                  {/* Nested Row within Card Body */}
+                  <div className="row">
 
-                    <div className="p-5" style={{ padding: '2.5rem' }}>
-                      <img src={WestRoad} style={{ height: '160px', marginLeft: '27%' }} />
+                    <div className="col-lg-12" id="login" name="login" style={{ display: "block" }}>
 
-                      <div className="text-center">
-                        <h1 className="h4 text-gray-900 mb-4">Westroad Management System</h1>
-                      </div>
-                      <Form className="user" onSubmit={submitHandler}>
-                        <div className="form-group">
-                          <Input type="text" className="form-control form-control-user" id="email" value={userName} name="email" onChange={changeUser} placeholder="Username" />
+                      <div className="p-5" style={{ padding: '2.5rem' }}>
+                        <img src={WestRoad} style={{ height: '160px', marginLeft: '27%' }} />
+
+                        <div className="text-center">
+                          <h1 className="h4 text-gray-900 mb-4">Westroad Management System</h1>
                         </div>
-                        <div className="form-group">
-                          <Input type="password" className="form-control form-control-user" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (8+ characters)" />
-                        </div>
-                        <br />
+                        <Form className="user" onSubmit={submitHandler}>
+                          <div className="form-group">
+                            <Input type="text" className="form-control form-control-user" id="email" value={userName} name="email" onChange={changeUser} placeholder="Username" />
+                          </div>
+                          <div className="form-group">
+                            <Input type="password" className="form-control form-control-user" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (8+ characters)" />
+                          </div>
+                          <br />
 
-                        <button type="submit" href="" className="btn btn-primary btn-user btn-block" style={{
-                          background: "green",
-                          width: '200px',
-                          margin: '0 auto'
-                        }} >
-                          Login
+                          <button type="submit" href="" className="btn btn-primary btn-user btn-block" style={{
+                            background: "green",
+                            width: '200px',
+                            margin: '0 auto'
+                          }} >
+                            Login
                         </button>
 
 
-                      </Form>
+                        </Form>
 
-                      <div className="text-center">
-                        <a className="small" onClick={forgotPassword}>Forgot Password?</a>
+                        <div className="text-center">
+                          <a className="small" onClick={forgotPassword}>Forgot Password?</a>
+                        </div>
+
                       </div>
-
                     </div>
-                  </div>
-                  <div className="col-lg-12" id="forgotpassword" name="forgotpassword" style={{ display: "none", }}>
-                    <div className="p-5">
-                      <img src={WestRoad} style={{ height: '160px', marginLeft: '10%' }} />
+                    <div className="col-lg-12" id="forgotpassword" name="forgotpassword" style={{ display: "none", }}>
+                      <div className="p-5">
+                        <img src={WestRoad} style={{ height: '160px', marginLeft: '27%' }} />
 
-                      <div className="text-center">
-                        <h1 className="h4 text-gray-900 mb-4">Forgot Password</h1>
-                      </div>
-                      <form className="reset user" name="reset" id="reset" onSubmit={resetLink}>
-                        <div className="form-group">
-                          <input type="text" className="form-control form-control-user" type="email" id="email" name="email" value={email} onChange={changemail} placeholder="Please Enter Registered email" />
+                        <div className="text-center">
+                          <h1 className="h4 text-gray-900 mb-4">Forgot Password</h1>
                         </div>
+                        <form className="reset user" name="reset" id="reset" onSubmit={resetLink}>
+                          <div className="form-group">
+                            <input type="text" className="form-control form-control-user" type="email" id="email" name="email" value={email} onChange={changemail} placeholder="Please Enter Registered email" />
+                          </div>
 
 
-                        <small name="message" id="message" style={{ display: 'none' }}>
-                          <em>Reset link sent to your mail. Please check!</em>
-                        </small>
-                        <small name="error" id="error" style={{ display: 'none', color: 'red' }}>
-                          <em>Please enter your email!</em>
-                        </small>
-                        <br />
+                          <small name="message" id="message" style={{ display: 'none' }}>
+                            <em>Reset link sent to your mail. Please check!</em>
+                          </small>
+                          <small name="error" id="error" style={{ display: 'none', color: 'red' }}>
+                            <em>Please enter your email!</em>
+                          </small>
+                          <br />
 
-                        <button type="submit" href="" className="btn btn-primary btn-user btn-block">
-                          Send Reset Link
+                          <button type="submit" href="" className="btn btn-primary btn-user btn-block">
+                            Send Reset Link
                         </button>
-                        <button className="btn btn-secondary btn-user btn-block" onClick={back}>
-                          Back To Login
+                          <button className="btn btn-secondary btn-user btn-block" onClick={back}>
+                            Back To Login
                         </button>
 
 
-                      </form>
+                        </form>
 
 
+                      </div>
                     </div>
                   </div>
                 </div>
+
               </div>
 
             </div>
-            <img src={zivaka} style={{
-              height: '80px',
-              /* margin-top: 0%; */
-              position: 'absolute',
-              top: '85vh',
-              right: '5vh'
-            }} />
-          </div>
 
+
+          </div>
 
         </div>
 
       </div>
-      <img src={base} style={{
-        height: '130px',
-        position: 'absolute',
-        top: '82%',
-        right: '73%'
-      }} />
-    </div>
-
+    </>
   );
 }
 
