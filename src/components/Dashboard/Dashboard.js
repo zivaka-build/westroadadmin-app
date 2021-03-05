@@ -32,8 +32,16 @@ import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
 import EmojiPeopleRoundedIcon from '@material-ui/icons/EmojiPeopleRounded';
 import Tooltip from '@material-ui/core/Tooltip';
 import AssessmentIcon from '@material-ui/icons/Assessment';
-import Background from "./../../assets/img/background.png"
-
+import Background from "./../../assets/img/background.jpg"
+import {ReactComponent as FlatAllotment} from './../../assets/icons/flatallotment.svg';
+import Customer from './../../assets/icons/customer.png';
+import Tasks from "./../../assets/icons/tasks.png"
+import Finance from "./../../assets/icons/finance.png"
+import Reports from "./../../assets/icons/reports.png"
+import Configurations from "./../../assets/icons/configurations.png"
+import Logo from "./../../assets/icons/logo.png"
+import FullLogo from "./../../assets/img/logofull.png"
+import "./../../assets/css/style.css"
 
 const drawerWidth = 240;
 
@@ -80,9 +88,9 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
+    width: theme.spacing(8) + 1,
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
+      width: theme.spacing(10) + 1,
     },
   },
   toolbar: {
@@ -135,7 +143,7 @@ const useStyles = makeStyles((theme) => ({
               [classes.hide]: open,
             })}
           >
-            <MenuIcon />
+            <img src={Logo} height="40" width="40"/>
           </IconButton>
           <Typography variant="h6" noWrap>
            Westroad Admin
@@ -159,6 +167,7 @@ const useStyles = makeStyles((theme) => ({
         }}
       >
         <div className={classes.toolbar}>
+          <img src={FullLogo} height="45" width="160" />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
@@ -167,55 +176,39 @@ const useStyles = makeStyles((theme) => ({
         <List>
           
             <ListItem button >
-              <Link to="/test2"><h4 className="pl-2"><ListItemIcon><Tooltip title="Home"><HomeRounded /></Tooltip></ListItemIcon></h4></Link>
-              <h5 onClick={()=>history.push("/test2")}>Home</h5>
+              <Link to="/test2"><ListItemIcon><Tooltip title="Flat Allotment"><FlatAllotment height="60" width="55" /></Tooltip></ListItemIcon></Link>
+              <h5 className="pl-2" onClick={()=>history.push("/test2")}>Flat Allotment</h5>
             </ListItem>
             <ListItem button >
-            <Link to="/"><h4 className="pl-2"><ListItemIcon><Tooltip title="Catelog"><CategoryRounded/></Tooltip></ListItemIcon></h4></Link>
-              <h5 >Catelog</h5>
+            <Link to="/"><ListItemIcon><Tooltip title="Customer"><img src={Customer} height="53" width="55"/></Tooltip></ListItemIcon></Link>
+              <h5 className="pl-2">Customer</h5>
             </ListItem>
             
             <ListItem button >
-              <Link to="/"><h4 className="pl-2"><ListItemIcon><Tooltip title="Promotions"><ConfirmationNumberRounded /></Tooltip></ListItemIcon></h4></Link>
-              <h5 >Promotions</h5>
+              <Link to="/"><ListItemIcon><Tooltip title="Task Lists"><img src={Tasks} height="55" width="56"/></Tooltip></ListItemIcon></Link>
+              <h5 className="pl-2">Task Lists</h5>
             </ListItem>
            
             <ListItem button >
-            <Link to="/" ><h4 className="pl-2"><ListItemIcon><Tooltip title="Orders"><ShoppingCartRoundedIcon /></Tooltip></ListItemIcon></h4></Link>
-            <h5 >Orders</h5>
+            <Link to="/" ><ListItemIcon><Tooltip title="Finance"><img className="pl-1"src={Finance} height="45" width="50"/></Tooltip></ListItemIcon></Link>
+            <h5 className="pl-2">Finance</h5>
             </ListItem>
             <ListItem button >
-            <Link to="/" ><h4 className="pl-2"><ListItemIcon><Tooltip title="Customers"><PeopleAltRoundedIcon /></Tooltip></ListItemIcon></h4></Link>
-            <h5 >Customers</h5>
+            <Link to="/" ><ListItemIcon><Tooltip title="Reports"><img src={Reports} heigth="51" width="55" /></Tooltip></ListItemIcon></Link>
+            <h5 className="pl-2" >Reports</h5>
             </ListItem>
-            {/*<ListItem button >
-            <Link to="/deliveryboy" ><h4 className="pl-2"><ListItemIcon><Tooltip title="Delivery Boy"><EmojiPeopleRoundedIcon /></Tooltip></ListItemIcon></h4></Link>
-            <h5 onClick={setting}>Delivery Boy</h5>
-            </ListItem>*/}
-            {/*<ListItem button >
-              <Link to="/inventory"><h4 className="pl-2"><ListItemIcon><Tooltip title="Inventory"><HomeWorkRounded/></Tooltip></ListItemIcon></h4></Link>
-              <h5 onClick={inventory}>Inventory</h5>
-            </ListItem>*/}
+            
             <ListItem button >
-              <Link to="/"><h4 className="pl-2"><ListItemIcon><Tooltip title="Reports"><AssessmentIcon/></Tooltip></ListItemIcon></h4></Link>
-              <h5 >Reports</h5>
+              <Link to="/"><ListItemIcon><Tooltip title="Configurations"><img src={Configurations} heigth="51" width="55" /></Tooltip></ListItemIcon></Link>
+              <h5 className="pl-2">Configurations</h5>
             </ListItem>
-            <ListItem button >
-            <Link to="/" ><h4 className="pl-2"><ListItemIcon><Tooltip title="Settings"><SettingsRounded /></Tooltip></ListItemIcon></h4></Link>
-            <h5 >Settings</h5>
-            </ListItem>
+            
             
           
           
         </List>
         
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        
        
       
             

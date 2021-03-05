@@ -74,11 +74,7 @@ class LoginForm extends Component {
   }
 
   submitHandler = (e) => {
-    const history = useHistory()
-    
-
    
-    history.push("/test1")
 
        
 

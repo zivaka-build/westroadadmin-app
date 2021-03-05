@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route  } from 'react-router-dom';
-import "./assets/css/style.css"
+import "./../src/assets/css/style.css"
 import LoginPage from "./LoginPage.js"
 import Dashboard from "./components/Dashboard/Dashboard.js"
 import Test1 from "./components/Test/Test1.js"
