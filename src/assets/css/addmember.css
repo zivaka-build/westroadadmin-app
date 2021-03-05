@@ -1,0 +1,19 @@
+.MuiStepIcon-root.MuiStepIcon-active {
+  color: #faecec !important;
+  
+}
+
+.MuiStepIcon-text {
+  fill : black !important;
+}
+
+.MuiStepIcon-root.MuiStepIcon-completed {
+  color: #faecec !important;
+}
+
+.btn{
+
+background: #0FBF61;
+border-radius: 29px;
+
+}
