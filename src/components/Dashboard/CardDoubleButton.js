@@ -22,3 +22,4 @@ export default function CardDoubleButton({title, text, buttonText1, buttonText2}
     </>
   )
 }
+
