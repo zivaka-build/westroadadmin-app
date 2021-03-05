@@ -104,7 +104,7 @@ function LoginForm() {
         hideClass: {
           popup: 'animate__animated animate__fadeOutUp'
         },
-        text: 'email and password cannot be left empty!'
+        text: 'username and password cannot be left empty!'
       })
     }
     else {
@@ -113,7 +113,7 @@ function LoginForm() {
         password: password,
       }
       axios
-        .post('http://52.66.99.255:8050/api/v1/user/login', qs.stringify(data))
+        .post(`${BASE_URL}` + 'api/v1/user/login', qs.stringify(data))
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
@@ -146,7 +146,7 @@ function LoginForm() {
               hideClass: {
                 popup: 'animate__animated animate__fadeOutUp'
               },
-              text: response.message
+              text: 'Invalid username or password'
             })
           }
 
