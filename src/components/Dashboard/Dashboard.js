@@ -179,7 +179,7 @@ const useStyles = makeStyles((theme) => ({
         <List>
           
             <ListItem button >
-              <Link to="/test2"><ListItemIcon><Tooltip title="Flat Allotment"><img src={FlatAllotment} height="55" width="55" /></Tooltip></ListItemIcon></Link>
+              <Link to="/test1"><ListItemIcon><Tooltip title="Flat Allotment"><img src={FlatAllotment} height="55" width="55" /></Tooltip></ListItemIcon></Link>
               <h5 className="pl-2" onClick={()=>history.push("/test2")}>Flat Allotment</h5>
             </ListItem>
             <ListItem button >
