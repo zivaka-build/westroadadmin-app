@@ -12,8 +12,13 @@ import Cookies from "js-cookie";
 import { navigate } from "@reach/router";
 import { MenuItem } from "@material-ui/core";
 import { BASE_URL } from "../../config/url";
-import "./../../assets/css/addmember.css"
-import BackOffice from "./../../assets/img/backoffice.png"
+import "./../../assets/css/addmember.css";
+import BankOfficeRadio from "./../../assets/img/Addmember/salesradio.png";
+import SalesRadio from "./../../assets/img/Addmember/bankofficeradio.png";
+import EngineeringRadio from "./../../assets/img/Addmember/engineeringradio.png";
+import FinanceRadio from "./../../assets/img/Addmember/financeradio.png";
+import PurchaseRadio from "./../../assets/img/Addmember/purchaseradio.png";
+import ManagementRadio from "./../../assets/img/Addmember/managementradio.png";
 
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -374,7 +379,7 @@ function AddMember() {
                     <label class="text-align left">Gender</label>
                   </div>
                   <div className="col-10">
-                    <label class="form-check-label px-4" >
+                    <label class="form-check-label px-4">
                       Male
                       <input
                         type="radio"
@@ -395,7 +400,7 @@ function AddMember() {
                         value="female"
                       />
                     </label>
-                    <label class="form-check-label px-4" >
+                    <label class="form-check-label px-4">
                       Other
                       <input
                         type="radio"
@@ -542,14 +547,15 @@ function AddMember() {
               >
                 Please fill out all details!
               </div>
-              <div className="justify-content-center">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNext1}
-                >
-                  Next
-                </Button>
+              <div className="justify-content-center row">
+                <div className=" col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={handleNext1}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </StepContent>
           </Step>
@@ -559,71 +565,146 @@ function AddMember() {
             </StepLabel>
             <StepContent>
               <Form.Group as={Row}>
-                
-                <Col lg={4}>
-                  <img src={BackOffice} height="40" width="40" />
-                  <Form.Check
-                    type="radio"
-                    label="first radio"
-                    className="mb-3"
-                    inline
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios1"
-                  />
+                <Col lg={4} className="py-4">
+                  <img src={BankOfficeRadio} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Bank Office
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      id="bankOffice"
+                      name="department"
+                      value="bankOffice"
+                    />
+                  </label>
                 </Col>
-                <Col lg={4}>
-                  <Form.Check
-                    type="radio"
-                    label="second radio"
-                    className="mb-3"
-                    inline
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios2"
-                  />
+                <Col lg={4} className="py-4">
+                  <img src={SalesRadio} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Sales
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      id="sales"
+                      name="department"
+                      value="sales"
+                    />
+                  </label>
                 </Col>
-                <Col lg={4}>
-                  <Form.Check
-                    type="radio"
-                    label="Bank Office"
-                    className="mb-3"
-                    inline
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios3"
-                  />
+                <Col lg={4} className="py-4">
+                  <img src={EngineeringRadio} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Engineering
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      id="engineering"
+                      name="department"
+                      value="engineering"
+                    />
+                  </label>
                 </Col>
-                
-                <Col lg={4}>
-                  <Form.Check
-                    type="radio"
-                    label="Bank Office"
-                    className="mb-3"
-                    inline
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios4"
-                  />
+
+                <Col lg={4} className="py-4">
+                  <img src={FinanceRadio} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Finance
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      id="finance"
+                      name="department"
+                      value="finance"
+                    />
+                  </label>
                 </Col>
-                <Col lg={4}>
-                  <Form.Check
-                    type="radio"
-                    label="Bank Office"
-                    className="mb-3"
-                    inline
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios5"
-                  />
+                <Col lg={4} className="py-4">
+                  <img src={PurchaseRadio} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Purchase
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      id="purchase"
+                      name="department"
+                      value="purchase"
+                    />
+                  </label>
                 </Col>
-                <Col lg={4}>
-                  <Form.Check
-                    type="radio"
-                    label="Bank Office"
-                    className="mb-3"
-                    inline
-                    name="formHorizontalRadios"
-                    id="formHorizontalRadios6"
-                  />
+                <Col lg={4} className="py-4">
+                  <img src={ManagementRadio} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Management
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      id="management"
+                      name="department"
+                      value="management"
+                    />
+                  </label>
                 </Col>
-                </Form.Group>
-              
+              </Form.Group>
+              <div className="row justify-content-center">
+                <div className=" col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={handleNext2}
+                  >
+                    Next
+                  </button>
+                </div>
+                <div className="col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={handleBack1}
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+            </StepContent>
+          </Step>
+          <Step>
+            <StepLabel>
+              <h4>Choose access role</h4>
+            </StepLabel>
+            <StepContent>
+              <Col lg={4} className="py-4">
+                <label class="form-check-label px-4">
+                  <span className="px-3">
+                    <img src={ManagementRadio} height="40" width="40" />
+                  </span>
+                  Management
+                  <span className="w-10">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="management"
+                    name="department"
+                    value="management"
+                  />
+                  </span>
+                </label>
+              </Col>
+              <div className="row justify-content-center">
+                <div className=" col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={handleNext2}
+                  >
+                    Next
+                  </button>
+                </div>
+                <div className="col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={handleBack1}
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
             </StepContent>
           </Step>
           <Step>
