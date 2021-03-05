@@ -221,7 +221,7 @@ function LoginForm() {
             position: 'fixed',
             width: '600px',
             right: '-10px',
-            top: '-10px'
+            top: '-25px'
           }}>
 
             <div className="col-xl-10 col-lg-12 col-md-9">
