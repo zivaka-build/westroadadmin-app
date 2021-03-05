@@ -33,7 +33,8 @@ import EmojiPeopleRoundedIcon from '@material-ui/icons/EmojiPeopleRounded';
 import Tooltip from '@material-ui/core/Tooltip';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import Background from "./../../assets/img/background.jpg"
-import {ReactComponent as FlatAllotment} from './../../assets/icons/flatallotment.svg';
+import AppBarBackground from "./../../assets/img/appbarbackground.png"
+import FlatAllotment from './../../assets/icons/flatallotment.png';
 import Customer from './../../assets/icons/customer.png';
 import Tasks from "./../../assets/icons/tasks.png"
 import Finance from "./../../assets/icons/finance.png"
@@ -129,10 +130,11 @@ const useStyles = makeStyles((theme) => ({
       <CssBaseline />
       <AppBar
         position="fixed"
+        style={{backgroundImage: 'linear-gradient(to right, #56ab2f, #a8e063)'}}
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
-      style={{backgroundColor : "#00A5E4"}}>
+     >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -141,6 +143,7 @@ const useStyles = makeStyles((theme) => ({
             edge="start"
             className={clsx(classes.menuButton, {
               [classes.hide]: open,
+              [classes.appBarPaper] : open,
             })}
           >
             <img src={Logo} height="40" width="40"/>
@@ -176,7 +179,7 @@ const useStyles = makeStyles((theme) => ({
         <List>
           
             <ListItem button >
-              <Link to="/test2"><ListItemIcon><Tooltip title="Flat Allotment"><FlatAllotment height="60" width="55" /></Tooltip></ListItemIcon></Link>
+              <Link to="/test2"><ListItemIcon><Tooltip title="Flat Allotment"><img src={FlatAllotment} height="55" width="55" /></Tooltip></ListItemIcon></Link>
               <h5 className="pl-2" onClick={()=>history.push("/test2")}>Flat Allotment</h5>
             </ListItem>
             <ListItem button >
