@@ -96,7 +96,7 @@ function AddMember() {
   };
 
   const handleNext3 = () => {
-    if(backOffice == "" && management == "" && sales == "" && engineering == "" && purchase == "" || finance == ""){
+    if(backOffice == "" && management == "" && sales == "" && engineering == "" && purchase == "" && finance == ""){
       Swal.fire({
         icon: 'error',
         title: 'Ooops',
