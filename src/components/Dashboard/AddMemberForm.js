@@ -96,7 +96,7 @@ function AddMember() {
   };
 
   const handleNext3 = () => {
-    if(role == [null]){
+    if(backOffice == "" && management == "" && sales == "" && engineering == "" && purchase == "" || finance == ""){
       Swal.fire({
         icon: 'error',
         title: 'Ooops',
