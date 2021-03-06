@@ -55,7 +55,7 @@ function LoginForm() {
     const user = {
       email: email
     }
-    if (email === '') {
+    if (email == '') {
       Swal.fire({
         icon: 'error',
         title: 'Ooops',
@@ -113,7 +113,7 @@ function LoginForm() {
         password: password,
       }
       axios
-        .post('http://52.66.99.255:8050/api/v1/user/login', qs.stringify(data))
+        .post(`${BASE_URL}` + 'api/v1/user/login', qs.stringify(data))
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
