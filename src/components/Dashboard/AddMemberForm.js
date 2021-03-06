@@ -24,6 +24,7 @@ import FinanceCheck from "./../../assets/icons/Addmember/financecheck.png";
 import PurchaseCheck from "./../../assets/icons/Addmember/purchasecheck.png";
 import ManagementCheck from "./../../assets/icons/Addmember/managementcheck.png";
 import { Email } from "@material-ui/icons";
+import Swal from 'sweetalert2';
 
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -45,58 +46,72 @@ function AddMember() {
   const [pan, setPan] = useState("");
   const [supervisorid, setSupervisorid] = useState("");
   const [supervisorname, setSupervisorname] = useState("");
+  const [department, setDepartment] = useState("");
+  const [role, setRole] = useState([]);
+  const [management, setManagement] = useState("")
+  const [backOffice, setBackOffice] = useState("")
+  const [sales, setSales ] = useState("")
+  const [engineering, setEngineering ] = useState("")
+  const [finance, setFinance ] = useState("")
+  const [purchase, setPurchase ] = useState("")
 
-  const [error1, setError1] = useState(false);
-
-  const [tom, setTom] = useState("");
-  const [fn, setFn] = useState("");
-  const [ln, setLn] = useState("");
-  const [gn, setGn] = useState("");
-  const [ph, setPh] = useState("");
-  const [wa, setWa] = useState("");
-  const [em, setEm] = useState("");
-  const [ad, setAd] = useState("");
-  const [ct, setCt] = useState("");
-  const [st, setSt] = useState("");
-  const [pc, setPc] = useState("");
-  const [ec, setEc] = useState("");
-  const [ecn, setEcn] = useState("");
-
-  // useEffect(() => {
-  //   const Token = "bearer" + " " + Cookies.get("Token");
-
-  //   axios
-  //     .get(`${BASE_URL}` + "/api/v1.0/broker/getallbroker", {
-  //       headers: { Authorization: Token },
-  //     })
-  //     .then((response) => {
-  //       const arr2 = response.data;
-  //       const brokers = arr2.brokers.map((broker) => {
-  //         const { firstName, lastName, brokerID } = broker;
-
-  //         return {
-  //           firstName,
-  //           lastName,
-  //           brokerID,
-  //         };
-  //       });
-  //       setBrokers(brokers);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   const handleNext1 = () => {
+    if (firstname === '' || lastname === '' || gender === '' || fulladdress == '' || landmark == '' || city == '' || pincode == '' || state == '' || email == '' || 
+    password == '' || confirmpassword == '' || mobilenumber == '' || whatsapp == '' || aadhar == '' || pan == '' || supervisorid == '' || supervisorname == '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'Please fill out all details!'
+      })
+    }
+    else {
     setActiveStep(1);
+    }
   };
 
   const handleNext2 = () => {
+    if(department === "") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'Please Choose a Department!'
+      })
+    }
+    else {
     setActiveStep(2);
+    }
   };
 
   const handleNext3 = () => {
+    if(role == [null]){
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'Please Provide Access Roles!'
+      })
+    }
+    else{
     setActiveStep(3);
+    }
   };
 
   const handleBack1 = () => {
@@ -107,43 +122,103 @@ function AddMember() {
     setActiveStep(1);
   };
 
-  // const finish = () => {
-  //   const Token = "bearer" + " " + Cookies.get("Token");
-  //   axios
-  //     .post(
-  //       `${BASE_URL}` + "/api/v1.0/broker/addbroker",
-  //       {
-  //         firstName: firstname,
-  //         lastName: lastname,
-  //         typeOfMember: typeofmember,
-  //         gender: gender,
-  //         whatsapp: whatsapp,
-  //         city: city,
-  //         state: state,
-  //         pinCode: pincode,
-  //         address: address,
-  //         phone: phone,
-  //         email: email,
-  //         emergencyContactName: emergencycontactname,
-  //         emergencyContactNumber: 1 * emergencycontact,
-  //         password: password,
-  //       },
-  //       { headers: { Authorization: Token } }
-  //     )
-  //     .then((response) => {
-  //       console.log(response);
-  //       navigate("/teammembers");
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
+  const changeBackOffice = (e) => {
+    if(backOffice === "") {
+      setBackOffice(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setBackOffice("")
+      
+      const arr = role.filter(function(role) {
+          return role !== "Back Office"
+      })
+      setRole(arr)
+  }
+}
 
+  const changeSales = (e) => {
+    if(sales === "") {
+      setSales(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setSales("")
+      const arr = role.filter(function(role) {
+        return role !== "Sales"
+    })
+    setRole(arr)
+      
+    }
+  }
+
+  const changeEngineering = (e) => {
+    if(engineering === "") {
+      setEngineering(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setEngineering("")
+      const arr = role.filter(function(role) {
+        return role !== "Engineering"
+    })
+    setRole(arr)
+      
+    }
+  }
+
+  const changeFinance = (e) => {
+    if(finance === "") {
+      setFinance(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setFinance("")
+      const arr = role.filter(function(role) {
+        return role !== "Finance"
+    })
+    setRole(arr)
+    }
+  }
+
+  const changePurchase = (e) => {
+    if(purchase === "") {
+      setPurchase(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setPurchase("")
+      const arr = role.filter(function(role) {
+        return role !== "Purchase"
+    })
+    setRole(arr)
+    }
+  }
+
+  const changeManagement = (e) => {
+    if(management === "") {
+      setManagement(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setManagement("")
+      const arr = role.filter(function(role) {
+        return role !== "Management"
+    })
+    setRole(arr)
+    }
+  }
+
+  
+
+  
   return (
     <div>
       <div className="addmember" name="addmember" id="addmember">
         <Stepper activeStep={activeStep} orientation="vertical">
           <Step>
             <StepLabel className="step-label">
-              <h4>Add a member</h4>
+              <h4>Add a Member</h4>
             </StepLabel>
             <StepContent>
               <form id="addmember" name="addmember">
@@ -467,7 +542,7 @@ function AddMember() {
           </Step>
           <Step>
             <StepLabel>
-              <h4>Choose department</h4>
+              <h4>Choose Department</h4>
             </StepLabel>
             <StepContent>
               <Form.Group as={Row}>
@@ -480,7 +555,9 @@ function AddMember() {
                       className="form-check-input"
                       id="backOffice"
                       name="department"
-                      value="backOffice"
+                      value="Back Office"
+                      checked={department == "Back Office"? true : false}
+                      onClick={()=>setDepartment("Back Office")}
                     />
                   </label>
                 </Col>
@@ -494,6 +571,8 @@ function AddMember() {
                       id="sales"
                       name="department"
                       value="sales"
+                      checked={department == "Sales"? true : false}
+                      onClick={()=>setDepartment("Sales")}
                     />
                   </label>
                 </Col>
@@ -507,6 +586,8 @@ function AddMember() {
                       id="engineering"
                       name="department"
                       value="engineering"
+                      checked={department == "Engineering"? true : false}
+                      onClick={()=>setDepartment("Engineering")}
                     />
                   </label>
                 </Col>
@@ -521,6 +602,8 @@ function AddMember() {
                       id="finance"
                       name="department"
                       value="finance"
+                      checked={department == "Finance"? true : false}
+                      onClick={()=>setDepartment("Finance")}
                     />
                   </label>
                 </Col>
@@ -534,6 +617,8 @@ function AddMember() {
                       id="purchase"
                       name="department"
                       value="purchase"
+                      checked={department == "Purchase"? true : false}
+                      onClick={()=>setDepartment("Purchase")}
                     />
                   </label>
                 </Col>
@@ -547,6 +632,8 @@ function AddMember() {
                       id="management"
                       name="department"
                       value="management"
+                      checked={department == "Management"? true : false}
+                      onClick={()=>setDepartment("Management")}
                     />
                   </label>
                 </Col>
@@ -574,7 +661,7 @@ function AddMember() {
           </Step>
           <Step>
             <StepLabel>
-              <h4>Choose access role</h4>
+              <h4>Choose Access Role</h4>
             </StepLabel>
             <StepContent>
               <Form.Group as={Row}>
@@ -587,7 +674,9 @@ function AddMember() {
                       className="form-check-input"
                       id="backOffice"
                       name="access"
-                      value="backOffice"
+                      value="Back Office"
+                      checked={backOffice !== ""? true : false}
+                      onClick={changeBackOffice}
                     />
                   </label>
                 </Col>
@@ -600,7 +689,9 @@ function AddMember() {
                       className="form-check-input"
                       id="sales"
                       name="access"
-                      value="sales"
+                      value="Sales"
+                      checked={sales !== ""? true : false}
+                      onClick={changeSales}
                     />
                   </label>
                 </Col>
@@ -613,7 +704,9 @@ function AddMember() {
                       className="form-check-input"
                       id="engineering"
                       name="access"
-                      value="engineering"
+                      value="Engineering"
+                      checked={engineering !== ""? true : false}
+                      onClick={changeEngineering}
                     />
                   </label>
                 </Col>
@@ -627,7 +720,9 @@ function AddMember() {
                       className="form-check-input"
                       id="finance"
                       name="access"
-                      value="finance"
+                      value="Finance"
+                      checked={finance !== ""? true : false}
+                      onClick={changeFinance}
                     />
                   </label>
                 </Col>
@@ -640,7 +735,9 @@ function AddMember() {
                       className="form-check-input"
                       id="purchase"
                       name="access"
-                      value="purchase"
+                      value="Purchase"
+                      checked={purchase !== ""? true : false}
+                      onClick={changePurchase}
                     />
                   </label>
                 </Col>
@@ -653,7 +750,9 @@ function AddMember() {
                       className="form-check-input"
                       id="management"
                       name="access"
-                      value="management"
+                      value="Management"
+                      checked={management !== ""? true : false}
+                      onClick={changeManagement}
                     />
                   </label>
                 </Col>
@@ -727,7 +826,7 @@ function AddMember() {
                         className="form-check-input"
                         id="male"
                         name="gender"
-                        
+                        checked={gender == "Male" ? true : false}
                         readonly
                       />
                     </label>
@@ -739,8 +838,7 @@ function AddMember() {
                         className="form-check-input"
                         id="female"
                         name="gender"
-                        {...gender == "Female"? 'checked="checked"' : null}
-                        // checked={true}
+                        checked={gender == "Female" ? true : false}
                         readonly
                       />
                     </label>
@@ -751,7 +849,8 @@ function AddMember() {
                         className="form-check-input"
                         id="other"
                         name="gender"
-                        value="other"
+                        checked={gender == "Other" ? true : false}
+                        readonly
                       />
                     </label>
                   </div>
@@ -950,7 +1049,7 @@ function AddMember() {
               <div className="col-2">
                   <button
                     className="btn btn-secondary btn-user btn-block"
-                    onClick={handleBack1}
+                    onClick={()=>setActiveStep(2)}
                   >
                     Back
                   </button>
