@@ -1,93 +1,117 @@
 import { Form, Row, Col } from "react-bootstrap";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
-// import { DetailsContext } from "./MemberContext";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { navigate } from "@reach/router";
-import { MenuItem } from "@material-ui/core";
 import { BASE_URL } from "../../config/url";
 import "./../../assets/css/addmember.css";
-import BankOfficeRadio from "./../../assets/img/Addmember/salesradio.png";
-import SalesRadio from "./../../assets/img/Addmember/bankofficeradio.png";
-import EngineeringRadio from "./../../assets/img/Addmember/engineeringradio.png";
-import FinanceRadio from "./../../assets/img/Addmember/financeradio.png";
-import PurchaseRadio from "./../../assets/img/Addmember/purchaseradio.png";
-import ManagementRadio from "./../../assets/img/Addmember/managementradio.png";
+import SalesRadio from "./../../assets/icons/Addmember/salesradio.png";
+import BackOfficeRadio from "./../../assets/icons/Addmember/backofficeradio.png";
+import EngineeringRadio from "./../../assets/icons/Addmember/engineeringradio.png";
+import FinanceRadio from "./../../assets/icons/Addmember/financeradio.png";
+import PurchaseRadio from "./../../assets/icons/Addmember/purchaseradio.png";
+import ManagementRadio from "./../../assets/icons/Addmember/managementradio.png";
+import SalesCheck from "./../../assets/icons/Addmember/salescheck.png";
+import BackOfficeCheck from "./../../assets/icons/Addmember/backofficecheck.png";
+import EngineeringCheck from "./../../assets/icons/Addmember/engineeringcheck.png";
+import FinanceCheck from "./../../assets/icons/Addmember/financecheck.png";
+import PurchaseCheck from "./../../assets/icons/Addmember/purchasecheck.png";
+import ManagementCheck from "./../../assets/icons/Addmember/managementcheck.png";
+import { Email } from "@material-ui/icons";
+import Swal from 'sweetalert2';
 
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [whatsapp, setWhatsapp] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [emergencycontact, setEmergencycontact] = useState("");
-  const [password, setPassword] = useState("");
-  const [typeofmember, setTypeofmember] = useState("");
   const [gender, setGender] = useState("");
-  const [emergencycontactname, setEmergencycontactname] = useState("");
+  const [fulladdress, setFulladdress] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [city, setCity] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [state, setState] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
-  const [error1, setError1] = useState(false);
-  const [bid, setBid] = useState("");
-  const [brokers, setBrokers] = useState([]);
-  const [file, setFile] = useState("./../../assets/img/Logo.png");
+  const [mobilenumber, setMobilenumber] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [aadhar, setAadhar] = useState("");
+  const [pan, setPan] = useState("");
+  const [supervisorid, setSupervisorid] = useState("");
+  const [supervisorname, setSupervisorname] = useState("");
+  const [department, setDepartment] = useState("");
+  const [role, setRole] = useState([]);
+  const [management, setManagement] = useState("")
+  const [backOffice, setBackOffice] = useState("")
+  const [sales, setSales ] = useState("")
+  const [engineering, setEngineering ] = useState("")
+  const [finance, setFinance ] = useState("")
+  const [purchase, setPurchase ] = useState("")
 
-  const [tom, setTom] = useState("");
-  const [fn, setFn] = useState("");
-  const [ln, setLn] = useState("");
-  const [gn, setGn] = useState("");
-  const [ph, setPh] = useState("");
-  const [wa, setWa] = useState("");
-  const [em, setEm] = useState("");
-  const [ad, setAd] = useState("");
-  const [ct, setCt] = useState("");
-  const [st, setSt] = useState("");
-  const [pc, setPc] = useState("");
-  const [ec, setEc] = useState("");
-  const [ecn, setEcn] = useState("");
-
-  useEffect(() => {
-    const Token = "bearer" + " " + Cookies.get("Token");
-
-    axios
-      .get(`${BASE_URL}` + "/api/v1.0/broker/getallbroker", {
-        headers: { Authorization: Token },
-      })
-      .then((response) => {
-        const arr2 = response.data;
-        const brokers = arr2.brokers.map((broker) => {
-          const { firstName, lastName, brokerID } = broker;
-
-          return {
-            firstName,
-            lastName,
-            brokerID,
-          };
-        });
-        setBrokers(brokers);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const handleNext1 = () => {
+    if (firstname === '' || lastname === '' || gender === '' || fulladdress == '' || landmark == '' || city == '' || pincode == '' || state == '' || email == '' || 
+    password == '' || confirmpassword == '' || mobilenumber == '' || whatsapp == '' || aadhar == '' || pan == '' || supervisorid == '' || supervisorname == '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'Please fill out all details!'
+      })
+    }
+    else {
     setActiveStep(1);
+    }
   };
 
   const handleNext2 = () => {
+    if(department === "") {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'Please Choose a Department!'
+      })
+    }
+    else {
     setActiveStep(2);
+    }
+  };
+
+  const handleNext3 = () => {
+    if(backOffice == "" && management == "" && sales == "" && engineering == "" && purchase == "" || finance == ""){
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'Please Provide Access Roles!'
+      })
+    }
+    else{
+    setActiveStep(3);
+    }
   };
 
   const handleBack1 = () => {
@@ -98,254 +122,103 @@ function AddMember() {
     setActiveStep(1);
   };
 
-  const finish = () => {
-    const Token = "bearer" + " " + Cookies.get("Token");
-    axios
-      .post(
-        `${BASE_URL}` + "/api/v1.0/broker/addbroker",
-        {
-          firstName: firstname,
-          lastName: lastname,
-          typeOfMember: typeofmember,
-          gender: gender,
-          whatsapp: whatsapp,
-          city: city,
-          state: state,
-          pinCode: pincode,
-          address: address,
-          phone: phone,
-          email: email,
-          emergencyContactName: emergencycontactname,
-          emergencyContactNumber: 1 * emergencycontact,
-          password: password,
-        },
-        { headers: { Authorization: Token } }
-      )
-      .then((response) => {
-        console.log(response);
-        navigate("/teammembers");
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const changeFirstname = (e) => {
-    setFirstname(e.target.value);
-  };
-
-  const changeLastname = (e) => {
-    setLastname(e.target.value);
-  };
-
-  const changeWhatsapp = (e) => {
-    setWhatsapp(e.target.value);
-  };
-
-  const changePhone = (e) => {
-    setPhone(e.target.value);
-  };
-
-  const changeCity = (e) => {
-    setCity(e.target.value);
-  };
-
-  const changeState = (e) => {
-    setState(e.target.value);
-  };
-
-  const changePincode = (e) => {
-    setPincode(e.target.value);
-  };
-
-  const changeAddress = (e) => {
-    setAddress(e.target.value);
-  };
-
-  const changeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const changeEmergencycontact = (e) => {
-    setEmergencycontact(e.target.value);
-  };
-
-  const changePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const changeEmergencycontactname = (e) => {
-    setEmergencycontactname(e.target.value);
-  };
-
-  const changeConfirmpassword = (e) => {
-    setConfirmpassword(e.target.value);
-  };
-
-  const loadFile = (e) => {
-    console.log(e.target.files[0]);
-    setFile(URL.createObjectURL(e.target.files[0]));
-  };
-
-  const changeBid = (e) => {
-    setBid(e.target.value);
-    const bid = e.target.value;
-
-    var teammember = document.querySelector("#teammember");
-    teammember.style.display = "block";
-
-    var save = document.querySelector("#save");
-    save.style.display = "none";
-
-    const Token = "bearer" + " " + Cookies.get("Token");
-    axios
-      .get(`${BASE_URL}` + "/api/v1.0/broker/getbrokerbyid/" + bid, {
-        headers: { Authorization: Token },
-      })
-      .then((response) => {
-        console.log(response);
-        const tom = response.data.broker.typeOfMember;
-        const fn = response.data.broker.firstName;
-        const ln = response.data.broker.lastName;
-        const gn = response.data.broker.gender;
-        const ph = response.data.broker.phone;
-        const wa = response.data.broker.whatsapp;
-        const em = response.data.broker.email;
-        const ad = response.data.broker.address;
-        const ct = response.data.broker.city;
-        const st = response.data.broker.state;
-        const pc = response.data.broker.pinCode;
-        const ec = response.data.broker.emergencyContactName;
-        const ecn = response.data.broker.emergencyContactNumber;
-
-        setTom(tom);
-        setFn(fn);
-        setLn(ln);
-        setGn(gn);
-        setPh(ph);
-        setWa(wa);
-        setEm(em);
-        setAd(ad);
-        setCt(ct);
-        setSt(st);
-        setPc(pc);
-        setEc(ec);
-        setEcn(ecn);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const changeTom = (e) => {
-    setTom(e.target.value);
-  };
-
-  const changeFn = (e) => {
-    setFn(e.target.value);
-  };
-
-  const changeLn = (e) => {
-    setLn(e.target.value);
-  };
-
-  const changeGn = (e) => {
-    setGn(e.target.value);
-  };
-
-  const changePh = (e) => {
-    setPh(e.target.value);
-  };
-
-  const changeWa = (e) => {
-    setWa(e.target.value);
-  };
-
-  const changeEm = (e) => {
-    setEm(e.target.value);
-  };
-
-  const changeAd = (e) => {
-    setAd(e.target.value);
-  };
-
-  const changeCt = (e) => {
-    setCt(e.target.value);
-  };
-
-  const changeSt = (e) => {
-    setSt(e.target.value);
-  };
-
-  const changePc = (e) => {
-    setPc(e.target.value);
-  };
-
-  const changeEc = (e) => {
-    setEc(e.target.value);
-  };
-
-  const changeEcn = (e) => {
-    setEcn(e.target.value);
-  };
-
-  const addmember = (e) => {
-    var addbroker = document.querySelector("#addbroker");
-    addbroker.style.display = "block";
-
-    var editbroker = document.querySelector("#editbroker");
-    editbroker.style.display = "none";
-
-    setBid("");
-  };
-
-  const save = (e) => {
-    e.preventDefault();
-    const Token = "bearer" + " " + Cookies.get("Token");
-    if (
-      ph.length >= 10 &&
-      wa.length >= 10 &&
-      pc.length >= 6 &&
-      ecn.length >= 10
-    ) {
-      axios
-        .put(
-          `${BASE_URL}` + "/api/v1.0/broker/updatebrokerbyid/" + bid,
-          {
-            firstName: fn,
-            lastName: ln,
-            typeOfMember: tom,
-            gender: gn,
-            whatsapp: wa,
-            city: ct,
-            state: st,
-            pinCode: pc,
-            address: ad,
-            phone: ph,
-            email: em,
-            emergencyContactName: ec,
-            emergencyContactNumber: ecn,
-          },
-          { headers: { Authorization: Token } }
-        )
-        .then((response) => {
-          if (response.status == "200") {
-            var save = document.querySelector("#save");
-            save.style.display = "block";
-            console.log(response);
-          } else {
-            alert("Error");
-          }
-        })
-        .catch((error) => console.log(error));
+  const changeBackOffice = (e) => {
+    if(backOffice === "") {
+      setBackOffice(e.target.value)
+      role.push(e.target.value)
     }
-  };
+    else {
+      setBackOffice("")
+      
+      const arr = role.filter(function(role) {
+          return role !== "Back Office"
+      })
+      setRole(arr)
+  }
+}
 
+  const changeSales = (e) => {
+    if(sales === "") {
+      setSales(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setSales("")
+      const arr = role.filter(function(role) {
+        return role !== "Sales"
+    })
+    setRole(arr)
+      
+    }
+  }
+
+  const changeEngineering = (e) => {
+    if(engineering === "") {
+      setEngineering(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setEngineering("")
+      const arr = role.filter(function(role) {
+        return role !== "Engineering"
+    })
+    setRole(arr)
+      
+    }
+  }
+
+  const changeFinance = (e) => {
+    if(finance === "") {
+      setFinance(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setFinance("")
+      const arr = role.filter(function(role) {
+        return role !== "Finance"
+    })
+    setRole(arr)
+    }
+  }
+
+  const changePurchase = (e) => {
+    if(purchase === "") {
+      setPurchase(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setPurchase("")
+      const arr = role.filter(function(role) {
+        return role !== "Purchase"
+    })
+    setRole(arr)
+    }
+  }
+
+  const changeManagement = (e) => {
+    if(management === "") {
+      setManagement(e.target.value)
+      role.push(e.target.value)
+    }
+    else {
+      setManagement("")
+      const arr = role.filter(function(role) {
+        return role !== "Management"
+    })
+    setRole(arr)
+    }
+  }
+
+  
+
+  
   return (
     <div>
       <div className="addmember" name="addmember" id="addmember">
         <Stepper activeStep={activeStep} orientation="vertical">
           <Step>
             <StepLabel className="step-label">
-              <h4>Add a member</h4>
+              <h4>Add a Member</h4>
             </StepLabel>
             <StepContent>
               <form id="addmember" name="addmember">
@@ -357,7 +230,10 @@ function AddMember() {
                       class="form-control"
                       name="firstname"
                       id="outlined-basic"
-                      onChange={changeFirstname}
+                      value={firstname}
+                      onChange={(e) => {
+                        setFirstname(e.target.value);
+                      }}
                     />
                   </div>
 
@@ -368,7 +244,10 @@ function AddMember() {
                       class="form-control"
                       name="lastname"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={lastname}
+                      onChange={(e) => {
+                        setLastname(e.target.value);
+                      }}
                     />
                   </div>
                 </div>
@@ -386,7 +265,9 @@ function AddMember() {
                         className="form-check-input"
                         id="male"
                         name="gender"
-                        value="male"
+                        onClick={(e) => {
+                          setGender("Male");
+                        }}
                       />
                     </label>
 
@@ -397,7 +278,9 @@ function AddMember() {
                         className="form-check-input"
                         id="female"
                         name="gender"
-                        value="female"
+                        onClick={(e) => {
+                          setGender("Female");
+                        }}
                       />
                     </label>
                     <label class="form-check-label px-4">
@@ -407,7 +290,9 @@ function AddMember() {
                         className="form-check-input"
                         id="other"
                         name="gender"
-                        value="other"
+                        onClick={(e) => {
+                          setGender("Other");
+                        }}
                       />
                     </label>
                   </div>
@@ -427,7 +312,10 @@ function AddMember() {
                       class="form-control"
                       name="fulladdress"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={fulladdress}
+                        onChange={(e) => {
+                          setFulladdress(e.target.value);
+                        }}
                     />
                   </div>
                 </div>
@@ -440,9 +328,13 @@ function AddMember() {
                       class="form-control"
                       name="landmark"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={landmark}
+                        onChange={(e) => {
+                          setLandmark(e.target.value);
+                        }}
                     />
                   </div>
+
                   <div className="col-6">
                     <label>City</label>
                     <input
@@ -450,10 +342,14 @@ function AddMember() {
                       class="form-control"
                       name="city"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={city}
+                        onChange={(e) => {
+                          setCity(e.target.value);
+                        }}
                     />
                   </div>
                 </div>
+                <br />
                 <div class="row">
                   <div className="col-6">
                     <label>Pincode</label>
@@ -462,17 +358,25 @@ function AddMember() {
                       class="form-control"
                       name="pincode"
                       id="outlined-basic"
-                      minLength={6}
-                      onChange={changeLastname}
+                      maxLength={6}
+                      value={pincode}
+                        onChange={(e) => {
+                          setPincode(e.target.value);
+                        }}
                     />
                   </div>
                   <div className="col-6">
                     <label>State</label>
-                    <select class="form-control" name="state">
-                      <option>Haryana</option>
-                      <option>Haryana</option>
-                      <option>Haryana</option>
-                    </select>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="state"
+                      id="outlined-basic"
+                      value={state}
+                        onChange={(e) => {
+                          setState(e.target.value);
+                        }}
+                    />
                   </div>
                 </div>
 
@@ -485,10 +389,14 @@ function AddMember() {
                       class="form-control"
                       name="email"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={email}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
                     />
                   </div>
                 </div>
+                <br />
                 <div className="row">
                   <div className="col-6">
                     <label>Password</label>
@@ -497,7 +405,10 @@ function AddMember() {
                       class="form-control"
                       name="password"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                        }}
                     />
                   </div>
                   <div className="col-6">
@@ -506,33 +417,103 @@ function AddMember() {
                       type="password"
                       class="form-control"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={confirmpassword}
+                        onChange={(e) => {
+                          setConfirmpassword(e.target.value);
+                        }}
                     />
                   </div>
                 </div>
+                <br />
                 <div className="row">
                   <div className="col-6">
                     <label>Mobile Number</label>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
-                      name="password"
+                      name="mobilenumber"
                       id="outlined-basic"
-                      onChange={changeLastname}
+                      value={mobilenumber}
+                        onChange={(e) => {
+                          setMobilenumber(e.target.value);
+                        }}
                     />
                   </div>
                   <div className="col-6">
                     <label>Whatsapp Number</label>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       id="outlined-basic"
-                      name="password"
-                      onChange={changeLastname}
+                      name="whatsapp"
+                      value={whatsapp}
+                        onChange={(e) => {
+                          setWhatsapp(e.target.value);
+                        }}
                     />
                   </div>
                 </div>
 
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <label>Aadhar ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="aadharid"
+                      id="outlined-basic"
+                      value={aadhar}
+                        onChange={(e) => {
+                          setAadhar(e.target.value);
+                        }}
+                    />
+                  </div>
+
+                  <div className="col-6">
+                    <label>PAN Card ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="pan"
+                      id="outlined-basic"
+                      value={pan}
+                        onChange={(e) => {
+                          setPan(e.target.value);
+                        }}
+                    />
+                  </div>
+                </div>
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <label>Supervisor ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="supervisorid"
+                      id="outlined-basic"
+                      value={supervisorid}
+                        onChange={(e) => {
+                          setSupervisorid(e.target.value);
+                        }}
+                    />
+                  </div>
+
+                  <div className="col-6">
+                    <label>Supervisor Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="supervisorname"
+                      id="outlined-basic"
+                      value={supervisorname}
+                        onChange={(e) => {
+                          setSupervisorname(e.target.value);
+                        }}
+                    />
+                  </div>
+                </div>
                 <br />
               </form>
               <div
@@ -561,20 +542,22 @@ function AddMember() {
           </Step>
           <Step>
             <StepLabel>
-              <h4>Choose department</h4>
+              <h4>Choose Department</h4>
             </StepLabel>
             <StepContent>
               <Form.Group as={Row}>
                 <Col lg={4} className="py-4">
-                  <img src={BankOfficeRadio} height="40" width="40" />
+                  <img src={BackOfficeRadio} height="40" width="40" />
                   <label class="form-check-label px-4">
-                    Bank Office
+                    Back Office
                     <input
                       type="radio"
                       className="form-check-input"
-                      id="bankOffice"
+                      id="backOffice"
                       name="department"
-                      value="bankOffice"
+                      value="Back Office"
+                      checked={department == "Back Office"? true : false}
+                      onClick={()=>setDepartment("Back Office")}
                     />
                   </label>
                 </Col>
@@ -588,6 +571,8 @@ function AddMember() {
                       id="sales"
                       name="department"
                       value="sales"
+                      checked={department == "Sales"? true : false}
+                      onClick={()=>setDepartment("Sales")}
                     />
                   </label>
                 </Col>
@@ -601,6 +586,8 @@ function AddMember() {
                       id="engineering"
                       name="department"
                       value="engineering"
+                      checked={department == "Engineering"? true : false}
+                      onClick={()=>setDepartment("Engineering")}
                     />
                   </label>
                 </Col>
@@ -615,6 +602,8 @@ function AddMember() {
                       id="finance"
                       name="department"
                       value="finance"
+                      checked={department == "Finance"? true : false}
+                      onClick={()=>setDepartment("Finance")}
                     />
                   </label>
                 </Col>
@@ -628,6 +617,8 @@ function AddMember() {
                       id="purchase"
                       name="department"
                       value="purchase"
+                      checked={department == "Purchase"? true : false}
+                      onClick={()=>setDepartment("Purchase")}
                     />
                   </label>
                 </Col>
@@ -641,11 +632,21 @@ function AddMember() {
                       id="management"
                       name="department"
                       value="management"
+                      checked={department == "Management"? true : false}
+                      onClick={()=>setDepartment("Management")}
                     />
                   </label>
                 </Col>
               </Form.Group>
               <div className="row justify-content-center">
+              <div className="col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={handleBack1}
+                  >
+                    Back
+                  </button>
+                </div>
                 <div className=" col-2">
                   <button
                     className="btn btn-secondary btn-user btn-block"
@@ -654,54 +655,124 @@ function AddMember() {
                     Next
                   </button>
                 </div>
-                <div className="col-2">
-                  <button
-                    className="btn btn-secondary btn-user btn-block"
-                    onClick={handleBack1}
-                  >
-                    Back
-                  </button>
-                </div>
+                
               </div>
             </StepContent>
           </Step>
           <Step>
             <StepLabel>
-              <h4>Choose access role</h4>
+              <h4>Choose Access Role</h4>
             </StepLabel>
             <StepContent>
-              <Col lg={4} className="py-4">
-                <label class="form-check-label px-4">
-                  <span className="px-3">
-                    <img src={ManagementRadio} height="40" width="40" />
-                  </span>
-                  Management
-                  <span className="w-10">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="management"
-                    name="department"
-                    value="management"
-                  />
-                  </span>
-                </label>
-              </Col>
+              <Form.Group as={Row}>
+                <Col lg={4} className="py-4">
+                  <img src={BackOfficeCheck} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Back Office
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="backOffice"
+                      name="access"
+                      value="Back Office"
+                      checked={backOffice !== ""? true : false}
+                      onClick={changeBackOffice}
+                    />
+                  </label>
+                </Col>
+                <Col lg={4} className="py-4">
+                  <img src={SalesCheck} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Sales
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="sales"
+                      name="access"
+                      value="Sales"
+                      checked={sales !== ""? true : false}
+                      onClick={changeSales}
+                    />
+                  </label>
+                </Col>
+                <Col lg={4} className="py-4">
+                  <img src={EngineeringCheck} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Engineering
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="engineering"
+                      name="access"
+                      value="Engineering"
+                      checked={engineering !== ""? true : false}
+                      onClick={changeEngineering}
+                    />
+                  </label>
+                </Col>
+
+                <Col lg={4} className="py-4">
+                  <img src={FinanceCheck} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Finance
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="finance"
+                      name="access"
+                      value="Finance"
+                      checked={finance !== ""? true : false}
+                      onClick={changeFinance}
+                    />
+                  </label>
+                </Col>
+                <Col lg={4} className="py-4">
+                  <img src={PurchaseCheck} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Purchase
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="purchase"
+                      name="access"
+                      value="Purchase"
+                      checked={purchase !== ""? true : false}
+                      onClick={changePurchase}
+                    />
+                  </label>
+                </Col>
+                <Col lg={4} className="py-4">
+                  <img src={ManagementCheck} height="40" width="40" />
+                  <label class="form-check-label px-4">
+                    Management
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="management"
+                      name="access"
+                      value="Management"
+                      checked={management !== ""? true : false}
+                      onClick={changeManagement}
+                    />
+                  </label>
+                </Col>
+              </Form.Group>
               <div className="row justify-content-center">
-                <div className=" col-2">
-                  <button
-                    className="btn btn-secondary btn-user btn-block"
-                    onClick={handleNext2}
-                  >
-                    Next
-                  </button>
-                </div>
+                
                 <div className="col-2">
                   <button
                     className="btn btn-secondary btn-user btn-block"
-                    onClick={handleBack1}
+                    onClick={handleBack2}
                   >
                     Back
+                  </button>
+                </div>
+                <div className=" col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={handleNext3}
+                  >
+                    Next
                   </button>
                 </div>
               </div>
@@ -709,241 +780,287 @@ function AddMember() {
           </Step>
           <Step>
             <StepLabel className="step-label">
-              <h4>Choose access role</h4>
+              <h4>Review</h4>
             </StepLabel>
             <StepContent>
               <div>
-                <p>Click on Finish to Create Team Member</p>
+                <p>Click on Submit to Create Team Member</p>
               </div>
-              <form id="addbroker" name="addbroker">
-                <center>
-                  <div className="col-lg-8 col-md-12">
-                    <div className="row justify-content-center">
-                      <div className="col-6">
-                        <TextField
-                          fullWidth
-                          name="typeofmember"
-                          defaultValue={typeofmember}
-                          InputProps={{ readOnly: true }}
-                          id="outlined-basic"
-                          select
-                          label="Type Of Member"
-                          variant="outlined"
-                        >
-                          <option value="Broker">Broker</option>
-                          <option value="Channel Partner">
-                            Channel Partner
-                          </option>
-                          <option value="Team Member">Team Member</option>
-                          <option value="Propietor">Propietor</option>
-                        </TextField>
-                      </div>
-                    </div>
-                    <br />
-
-                    <div className="row">
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="firstname"
-                          label="First Name"
-                          defaultValue={firstname}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="lastname"
-                          label="Last Name"
-                          defaultValue={lastname}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="gender"
-                          defaultValue={gender}
-                          InputProps={{ readOnly: true }}
-                          select
-                          label="Gender"
-                          variant="outlined"
-                        >
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
-                          <option value="Other">Other</option>
-                        </TextField>
-                      </div>
-                    </div>
-
-                    <br />
-
-                    <div className="row">
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="phone"
-                          label="Phone"
-                          type="number"
-                          defaultValue={phone}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="whatsapp"
-                          type="number"
-                          label="Whatsapp"
-                          defaultValue={whatsapp}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="email"
-                          label="Email"
-                          type="email"
-                          defaultValue={email}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                    </div>
-
-                    <br />
-
-                    <div className="row">
-                      <div className="col-12">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="address"
-                          label="Residential Address"
-                          defaultValue={address}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                    </div>
-                    <br />
-                    <div className="row">
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          Field
-                          id="outlined-basic"
-                          name="city"
-                          label="City"
-                          defaultValue={city}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="state"
-                          label="State"
-                          defaultValue={state}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                      <div className="col-4">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="pincode"
-                          label="Pin Code"
-                          type="number"
-                          defaultValue={pincode}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                    </div>
-                    <br />
-
-                    <div className="row">
-                      <div className="col-6">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="emergencycontactname"
-                          defaultValue={emergencycontactname}
-                          label="Emergency Contact Name"
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                      <div className="col-6">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="emergencycontact"
-                          label="Emergency Contact"
-                          type="number"
-                          defaultValue={emergencycontact}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                    </div>
-                    <br />
-
-                    <div className="row">
-                      <div className="col-6">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="password"
-                          label="Password"
-                          type="password"
-                          defaultValue={password}
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                      <div className="col-6">
-                        <TextField
-                          fullWidth
-                          id="outlined-basic"
-                          name="confirmpassword"
-                          label="Confirm Password"
-                          defaultValue={confirmpassword}
-                          type="password"
-                          variant="outlined"
-                          InputProps={{ readOnly: true }}
-                        />
-                      </div>
-                    </div>
-                    <br />
+              <form id="addmember" name="addmember">
+                <div className="row">
+                  <div className="col-6">
+                    <label>First Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="firstname"
+                      id="outlined-basic"
+                      value={firstname}
+                      readonly
+                    />
                   </div>
-                </center>
+
+                  <div className="col-6">
+                    <label>Last Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="lastname"
+                      id="outlined-basic"
+                      value={lastname}
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <br />
+                <div className="row">
+                  <div className="col-2">
+                    <label class="text-align left">Gender</label>
+                  </div>
+                  <div className="col-10">
+                    <label class="form-check-label px-4">
+                      Male
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="male"
+                        name="gender"
+                        checked={gender == "Male" ? true : false}
+                        readonly
+                      />
+                    </label>
+
+                    <label class="form-check-label px-4">
+                      Female
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="female"
+                        name="gender"
+                        checked={gender == "Female" ? true : false}
+                        readonly
+                      />
+                    </label>
+                    <label class="form-check-label px-4">
+                      Other
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="other"
+                        name="gender"
+                        checked={gender == "Other" ? true : false}
+                        readonly
+                      />
+                    </label>
+                  </div>
+                </div>
+                <br />
+                <div className="row">
+                  <div className="col-12">
+                    <label>Current Addresss</label>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12">
+                    <label>Full Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="fulladdress"
+                      id="outlined-basic"
+                      value={fulladdress}
+                      readonly
+                    />
+                  </div>
+                </div>
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <label>Landmark</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="landmark"
+                      id="outlined-basic"
+                      value={landmark}
+                      readonly
+                    />
+                  </div>
+
+                  <div className="col-6">
+                    <label>City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="city"
+                      id="outlined-basic"
+                      value={city}
+                      readonly
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div className="col-6">
+                    <label>Pincode</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="pincode"
+                      id="outlined-basic"
+                      value={pincode}
+                      readonly
+                    />
+                  </div>
+                  <div className="col-6">
+                    <label>State</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="state"
+                      id="outlined-basic"
+                      value={state}
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <br />
+                <div className="row">
+                  <div className="col-12">
+                    <label>Email id</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="email"
+                      id="outlined-basic"
+                      value={email}
+                      readonly
+                    />
+                  </div>
+                </div>
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <label>Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      id="outlined-basic"
+                      value={password}
+                      readonly
+                    />
+                  </div>
+                  <div className="col-6">
+                    <label>Confirm Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="outlined-basic"
+                      value={confirmpassword}
+                      readonly
+                    />
+                  </div>
+                </div>
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <label>Mobile Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="mobilenumber"
+                      id="outlined-basic"
+                      value={mobilenumber}
+                      readonly
+                    />
+                  </div>
+                  <div className="col-6">
+                    <label>Whatsapp Number</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="outlined-basic"
+                      name="whatsapp"
+                      value={whatsapp}
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <label>Aadhar ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="aadhar"
+                      id="outlined-basic"
+                      value={aadhar}
+                      readonly
+                    />
+                  </div>
+
+                  <div className="col-6">
+                    <label>PAN Card ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="pan"
+                      id="outlined-basic"
+                      value={pan}
+                      readonly
+                    />
+                  </div>
+                </div>
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <label>Supervisor ID</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="supervisorid"
+                      id="outlined-basic"
+                      value={supervisorid}
+                      readonly
+                    />
+                  </div>
+
+                  <div className="col-6">
+                    <label>Supervisor Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="supervisorname"
+                      id="outlined-basic"
+                      value={supervisorname}
+                      readonly
+                    />
+                  </div>
+                </div>
+                <br />
               </form>
-              <Button variant="outlined" color="primary" onClick={handleBack2}>
-                Back
-              </Button>
-              &nbsp;&nbsp;
-              <Button variant="contained" color="primary" onClick={finish}>
-                Finish
-              </Button>
+              <div className="row justify-content-center">
+              <div className="col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={()=>setActiveStep(2)}
+                  >
+                    Back
+                  </button>
+                </div>
+                <div className=" col-2">
+                  <button className="btn btn-secondary btn-user btn-block">
+                    Submit
+                  </button>
+                </div>
+                
+              </div>
             </StepContent>
           </Step>
         </Stepper>
