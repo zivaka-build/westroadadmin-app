@@ -26,6 +26,7 @@ import {GTranslateRounded} from '@material-ui/icons';
 import {HomeWorkRounded} from '@material-ui/icons';
 import {SettingsRounded} from '@material-ui/icons';
 import {ExitToAppRounded} from '@material-ui/icons';
+import Dropdown from 'react-bootstrap/Dropdown'
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import Cookies from 'js-cookie';
 import PeopleAltRoundedIcon from '@material-ui/icons/PeopleAltRounded';
@@ -49,6 +50,15 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+  },
+  topwrap:{
+    display:"flex",
+    justifyContent: "space-between",
+    alignItems:"center",
+    width: "100%",
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: "flex-end",
+    },
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -124,6 +134,14 @@ const useStyles = makeStyles((theme) => ({
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const logout = () => {
+    Cookies.remove("userId")
+    Cookies.remove('Token')
+    Cookies.remove('FirstName')
+    Cookies.remove('LastName')
+    navigate("/")
+  }
   
   return (
     <div className={classes.root}>
@@ -148,9 +166,25 @@ const useStyles = makeStyles((theme) => ({
           >
             <img src={Logo} height="40" width="40"/>
           </IconButton>
+          <div className={classes.topwrap}>
           <Typography variant="h6" noWrap>
            Westroad Admin
           </Typography>
+          <div  style={{display: 'flex'}} >
+          <Dropdown>
+                    <Dropdown.Toggle style={{border : "none", outline : "none"}} className={classes.profiledrop} id="dropdown-basic">
+                    <img style={{height : "35px", borderRadius: "50%", width: "35px"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdr9qvYDbxDukbXL8OOpDCa7kqsh9dTXP3w&usqp=CAU" />
+                     
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                    {/* <Dropdown.Item className={classes.username} >Signed in as<br/><h6 style={{marginTop: "5px"}} >Victor</h6></Dropdown.Item> */}
+                    <div style={{paddingLeft : "25px"}} className={classes.username} >Signed in as<br/><h6 style={{marginTop: "5px"}} >{Cookies.get('userId')}</h6></div>
+                    <hr style={{margin: "0px"}} />
+                      <Dropdown.Item className={classes.dropdownitems} onClick={logout}>Logout</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  </div>
+                  </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -179,8 +213,8 @@ const useStyles = makeStyles((theme) => ({
         <List>
           
             <ListItem button >
-              <Link to="/test2"><ListItemIcon><Tooltip title="Flat Allotment"><img src={FlatAllotment} height="55" width="55" /></Tooltip></ListItemIcon></Link>
-              <h5 className="pl-2" onClick={()=>navigate("/notfound")}>Flat Allotment</h5>
+              <Link to="/dashboard/addmember"><ListItemIcon><Tooltip title="Flat Allotment"><img src={FlatAllotment} height="55" width="55" /></Tooltip></ListItemIcon></Link>
+              <h5 className="pl-2" onClick={()=>navigate("/dashboard/addmember")}>Flat Allotment</h5>
             </ListItem>
             <ListItem button >
             <Link to="/"><ListItemIcon><Tooltip title="Customer"><img src={Customer} height="53" width="55"/></Tooltip></ListItemIcon></Link>
