@@ -6,6 +6,7 @@ import "animate.css";
 import NotFound from "./NotFound.js";
 import AddMember from "./components/Dashboard/AddMemberForm";
 import Dashboard from "./components/Dashboard/Dashboard.js";
+import AddSite from "./components/Dashboard/AddSiteForm"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <NotFound path="/notfound" />
         <Dashboard path="/dashboard">
           <AddMember path="/addmember" />
+          <AddSite path="/addsite" />
         </Dashboard>
       </Router>
     </div>

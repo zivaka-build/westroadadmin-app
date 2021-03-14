@@ -10,7 +10,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { navigate } from "@reach/router";
 import { BASE_URL } from "../../config/url";
-import "./../../assets/css/addmember.css";
+import "./../../assets/css/form.css";
 import SalesRadio from "./../../assets/icons/Addmember/salesradio.png";
 import BackOfficeRadio from "./../../assets/icons/Addmember/backofficeradio.png";
 import EngineeringRadio from "./../../assets/icons/Addmember/engineeringradio.png";
@@ -214,7 +214,7 @@ function AddMember() {
   
   return (
     <div>
-      <div className="addmember" name="addmember" id="addmember">
+      <div className="customform">
         <Stepper activeStep={activeStep} orientation="vertical">
           <Step>
             <StepLabel className="step-label">
