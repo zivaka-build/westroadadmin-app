@@ -1,76 +1,89 @@
-import { Form, Row, Col } from "react-bootstrap";
-import React, { useState, useCallback, Fragment } from "react";
+import React, { useCallback, Fragment } from "react";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import "./../../assets/css/form.css";
-import ReactDOM from "react-dom";
-import SalesRadio from "./../../assets/icons/Addmember/salesradio.png";
-import BackOfficeRadio from "./../../assets/icons/Addmember/backofficeradio.png";
-import EngineeringRadio from "./../../assets/icons/Addmember/engineeringradio.png";
-import FinanceRadio from "./../../assets/icons/Addmember/financeradio.png";
-import PurchaseRadio from "./../../assets/icons/Addmember/purchaseradio.png";
-import ManagementRadio from "./../../assets/icons/Addmember/managementradio.png";
-import SalesCheck from "./../../assets/icons/Addmember/salescheck.png";
-import BackOfficeCheck from "./../../assets/icons/Addmember/backofficecheck.png";
-import EngineeringCheck from "./../../assets/icons/Addmember/engineeringcheck.png";
-import FinanceCheck from "./../../assets/icons/Addmember/financecheck.png";
-import PurchaseCheck from "./../../assets/icons/Addmember/purchasecheck.png";
-import ManagementCheck from "./../../assets/icons/Addmember/managementcheck.png";
 import Swal from "sweetalert2";
 
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleNext1 = () => {
-    setActiveStep(1);
+  const [addUnit, setAddUnit] = React.useState([
+    { unitname: "", basesqftrate: "", basesqft: "" },
+  ]);
+
+  const [addPhase, setAddPhase] = React.useState([
+    { phasename: "", phasecode: "" },
+  ]);
+
+  const handleAddUnit = () => {
+    const values = [...addUnit];
+    values.push({ unitname: "", basesqftrate: "", basesqft: "" });
+    setAddUnit(values);
   };
 
-  const handleBack1 = () => {
-    setActiveStep(0);
+  const handleAddPhase = () => {
+    const values = [...addPhase];
+    values.push({ phasename: "", phasecode: "" });
+    setAddPhase(values);
   };
 
-  const [addSite, setAddSite] = React.useState(0);
+  const handleUnitChange = (index, event) => {
+    const values = [...addUnit];
+    if (event.target.name === "unitname") {
+      values[index].unitname = event.target.value;
+    } else if (event.target.name === "basesqftrate") {
+      values[index].basesqftrate = event.target.value;
+    } else {
+      values[index].basesqft = event.target.value;
+    }
+    setAddUnit(values);
+  };
 
-  const AddSite = () => {
+  const handlePhaseChange = (index, event) => {
+    const values = [...addPhase];
+    if (event.target.name === "phasename") {
+      values[index].phasename = event.target.value;
+    } else {
+      values[index].phasecode = event.target.value;
+    }
+    setAddUnit(values);
+  };
+
+  console.log(addUnit);
+
+  const AddPhase = (addPhase, index) => {
     return (
-      <>
-        <div className="row">
-          <div className="col-3">
-            <label>Unit Name</label>
-            <input
-              type="text"
-              class="form-control"
-              name="unitname"
-              id="outlined-basic"
-            />
-          </div>
-
-          <div className="col-3">
-            <label>Base Sq Ft Rate</label>
-            <input
-              type="text"
-              class="form-control"
-              name="basesqftrate"
-              id="outlined-basic"
-            />
-          </div>
-
-          <div className="col-3">
-            <label>Base Sq Ft</label>
-            <input
-              type="text"
-              class="form-control"
-              name="basesqft"
-              id="outlined-basic"
-            />
-          </div>
-          <div className="col-3 my-auto">
-            <a className="deactivate">Deactivate</a>
-          </div>
+      <div className="row">
+        <div className="col-3">
+          <label>Phase Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phasename"
+            id="outlined-basic"
+            value={addPhase.phasename}
+            onChange={(event) => handlePhaseChange(event, index)}
+          />
         </div>
-      </>
+
+        <div className="col-3">
+          <label>Phase Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="basesqftrate"
+            id="outlined-basic"
+            value={addPhase.phasecode}
+            onChange={(event) => handleAddPhase(event, index)}
+          />
+        </div>
+
+        <div className="col-3 my-auto">
+          <a className="deactivate">Deactivate</a>
+        </div>
+      </div>
     );
   };
 
@@ -83,144 +96,139 @@ function AddMember() {
               <h4>Site Details</h4>
             </StepLabel>
             <StepContent>
-              <form>
+              <div className="row">
+                <div className="col-6">
+                  <label>Site Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="sitename"
+                    id="outlined-basic"
+                  />
+                </div>
+
+                <div className="col-6">
+                  <label>Site Description</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="sitedesc"
+                    id="outlined-basic"
+                  />
+                </div>
+              </div>
+
+              <br />
+              <div className="row">
+                <div className="col-4">
+                  <label>HIRA No.</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="hirano"
+                    id="outlined-basic"
+                  />
+                </div>
+
+                <div className="col-4">
+                  <label>Site Code</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="sitecode"
+                    id="outlined-basic"
+                  />
+                </div>
+
+                <div className="col-4">
+                  <label>...</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="..."
+                    id="outlined-basic"
+                  />
+                </div>
+              </div>
+              <br />
+              <div className="row">
+                <div className="col-2">
+                  <label class="text-align left">Site Logo</label>
+                </div>
+                <div className="col-10">
+                  <input type="file" class="form-control-file" id="sitelogo" />
+                </div>
+              </div>
+              <br />
+              <div>
+                <div className="row">
+                  <div className="col-12">
+                    <label className="heading2">Site Address</label>
+                  </div>
+                </div>
+                <div></div>
+                <div className="row">
+                  <div className="col-12">
+                    <label>Full Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="fulladdress"
+                      id="outlined-basic"
+                    />
+                  </div>
+                </div>
+                <br />
                 <div className="row">
                   <div className="col-6">
-                    <label>Site Name</label>
+                    <label>Landmark</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="sitename"
+                      name="landmark"
+                      id="outlined-basic"
+                    />
+                  </div>
+                  <div className="col-6">
+                    <label>Pincode</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="pincode"
+                      id="outlined-basic"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div className="col-6">
+                    <label>City</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="city"
                       id="outlined-basic"
                     />
                   </div>
 
                   <div className="col-6">
-                    <label>Site Description</label>
+                    <label>State</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="sitedesc"
+                      name="state"
                       id="outlined-basic"
                     />
                   </div>
                 </div>
+              </div>
+              <br />
 
-                <br />
-                <div className="row">
-                  <div className="col-4">
-                    <label>HIRA No.</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="hirano"
-                      id="outlined-basic"
-                    />
-                  </div>
-
-                  <div className="col-4">
-                    <label>Site Code</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="sitecode"
-                      id="outlined-basic"
-                    />
-                  </div>
-
-                  <div className="col-4">
-                    <label>...</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="..."
-                      id="outlined-basic"
-                    />
-                  </div>
-                </div>
-                <br />
-                <div className="row">
-                  <div className="col-2">
-                    <label class="text-align left">Site Logo</label>
-                  </div>
-                  <div className="col-10">
-                    <input
-                      type="file"
-                      class="form-control-file"
-                      id="sitelogo"
-                    />
-                  </div>
-                </div>
-                <br />
-                <div>
-                  <div className="row">
-                    <div className="col-12">
-                      <label className="heading2">Site Address</label>
-                    </div>
-                  </div>
-                  <div></div>
-                  <div className="row">
-                    <div className="col-12">
-                      <label>Full Address</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="fulladdress"
-                        id="outlined-basic"
-                      />
-                    </div>
-                  </div>
-                  <br />
-                  <div className="row">
-                    <div className="col-6">
-                      <label>Landmark</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="landmark"
-                        id="outlined-basic"
-                      />
-                    </div>
-                    <div className="col-6">
-                      <label>Pincode</label>
-                      <input
-                        type="number"
-                        class="form-control"
-                        name="pincode"
-                        id="outlined-basic"
-                      />
-                    </div>
-                  </div>
-                  <br />
-                  <div class="row">
-                    <div className="col-6">
-                      <label>City</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="city"
-                        id="outlined-basic"
-                      />
-                    </div>
-
-                    <div className="col-6">
-                      <label>State</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="state"
-                        id="outlined-basic"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <br />
-              </form>
               <div className="justify-content-center row">
                 <div className=" col-2">
                   <button
                     className="btn btn-secondary btn-user btn-block"
-                    onClick={handleNext1}
+                    onClick={() => setActiveStep(1)}
                   >
                     Next
                   </button>
@@ -233,157 +241,257 @@ function AddMember() {
               <h4>Site Configuration</h4>
             </StepLabel>
             <StepContent>
-              <div>
-                <div className="row">
-                  <div className="col-12">
-                    <label className="heading2">Unit Types</label>
-                  </div>
+              <div className="row">
+                <div className="col-12">
+                  <label className="heading2">Unit Types</label>
                 </div>
-                <div></div>
-                <div className="row">
-                  <div className="col-3">
-                    <label>Unit Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="unitname"
-                      id="outlined-basic"
-                    />
-                  </div>
+              </div>
+              <div></div>
 
-                  <div className="col-3">
-                    <label>Base Sq Ft Rate</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="basesqftrate"
-                      id="outlined-basic"
-                    />
-                  </div>
+              {addUnit.map((addUnit, index) => {
+                return (
+                  <div className="row" style={{ paddingBottom: "6px" }}>
+                    <div className="col-3">
+                      <label>Unit Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="unitname"
+                        id="outlined-basic"
+                        value={addUnit.unitname}
+                        onChange={(event) => handleUnitChange(index, event)}
+                      />
+                    </div>
 
-                  <div className="col-3">
-                    <label>Base Sq Ft</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="basesqft"
-                      id="outlined-basic"
-                    />
+                    <div className="col-3">
+                      <label>Base Sq Ft Rate</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="basesqftrate"
+                        id="outlined-basic"
+                        value={addUnit.basesqftrate}
+                        onChange={(event) => handleUnitChange(index, event)}
+                      />
+                    </div>
+
+                    <div className="col-3">
+                      <label>Base Sq Ft</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="basesqft"
+                        id="outlined-basic"
+                        value={addUnit.basesqft}
+                        onChange={(event) => handleUnitChange(index, event)}
+                      />
+                    </div>
+                    <div className="col-3 my-auto">
+                      <a className="deactivate">Deactivate</a>
+                    </div>
                   </div>
-                  <div className="col-3 my-auto">
-                    <a className="deactivate">Deactivate</a>
+                );
+              })}
+
+              <div className="row">
+                <div className="col-9">
+                  <div className="d-flex flex-row-reverse">
+                    <button className="add-btn" onClick={() => handleAddUnit()}>
+                      Add row
+                    </button>
+                    <br />
                   </div>
                 </div>
               </div>
-              <Fragment>
-                <div className="row" style={{ paddingTop: "4px" }}>
-                  <div className="col-9">
-                    <div className="d-flex flex-row-reverse">
-                      <button
-                        className="add-btn"
-                        onClick={() => setAddSite(addSite + 1)}
-                      >
-                        Add row
-                      </button>
-                      {Array(addSite).fill(<AddSite />)}
-                      <br />
+
+              <div className="row">
+                <div className="col-12">
+                  <label className="heading2">Phase</label>
+                </div>
+              </div>
+              <div></div>
+              <div>
+                {addPhase.map((addPhase, index) => {
+                  return (
+                    <div className="row" style={{ paddingBottom: "6px" }}>
+                      <div className="col-3">
+                        <label>Phase Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="phasename"
+                          id="outlined-basic"
+                          value={addPhase.phasename}
+                          onChange={(event) => handlePhaseChange(index, event)}
+                        />
+                      </div>
+
+                      <div className="col-3">
+                        <label>Phase Code</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="basesqftrate"
+                          id="outlined-basic"
+                          value={addPhase.phasecode}
+                          onChange={(event) => handlePhaseChange(index, event)}
+                        />
+                      </div>
+
+                      <div className="col-3 my-auto">
+                        <a className="deactivate">Deactivate</a>
+                      </div>
                     </div>
+                  );
+                })}
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <div className="d-flex flex-row-reverse">
+                    <button
+                      className="add-btn"
+                      onClick={() => handleAddPhase()}
+                    >
+                      Add row
+                    </button>
                   </div>
                 </div>
-              </Fragment>
-              <div>
+              </div>
+              <br />
+              <div className="row">
+                <div className="col-4">
+                  <label>Floor Escalation Charge</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="flooresccharge"
+                    id="outlined-basic"
+                  />
+                </div>
+
+                <div className="col-4">
+                  <label>Built Up Area Factor</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="builtupareafactor"
+                    id="outlined-basic"
+                  />
+                </div>
+
+                <div className="col-4">
+                  <label>Super Built Up Area Factor</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="superbuiltupareafactor"
+                    id="outlined-basic"
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-4">
+                  <label>Car Parking Open</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="carparkingopen"
+                    id="outlined-basic"
+                  />
+                </div>
+
+                <div className="col-4">
+                  <label>Car Parking Covered</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="carparkingcovered"
+                    id="outlined-basic"
+                  />
+                </div>
+              </div>
+              <br />
+              <div className="other-charges">
                 <div className="row">
                   <div className="col-12">
-                    <label className="heading2">Phase</label>
+                    <label className="heading2">Other Charges</label>
                   </div>
                 </div>
                 <div></div>
                 <div className="row">
-                  <div className="col-3">
-                    <label>Phase Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="unitname"
-                      id="outlined-basic"
-                    />
-                  </div>
-
-                  <div className="col-3">
-                    <label>Phase Code</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="basesqftrate"
-                      id="outlined-basic"
-                    />
-                  </div>
-
-                  <div className="col-3 my-auto">
-                    <a className="deactivate">Deactivate</a>
-                  </div>
-                </div>
-                <div className="row" style={{ paddingTop: "4px" }}>
-                  <div className="col-6">
-                    <div className="d-flex flex-row-reverse">
-                      <button className="add-btn">Add row</button>
-
-                      <br />
-                      <div className="row">
                   <div className="col-4">
-                    <label>HIRA No.</label>
+                    <label>Name</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="hirano"
+                      name="name"
                       id="outlined-basic"
                     />
                   </div>
 
                   <div className="col-4">
-                    <label>Site Code</label>
+                    <label>Amount</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="sitecode"
+                      name="amount"
                       id="outlined-basic"
                     />
                   </div>
 
                   <div className="col-4">
-                    <label>...</label>
+                    <label>GST</label>
                     <input
                       type="text"
                       class="form-control"
-                      name="..."
+                      name="gst"
                       id="outlined-basic"
                     />
                   </div>
                 </div>
+                <br />
                 <div className="row">
-                  <div className="col-4">
-                    <label>HIRA No.</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="hirano"
-                      id="outlined-basic"
-                    />
-                  </div>
+                  <div className="col-10">
+                    <label
+                      class="form-check-label"
+                      style={{ paddingRight: "4rem" }}
+                    >
+                      Fixed
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="fixed"
+                        name="charges"
+                      />
+                    </label>
 
-                  <div className="col-4">
-                    <label>Site Code</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="sitecode"
-                      id="outlined-basic"
-                    />
+                    <label class="form-check-label px-4">
+                      Per SqFt
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="persqft"
+                        name="charges"
+                      />
+                    </label>
                   </div>
                 </div>
-                
-                    </div>
-                  </div>
+              </div>
+              <br />
+              <div className="row justify-content-center">
+                <div className="col-2">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={() => setActiveStep(0)}
+                  >
+                    Back
+                  </button>
+                </div>
+                <div className=" col-2">
+                  <button className="btn btn-secondary btn-user btn-block">
+                    Submit
+                  </button>
                 </div>
               </div>
             </StepContent>
