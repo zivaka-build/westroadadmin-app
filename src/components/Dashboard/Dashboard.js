@@ -236,7 +236,7 @@ const useStyles = makeStyles((theme) => ({
             </ListItem>
             
             <ListItem button >
-              <Link to="/"><ListItemIcon><Tooltip title="Configurations"><img src={Configurations} heigth="51" width="55" /></Tooltip></ListItemIcon></Link>
+              <Link to="/dashboard/config"><ListItemIcon><Tooltip title="Configurations"><img src={Configurations} heigth="51" width="55" /></Tooltip></ListItemIcon></Link>
               <h5 className="pl-2">Configurations</h5>
             </ListItem>
             
