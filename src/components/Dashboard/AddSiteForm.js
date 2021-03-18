@@ -9,13 +9,62 @@ import Swal from "sweetalert2";
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const [sitename, setSiteName] = React.useState("");
+  const [sitedesc, setSiteDesc] = React.useState("");
+  const [hirano, setHiraNo] = React.useState("");
+  const [sitecode, setSiteCode] = React.useState("");
+  const [__, set__] = React.useState("");
+  const [fulladdress, setFullAddress] = React.useState("");
+  const [landmark, setLandmark] = React.useState("");
+  const [pincode, setPincode] = React.useState("");
+  const [city, setCity] = React.useState("");
+  const [state, setState] = React.useState("");
   const [addUnit, setAddUnit] = React.useState([
     { unitname: "", basesqftrate: "", basesqft: "" },
   ]);
-
   const [addPhase, setAddPhase] = React.useState([
     { phasename: "", phasecode: "" },
   ]);
+  const [flooresccharges, setFloorEscCharges] = React.useState("");
+  const [builtupareafactor, setBuiltUpAreaFactor] = React.useState("");
+  const [superbuiltupareafactor, setSuperBuiltUpAreaFactor] = React.useState(
+    ""
+  );
+  const [carparkingopen, setCarParkingOpen] = React.useState("");
+  const [carparkingcovered, setCarParkingCovered] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [amount, setAmount] = React.useState("");
+  const [gst, setGST] = React.useState("");
+  const [othercharges, setOtherCharges] = React.useState("");
+
+  const handleNext1 = () => {
+    if (
+      sitename === "" ||
+      sitedesc === "" ||
+      hirano === "" ||
+      sitecode === "" ||
+      __ === "" ||
+      fulladdress === "" ||
+      landmark === "" ||
+      pincode === "" ||
+      city === "" ||
+      state === ""
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Ooops",
+        showClass: {
+          popup: "animate__animated animate__fadeInDown",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp",
+        },
+        text: "Please fill out all details!",
+      });
+    } else {
+      setActiveStep(1);
+    }
+  };
 
   const handleAddUnit = () => {
     const values = [...addUnit];
@@ -48,43 +97,35 @@ function AddMember() {
     } else {
       values[index].phasecode = event.target.value;
     }
-    setAddUnit(values);
+    setAddPhase(values);
   };
 
-  console.log(addUnit);
-
-  const AddPhase = (addPhase, index) => {
-    return (
-      <div className="row">
-        <div className="col-3">
-          <label>Phase Name</label>
-          <input
-            type="text"
-            class="form-control"
-            name="phasename"
-            id="outlined-basic"
-            value={addPhase.phasename}
-            onChange={(event) => handlePhaseChange(event, index)}
-          />
-        </div>
-
-        <div className="col-3">
-          <label>Phase Code</label>
-          <input
-            type="text"
-            class="form-control"
-            name="basesqftrate"
-            id="outlined-basic"
-            value={addPhase.phasecode}
-            onChange={(event) => handleAddPhase(event, index)}
-          />
-        </div>
-
-        <div className="col-3 my-auto">
-          <a className="deactivate">Deactivate</a>
-        </div>
-      </div>
-    );
+  const handleSubmit = () => {
+    if (
+      addUnit === "" ||
+      addPhase === "" ||
+      flooresccharges === "" ||
+      builtupareafactor === "" ||
+      superbuiltupareafactor === "" ||
+      carparkingopen === "" ||
+      carparkingcovered === "" ||
+      name === "" ||
+      amount === "" ||
+      gst === "" ||
+      othercharges !== "" //TO DO: setothercharges when radio button clicked
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Ooops",
+        showClass: {
+          popup: "animate__animated animate__fadeInDown",
+        },
+        hideClass: {
+          popup: "animate__animated animate__fadeOutUp",
+        },
+        text: "Please fill out all details!",
+      });
+    }
   };
 
   return (
@@ -104,6 +145,8 @@ function AddMember() {
                     class="form-control"
                     name="sitename"
                     id="outlined-basic"
+                    value={sitename}
+                    onChange={(e) => setSiteName(e.target.value)}
                   />
                 </div>
 
@@ -114,6 +157,8 @@ function AddMember() {
                     class="form-control"
                     name="sitedesc"
                     id="outlined-basic"
+                    value={sitedesc}
+                    onChange={(e) => setSiteDesc(e.target.value)}
                   />
                 </div>
               </div>
@@ -127,6 +172,8 @@ function AddMember() {
                     class="form-control"
                     name="hirano"
                     id="outlined-basic"
+                    value={hirano}
+                    onChange={(e) => setHiraNo(e.target.value)}
                   />
                 </div>
 
@@ -137,6 +184,8 @@ function AddMember() {
                     class="form-control"
                     name="sitecode"
                     id="outlined-basic"
+                    value={sitecode}
+                    onChange={(e) => setSiteCode(e.target.value)}
                   />
                 </div>
 
@@ -147,6 +196,8 @@ function AddMember() {
                     class="form-control"
                     name="..."
                     id="outlined-basic"
+                    value={__}
+                    onChange={(e) => set__(e.target.value)}
                   />
                 </div>
               </div>
@@ -175,6 +226,8 @@ function AddMember() {
                       class="form-control"
                       name="fulladdress"
                       id="outlined-basic"
+                      value={fulladdress}
+                      onChange={(e) => setFullAddress(e.target.value)}
                     />
                   </div>
                 </div>
@@ -187,6 +240,8 @@ function AddMember() {
                       class="form-control"
                       name="landmark"
                       id="outlined-basic"
+                      value={landmark}
+                      onChange={(e) => setLandmark(e.target.value)}
                     />
                   </div>
                   <div className="col-6">
@@ -196,6 +251,8 @@ function AddMember() {
                       class="form-control"
                       name="pincode"
                       id="outlined-basic"
+                      value={pincode}
+                      onChange={(e) => setPincode(e.target.value)}
                     />
                   </div>
                 </div>
@@ -208,6 +265,8 @@ function AddMember() {
                       class="form-control"
                       name="city"
                       id="outlined-basic"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
                     />
                   </div>
 
@@ -218,6 +277,8 @@ function AddMember() {
                       class="form-control"
                       name="state"
                       id="outlined-basic"
+                      value={state}
+                      onChange={(e) => setState(e.target.value)}
                     />
                   </div>
                 </div>
@@ -228,7 +289,7 @@ function AddMember() {
                 <div className=" col-2">
                   <button
                     className="btn btn-secondary btn-user btn-block"
-                    onClick={() => setActiveStep(1)}
+                    onClick={() => handleNext1()}
                   >
                     Next
                   </button>
@@ -366,6 +427,8 @@ function AddMember() {
                     class="form-control"
                     name="flooresccharge"
                     id="outlined-basic"
+                    value={flooresccharges}
+                    onChange={(e) => setFloorEscCharges(e.target.value)}
                   />
                 </div>
 
@@ -376,6 +439,8 @@ function AddMember() {
                     class="form-control"
                     name="builtupareafactor"
                     id="outlined-basic"
+                    value={builtupareafactor}
+                    onChange={(e) => setBuiltUpAreaFactor(e.target.value)}
                   />
                 </div>
 
@@ -386,9 +451,12 @@ function AddMember() {
                     class="form-control"
                     name="superbuiltupareafactor"
                     id="outlined-basic"
+                    value={superbuiltupareafactor}
+                    onChange={(e) => setSuperBuiltUpAreaFactor(e.target.value)}
                   />
                 </div>
               </div>
+              <br />
 
               <div className="row">
                 <div className="col-4">
@@ -398,6 +466,8 @@ function AddMember() {
                     class="form-control"
                     name="carparkingopen"
                     id="outlined-basic"
+                    value={carparkingopen}
+                    onChange={(e) => setCarParkingOpen(e.target.value)}
                   />
                 </div>
 
@@ -408,6 +478,8 @@ function AddMember() {
                     class="form-control"
                     name="carparkingcovered"
                     id="outlined-basic"
+                    value={carparkingcovered}
+                    onChange={(e) => setCarParkingCovered(e.target.value)}
                   />
                 </div>
               </div>
@@ -427,6 +499,8 @@ function AddMember() {
                       class="form-control"
                       name="name"
                       id="outlined-basic"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
@@ -437,6 +511,8 @@ function AddMember() {
                       class="form-control"
                       name="amount"
                       id="outlined-basic"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
                     />
                   </div>
 
@@ -447,6 +523,8 @@ function AddMember() {
                       class="form-control"
                       name="gst"
                       id="outlined-basic"
+                      value={gst}
+                      onChange={(e) => setGST(e.target.value)}
                     />
                   </div>
                 </div>
@@ -463,6 +541,8 @@ function AddMember() {
                         className="form-check-input"
                         id="fixed"
                         name="charges"
+                        value={gst}
+                        onChange={(e) => setGST(e.target.value)}
                       />
                     </label>
 
@@ -473,6 +553,8 @@ function AddMember() {
                         className="form-check-input"
                         id="persqft"
                         name="charges"
+                        value={gst}
+                        onChange={(e) => setGST(e.target.value)}
                       />
                     </label>
                   </div>
@@ -489,7 +571,10 @@ function AddMember() {
                   </button>
                 </div>
                 <div className=" col-2">
-                  <button className="btn btn-secondary btn-user btn-block">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    onClick={() => handleSubmit()}
+                  >
                     Submit
                   </button>
                 </div>
