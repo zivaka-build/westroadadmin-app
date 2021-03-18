@@ -7,6 +7,8 @@ import NotFound from "./NotFound.js";
 import AddMember from "./components/Dashboard/AddMemberForm";
 import Dashboard from "./components/Dashboard/Dashboard.js";
 import AddSite from "./components/Dashboard/AddSiteForm"
+import Configuration from "./components/Dashboard/Configuration.js";
+import TeamMember from "./components/Dashboard/TeamMember.js";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <LoginPage path="/" />
         <NotFound path="/notfound" />
         <Dashboard path="/dashboard">
+          <Configuration path="/config" />
+          <TeamMember path="/teammember" />
           <AddMember path="/addmember" />
           <AddSite path="/addsite" />
         </Dashboard>
