@@ -15,6 +15,14 @@ class Configuration extends Component {
               buttonLink="/dashboard/teammember"
             />
           </div>
+          <div className="col-6">
+            <CardSingleButton
+              title="Manage Sites"
+              text="Add, delete and sites"
+              buttonText="Manage"
+              buttonLink="/dashboard/site"
+            />
+          </div>
         </div>
       </div>
     );

@@ -2,23 +2,23 @@ import CardSingleButton from "./CardSingleButton";
 import React, { Component } from "react";
 import "../../assets/css/card-single-button.css";
 
-class TeamMember extends Component {
+class Site extends Component {
   render() {
     return (
-      <div className="teammember" style={{ paddingTop: "70px" }}>
+      <div className="site" style={{ paddingTop: "70px" }}>
         <div className="row">
           <div className="col-6">
             <CardSingleButton
-              title="Add Team Members"
-              text="Add a team member"
+              title="Add a site"
+              text="Add a site"
               buttonText="Add"
-              buttonLink="/dashboard/addmember"
+              buttonLink="/dashboard/addsite"
             />
           </div>
           <div className="col-6">
             <CardSingleButton
-              title="View Team Members"
-              text="View a team member"
+              title="View Sites"
+              text="View all the sites"
               buttonText="View"
               buttonLink="/"
             />
@@ -29,4 +29,4 @@ class TeamMember extends Component {
   }
 }
 
-export default TeamMember;
+export default Site;

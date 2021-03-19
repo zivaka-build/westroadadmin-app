@@ -102,7 +102,7 @@ function AddMember() {
 
   const handleSubmit = () => {
     if (
-      addUnit === "" ||
+      addUnit === "" || //validation for addUnit and addPhase not working currently
       addPhase === "" ||
       flooresccharges === "" ||
       builtupareafactor === "" ||
@@ -112,7 +112,7 @@ function AddMember() {
       name === "" ||
       amount === "" ||
       gst === "" ||
-      othercharges !== "" //TO DO: setothercharges when radio button clicked
+      othercharges === "" 
     ) {
       Swal.fire({
         icon: "error",
@@ -541,8 +541,10 @@ function AddMember() {
                         className="form-check-input"
                         id="fixed"
                         name="charges"
-                        value={gst}
-                        onChange={(e) => setGST(e.target.value)}
+                        value="othercharges"
+                        checked={othercharges==="fixed"? true:false}
+                        onChange={() => setOtherCharges("fixed")
+                      }
                       />
                     </label>
 
@@ -553,8 +555,10 @@ function AddMember() {
                         className="form-check-input"
                         id="persqft"
                         name="charges"
-                        value={gst}
-                        onChange={(e) => setGST(e.target.value)}
+                        value="othercharges"
+                        checked={othercharges==="persqft"? true:false}
+                        onChange={() => setOtherCharges("persqft")
+                      }
                       />
                     </label>
                   </div>

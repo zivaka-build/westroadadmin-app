@@ -9,6 +9,7 @@ import Dashboard from "./components/Dashboard/Dashboard.js";
 import AddSite from "./components/Dashboard/AddSiteForm"
 import Configuration from "./components/Dashboard/Configuration.js";
 import TeamMember from "./components/Dashboard/TeamMember.js";
+import Site from "./components/Dashboard/Site"
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Dashboard path="/dashboard">
           <Configuration path="/config" />
           <TeamMember path="/teammember" />
+          <Site path="/site"/>
           <AddMember path="/addmember" />
           <AddSite path="/addsite" />
         </Dashboard>
