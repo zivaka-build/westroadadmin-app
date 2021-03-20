@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment } from "react";
+import React from "react";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -62,7 +62,7 @@ function AddMember() {
         text: "Please fill out all details!",
       });
     } else {
-      setActiveStep(1);
+    setActiveStep(1);
     }
   };
 
@@ -100,10 +100,32 @@ function AddMember() {
     setAddPhase(values);
   };
 
+  const validateAddUnit = (addUnit) => {
+    for (let index = 0; index < addUnit.length; index++) {
+      if (
+        addUnit[index].unitname == "" ||
+        addUnit[index].basesqftrate == "" ||
+        addUnit[index].basesqft == ""
+      ) {
+        return 0;
+      }
+    }
+    return 1;
+  };
+
+  const validateAddPhase = (addPhase) => {
+    for (let index = 0; index < addPhase.length; index++) {
+      if (addPhase[index].phasename == "" || addPhase[index].phasecode == "") {
+        return 0;
+      }
+    }
+    return 1;
+  };
+
   const handleSubmit = () => {
     if (
-      addUnit === "" || //validation for addUnit and addPhase not working currently
-      addPhase === "" ||
+      validateAddUnit(addUnit) === 0 ||
+      validateAddPhase(addPhase) === 0 ||
       flooresccharges === "" ||
       builtupareafactor === "" ||
       superbuiltupareafactor === "" ||
@@ -112,7 +134,7 @@ function AddMember() {
       name === "" ||
       amount === "" ||
       gst === "" ||
-      othercharges === "" 
+      othercharges === ""
     ) {
       Swal.fire({
         icon: "error",
@@ -542,9 +564,8 @@ function AddMember() {
                         id="fixed"
                         name="charges"
                         value="othercharges"
-                        checked={othercharges==="fixed"? true:false}
-                        onChange={() => setOtherCharges("fixed")
-                      }
+                        checked={othercharges === "fixed" ? true : false}
+                        onChange={() => setOtherCharges("fixed")}
                       />
                     </label>
 
@@ -556,9 +577,8 @@ function AddMember() {
                         id="persqft"
                         name="charges"
                         value="othercharges"
-                        checked={othercharges==="persqft"? true:false}
-                        onChange={() => setOtherCharges("persqft")
-                      }
+                        checked={othercharges === "persqft" ? true : false}
+                        onChange={() => setOtherCharges("persqft")}
                       />
                     </label>
                   </div>
