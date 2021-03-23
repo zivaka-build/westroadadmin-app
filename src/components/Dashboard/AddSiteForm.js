@@ -32,10 +32,10 @@ function AddMember() {
   );
   const [carparkingopen, setCarParkingOpen] = React.useState("");
   const [carparkingcovered, setCarParkingCovered] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [amount, setAmount] = React.useState("");
-  const [gst, setGST] = React.useState("");
-  const [othercharges, setOtherCharges] = React.useState("");
+  const [othercharges, setOtherCharges] = React.useState([
+    { name: "", amount: "", gst: "", chargestype: "" },
+  ]);
+  const [chargestype, setChargesType] = React.useState("");
 
   const handleNext1 = () => {
     if (
@@ -62,7 +62,7 @@ function AddMember() {
         text: "Please fill out all details!",
       });
     } else {
-    setActiveStep(1);
+      setActiveStep(1);
     }
   };
 
@@ -76,6 +76,12 @@ function AddMember() {
     const values = [...addPhase];
     values.push({ phasename: "", phasecode: "" });
     setAddPhase(values);
+  };
+
+  const handleAddOtherCharges = () => {
+    const values = [...othercharges];
+    values.push({ name: "", amount: "", gst: "", chargestype: "" });
+    setOtherCharges(values);
   };
 
   const handleUnitChange = (index, event) => {
@@ -100,6 +106,24 @@ function AddMember() {
     setAddPhase(values);
   };
 
+  const handleOtherChargesChange = (index, event) => {
+    const values = [...othercharges];
+    if (event.target.name === "name") {
+      values[index].name = event.target.value;
+    } else if (event.target.name === "amount") {
+      values[index].amount = event.target.value;
+    } else if (event.target.name === "gst") {
+      values[index].gst = event.target.value;
+    } else {
+      if (event.target.id === "fixed") {
+        values[index].chargestype = "fixed";
+      } else if (event.target.id === "persqft") {
+        values[index].chargestype = "persqft";
+      }
+    }
+    setAddUnit(values);
+  };
+
   const validateAddUnit = (addUnit) => {
     for (let index = 0; index < addUnit.length; index++) {
       if (
@@ -121,7 +145,7 @@ function AddMember() {
     }
     return 1;
   };
-
+  console.log(othercharges);
   const handleSubmit = () => {
     if (
       validateAddUnit(addUnit) === 0 ||
@@ -130,11 +154,11 @@ function AddMember() {
       builtupareafactor === "" ||
       superbuiltupareafactor === "" ||
       carparkingopen === "" ||
-      carparkingcovered === "" ||
-      name === "" ||
-      amount === "" ||
-      gst === "" ||
-      othercharges === ""
+      carparkingcovered === ""
+      // name === "" ||
+      // amount === "" ||
+      // gst === "" ||
+      // othercharges === ""
     ) {
       Swal.fire({
         icon: "error",
@@ -370,7 +394,7 @@ function AddMember() {
                       />
                     </div>
                     <div className="col-3 my-auto">
-                      <a className="deactivate">Deactivate</a>
+                      <a className="deactivate">Delete</a>
                     </div>
                   </div>
                 );
@@ -422,7 +446,7 @@ function AddMember() {
                       </div>
 
                       <div className="col-3 my-auto">
-                        <a className="deactivate">Deactivate</a>
+                        <a className="deactivate">Delete</a>
                       </div>
                     </div>
                   );
@@ -445,7 +469,7 @@ function AddMember() {
                 <div className="col-4">
                   <label>Floor Escalation Charge</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     name="flooresccharge"
                     id="outlined-basic"
@@ -457,7 +481,7 @@ function AddMember() {
                 <div className="col-4">
                   <label>Built Up Area Factor</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     name="builtupareafactor"
                     id="outlined-basic"
@@ -469,7 +493,7 @@ function AddMember() {
                 <div className="col-4">
                   <label>Super Built Up Area Factor</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     name="superbuiltupareafactor"
                     id="outlined-basic"
@@ -484,7 +508,7 @@ function AddMember() {
                 <div className="col-4">
                   <label>Car Parking Open</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     name="carparkingopen"
                     id="outlined-basic"
@@ -496,7 +520,7 @@ function AddMember() {
                 <div className="col-4">
                   <label>Car Parking Covered</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     name="carparkingcovered"
                     id="outlined-basic"
@@ -506,81 +530,114 @@ function AddMember() {
                 </div>
               </div>
               <br />
-              <div className="other-charges">
-                <div className="row">
-                  <div className="col-12">
-                    <label className="heading2">Other Charges</label>
-                  </div>
-                </div>
-                <div></div>
-                <div className="row">
-                  <div className="col-4">
-                    <label>Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="name"
-                      id="outlined-basic"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
 
-                  <div className="col-4">
-                    <label>Amount</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="amount"
-                      id="outlined-basic"
-                      value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="col-4">
-                    <label>GST</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="gst"
-                      id="outlined-basic"
-                      value={gst}
-                      onChange={(e) => setGST(e.target.value)}
-                    />
-                  </div>
+              <div className="row">
+                <div className="col-12">
+                  <label className="heading2">Other Charges</label>
                 </div>
-                <br />
-                <div className="row">
-                  <div className="col-10">
-                    <label
-                      class="form-check-label"
-                      style={{ paddingRight: "4rem" }}
+              </div>
+              <div></div>
+              {othercharges.map((othercharges, index) => {
+                return (
+                  <div>
+                    -
+                    <div className="row" style={{ paddingBottom: "6px" }}>
+                      <div className="col-4">
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="name"
+                          id="outlined-basic"
+                          value={othercharges.name}
+                          onChange={(event) =>
+                            handleOtherChargesChange(index, event)
+                          }
+                        />
+                      </div>
+
+                      <div className="col-4">
+                        <label>Amount</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="amount"
+                          id="outlined-basic"
+                          value={othercharges.amount}
+                          onChange={(event) =>
+                            handleOtherChargesChange(index, event)
+                          }
+                        />
+                      </div>
+
+                      <div className="col-4">
+                        <label>GST</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="gst"
+                          id="outlined-basic"
+                          value={othercharges.gst}
+                          onChange={(event) =>
+                            handleOtherChargesChange(index, event)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-10">
+                        <label
+                          class="form-check-label"
+                          style={{ paddingRight: "4rem" }}
+                        >
+                          Fixed
+                          <input
+                            type="radio"
+                            className="form-check-input"
+                            id="fixed"
+                            value="othercharges"
+                            checked={
+                              othercharges.chargestype == "fixed" ? true : false
+                            }
+                            onChange={(event) =>
+                              handleOtherChargesChange(index, event)
+                            }
+                          />
+                        </label>
+
+                        <label class="form-check-label px-4">
+                          Per SqFt
+                          <input
+                            type="radio"
+                            className="form-check-input"
+                            id="persqft"
+                            value="chargestype"
+                            checked={
+                              othercharges.chargestype == "persqft"
+                                ? true
+                                : false
+                            }
+                            onChange={(event) =>
+                              handleOtherChargesChange(index, event)
+                            }
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <br />
+                  </div>
+                );
+              })}
+              <div className="row">
+                <div className="col-9">
+                  <div className="d-flex flex-row-reverse">
+                    <button
+                      className="add-btn"
+                      onClick={() => handleAddOtherCharges()}
                     >
-                      Fixed
-                      <input
-                        type="radio"
-                        className="form-check-input"
-                        id="fixed"
-                        name="charges"
-                        value="othercharges"
-                        checked={othercharges === "fixed" ? true : false}
-                        onChange={() => setOtherCharges("fixed")}
-                      />
-                    </label>
-
-                    <label class="form-check-label px-4">
-                      Per SqFt
-                      <input
-                        type="radio"
-                        className="form-check-input"
-                        id="persqft"
-                        name="charges"
-                        value="othercharges"
-                        checked={othercharges === "persqft" ? true : false}
-                        onChange={() => setOtherCharges("persqft")}
-                      />
-                    </label>
+                      Add row
+                    </button>
+                    <br />
                   </div>
                 </div>
               </div>
