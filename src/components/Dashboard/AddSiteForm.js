@@ -5,6 +5,9 @@ import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import "./../../assets/css/form.css";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { BASE_URL } from "./../../config/url";
+import Cookies from 'js-cookie'; 
 
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -62,6 +65,7 @@ function AddMember() {
         text: "Please fill out all details!",
       });
     } else {
+      
       setActiveStep(1);
     }
   };
@@ -147,6 +151,7 @@ function AddMember() {
   };
   console.log(othercharges);
   const handleSubmit = () => {
+    
     if (
       validateAddUnit(addUnit) === 0 ||
       validateAddPhase(addPhase) === 0 ||
@@ -171,6 +176,25 @@ function AddMember() {
         },
         text: "Please fill out all details!",
       });
+    }
+    else{
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      console.log(Token);
+      axios
+            .post(`${BASE_URL}/api/v1/site/addNewSite`, {siteName: sitename,siteDescription:sitedesc,siteHIRANo:hirano,fullAddress:fulladdress,landmark:landmark,city:city,pinCode:pincode,state:state,unitTypeName:addUnit.unitname,baseSqRate:addUnit.basesqftrate,Phase:addPhase.phasename,floorEscalationCharge:flooresccharges,builtUpAreaFactor:builtupareafactor,superBuiltUpAreaFactor:superbuiltupareafactor,carParkingOpen:carparkingopen,carParkingCovered:carparkingcovered,name:othercharges.name,amount:othercharges.amount,gst:othercharges.gst},{ headers : { 'Authorization' : Token }},
+            
+            )
+            .then((response) => {
+                if(response.data.error){
+                    alert("site already exists")
+                    return;
+                }
+                console.log(response);
+                alert("site added successfully")
+            })
+            .catch(err=>{
+                console.log(err)
+            })
     }
   };
 
