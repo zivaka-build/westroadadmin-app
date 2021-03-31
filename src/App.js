@@ -15,10 +15,11 @@ function App() {
       <Router>
         <LoginPage path="/" />
         <NotFoundPage path="/notfound" />
-        <DefaultDashboard path="/dashboard" />
-        <ConfigurationPage path="/config" />
-        <TeamMemberPage path="/teammember" />
-        <AddMemberPage path="/addmember" />
+        <DefaultDashboard path="/dashboard">
+          <ConfigurationPage path="/config" />
+          <TeamMemberPage path="/teammember" />
+          <AddMemberPage path="/addmember" />
+        </DefaultDashboard>
       </Router>
     </div>
   );

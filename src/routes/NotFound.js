@@ -1,13 +1,8 @@
-import React, { } from "react";
-import Error from "../components/Error/Error"
+import React from "react";
+import Error from "../components/Error/Error";
 
 function NotFound() {
-    return (
-        <div>
-            <Error />
-        </div>
-    );
-
+  return <Error />;
 }
 
 export default NotFound;
