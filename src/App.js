@@ -9,6 +9,7 @@ import DefaultDashboard from "./routes/Dashboard";
 import ConfigurationPage from "./routes/ConfigPage";
 import TeamMemberPage from "./routes/TeamMemberPage.js";
 
+
 function App() {
   return (
     <div className="App">
@@ -20,6 +21,7 @@ function App() {
           <TeamMemberPage path="/teammember" />
           <AddMemberPage path="/addmember" />
         </DefaultDashboard>
+
       </Router>
     </div>
   );
