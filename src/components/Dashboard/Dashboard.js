@@ -298,7 +298,7 @@ const Dashboard = (props) => {
           </ListItem>
 
           <ListItem button>
-            <Link to="/config">
+            <Link to="/dashboard/config">
               <ListItemIcon>
                 <Tooltip title="Configurations">
                   <img src={Configurations} heigth="51" width="55" />
