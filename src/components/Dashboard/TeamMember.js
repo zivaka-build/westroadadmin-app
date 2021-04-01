@@ -12,7 +12,7 @@ class TeamMember extends Component {
               title="Add Team Members"
               text="Add a team member"
               buttonText="Add"
-              buttonLink="/addmember"
+              buttonLink="/dashboard/addmember"
             />
           </div>
           <div className="col-6">

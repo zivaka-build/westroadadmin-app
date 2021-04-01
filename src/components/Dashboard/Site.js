@@ -18,7 +18,7 @@ class Site extends Component {
           <div className="col-6">
             <CardSingleButton
               title="View Sites"
-              text="View all the sites"
+              text="View all the sites" 
               buttonText="View"
               buttonLink="/"
             />
