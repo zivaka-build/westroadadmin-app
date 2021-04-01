@@ -10,6 +10,7 @@ import ConfigurationPage from "./routes/ConfigPage";
 import SitePage from "./routes/SitePage"
 import AddSitePage from "./routes/AddSitePage"
 import TeamMemberPage from "./routes/TeamMemberPage.js";
+import LeadsPage from "./routes/LeadsPage.js"
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <AddMemberPage path="/addmember" />
           <SitePage path="/site" />
           <AddSitePage path="/addsite" />
+          <LeadsPage path="/leads" />
         </DefaultDashboard>
 
       </Router>
