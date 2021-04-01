@@ -12,7 +12,7 @@ class Configuration extends Component {
               title="Team Members"
               text="Add, delete and view team members"
               buttonText="Manage"
-              buttonLink="/teammember"
+              buttonLink="/dashboard/teammember"
             />
           </div>
           <div className="col-6">

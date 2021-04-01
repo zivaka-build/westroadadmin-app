@@ -18,6 +18,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
 import { HomeRounded } from "@material-ui/icons";
 import { CategoryRounded } from "@material-ui/icons";
 import { PhonelinkRounded } from "@material-ui/icons";
@@ -26,6 +28,7 @@ import { GTranslateRounded } from "@material-ui/icons";
 import { HomeWorkRounded } from "@material-ui/icons";
 import { SettingsRounded } from "@material-ui/icons";
 import { ExitToAppRounded } from "@material-ui/icons";
+import {Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import Dropdown from "react-bootstrap/Dropdown";
 import ShoppingCartRoundedIcon from "@material-ui/icons/ShoppingCartRounded";
 import Cookies from "js-cookie";
@@ -134,6 +137,13 @@ const Dashboard = (props) => {
     setOpen(false);
   };
 
+  const [expanded, setExpanded] = React.useState('');
+
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
+
   const logout = () => {
     Cookies.remove("userId");
     Cookies.remove("Token");
@@ -238,6 +248,7 @@ const Dashboard = (props) => {
           </IconButton>
         </div>
         <Divider />
+
         <List>
           <ListItem button>
             <Link to="/dashboard/addmember">
@@ -254,6 +265,7 @@ const Dashboard = (props) => {
               Flat Allotment
             </h5>
           </ListItem>
+
           <ListItem button>
             <Link to="/">
               <ListItemIcon>
