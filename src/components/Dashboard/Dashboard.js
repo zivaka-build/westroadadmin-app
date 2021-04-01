@@ -19,7 +19,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
 import { HomeRounded } from "@material-ui/icons";
 import { CategoryRounded } from "@material-ui/icons";
 import { PhonelinkRounded } from "@material-ui/icons";
@@ -37,7 +39,7 @@ import EmojiPeopleRoundedIcon from "@material-ui/icons/EmojiPeopleRounded";
 import Tooltip from "@material-ui/core/Tooltip";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import Background from "./../../assets/img/background.jpg";
-import AppBarBackground from "./../../assets/img/appbarbackground.png";
+import AppBarBackground from "./../../assets/img/appbarbackground.jpg";
 import FlatAllotment from "./../../assets/icons/flatallotment.png";
 import Customer from "./../../assets/icons/customer.png";
 import Tasks from "./../../assets/icons/tasks.png";
@@ -143,6 +145,16 @@ const Dashboard = (props) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   const logout = () => {
     Cookies.remove("userId");
@@ -158,7 +170,7 @@ const Dashboard = (props) => {
       <AppBar
         position="fixed"
         style={{
-          backgroundImage: "linear-gradient(to right, #56ab2f, #a8e063)",
+          backgroundImage: "url(" + AppBarBackground + ")",
         }}
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -178,46 +190,34 @@ const Dashboard = (props) => {
             <img src={Logo} height="40" width="40" />
           </IconButton>
           <div className={classes.topwrap}>
-            <Typography variant="h6" noWrap>
-              Westroad Admin
-            </Typography>
+          <Typography style={{color : "black"}} variant="h6" noWrap>
+            
+          </Typography>
             <div style={{ display: "flex" }}>
-              <Dropdown>
-                <Dropdown.Toggle
-                  style={{ border: "none", outline: "none" }}
-                  className={classes.profiledrop}
-                  id="dropdown-basic"
-                >
-                  <img
+            
+              <Button aria-controls="simple-menu" variant="contained" style={{backgroundColor : "#b5e48c", color : "white"}} aria-haspopup="true" onClick={handleClick}>
+              <img
                     style={{
-                      height: "35px",
+                      height: "25px",
                       borderRadius: "50%",
-                      width: "35px",
+                      width: "25px",
                     }}
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdr9qvYDbxDukbXL8OOpDCa7kqsh9dTXP3w&usqp=CAU"
                   />
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {/* <Dropdown.Item className={classes.username} >Signed in as<br/><h6 style={{marginTop: "5px"}} >Victor</h6></Dropdown.Item> */}
-                  <div
-                    style={{ paddingLeft: "25px" }}
-                    className={classes.username}
-                  >
-                    Signed in as
-                    <br />
-                    <h6 style={{ marginTop: "5px" }}>
-                      {Cookies.get("userId")}
-                    </h6>
-                  </div>
-                  <hr style={{ margin: "0px" }} />
-                  <Dropdown.Item
-                    className={classes.dropdownitems}
-                    onClick={logout}
-                  >
-                    Logout
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+                  &nbsp;
+                  {Cookies.get("FirstName")} {Cookies.get("LastName")}
+          </Button>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+       
+      >
+        <MenuItem onClick={logout}>Logout</MenuItem>
+      </Menu>
+             
             </div>
           </div>
         </Toolbar>
@@ -264,6 +264,16 @@ const Dashboard = (props) => {
             >
               Flat Allotment
             </h5>
+          </ListItem>
+          <ListItem button>
+            <Link to="/dashboard/leads">
+              <ListItemIcon>
+                <Tooltip title="Leads">
+                  <img src={Customer} height="53" width="55" />
+                </Tooltip>
+              </ListItemIcon>
+            </Link>
+            <h5 className="pl-2">Leads</h5>
           </ListItem>
 
           <ListItem button>
