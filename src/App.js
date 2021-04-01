@@ -11,6 +11,7 @@ import SitePage from "./routes/SitePage"
 import AddSitePage from "./routes/AddSitePage"
 import TeamMemberPage from "./routes/TeamMemberPage.js";
 import LeadsPage from "./routes/LeadsPage.js"
+import AddLeadPage from "./routes/AddLeadPage"
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <SitePage path="/site" />
           <AddSitePage path="/addsite" />
           <LeadsPage path="/leads" />
+          <AddLeadPage path="/addlead" />
         </DefaultDashboard>
 
       </Router>
