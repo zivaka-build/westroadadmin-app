@@ -126,7 +126,6 @@ function AddLeadForm(){
             <Form.Control as="select">
             <option>Times Of India</option>
             <option>Anandabazar Patrika</option>
-            
             </Form.Control>
             </Form.Group>
         </div>
@@ -141,7 +140,6 @@ function AddLeadForm(){
                <Form.Control as="select">
                <option>Conventional</option>
                <option>Omni</option>
-               
                </Form.Control>
                </Form.Group>
            </div>
@@ -158,7 +156,9 @@ function AddLeadForm(){
             id="outlined-basic"
            
             />
+            <br />
            </div>
+           
            </> : null
         }
         </div>
