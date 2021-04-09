@@ -113,7 +113,7 @@ function LoginForm() {
         password: password,
       }
       axios
-        .post(`${BASE_URL}` + '/api/v1/user/login', qs.stringify(data))
+        .post(`${BASE_URL}` + '/api/v1/auth/authenticateUser', qs.stringify(data))
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
