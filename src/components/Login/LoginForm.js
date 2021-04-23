@@ -56,7 +56,7 @@ function LoginForm() {
     const user = {
       email: email
     }
-    if (email === '') {
+    if (email == '') {
       Swal.fire({
         icon: 'error',
         title: 'Ooops',
