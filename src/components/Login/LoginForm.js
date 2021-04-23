@@ -13,6 +13,7 @@ import { Form, Input } from 'reactstrap';
 import rect from '../../Rectangle.png';
 import squares from '../../square-dots.png';
 import Squares from '../../square_dots.png';
+import loginpagebg from '../../assets/img/loginpagebg.png'
 
 function LoginForm() {
 
@@ -104,7 +105,7 @@ function LoginForm() {
         hideClass: {
           popup: 'animate__animated animate__fadeOutUp'
         },
-        text: 'email and password cannot be left empty!'
+        text: 'username and password cannot be left empty!'
       })
     }
     else {
@@ -146,7 +147,7 @@ function LoginForm() {
               hideClass: {
                 popup: 'animate__animated animate__fadeOutUp'
               },
-              text: response.message
+              text: 'Invalid username or password'
             })
           }
 
@@ -176,94 +177,41 @@ function LoginForm() {
   return (
     //jsx-a11y/anchor-is-valid
     <>
+     <div className="col-12 login-page">
+            <div className="row">
+                <div className="login-card">
+                    <div className="col-lg-12" style={{display:"block"}}>
+                    <img src={westroad} alt="westroad" className="westroad-img"/>
 
-      <div className="bg-gradient-primary align-items-center">
-        <div>
-          <img src={westroad} style={{ height: '100px', position: 'absolute', top: -30, left: 0 }} />
-          <img src={rect} style={{ height: '5px', width: '300px', position: 'absolute', top: 60, left: 40 }} />
-          <img src={rect} style={{ height: '5px', width: '250px', position: 'absolute', top: 68, left: 40 }} />
-
-        </div>
-        <img src={base} style={{
-          height: '135px',
-          width: '160px',
-          /* margin-top: 0%; */
-          position: 'absolute',
-          bottom: 0,
-          left: 10
-        }} />
-        <img src={zivaka} style={{
-          height: '80px',
-          /* margin-top: 0%; */
-          position: 'absolute',
-          bottom: 0,
-          right: 30
-        }} />
-        <img src={squares} style={{
-          height: '200px',
-          /* margin-top: 0%; */
-          position: 'absolute',
-          bottom: 400,
-          right: 540
-        }} />
-        <img src={Squares} style={{
-          height: '30px',
-          width: '200px',
-          /* margin-top: 0%; */
-          position: 'absolute',
-          bottom: 100,
-          right: 100
-        }} />
-        <div className="container" style={{ height: "100vh" }}>
-          {/* Outer Row */}
-
-          <div className="row pt-5 justify-content-center" style={{
-            position: 'fixed',
-            width: '600px',
-            right: '-10px',
-            top: '-25px'
-          }}>
-
-            <div className="col-xl-10 col-lg-12 col-md-9">
-              <div className="card o-hidden border-0 shadow-lg my-5">
-                <div className="card-body p-0" >
-                  {/* Nested Row within Card Body */}
-                  <div className="row">
-
-                    <div className="col-lg-12" id="login" name="login" style={{ display: "block" }}>
-
-                      <div className="p-5" style={{ padding: '2.5rem' }}>
-                        <img src={WestRoad} style={{ height: '160px', marginLeft: '27%' }} />
-
-                        <div className="text-center">
-                          <h1 className="h4 text-gray-900 mb-4">Westroad Management System</h1>
-                        </div>
-                        <Form className="user" onSubmit={submitHandler}>
+                    <Form className="user" onSubmit={submitHandler}>
                           <div className="form-group">
-                            <Input type="text" className="form-control form-control-user" id="email" value={userName} name="email" onChange={changeUser} placeholder="Username" />
+                            <Input type="text" className="form-control form-control-user form-input-styling" id="username" value={userName} name="username" onChange={changeUser} placeholder="Username"/>
                           </div>
+                          
                           <div className="form-group">
-                            <Input type="password" className="form-control form-control-user" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (8+ characters)" />
+                            <Input type="password" className="form-control form-control-user form-input-styling" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (8+ characters)" />
                           </div>
-                          <br />
-
-                          <button type="submit" href="" className="btn btn-primary btn-user btn-block" style={{
-                            background: "green",
-                            width: '200px',
-                            margin: '0 auto'
+                          
+                          <div className="frgt" >
+                          <a className="small" onClick={forgotPassword}>Forgot Your Password?</a>
+                          </div>
+                            <div style={{display:'flex'}}> 
+                          <button type="submit" href="" className="btn btn-primary btn-user btn-block button-styling" style={{
+                            background: "#ee4b46",
+                            textAlign:"center"
                           }} >
-                            Login
+                                                              Login
                         </button>
-
+                        </div>
 
                         </Form>
 
-                        <div className="text-center">
-                          <a className="small" onClick={forgotPassword}>Forgot Password?</a>
-                        </div>
-
-                      </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+      
                     <div className="col-lg-12" id="forgotpassword" name="forgotpassword" style={{ display: "none", }}>
                       <div className="p-5">
                         <img src={WestRoad} style={{ height: '160px', marginLeft: '27%' }} />
@@ -298,19 +246,8 @@ function LoginForm() {
 
                       </div>
                     </div>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-      </div>
+                  
+               
     </>
   );
 }
