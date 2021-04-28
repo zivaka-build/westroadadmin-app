@@ -1,11 +1,46 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import MaterialTable from "material-table";
-import { Button, FormControl, FormControlLabel, InputLabel, ListItemIcon, makeStyles, MenuItem, OutlinedInput, Radio, RadioGroup, TextField } from '@material-ui/core';
+import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import axios from "axios";
+import Cookies from "js-cookie";
+import { BASE_URL } from "../../config/url";
 
 const ShowLead = () => {
-    const data = [{
-        Leadid: 1, name: "qwerty", phoneNo: 986543200, createdAt: " 2 / 3 / 2021", leadType: "assd", leadStatus: "zxccc", assignedTo: "Ridhi"
-    }]
+    const [leads, setLeads] = useState([]);
+
+    useEffect(() => {
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.get(
+          `${BASE_URL}/api/v1/lead/getAllLeads`,
+          { headers: { Authorization: Token } }
+        ).then((result) => {
+          console.log(result.data);
+          const arr = result.data
+          const leads = arr.leads.map((lead)=>{
+            const {leadID,name,phone,creationdate,leadWeightage,leadStatus} = lead
+            const formattedDate = creationdate.substring(11,13)+":"+creationdate.substring(14,16)+", "+creationdate.substring(8,10)+"-"+creationdate.substring(5,7)+"-"+creationdate.substring(0,4)
+            
+    
+            
+            
+           
+            
+            return {
+                leadID,
+                name,
+                phone,
+                creationdate: formattedDate,
+                leadWeightage,
+                leadStatus
+                
+              };
+        })
+        setLeads(leads)
+      
+     
+          
+        });
+      }, []);
 
     return (
         <div>
@@ -13,16 +48,16 @@ const ShowLead = () => {
                 <div className="pt-5 col-lg-11" style={{ paddingTop: "10px" }}>
                     <br />
                     <br />
-                    <MaterialTable data={data}
+                    <MaterialTable data={leads}
 
                         title="Leads"
                         columns={
                             [
-                                { title: 'Lead Id', field: 'Leadid' },
+                                { title: 'Lead Id', field: 'leadID' },
                                 { title: 'Name', field: 'name' },
-                                { title: 'Phone No', field: 'phoneNo' },
-                                { title: 'Created At', field: 'createdAt' },
-                                { title: 'Lead Type', field: 'leadType' },
+                                { title: 'Phone No', field: 'phone' },
+                                { title: 'Created At', field: 'creationdate' },
+                                { title: 'Lead Type', field: 'leadWeightage' },
                                 { title: 'Lead Status', field: 'leadStatus' },
                                 { title: 'Assigned To', field: 'assignedTo' },
 
@@ -35,13 +70,14 @@ const ShowLead = () => {
                         options={{
 
                             headerStyle: {
-                                backgroundColor: '#BABABA',
-                                color: '#000000'
+                                backgroundColor: '#EE4B46',
+                                color: '#fff',
+                            
                             }
                         }}
                         actions={[
                             {
-                                icon: 'edit',
+                                icon: ()=> <Edit />,
                                 tooltip: 'Edit Lead',
                                 //   onClick: (event, rowData) => {
                                 //     history.push(`/addcoupon/${rowData.couponCode}`);
