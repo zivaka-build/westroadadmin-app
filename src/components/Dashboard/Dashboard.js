@@ -1,143 +1,162 @@
-import React from "react";
-import clsx from "clsx";
-import { Link, navigate } from "@reach/router";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Button from '@material-ui/core/Button';
-import { HomeRounded } from "@material-ui/icons";
-import { CategoryRounded } from "@material-ui/icons";
-import { PhonelinkRounded } from "@material-ui/icons";
-import { ConfirmationNumberRounded } from "@material-ui/icons";
-import { GTranslateRounded } from "@material-ui/icons";
-import { HomeWorkRounded } from "@material-ui/icons";
-import { SettingsRounded } from "@material-ui/icons";
-import { ExitToAppRounded } from "@material-ui/icons";
 import {Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
-import Dropdown from "react-bootstrap/Dropdown";
-import ShoppingCartRoundedIcon from "@material-ui/icons/ShoppingCartRounded";
-import Cookies from "js-cookie";
-import PeopleAltRoundedIcon from "@material-ui/icons/PeopleAltRounded";
-import EmojiPeopleRoundedIcon from "@material-ui/icons/EmojiPeopleRounded";
-import Tooltip from "@material-ui/core/Tooltip";
-import AssessmentIcon from "@material-ui/icons/Assessment";
-import Background from "./../../assets/img/background.jpg";
-import AppBarBackground from "./../../assets/img/appbarbackground.jpg";
-import FlatAllotment from "./../../assets/icons/flatallotment.png";
-import Customer from "./../../assets/icons/customer.png";
-import Tasks from "./../../assets/icons/tasks.png";
-import Finance from "./../../assets/icons/finance.png";
-import Reports from "./../../assets/icons/reports.png";
-import Configurations from "./../../assets/icons/configurations.png";
-import Logo from "./../../assets/icons/logo.png";
-import FullLogo from "./../../assets/img/logofull.png";
-import "./../../assets/css/style.css";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import SearchBar from "material-ui-search-bar";
+import Cookies from "js-cookie"
+import Dropdown from 'react-bootstrap/Dropdown';
+import React from 'react';
+import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Link } from "@reach/router";
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import SchoolIcon from '@material-ui/icons/School';
+import PersonIcon from '@material-ui/icons/Person';
+import '../../assets/css/sidebar.css';
+import logo from '../../assets/img/appbar_logo.jpg'
+import sidebarbg from '../../assets/img/sidebar-bg.jpg'
+import {BsBuilding} from 'react-icons/bs'
+import {BsPeople} from 'react-icons/bs'
+import {GiTakeMyMoney} from 'react-icons/gi'
+import {BsFillPieChartFill} from 'react-icons/bs'
+import {AiOutlineSetting} from 'react-icons/ai'
+import {FaTools} from 'react-icons/fa'
+import {BsBellFill} from 'react-icons/bs'
 
 const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
-  topwrap: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    [theme.breakpoints.down("xs")]: {
-      justifyContent: "flex-end",
+  drawer: {
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
     },
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+    background: "#95CC6F"
   },
   menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: "none",
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.spacing(8) + 1,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(10) + 1,
+    marginRight: theme.spacing(2),
+    outline:"none",
+    border:"none",
+    '&:focus':{
+      outline:"none",
+      border:"none",
+    },
+    '&:active':{
+      outline:"none",
+      border:"none",
+    },
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
   toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    backgroundImage: "url(" + sidebarbg + ")",
+    padding:'0'
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  drawerPaper: {
-    backgroundImage: "url(" + Background + ")",
+  closeMenuButton: {
+    marginRight: 'auto',
+    marginLeft: 0,
   },
+  dropitems: {
+    width: "100%",
+  },
+  headings: {
+    color: "white",
+    // fontSize:"16px"
+  },
+  headingblock: {
+    
+    '&:hover': {
+     
+      cursor: "pointer",
+    }
+  },
+  topwrap:{
+    display:"flex",
+    justifyContent: "space-between",
+    alignItems:"center",
+    width: "100%",
+    [theme.breakpoints.down('xs')]: {
+      justifyContent: "flex-end",
+    },
+  },
+  lead: {
+    [theme.breakpoints.down('xs')]: {
+      display: "none"
+    },
+  },
+  profiledrop:{
+    background: "#ffffff",
+    padding:"0",
+    width: "150px",
+    height:"57px",
+    outline:"none",
+    borderTopLeftRadius:"35px",
+    borderBottomLeftRadius:"35px",
+    borderTopRightRadius:"0px",
+    borderBottomRightRadius:"0px",
+    '&:hover': {
+      background: "#ffffff",
+      padding:"0",
+      outline:"none",
+      border:"none",
+    },
+    '&:focus': {
+      background: "#95CC6F",
+      padding:"0",
+      outline:"none",
+      border:"none",
+    }
+  },
+  itemdropdown: {
+    background: "#4b6b34",
+    padding: "0"
+  },
+  dropdownitems: {
+    marginTop: "8px",
+    '&:hover': {
+      background: "#80c904",
+      color: "#fff"
+    },
+ 
+  },
+  subitems:{
+    width: "100%",
+    padding: "15px",
+    paddingLeft: "40px",
+    '&:hover': {
+      background: "#80c904",
+      cursor: "pointer"
+    }
+  }
 }));
+function ResponsiveDrawer(props) {
 
-const Dashboard = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   const [expanded, setExpanded] = React.useState('');
 
@@ -145,194 +164,269 @@ const Dashboard = (props) => {
     setExpanded(newExpanded ? panel : false);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const logout = (e) => {
+    Cookies.remove('User Name')
+    Cookies.remove('Token')
+    
+  }
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+function handleDrawerToggle() {
+    setMobileOpen(!mobileOpen)
+  }
+const drawer = (
+  <>
+  <div   className={classes.headingblock} style={{padding:"16px"}}>  
+  <List>
+        
+        
+        <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                  <BsBuilding className="sidebar-icons"/>
+                   <Typography variant="h7" className="sidebar-menu">
+                   Flat Allotment
+          </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/createlead'>
+                    <ListItem button key={'Create Lead'}>
+                    <h7>Create Lead</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/allactiveleads'>
+                    <ListItem button key={'Active Lead'}>
+                    <h7>Active Lead</h7>
+                    </ListItem>
+                    </Link>
+                   
+                    </List>
+                
+                </AccordionDetails>
+            </Accordion>
+        </List>
+        
+        <List>
+        
+        <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >                 
+                 <BsPeople className="sidebar-icons"/>
+                  <Typography variant="h7" className="sidebar-menu">
+                   Customers
+          </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addlead'>
+                    <ListItem button key={'Add Lead'}>
+                    <h7>Add Lead</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewlead'>
+                    <ListItem button key={'View Lead'}>
+                    <h7>View Lead</h7>
+                    </ListItem>
+                    </Link>
+                    </List>
+                
+                </AccordionDetails>
+            </Accordion>
+        </List>
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+        <List>
+        
+        <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                   <GiTakeMyMoney className="sidebar-icons"/>
+                   <Typography variant="h7" className="sidebar-menu">
+                    Finance
+          </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                    
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/viewdeveloper'>
+                    <ListItem button key={'View Developer'}>
+                    <h7>View Developer</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/adddeveloper'>
+                    <ListItem button key={'Add Developer'}>
+                    <h7>Add Developer</h7>
+                    </ListItem>
+                    </Link>
+                   
+                    </List>
+                
+                </AccordionDetails>
+            </Accordion>
+        </List>
 
+        <List>
+        
+        <Accordion expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                    <BsFillPieChartFill className="sidebar-icons"/>
+                   <Typography variant="h7" className="sidebar-menu">
+                   Reports
+          </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/allopentasks'>
+                    <ListItem button key={'View All Open Tasks'}>
+                    <h7>View All Open Tasks</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/alltasks'>
+                    <ListItem button key={'View All Tasks'}>
+                    <h7>View All Tasks</h7>
+                    </ListItem>
+                    </Link>
+                    
+                    </List>
+                
+                </AccordionDetails>
+            </Accordion>
+        </List>
 
-  const logout = () => {
-    Cookies.remove("userId");
-    Cookies.remove("Token");
-    Cookies.remove("FirstName");
-    Cookies.remove("LastName");
-    navigate("/");
-  };
+        <List>
+        
+        <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                        <AiOutlineSetting className="sidebar-icons"/>
+                   <Typography variant="h7" className="sidebar-menu">
+                   Configurations
+          </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/viewinvoice'>
+                    <ListItem button key={'View Invoices'}>
+                    <h7>View Invoices</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/addinvoice'>
+                    <ListItem button key={'Generate Invoice'}>
+                    <h7>Generate Invoice</h7>
+                    </ListItem>
+                    </Link>
+                    </List>
+                
+                </AccordionDetails>
+            </Accordion>
+        </List>
+  </div>
+</>
+  );
 
-  return (
+return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        style={{
-          backgroundImage: "url(" + AppBarBackground + ")",
-        }}
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
+      <AppBar style={{
+          backgroundColor: "#EE4B46",
+        }} position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            aria-label="Open drawer"
             edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-              [classes.appBarPaper]: open,
-            })}
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
           >
-            <img src={Logo} height="40" width="40" />
+            <MenuIcon />
           </IconButton>
           <div className={classes.topwrap}>
-          <Typography style={{color : "black"}} variant="h6" noWrap>
-            
+          <Typography className="ilead-heading" variant="h5" >
+            <img className="logo" src={logo} alt="logo"/>
           </Typography>
-            <div style={{ display: "flex" }}>
-            
-              <Button aria-controls="simple-menu" variant="contained" style={{backgroundColor : "#b5e48c", color : "white"}} aria-haspopup="true" onClick={handleClick}>
-              <img
-                    style={{
-                      height: "25px",
-                      borderRadius: "50%",
-                      width: "25px",
-                    }}
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdr9qvYDbxDukbXL8OOpDCa7kqsh9dTXP3w&usqp=CAU"
-                  />
-                  &nbsp;
-                 {Cookies.get("FullName")}
-          </Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-       
-      >
-        <MenuItem onClick={logout}>Logout</MenuItem>
-      </Menu>
-             
-            </div>
+          <div  style={{display: 'flex'}} >
+          
+          <a href="/" className="icon-link"><BsBellFill/></a>
+
+          <a href="/" className="icon-link"><FaTools/></a>
+          <Dropdown >
+                    <Dropdown.Toggle className={classes.profiledrop} id="dropdown-basic">
+                    <img style={{height : "35px", borderRadius: "50%", width: "35px", marginLeft:"80px"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdr9qvYDbxDukbXL8OOpDCa7kqsh9dTXP3w&usqp=CAU" />
+                     </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                    {/* <Dropdown.Item className={classes.username} >Signed in as<br/><h6 style={{marginTop: "5px"}} >Victor</h6></Dropdown.Item> */}
+                    <div style={{paddingLeft : "25px"}} className={classes.username} >Signed in as<br/><h6 style={{marginTop: "5px"}} >{Cookies.get('User Name')}</h6></div>
+                    <hr style={{margin: "0px"}} />
+                      <Dropdown.Item className={classes.dropdownitems} onClick={logout}>Logout</Dropdown.Item>
+                    </Dropdown.Menu>
+          </Dropdown>
+          </div>
           </div>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-          [classes.drawerPaper]: open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-            [classes.drawerPaper]: !open || open,
-          }),
-        }}
-      >
-        <div className={classes.toolbar}>
-          <img src={FullLogo} height="45" width="160" />
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </div>
-        <Divider />
-
-        <List>
-          <ListItem button>
-            <Link to="/dashboard/addmember">
-              <ListItemIcon>
-                <Tooltip title="Flat Allotment">
-                  <img src={FlatAllotment} height="55" width="55" />
-                </Tooltip>
-              </ListItemIcon>
-            </Link>
-            <h5
-              className="pl-2"
-              onClick={() => navigate("/dashboard/addmember")}
-            >
-              Flat Allotment
-            </h5>
-          </ListItem>
-          <ListItem button>
-            <Link to="/dashboard/leads">
-              <ListItemIcon>
-                <Tooltip title="Leads">
-                  <img src={Customer} height="53" width="55" />
-                </Tooltip>
-              </ListItemIcon>
-            </Link>
-            <h5 className="pl-2">Leads</h5>
-          </ListItem>
-
-          <ListItem button>
-            <Link to="/">
-              <ListItemIcon>
-                <Tooltip title="Customer">
-                  <img src={Customer} height="53" width="55" />
-                </Tooltip>
-              </ListItemIcon>
-            </Link>
-            <h5 className="pl-2">Customer</h5>
-          </ListItem>
-
-          <ListItem button>
-            <Link to="/">
-              <ListItemIcon>
-                <Tooltip title="Task Lists">
-                  <img src={Tasks} height="55" width="56" />
-                </Tooltip>
-              </ListItemIcon>
-            </Link>
-            <h5 className="pl-2">Task Lists</h5>
-          </ListItem>
-
-          <ListItem button>
-            <Link to="/">
-              <ListItemIcon>
-                <Tooltip title="Finance">
-                  <img className="pl-1" src={Finance} height="45" width="50" />
-                </Tooltip>
-              </ListItemIcon>
-            </Link>
-            <h5 className="pl-2">Finance</h5>
-          </ListItem>
-          <ListItem button>
-            <Link to="/">
-              <ListItemIcon>
-                <Tooltip title="Reports">
-                  <img src={Reports} heigth="51" width="55" />
-                </Tooltip>
-              </ListItemIcon>
-            </Link>
-            <h5 className="pl-2">Reports</h5>
-          </ListItem>
-
-          <ListItem button>
-            <Link to="/dashboard/config">
-              <ListItemIcon>
-                <Tooltip title="Configurations">
-                  <img src={Configurations} heigth="51" width="55" />
-                </Tooltip>
-              </ListItemIcon>
-            </Link>
-            <h5 className="pl-2">Configurations</h5>
-          </ListItem>
-        </List>
-      </Drawer>
-      <main className={classes.content}>{props.children}</main>
+      
+      <nav className={classes.drawer}>
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+        <Hidden smUp implementation="css">
+          <Drawer
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            <IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
+              <CloseIcon style={{color:"white"}}/>
+            </IconButton>
+            {drawer}
+          </Drawer>
+        </Hidden>
+<Hidden xsDown implementation="css">
+          <Drawer
+            className={classes.drawer}
+            variant="permanent"
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.toolbar} style={{ padding: '0', margin:'0'}}/>
+            {drawer}
+          </Drawer>  
+        </Hidden>
+      </nav>
+      <div className={classes.content}>
+        <div className={classes.toolbar} />
+        {/* <VisibleItemList /> */}
+        {props.children}
+      </div>
     </div>
   );
+}
+ResponsiveDrawer.propTypes = {
+  // Injected by the documentation to work in an iframe.
+  // You won't need it on your project.
+  container: PropTypes.object,
 };
-export default Dashboard;
+export default ResponsiveDrawer;

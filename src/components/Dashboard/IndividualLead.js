@@ -79,7 +79,7 @@ function IndividualLead() {
     }, [])
 
     return(
-        <div className="mt-5">
+        <div className="tabs-container" id="tabs-container">
 
         <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveKey')}>
             <Row>

@@ -46,7 +46,7 @@ const ShowLead = () => {
     return (
         <div>
             <center>
-                <div className="pt-5 col-lg-11" style={{ paddingTop: "10px" }}>
+                <div className="col-lg-11">
                     <br />
                     <br />
                     <MaterialTable data={leads}
