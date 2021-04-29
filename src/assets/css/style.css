@@ -11355,3 +11355,21 @@ input {
   transform: translateY(-50%);
 }
 
+
+.tabs {
+  background-color: black !important;
+  color: white !important;
+  border-radius: 0px !important;
+}
+
+.tabs.active {
+  background-color: #EE4B46 !important;
+  color: white !important;
+  border-radius: 0px !important;
+}
+
+.tab-card {
+  background: #FFFFFF;
+  box-shadow: -10px -10px 20px rgba(242, 242, 242, 0.97), 10px 10px 20px #EEF2EC;
+  border-radius: 39px;
+}

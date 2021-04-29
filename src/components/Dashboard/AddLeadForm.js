@@ -1,10 +1,6 @@
-import { Form, Row, Col } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 import React, { useState } from "react";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
+import { navigate } from "@reach/router";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
@@ -49,6 +45,7 @@ function AddLeadForm(){
       { headers : { 'Authorization' : Token }})
       .then((response) => {
         console.log(response);
+        navigate("/dashboard/viewlead")
       })
       .catch((error) => {
         console.log(error);

@@ -205,7 +205,7 @@ const Dashboard = (props) => {
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdr9qvYDbxDukbXL8OOpDCa7kqsh9dTXP3w&usqp=CAU"
                   />
                   &nbsp;
-                  {Cookies.get("FirstName")} {Cookies.get("LastName")}
+                 {Cookies.get("FullName")}
           </Button>
       <Menu
         id="simple-menu"
