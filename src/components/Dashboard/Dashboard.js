@@ -1,8 +1,6 @@
 import {Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SearchBar from "material-ui-search-bar";
 import Cookies from "js-cookie"
-import Dropdown from 'react-bootstrap/Dropdown';
 import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,11 +15,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Link } from "@reach/router";
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import SchoolIcon from '@material-ui/icons/School';
-import PersonIcon from '@material-ui/icons/Person';
+import { Link, navigate } from "@reach/router";
 import '../../assets/css/sidebar.css';
 import logo from '../../assets/img/appbar_logo.jpg'
 import sidebarbg from '../../assets/img/sidebar-bg.jpg'
@@ -32,6 +26,16 @@ import {BsFillPieChartFill} from 'react-icons/bs'
 import {AiOutlineSetting} from 'react-icons/ai'
 import {FaTools} from 'react-icons/fa'
 import {BsBellFill} from 'react-icons/bs'
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Avatar from "../../assets/img/avatar.png"
+
+
 
 const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
@@ -108,50 +112,8 @@ const useStyles = makeStyles(theme => ({
       display: "none"
     },
   },
-  profiledrop:{
-    background: "#ffffff",
-    padding:"0",
-    width: "150px",
-    height:"57px",
-    outline:"none",
-    borderTopLeftRadius:"35px",
-    borderBottomLeftRadius:"35px",
-    borderTopRightRadius:"0px",
-    borderBottomRightRadius:"0px",
-    '&:hover': {
-      background: "#ffffff",
-      padding:"0",
-      outline:"none",
-      border:"none",
-    },
-    '&:focus': {
-      background: "#95CC6F",
-      padding:"0",
-      outline:"none",
-      border:"none",
-    }
-  },
-  itemdropdown: {
-    background: "#4b6b34",
-    padding: "0"
-  },
-  dropdownitems: {
-    marginTop: "8px",
-    '&:hover': {
-      background: "#80c904",
-      color: "#fff"
-    },
  
-  },
-  subitems:{
-    width: "100%",
-    padding: "15px",
-    paddingLeft: "40px",
-    '&:hover': {
-      background: "#80c904",
-      cursor: "pointer"
-    }
-  }
+
 }));
 function ResponsiveDrawer(props) {
 
@@ -167,6 +129,7 @@ function ResponsiveDrawer(props) {
   const logout = (e) => {
     Cookies.remove('User Name')
     Cookies.remove('Token')
+    navigate('/')
     
   }
 
@@ -174,6 +137,38 @@ function ResponsiveDrawer(props) {
 function handleDrawerToggle() {
     setMobileOpen(!mobileOpen)
   }
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 const drawer = (
   <>
   <div   className={classes.headingblock} style={{padding:"16px"}}>  
@@ -321,14 +316,24 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/viewinvoice'>
-                    <ListItem button key={'View Invoices'}>
-                    <h7>View Invoices</h7>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addmember'>
+                    <ListItem button key={'Add Member'}>
+                    <h7>Add Member</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/addinvoice'>
-                    <ListItem button key={'Generate Invoice'}>
-                    <h7>Generate Invoice</h7>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/teammember'>
+                    <ListItem button key={'Manage Members'}>
+                    <h7>Manage Members</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addsite'>
+                    <ListItem button key={'Add Site'}>
+                    <h7>Add Site</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewsite'>
+                    <ListItem button key={'Manage Site'}>
+                    <h7>Manage Site</h7>
                     </ListItem>
                     </Link>
                     </List>
@@ -365,18 +370,32 @@ return (
           <a href="/" className="icon-link"><BsBellFill/></a>
 
           <a href="/" className="icon-link"><FaTools/></a>
-          <Dropdown >
-                    <Dropdown.Toggle className={classes.profiledrop} id="dropdown-basic">
-                    <img style={{height : "35px", borderRadius: "50%", width: "35px", marginLeft:"80px"}}  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLdr9qvYDbxDukbXL8OOpDCa7kqsh9dTXP3w&usqp=CAU" />
-                     </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                    {/* <Dropdown.Item className={classes.username} >Signed in as<br/><h6 style={{marginTop: "5px"}} >Victor</h6></Dropdown.Item> */}
-                    <div style={{paddingLeft : "25px"}} className={classes.username} >Signed in as<br/><h6 style={{marginTop: "5px"}} >{Cookies.get('User Name')}</h6></div>
-                    <hr style={{margin: "0px"}} />
-                      <Dropdown.Item className={classes.dropdownitems} onClick={logout}>Logout</Dropdown.Item>
-                    </Dropdown.Menu>
-          </Dropdown>
+          <Button
+          style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
+          ref={anchorRef}
+          aria-controls={open ? 'menu-list-grow' : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+          {Cookies.get('FullName')}&nbsp;&nbsp;<img style={{height : "35px", borderRadius: "50%", width: "35px"}}  src={Avatar} />
+        </Button>
+        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                    <MenuItem onClick={logout}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+    
           </div>
           </div>
         </Toolbar>
