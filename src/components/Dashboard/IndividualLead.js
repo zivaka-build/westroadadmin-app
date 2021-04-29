@@ -79,7 +79,8 @@ function IndividualLead() {
     }, [])
 
     return(
-        <div className="tabs-container" id="tabs-container">
+        <>
+        <div className="tabs-container" id="tabs-container" style={{paddingTop: "70px"}}>
 
         <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveKey')}>
             <Row>
@@ -412,6 +413,7 @@ function IndividualLead() {
             </Row>
             </Tab.Container>
         </div>
+    </>
     )
 }
 

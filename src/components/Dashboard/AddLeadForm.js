@@ -56,9 +56,6 @@ function AddLeadForm(){
 
     return(
         <div className="pt-5">
-       
-        
-        
         <div className="row pt-3 justify-content-center">
         <div className="col-lg-8 col-sm-12">
         <h4>Add a Lead</h4>
