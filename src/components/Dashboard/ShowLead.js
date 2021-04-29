@@ -44,9 +44,9 @@ const ShowLead = () => {
       }, []);
 
     return (
-        <div>
+        <div className="container-fluid px-0">
             <center>
-                <div className="col-lg-11">
+                <div className="col-lg-12 col-sm-12">
                     <br />
                     <br />
                     <MaterialTable data={leads}
