@@ -1,10 +1,6 @@
-import { Form, Row, Col } from "react-bootstrap";
+import { Form} from "react-bootstrap";
 import React, { useState } from "react";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Button from "@material-ui/core/Button";
+import { navigate } from "@reach/router";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
@@ -49,6 +45,7 @@ function AddLeadForm(){
       { headers : { 'Authorization' : Token }})
       .then((response) => {
         console.log(response);
+        navigate("/dashboard/viewlead")
       })
       .catch((error) => {
         console.log(error);
@@ -63,7 +60,7 @@ function AddLeadForm(){
         
         
         <div className="row pt-3 justify-content-center">
-        <div className="col-8">
+        <div className="col-lg-8 col-sm-12">
         <h4>Add a Lead</h4>
         <br />
             <label>Name</label>
@@ -78,7 +75,7 @@ function AddLeadForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
             <label>Contact No.</label>
             <input
             type="number"
@@ -88,7 +85,7 @@ function AddLeadForm(){
             onChange={(e)=>setMobile(e.target.value)}
             />
         </div>
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
             <label>Whatsapp No.</label>
             <input
             type="number"
@@ -101,7 +98,7 @@ function AddLeadForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-8">
+        <div className="col-lg-8 col-sm-12">
             <label>Email ID</label>
             <input
             type="email"
@@ -114,7 +111,7 @@ function AddLeadForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-8">
+        <div className="col-lg-8 col-sm-12">
             <label>Address</label>
             <input
             type="text"
@@ -127,7 +124,7 @@ function AddLeadForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
             <label>City</label>
             <input
             type="text"
@@ -137,7 +134,7 @@ function AddLeadForm(){
            onChange={(e)=>setCity(e.target.value)}
             />
         </div>
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
             <label>Pincode</label>
             <input
             type="number"
@@ -150,7 +147,7 @@ function AddLeadForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
             <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Lead Source</Form.Label>
             <Form.Control onChange={(e)=>setSource(e.target.value)} as="select">
@@ -164,7 +161,7 @@ function AddLeadForm(){
             </Form.Control>
             </Form.Group>
         </div>
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
             <Form.Group controlId="exampleForm.ControlSelect2">
             <Form.Label>Lead Status</Form.Label>
             <Form.Control as="select" disabled="disabled">
@@ -178,7 +175,7 @@ function AddLeadForm(){
         <div className="row justify-content-center">
         { source === "Newspaper" ? 
         <>
-        <div className="col-8">
+        <div className="col-lg-8 col-sm-12">
             <Form.Group controlId="exampleForm.ControlSelect3">
             <Form.Label>Newspaper Name</Form.Label>
             <Form.Control as="select" onChange={(e)=>setSubType(e.target.value)}>
@@ -192,7 +189,7 @@ function AddLeadForm(){
        
         { source === "99Acres" ? 
            <>
-           <div className="col-8">
+           <div className="col-lg-8 col-sm-12">
                <Form.Group controlId="exampleForm.ControlSelect4">
                <Form.Label>Type</Form.Label>
                <Form.Control as="select" onChange={(e)=>setSubType(e.target.value)}>
@@ -205,7 +202,7 @@ function AddLeadForm(){
         }
        { source === "Referral" ? 
            <>
-           <div className="col-8">
+           <div className="col-lg-8 col-sm-12">
            <label>Details</label>
             <input
             type="text"
@@ -222,7 +219,7 @@ function AddLeadForm(){
         </div>
         
         <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
         <Form.Group controlId="exampleForm.ControlSelect2">
             <Form.Label>Lead Type</Form.Label>
             <Form.Control onChange={(e)=>setType(e.target.value)} as="select">
@@ -233,7 +230,7 @@ function AddLeadForm(){
             </Form.Control>
             </Form.Group>
         </div>
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
         <label>Site Name</label>
             <input
             type="text"
@@ -246,7 +243,7 @@ function AddLeadForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
         <label>Requirement</label>
             <input
             type="text"
@@ -256,7 +253,7 @@ function AddLeadForm(){
            onChange={(e)=>setRequirement(e.target.value)}
             />
         </div>
-        <div className="col-4">
+        <div className="col-lg-4 col-sm-6">
         <label>Budget</label>
             <input
             type="number"
@@ -269,7 +266,7 @@ function AddLeadForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className=" col-2">
+        <div className="col-lg-2 col-sm-3">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                    onClick={submit}

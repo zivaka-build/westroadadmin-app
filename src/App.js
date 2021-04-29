@@ -13,6 +13,7 @@ import TeamMemberPage from "./routes/TeamMemberPage.js";
 import LeadsPage from "./routes/LeadsPage.js"
 import AddLeadPage from "./routes/AddLeadPage"
 import ViewLeadPage from "./routes/ViewLeadPage"
+import IndividualLeadPage from "./routes/IndividualLeadPage"
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <LeadsPage path="/leads" />
           <AddLeadPage path="/addlead" />
           <ViewLeadPage path="/viewlead" />
+          <IndividualLeadPage path="/individuallead/:leadID" />
         </DefaultDashboard>
 
       </Router>

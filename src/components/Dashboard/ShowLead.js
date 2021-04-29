@@ -4,6 +4,7 @@ import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
+import { navigate } from "@reach/router";
 
 const ShowLead = () => {
     const [leads, setLeads] = useState([]);
@@ -45,7 +46,7 @@ const ShowLead = () => {
     return (
         <div>
             <center>
-                <div className="pt-5 col-lg-11" style={{ paddingTop: "10px" }}>
+                <div className="col-lg-11">
                     <br />
                     <br />
                     <MaterialTable data={leads}
@@ -79,8 +80,9 @@ const ShowLead = () => {
                             {
                                 icon: ()=> <Edit />,
                                 tooltip: 'Edit Lead',
-                                //   onClick: (event, rowData) => {
-                                //     history.push(`/addcoupon/${rowData.couponCode}`);
+                                onClick: (event, rowData) => {
+                                navigate(`/dashboard/individuallead/${rowData.leadID}`);
+                                Cookies.set('ActiveKey','first')}
                             }
 
                         ]}></MaterialTable>

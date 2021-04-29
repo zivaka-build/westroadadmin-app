@@ -252,7 +252,7 @@ function AddMember() {
             <StepContent>
               <form id="addmember" name="addmember">
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>First Name</label>
                     <input
                       type="text"
@@ -266,7 +266,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Last Name</label>
                     <input
                       type="text"
@@ -283,10 +283,10 @@ function AddMember() {
 
                 <br />
                 <div className="row">
-                  <div className="col-2">
+                  <div className="col-lg-2 col-sm-12">
                     <label class="text-align left">Gender</label>
                   </div>
-                  <div className="col-10">
+                  <div className="col-lg-10 col-sm-12">
                     <label class="form-check-label px-4">
                       Male
                       <input
@@ -331,13 +331,13 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-12">
+                  <div className="col-lg-12 col-sm-12">
                     <label>Current Addresss</label>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-12">
+                  <div className="col-lg-12 col-sm-12">
                     <label>Full Address</label>
                     <input
                       type="text"
@@ -353,7 +353,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Landmark</label>
                     <input
                       type="text"
@@ -367,7 +367,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>City</label>
                     <input
                       type="text"
@@ -383,7 +383,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div class="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Pincode</label>
                     <input
                       type="text"
@@ -397,7 +397,7 @@ function AddMember() {
                       }}
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>State</label>
                     <input
                       type="text"
@@ -414,7 +414,7 @@ function AddMember() {
 
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Email id</label>
                     <input
                       type="email"
@@ -427,7 +427,7 @@ function AddMember() {
                       }}
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Username</label>
                     <input
                       type="text"
@@ -443,7 +443,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Password</label>
                     <input
                       type="password"
@@ -456,7 +456,7 @@ function AddMember() {
                       }}
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Confirm Password</label>
                     <input
                       type="password"
@@ -471,7 +471,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Mobile Number</label>
                     <input
                       type="number"
@@ -484,7 +484,7 @@ function AddMember() {
                       }}
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Whatsapp Number</label>
                     <input
                       type="number"
@@ -501,7 +501,7 @@ function AddMember() {
 
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Aadhar ID</label>
                     <input
                       type="text"
@@ -515,7 +515,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>PAN Card ID</label>
                     <input
                       type="text"
@@ -531,7 +531,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Supervisor ID</label>
                     <input
                       type="text"
@@ -545,7 +545,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Supervisor Name</label>
                     <input
                       type="text"
@@ -574,7 +574,7 @@ function AddMember() {
                 Please fill out all details!
               </div>
               <div className="justify-content-center row">
-                <div className=" col-2">
+                <div className="col-lg-2 col-sm-12">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                     onClick={handleNext1}
@@ -684,7 +684,7 @@ function AddMember() {
                 </Col>
               </Form.Group>
               <div className="row justify-content-center">
-                <div className="col-2">
+                <div className="col-lg-2 pt-2 col-sm-6">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                     onClick={handleBack1}
@@ -692,7 +692,7 @@ function AddMember() {
                     Back
                   </button>
                 </div>
-                <div className=" col-2">
+                <div className="col-lg-2 pt-2 col-sm-6">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                     onClick={handleNext2}
@@ -802,7 +802,7 @@ function AddMember() {
                 </Col>
               </Form.Group>
               <div className="row justify-content-center">
-                <div className="col-2">
+                <div className="col-lg-2 pt-2 col-sm-6">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                     onClick={handleBack2}
@@ -810,7 +810,7 @@ function AddMember() {
                     Back
                   </button>
                 </div>
-                <div className=" col-2">
+                <div className="col-lg-2 pt-2 col-sm-6">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                     onClick={handleNext3}
@@ -831,7 +831,7 @@ function AddMember() {
               </div>
               <form id="addmember" name="addmember">
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>First Name</label>
                     <input
                       type="text"
@@ -843,7 +843,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Last Name</label>
                     <input
                       type="text"
@@ -858,10 +858,10 @@ function AddMember() {
 
                 <br />
                 <div className="row">
-                  <div className="col-2">
+                  <div className="col-lg-2 col-sm-12">
                     <label class="text-align left">Gender</label>
                   </div>
-                  <div className="col-10">
+                  <div className="col-lg-10 col-sm-12">
                     <label class="form-check-label px-4">
                       Male
                       <input
@@ -920,7 +920,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Landmark</label>
                     <input
                       type="text"
@@ -932,7 +932,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>City</label>
                     <input
                       type="text"
@@ -946,7 +946,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div class="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Pincode</label>
                     <input
                       type="text"
@@ -957,7 +957,7 @@ function AddMember() {
                       readonly
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>State</label>
                     <input
                       type="text"
@@ -972,7 +972,7 @@ function AddMember() {
 
                 <br />
                 <div className="row">
-                  <div className="col-12">
+                  <div className="col-lg-12 col-sm-12">
                     <label>Email id</label>
                     <input
                       type="email"
@@ -986,7 +986,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Password</label>
                     <input
                       type="password"
@@ -997,7 +997,7 @@ function AddMember() {
                       readonly
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Confirm Password</label>
                     <input
                       type="password"
@@ -1010,7 +1010,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Mobile Number</label>
                     <input
                       type="text"
@@ -1021,7 +1021,7 @@ function AddMember() {
                       readonly
                     />
                   </div>
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Whatsapp Number</label>
                     <input
                       type="text"
@@ -1036,7 +1036,7 @@ function AddMember() {
 
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Aadhar ID</label>
                     <input
                       type="text"
@@ -1048,7 +1048,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>PAN Card ID</label>
                     <input
                       type="text"
@@ -1062,7 +1062,7 @@ function AddMember() {
                 </div>
                 <br />
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Supervisor ID</label>
                     <input
                       type="text"
@@ -1074,7 +1074,7 @@ function AddMember() {
                     />
                   </div>
 
-                  <div className="col-6">
+                  <div className="col-lg-6 col-sm-12">
                     <label>Supervisor Name</label>
                     <input
                       type="text"
@@ -1089,7 +1089,7 @@ function AddMember() {
                 <br />
               </form>
               <div className="row justify-content-center">
-                <div className="col-2">
+                <div className="col-lg-2 col-sm-6 pt-2">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                     onClick={() => setActiveStep(2)}
@@ -1097,7 +1097,7 @@ function AddMember() {
                     Back
                   </button>
                 </div>
-                <div className=" col-2">
+                <div className="col-lg-2 col-sm-6 pt-2">
                   <button
                     className="btn btn-secondary btn-user btn-block"
                     onClick={addTeamMember}

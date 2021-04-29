@@ -119,8 +119,7 @@ function LoginForm() {
           console.log(response);
           if (response.status == 200) {
             Cookies.set('Token', response.data.message)
-            Cookies.set('FirstName', response.data.firstName)
-            Cookies.set('LastName', response.data.lastName)
+            Cookies.set('FullName', response.data.fullName)
             Cookies.set('userId', response.data.userId)
 
             Cookies.set('Role', response.data.role)
