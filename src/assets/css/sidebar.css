@@ -1,0 +1,87 @@
+.dropdown-toggle[aria-expanded="true"] {
+    background:#ffffff !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .dropdown-toggle:active, .open .dropdown-toggle {
+    background:#ffffff !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .show>.btn-primary.dropdown-toggle:focus , .btn-primary:focus{
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  .MuiAccordion-root.Mui-expanded{
+    margin:0 !important;
+  }
+  
+  
+  
+  
+  .ForwardRef-root-18 {
+    padding-right: 4px;
+  }
+  
+  .ForwardRef-iconButton-19{
+    width: 36px !important;
+    outline:none !important;
+    border:none !important;
+  }
+  
+  .ForwardRef-iconButton-19:focus{
+    outline:none !important;
+    border:none !important;
+  }
+  
+  .logo{
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  
+  }
+  .MuiToolbar-gutters{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .MuiAccordionSummary-root {
+    background-color:#EE4B46 !important;
+    color:white !important;
+    margin-top: 5px !important;
+  }
+  .MuiAccordionSummary-expandIcon{
+    color:white !important;
+  
+  }
+  .icon-link{
+    list-style: none;
+    color:#ffffff;  
+    font-size: 23px;
+    padding-right: 20px;
+    padding-top: 10px;
+  }
+  
+  .MuiList-padding{
+    padding-top:0  !important;
+  }
+  .sidebar-icons{
+    margin-right: 10px;
+    font-size: 28px;
+    color: white;
+  }
+  .sidebar-menu{
+    padding-top:5px;
+  }
+  
+  @media (max-width: 599.95px)
+  {
+    .makeStyles-topwrap-12 {
+      justify-content: space-evenly !important;
+  }
+  }
+  
