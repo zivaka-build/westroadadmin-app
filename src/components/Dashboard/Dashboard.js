@@ -253,16 +253,10 @@ const drawer = (
                     <List>
                     
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/viewdeveloper'>
-                    <ListItem button key={'View Developer'}>
-                    <h7>View Developer</h7>
+                    <ListItem button key={'TDS'}>
+                    <h7>TDS</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/adddeveloper'>
-                    <ListItem button key={'Add Developer'}>
-                    <h7>Add Developer</h7>
-                    </ListItem>
-                    </Link>
-                   
                     </List>
                 
                 </AccordionDetails>
