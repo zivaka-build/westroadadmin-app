@@ -27,7 +27,62 @@ function IndividualLead() {
     const [budget, setBudget ] = useState("");
     const [subType, setSubType] = useState("");
     const [comments, setComments] = useState([])
+    const [sites, setSites ] = useState([])
+    const [users, setUsers] = useState([])
     const [comment, setComment] = useState("")
+    const [toggle, setToggle] = useState(0)
+
+    const [contactPerson, setContactPerson] = useState("")
+    const [contactPersonNo, setContactPersonNo] = useState("")
+    const [dateTime, setDateTime] = useState("")
+    const [sn, setSn] = useState("")
+    const [sid, setSid] = useState("")
+
+    const toggleDiv = () => {
+        if(toggle === 0) {
+            setToggle(1)
+        }
+        else {
+            setToggle(0)
+        }
+
+    }
+
+    const changeCperson = (e) => {
+        const cp = e.target.value
+        setContactPerson(cp.substring(cp.indexOf(' ') + 1))
+        
+        const id = cp.substring(0, cp.indexOf(' '))
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios
+            .get(`${BASE_URL}/api/v1/user/getListOfUsers`,{ headers : { 'Authorization' : Token }})
+            .then(response =>{
+                const arr = response.data
+                
+                for(var i=0;i<=arr.users.length - 1;i++) {
+                    if(arr.users[i].userId === id){
+                        setContactPersonNo(arr.users[i].userMobile)
+                    }
+                }           
+            })
+    }
+
+    const changeSiteName = (e) => {
+        const sn = e.target.value
+        setSn(sn.substring(sn.indexOf(' ') + 1))
+        setSid(sn.substring(0, sn.indexOf(' ')))
+    }
+
+    const scheduleVisit = (e) => {
+        e.preventDefault()
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios
+        .post(`${BASE_URL}/api/v1/siteVisit/addSitevisitByLeadId`,{siteVisitDate: dateTime, contactPerson: contactPerson,contactPersonMobile:contactPersonNo,leadID: leadID,siteID: sid,siteName: sn},{ headers : { 'Authorization' : Token }})
+        .then(response => {
+            console.log(response)
+            window.location.reload()
+        })
+    }
 
     const addComment = () => {
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -42,7 +97,7 @@ function IndividualLead() {
 
     useEffect(() => {
        
-            const Token = 'bearer' + " " + Cookies.get('Token')
+        const Token = 'bearer' + " " + Cookies.get('Token')
         axios
             .get(`${BASE_URL}/api/v1/lead/getLeadByLeadId/${leadID}`,{ headers : { 'Authorization' : Token }})
             .then(response=>{
@@ -74,7 +129,19 @@ function IndividualLead() {
                         
                       };
                 })
-                setComments(comments)
+                setComments(comments.reverse())
+            })
+
+            axios
+            .get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{ headers : { 'Authorization' : Token }})
+            .then(response => {
+                setSites(response.data.siteMap)
+            })
+
+            axios
+            .get(`${BASE_URL}/api/v1/user/getListOfUserNames`,{ headers : { 'Authorization' : Token }})
+            .then(response => {
+                setUsers(response.data.userMap)
             })
     }, [])
 
@@ -347,13 +414,113 @@ function IndividualLead() {
                  
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
-                   Hi
+                    <div className="tab-card container-fluid">
+                        <div className="row pt-3 pb-3 justify-content-center">
+                            <div className="col-12 text-center">
+                            <button className="btn btn-secondary btn-user" onClick={toggleDiv} style={{borderRadius : "10px"}}>Schedule A Visit</button>
+                            </div>
+                            {toggle === 1 ?
+                            <>
+                            <div className="col-12 pt-4 scheduleVisit">
+                            <form>
+                                <div className="row justify-content-center">
+                                    <div className="col-4">
+                                        <label for="dateTime">Date & Time</label>
+                                        <input className="form-control" type="datetime-local" id="dateTime" name="dateTime" onChange={(e)=>{setDateTime(e.target.value)}}/>
+                                    </div>
+                                    <div className="col-4">
+                                        <Form.Group controlId="exampleForm.ControlSelect1">
+                                        <Form.Label>Contact Person</Form.Label>
+                                        <Form.Control  as="select" onChange={changeCperson}>
+                                        <option>Select a Contact Person</option>   
+                                        {users.map((user) => (
+                                        <option value={user.Id+" "+user.fullName}>{user.fullName}</option> 
+                                        ))}
+                                        
+                                        </Form.Control>
+                                        </Form.Group>
+                                    </div>
+                                </div>
+                                <div className="row justify-content-center">
+                                    <div className="col-4">
+                                        <Form.Group controlId="exampleForm.ControlSelect2">
+                                        <Form.Label>Site Name</Form.Label>
+                                        <Form.Control  as="select" onChange={changeSiteName}>
+                                        <option>Select a Site</option> 
+                                        {sites.map((site) => (
+                                        <option value={site.SiteId+" "+site.SiteName}>{site.SiteName}</option> 
+                                        ))}
+                                          
+                                        
+                                        </Form.Control>
+                                        </Form.Group>
+                                    </div>
+                                    <div className="col-4">
+                                        <label>Contact Person No.</label>
+                                        <input
+                                        type="number"
+                                        class="form-control"
+                                        name="contactPersonNo"
+                                        id="outlined-basic"
+                                        onChange={(e)=>setContactPersonNo(e.target.value)}
+                                        value={contactPersonNo}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="row justify-content-center">
+                                    <div className="col-4 text-right">
+                                    <button className="btn btn-secondary btn-user" type="reset" style={{borderRadius : "10px", backgroundColor: "white", color: "black"}}>Reset</button>
+
+                                    </div>
+                                    <div className="col-4">
+                                    <button className="btn btn-secondary btn-user" onClick={scheduleVisit}style={{borderRadius : "10px"}}>Schedule</button>
+                                    
+                                    </div>
+                                </div>
+                                </form>
+                                
+                            </div>
+                            </>
+                            : null}
+                        <div className="col-12 pt-4">
+                            <MaterialTable
+                                    title="Site Visit Details"
+                                    columns={
+                                        [
+                                            { title: 'Site Visit ID', field: '' },
+                                            { title: 'Site ID', field: ''},
+                                            { title: 'Site Name', field: '' },
+                                            { title: 'Contact Person', field: '' },
+                                            { title: 'Contact Person No.', field: '' },
+                                            { title: 'Date & Time', field: '' },
+                                            { title: 'Status', field: '' },
+                                        
+
+                                        ]
+                                    }
+                                    options={{
+                                        search: true,
+                                        actionsColumnIndex: -1,
+                                    }}
+                                    options={{
+
+                                        headerStyle: {
+                                            backgroundColor: '#EE4B46',
+                                            color: '#fff',
+                                        
+                                        }
+                                    }}
+                                ></MaterialTable>
+                        </div>
+                        </div>
+                        
+                    </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
-                   Hi
+                    
                     </Tab.Pane>
                     <Tab.Pane eventKey="fourth">
-                    <div className="tab-card container-fluid">
+                    <div className="tab-card pb-4 container-fluid">
                         <div className="row pt-4 justify-content-center">
                             <div className="col-8">
                             <input
