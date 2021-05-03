@@ -13,7 +13,7 @@ function ViewTdsRates(){
         axios
             .get(`${BASE_URL}/api/v1/tdsrates/gettdsrates`,{ headers : { 'Authorization' : Token }})
             .then(response=>{
-                setRates(response.data)          
+                setRates(response.data.reverse());          
             })
     }, [])
 
