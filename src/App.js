@@ -14,6 +14,7 @@ import LeadsPage from "./routes/LeadsPage.js"
 import AddLeadPage from "./routes/AddLeadPage"
 import ViewLeadPage from "./routes/ViewLeadPage"
 import IndividualLeadPage from "./routes/IndividualLeadPage"
+import AddTdsRatesPage from "./routes/AddTdsRatesPage"
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <AddLeadPage path="/addlead" />
           <ViewLeadPage path="/viewlead" />
           <IndividualLeadPage path="/individuallead/:leadID" />
+          <AddTdsRatesPage path="/addtdsrates" />
         </DefaultDashboard>
 
       </Router>
