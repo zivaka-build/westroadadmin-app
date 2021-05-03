@@ -252,7 +252,7 @@ const drawer = (
                 <AccordionDetails>
                     <List>
                     
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/viewdeveloper'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
                     <ListItem button key={'TDS'}>
                     <h7>TDS</h7>
                     </ListItem>
