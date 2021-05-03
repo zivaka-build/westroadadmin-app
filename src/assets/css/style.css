@@ -11377,3 +11377,8 @@ input {
   box-shadow: -10px -10px 20px rgba(242, 242, 242, 0.97), 10px 10px 20px #EEF2EC;
   border-radius: 39px;
 }
+
+.MuiListItem-root {
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
