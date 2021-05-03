@@ -341,7 +341,7 @@ const drawer = (
                     <h7>Add TDS Rates</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewsite'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtdsrates'>
                     <ListItem button key={'View TDS Rates'}>
                     <h7>View TDS Rates</h7>
                     </ListItem>
