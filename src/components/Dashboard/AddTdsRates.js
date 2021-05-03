@@ -2,6 +2,7 @@ import React,{useState} from "react";
 import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie'; 
+import { navigate } from "@reach/router";
 
 function AddTdsRates() {
     const [ ts, setTs ] = useState("");
@@ -16,6 +17,7 @@ function AddTdsRates() {
             .post(`${BASE_URL}/api/v1/tdsrates/addtdsrate`,{TDSsection: ts,entityType: et,description: desc,taxSlab: taxs},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
+                navigate("/dashboard/viewtdsrates")
             })
     }
 
@@ -68,7 +70,7 @@ function AddTdsRates() {
             class="form-control"
             name="taxslab"
             id="taxslab"
-            onChange={(e)=>setTs(e.target.value)}
+            onChange={(e)=>setTaxs(e.target.value)}
             />
         </div>
     </div>
