@@ -58,7 +58,7 @@ function ViewTds(){
             .get(`${BASE_URL}/api/v1/tds/getlistoftds`,{ headers : { 'Authorization' : Token }})
             .then(response=>{
                 const tds = response.data.map((t)=>{
-                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid, TDSPaidDate} = t
+                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                     const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
                     var formattedPaymentDate = ""
                     if(!TDSPaidDate){
@@ -66,6 +66,13 @@ function ViewTds(){
                     }
                     else if(TDSPaidDate) {
                         formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                    }
+                    var formattedPaid = ""
+                    if(TDSPaid == false) {
+                        formattedPaid = "No"
+                    }
+                    else if(TDSPaid == true) {
+                        formattedPaid = "Yes"
                     }
                     return {
                         TDSId, 
@@ -76,7 +83,7 @@ function ViewTds(){
                         taxSlab, 
                         TDSAmount, 
                         TDSBookingDate : formattedDate, 
-                        TDSPaid,
+                        TDSPaid : formattedPaid,
                         TDSPaidDate : formattedPaymentDate
                         
                       };
@@ -95,6 +102,43 @@ function ViewTds(){
             .post(`${BASE_URL}/api/v1/tds/processtds`,{TDSId: tid,transactionMode: tmode,bankName: bank},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
+                setOpen(false);
+                axios
+            .get(`${BASE_URL}/api/v1/tds/getlistoftds`,{ headers : { 'Authorization' : Token }})
+            .then(response=>{
+                const tds = response.data.map((t)=>{
+                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                    const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                    var formattedPaymentDate = ""
+                    if(!TDSPaidDate){
+                        formattedPaymentDate = ""
+                    }
+                    else if(TDSPaidDate) {
+                        formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                    }
+                    var formattedPaid = ""
+                    if(TDSPaid == false) {
+                        formattedPaid = "No"
+                    }
+                    else if(TDSPaid == true) {
+                        formattedPaid = "Yes"
+                    }
+                    return {
+                        TDSId, 
+                        TDSsection, 
+                        entityType,
+                        entityName,
+                        entityPAN, 
+                        taxSlab, 
+                        TDSAmount, 
+                        TDSBookingDate : formattedDate, 
+                        TDSPaid : formattedPaid,
+                        TDSPaidDate : formattedPaymentDate
+                        
+                      };
+                })
+                setTds(tds.reverse());       
+            })
             })
     }
 
