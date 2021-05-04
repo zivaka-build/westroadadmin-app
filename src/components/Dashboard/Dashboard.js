@@ -251,7 +251,16 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                    
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
+                    <ListItem button key={'Transaction'}>
+                    <h7>Transaction</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
+                    <ListItem button key={'Cheque'}>
+                    <h7>Cheque</h7>
+                    </ListItem>
+                    </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
                     <ListItem button key={'TDS'}>
                     <h7>TDS</h7>
