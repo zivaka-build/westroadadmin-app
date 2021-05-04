@@ -4,7 +4,6 @@ import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
 import {GiGears} from 'react-icons/gi'
-import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -59,9 +58,22 @@ function ViewTds(){
             .get(`${BASE_URL}/api/v1/tds/getlistoftds`,{ headers : { 'Authorization' : Token }})
             .then(response=>{
                 const tds = response.data.map((t)=>{
-                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid} = t
+                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                     const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
-  
+                    var formattedPaymentDate = ""
+                    if(!TDSPaidDate){
+                        formattedPaymentDate = ""
+                    }
+                    else if(TDSPaidDate) {
+                        formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                    }
+                    var formattedPaid = ""
+                    if(TDSPaid == false) {
+                        formattedPaid = "No"
+                    }
+                    else if(TDSPaid == true) {
+                        formattedPaid = "Yes"
+                    }
                     return {
                         TDSId, 
                         TDSsection, 
@@ -71,7 +83,8 @@ function ViewTds(){
                         taxSlab, 
                         TDSAmount, 
                         TDSBookingDate : formattedDate, 
-                        TDSPaid
+                        TDSPaid : formattedPaid,
+                        TDSPaidDate : formattedPaymentDate
                         
                       };
                 })
@@ -89,6 +102,43 @@ function ViewTds(){
             .post(`${BASE_URL}/api/v1/tds/processtds`,{TDSId: tid,transactionMode: tmode,bankName: bank},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
+                setOpen(false);
+                axios
+            .get(`${BASE_URL}/api/v1/tds/getlistoftds`,{ headers : { 'Authorization' : Token }})
+            .then(response=>{
+                const tds = response.data.map((t)=>{
+                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                    const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                    var formattedPaymentDate = ""
+                    if(!TDSPaidDate){
+                        formattedPaymentDate = ""
+                    }
+                    else if(TDSPaidDate) {
+                        formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                    }
+                    var formattedPaid = ""
+                    if(TDSPaid == false) {
+                        formattedPaid = "No"
+                    }
+                    else if(TDSPaid == true) {
+                        formattedPaid = "Yes"
+                    }
+                    return {
+                        TDSId, 
+                        TDSsection, 
+                        entityType,
+                        entityName,
+                        entityPAN, 
+                        taxSlab, 
+                        TDSAmount, 
+                        TDSBookingDate : formattedDate, 
+                        TDSPaid : formattedPaid,
+                        TDSPaidDate : formattedPaymentDate
+                        
+                      };
+                })
+                setTds(tds.reverse());       
+            })
             })
     }
 
@@ -99,9 +149,22 @@ function ViewTds(){
             .get(`${BASE_URL}/api/v1/tds/getlistoftds`,{ headers : { 'Authorization' : Token }})
             .then(response=>{
                 const tds = response.data.map((t)=>{
-                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid} = t
+                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                     const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
-  
+                    var formattedPaymentDate = ""
+                    if(!TDSPaidDate){
+                        formattedPaymentDate = ""
+                    }
+                    else if(TDSPaidDate) {
+                        formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                    }
+                    var formattedPaid = ""
+                    if(TDSPaid == false) {
+                        formattedPaid = "No"
+                    }
+                    else if(TDSPaid == true) {
+                        formattedPaid = "Yes"
+                    }
                     return {
                         TDSId, 
                         TDSsection, 
@@ -111,7 +174,8 @@ function ViewTds(){
                         taxSlab, 
                         TDSAmount, 
                         TDSBookingDate : formattedDate, 
-                        TDSPaid
+                        TDSPaid : formattedPaid,
+                        TDSPaidDate : formattedPaymentDate
                         
                       };
                 })
@@ -120,8 +184,8 @@ function ViewTds(){
     }, [])
 
     return(
-        <>
-        <div className="container-fluid mt-4">
+        <div className="row container-fluid px-0">
+        <div className="col-12 mt-4">
         <MaterialTable
             data={tds}
             title="TDS Rates"
@@ -134,8 +198,9 @@ function ViewTds(){
                     { title: 'Entity Pan', field: 'entityPAN' },
                     { title: 'Tax Slab', field: 'taxSlab' },
                     { title: 'TDS Amount', field: 'TDSAmount' },
-                    { title: 'TDS Booking Date', field: 'TDSBookingDate' },
+                    { title: 'Booking Date', field: 'TDSBookingDate' },
                     { title: 'TDS Paid', field: 'TDSPaid' },
+                    { title: 'Payment Date', field: 'TDSPaidDate' },
                     
                 ]
             }
@@ -143,11 +208,13 @@ function ViewTds(){
                 search: true,
                 actionsColumnIndex: -1,
             }}
+            
             options={{
 
                 headerStyle: {
                     backgroundColor: '#EE4B46',
                     color: '#fff',
+                    paddingLeft: '11px'
                 
                 }
             }}
@@ -159,17 +226,18 @@ function ViewTds(){
                     onClick: (event, rowData) => {
                     setOpen(true);
                     setTid(rowData.TDSId)},
-                    disabled: rowData.entityPAN === null || rowData.TDSPaid === true,
+                    disabled: rowData.entityPAN === null || rowData.TDSPaid === "Yes",
                 }),
                 rowData => ({
-                    icon: ()=> <Edit />,
+                    icon: 'edit',
                     tooltip: 'Update Entity',
                     onClick: (event, rowData) => {
                     setOpen1(true);
                     setEName(rowData.entityName);
                     setEPan(rowData.entityPAN);
                     setTid(rowData.TDSId);
-                    }
+                    },
+                    disabled: rowData.TDSPaid === "Yes",
                 })
 
 
@@ -269,7 +337,7 @@ function ViewTds(){
             </Fade>
       </Modal>
         </div>
-        </>
+        </div>
     );
 
 }
