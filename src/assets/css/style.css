@@ -11382,3 +11382,7 @@ input {
   padding-top: 4px !important;
   padding-bottom: 4px !important;
 }
+
+.MuiIconButton-root {
+  padding: 6px !important;
+}
