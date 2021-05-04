@@ -4,11 +4,13 @@ import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
 import {GiGears} from 'react-icons/gi'
+import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { Form} from "react-bootstrap";
+
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -33,14 +35,51 @@ function ViewTds(){
         setOpen(false);
     };
 
+    const [open1, setOpen1] = React.useState(false);
+
+
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
+
     const [ tds, setTds ] = useState([])
     const [tid, setTid ] = useState("")
     const [ tmode, setTmode] = useState("")
     const [ bank, setBank] = useState("")
+    const [ eName, setEName] = useState("")
+    const [ ePan, setEPan] = useState("")
 
-    const processTDS = param => e =>  {
-        setOpen(true);
-        setTid(param)
+    const updateEntity = (e) => {
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios
+            .put(`${BASE_URL}/api/v1/tds/updateentitydetails`,{TDSId: tid,entityName: eName, entityPAN: ePan},{ headers : { 'Authorization' : Token }})
+            .then(response => {
+                console.log(response)
+                axios
+            .get(`${BASE_URL}/api/v1/tds/getlistoftds`,{ headers : { 'Authorization' : Token }})
+            .then(response=>{
+                const tds = response.data.map((t)=>{
+                    const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid} = t
+                    const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+  
+                    return {
+                        TDSId, 
+                        TDSsection, 
+                        entityType,
+                        entityName,
+                        entityPAN, 
+                        taxSlab, 
+                        TDSAmount, 
+                        TDSBookingDate : formattedDate, 
+                        TDSPaid
+                        
+                      };
+                })
+                setTds(tds.reverse());
+                setOpen1(false);          
+            })
+            })
+
     }
 
     const process = (e) => {
@@ -82,7 +121,7 @@ function ViewTds(){
 
     return(
         <>
-        <div className="container-fluid mt-5">
+        <div className="container-fluid mt-4">
         <MaterialTable
             data={tds}
             title="TDS Rates"
@@ -97,17 +136,7 @@ function ViewTds(){
                     { title: 'TDS Amount', field: 'TDSAmount' },
                     { title: 'TDS Booking Date', field: 'TDSBookingDate' },
                     { title: 'TDS Paid', field: 'TDSPaid' },
-                    {
-                        title: "Process TDS",
-                        field: "internal_action",
-                        editable: false,
-                        render: (rowData) =>
-                          rowData && (
-                        
-                            <button className="btn btn-secondary btn-user" onClick={processTDS(rowData.TDSId)} disabled={rowData.entityPAN === null? false : true }>
-                            <GiGears />
-                            </button>
-                          )}
+                    
                 ]
             }
             options={{
@@ -122,6 +151,30 @@ function ViewTds(){
                 
                 }
             }}
+            actions={[
+                rowData => (
+                {
+                    icon: ()=> <GiGears />,
+                    tooltip: 'Process TDS',
+                    onClick: (event, rowData) => {
+                    setOpen(true);
+                    setTid(rowData.TDSId)},
+                    disabled: rowData.entityPAN === null || rowData.TDSPaid === true,
+                }),
+                rowData => ({
+                    icon: ()=> <Edit />,
+                    tooltip: 'Update Entity',
+                    onClick: (event, rowData) => {
+                    setOpen1(true);
+                    setEName(rowData.entityName);
+                    setEPan(rowData.entityPAN);
+                    setTid(rowData.TDSId);
+                    }
+                })
+
+
+            ]}
+    
            ></MaterialTable>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -159,6 +212,57 @@ function ViewTds(){
                 <div className="text-center">
                 <button className="btn btn-secondary btn-user" onClick={process}>
                 Process
+                </button>
+                &nbsp;&nbsp;
+                <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                Cancel
+                </button>
+                </div>
+            </div>
+            </Fade>
+      </Modal>
+      <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open1}
+                onClose={handleClose1}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+            <Fade in={open1}>
+            <div className={classes.paper}>
+                <label>Entity Name</label>
+                <input
+                type="text"
+                class="form-control"
+                name="entityname"
+                id="entityname"
+                value={eName}
+                onChange={(e)=>setEName(e.target.value)}
+                />
+                <br />
+
+                <label>Entity PAN</label>
+                <input
+                type="text"
+                class="form-control"
+                name="entitypan"
+                id="entitypan"
+                value={ePan}
+                onChange={(e)=>setEPan(e.target.value)}
+                />
+                <br />
+                <div className="text-center">
+                <button className="btn btn-secondary btn-user" onClick={updateEntity}>
+                Save
+                </button>
+                &nbsp;&nbsp;
+                <button className="btn btn-secondary btn-user" onClick={handleClose1} style={{backgroundColor : "white", color : "black"}}>
+                Cancel
                 </button>
                 </div>
             </div>
