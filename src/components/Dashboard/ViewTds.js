@@ -345,6 +345,7 @@ function ViewTds(){
                           };
                     })
                     setTds(tds.reverse());
+                  
                 }          
                 })
 
@@ -353,10 +354,12 @@ function ViewTds(){
             else if(ep !=="" && tp !=="" && ts ===""){
 
                 axios
-                .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSPaid=${ts}`,{ headers : { 'Authorization' : Token }})
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSPaid=${tp}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
                     if(response.data.message === "no TDS found"){
                         setTds([]); 
+                        console.log("1")
+               
                     }
                     else {
                     const tds = response.data.map((t)=>{
@@ -391,6 +394,7 @@ function ViewTds(){
                           };
                     })
                     setTds(tds.reverse());
+                    console.log("2")
                 }          
                 })
 
