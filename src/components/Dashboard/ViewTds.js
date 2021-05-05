@@ -64,6 +64,12 @@ function ViewTds(){
     const [ts, setTs] = useState("")
     const [tsection, setTsection] = useState([])
 
+    const reset = (e) => {
+        setTp("");
+        setEp("");
+        setTs("");
+    }
+
     const updateEntity = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios
@@ -575,9 +581,14 @@ function ViewTds(){
                                         ))}
 
                       </Select>
-                   
+                  
                     </FormControl>
-                    <button className="btn btn-secondary btn-user" type="reset" style={{backgroundColor: "white", color: "black", marginTop:"-80px"}}>Reset Filter</button>
+                    <FormControl className={classes.formControl} style={{marginTop: "-50px"}}>
+                    <button className="btn btn-secondary btn-user" onClick={reset} style={{backgroundColor : "white", color : "black"}}>
+                    Reset Filter
+                    </button>
+                    </FormControl>
+                    
     
                     
                   </div>
