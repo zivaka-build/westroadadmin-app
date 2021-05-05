@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from "react";
-import MaterialTable from "material-table";
 import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
@@ -9,6 +8,11 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { Form} from "react-bootstrap";
+import MaterialTable, { MTableToolbar } from "material-table";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from '@material-ui/core/InputLabel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +27,13 @@ const useStyles = makeStyles((theme) => ({
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
     },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
   }));
  
 function ViewTds(){
@@ -47,6 +58,11 @@ function ViewTds(){
     const [ bank, setBank] = useState("")
     const [ eName, setEName] = useState("")
     const [ ePan, setEPan] = useState("")
+
+    const [ep, setEp] = useState("")
+    const [tp, setTp] = useState("")
+    const [ts, setTs] = useState("")
+    const [tsection, setTsection] = useState([])
 
     const updateEntity = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -146,6 +162,12 @@ function ViewTds(){
        
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios
+            .get(`${BASE_URL}/api/v1/tdsrates/gettdsrates`,{ headers : { 'Authorization' : Token }})
+            .then(response=>{
+                setTsection(response.data)
+            })
+        if(ep==="" && tp ==="" && ts===""){
+        axios
             .get(`${BASE_URL}/api/v1/tds/getlistoftds`,{ headers : { 'Authorization' : Token }})
             .then(response=>{
                 const tds = response.data.map((t)=>{
@@ -181,7 +203,296 @@ function ViewTds(){
                 })
                 setTds(tds.reverse());          
             })
-    }, [])
+
+            }
+
+            else if(ep!=="" && tp ==="" && ts===""){
+
+                axios
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}`,{ headers : { 'Authorization' : Token }})
+                .then(response=>{
+                    const tds = response.data.map((t)=>{
+                        const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                        const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                        var formattedPaymentDate = ""
+                        if(!TDSPaidDate){
+                            formattedPaymentDate = ""
+                        }
+                        else if(TDSPaidDate) {
+                            formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                        }
+                        var formattedPaid = ""
+                        if(TDSPaid == false) {
+                            formattedPaid = "No"
+                        }
+                        else if(TDSPaid == true) {
+                            formattedPaid = "Yes"
+                        }
+                        return {
+                            TDSId, 
+                            TDSsection, 
+                            entityType,
+                            entityName,
+                            entityPAN, 
+                            taxSlab, 
+                            TDSAmount, 
+                            TDSBookingDate : formattedDate, 
+                            TDSPaid : formattedPaid,
+                            TDSPaidDate : formattedPaymentDate
+                            
+                          };
+                    })
+                    setTds(tds.reverse());          
+                })
+
+            }
+
+            else if(ep ==="" && tp !=="" && ts ===""){
+
+                axios
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?TDSPaid=${tp}`,{ headers : { 'Authorization' : Token }})
+                .then(response=>{
+                    const tds = response.data.map((t)=>{
+                        const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                        const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                        var formattedPaymentDate = ""
+                        if(!TDSPaidDate){
+                            formattedPaymentDate = ""
+                        }
+                        else if(TDSPaidDate) {
+                            formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                        }
+                        var formattedPaid = ""
+                        if(TDSPaid == false) {
+                            formattedPaid = "No"
+                        }
+                        else if(TDSPaid == true) {
+                            formattedPaid = "Yes"
+                        }
+                        return {
+                            TDSId, 
+                            TDSsection, 
+                            entityType,
+                            entityName,
+                            entityPAN, 
+                            taxSlab, 
+                            TDSAmount, 
+                            TDSBookingDate : formattedDate, 
+                            TDSPaid : formattedPaid,
+                            TDSPaidDate : formattedPaymentDate
+                            
+                          };
+                    })
+                    setTds(tds.reverse());          
+                })
+
+            }
+
+            else if(ep ==="" && tp ==="" && ts !==""){
+
+                axios
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
+                .then(response=>{
+                    const tds = response.data.map((t)=>{
+                        const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                        const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                        var formattedPaymentDate = ""
+                        if(!TDSPaidDate){
+                            formattedPaymentDate = ""
+                        }
+                        else if(TDSPaidDate) {
+                            formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                        }
+                        var formattedPaid = ""
+                        if(TDSPaid == false) {
+                            formattedPaid = "No"
+                        }
+                        else if(TDSPaid == true) {
+                            formattedPaid = "Yes"
+                        }
+                        return {
+                            TDSId, 
+                            TDSsection, 
+                            entityType,
+                            entityName,
+                            entityPAN, 
+                            taxSlab, 
+                            TDSAmount, 
+                            TDSBookingDate : formattedDate, 
+                            TDSPaid : formattedPaid,
+                            TDSPaidDate : formattedPaymentDate
+                            
+                          };
+                    })
+                    setTds(tds.reverse());          
+                })
+
+            }
+
+            else if(ep !=="" && tp !=="" && ts ===""){
+
+                axios
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSPaid=${ts}`,{ headers : { 'Authorization' : Token }})
+                .then(response=>{
+                    const tds = response.data.map((t)=>{
+                        const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                        const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                        var formattedPaymentDate = ""
+                        if(!TDSPaidDate){
+                            formattedPaymentDate = ""
+                        }
+                        else if(TDSPaidDate) {
+                            formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                        }
+                        var formattedPaid = ""
+                        if(TDSPaid == false) {
+                            formattedPaid = "No"
+                        }
+                        else if(TDSPaid == true) {
+                            formattedPaid = "Yes"
+                        }
+                        return {
+                            TDSId, 
+                            TDSsection, 
+                            entityType,
+                            entityName,
+                            entityPAN, 
+                            taxSlab, 
+                            TDSAmount, 
+                            TDSBookingDate : formattedDate, 
+                            TDSPaid : formattedPaid,
+                            TDSPaidDate : formattedPaymentDate
+                            
+                          };
+                    })
+                    setTds(tds.reverse());          
+                })
+
+            }
+
+            else if(ep ==="" && tp !=="" && ts !==""){
+
+                axios
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?TDSPaid=${tp}&TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
+                .then(response=>{
+                    const tds = response.data.map((t)=>{
+                        const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                        const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                        var formattedPaymentDate = ""
+                        if(!TDSPaidDate){
+                            formattedPaymentDate = ""
+                        }
+                        else if(TDSPaidDate) {
+                            formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                        }
+                        var formattedPaid = ""
+                        if(TDSPaid == false) {
+                            formattedPaid = "No"
+                        }
+                        else if(TDSPaid == true) {
+                            formattedPaid = "Yes"
+                        }
+                        return {
+                            TDSId, 
+                            TDSsection, 
+                            entityType,
+                            entityName,
+                            entityPAN, 
+                            taxSlab, 
+                            TDSAmount, 
+                            TDSBookingDate : formattedDate, 
+                            TDSPaid : formattedPaid,
+                            TDSPaidDate : formattedPaymentDate
+                            
+                          };
+                    })
+                    setTds(tds.reverse());          
+                })
+
+            }
+
+            else if(ep !=="" && tp ==="" && ts !==""){
+
+                axios
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
+                .then(response=>{
+                    const tds = response.data.map((t)=>{
+                        const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                        const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                        var formattedPaymentDate = ""
+                        if(!TDSPaidDate){
+                            formattedPaymentDate = ""
+                        }
+                        else if(TDSPaidDate) {
+                            formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                        }
+                        var formattedPaid = ""
+                        if(TDSPaid == false) {
+                            formattedPaid = "No"
+                        }
+                        else if(TDSPaid == true) {
+                            formattedPaid = "Yes"
+                        }
+                        return {
+                            TDSId, 
+                            TDSsection, 
+                            entityType,
+                            entityName,
+                            entityPAN, 
+                            taxSlab, 
+                            TDSAmount, 
+                            TDSBookingDate : formattedDate, 
+                            TDSPaid : formattedPaid,
+                            TDSPaidDate : formattedPaymentDate
+                            
+                          };
+                    })
+                    setTds(tds.reverse());          
+                })
+
+            }
+            else if(ep !=="" && tp !=="" && ts !==""){
+
+                axios
+                .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSPaid=${tp}&TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
+                .then(response=>{
+                    const tds = response.data.map((t)=>{
+                        const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
+                        const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
+                        var formattedPaymentDate = ""
+                        if(!TDSPaidDate){
+                            formattedPaymentDate = ""
+                        }
+                        else if(TDSPaidDate) {
+                            formattedPaymentDate = TDSPaidDate.substring(8,10)+"-"+TDSPaidDate.substring(5,7)+"-"+TDSPaidDate.substring(0,4)
+                        }
+                        var formattedPaid = ""
+                        if(TDSPaid == false) {
+                            formattedPaid = "No"
+                        }
+                        else if(TDSPaid == true) {
+                            formattedPaid = "Yes"
+                        }
+                        return {
+                            TDSId, 
+                            TDSsection, 
+                            entityType,
+                            entityName,
+                            entityPAN, 
+                            taxSlab, 
+                            TDSAmount, 
+                            TDSBookingDate : formattedDate, 
+                            TDSPaid : formattedPaid,
+                            TDSPaidDate : formattedPaymentDate
+                            
+                          };
+                    })
+                    setTds(tds.reverse());          
+                })
+
+            }
+            
+    }, [ep, tp, ts])
 
     return(
         <div className="row container-fluid px-0">
@@ -208,6 +519,70 @@ function ViewTds(){
                 search: true,
                 actionsColumnIndex: -1,
             }}
+            components={{
+                Toolbar: (props) => (
+                  <div className="filters text-center">
+                    <MTableToolbar {...props} />
+                    
+                    <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
+                    <InputLabel id="demo-simple-select-helper-label">Entity PAN</InputLabel>
+                      <Select
+                        value={ep}
+                        onChange={(e)=>setEp(e.target.value)}
+                        className={classes.selectEmpty}
+                        inputProps={{ "aria-label": "Without label" }}
+                      >
+                        <MenuItem value="" disabled>
+                          Entity PAN
+                        </MenuItem>
+                        <MenuItem value="yes">Available</MenuItem>
+                        <MenuItem value="no">Not Available</MenuItem>
+                      </Select>
+                    
+                    </FormControl>
+  
+                    <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
+                    <InputLabel id="demo-simple-select-helper-label">TDS Paid</InputLabel>
+                      <Select
+                        value={tp}
+                        onChange={(e)=>setTp(e.target.value)}
+                        className={classes.selectEmpty}
+                        inputProps={{ "aria-label": "Without label" }}
+                      >
+                        <MenuItem value="" disabled>
+                         TDS Paid
+                        </MenuItem>
+                        <MenuItem value={true}>Yes</MenuItem>
+                        <MenuItem value={false}>No</MenuItem>
+                        
+                      </Select>
+                   
+                    </FormControl>
+
+                    <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
+                    <InputLabel id="demo-simple-select-helper-label">TDS Section</InputLabel>
+                      <Select
+                        value={ts}
+                        onChange={(e)=>setTs(e.target.value)}
+                        className={classes.selectEmpty}
+                        inputProps={{ "aria-label": "Without label" }}
+                      >
+                        <MenuItem value="" disabled>
+                         TDS Section
+                        </MenuItem>
+                        {tsection.map((t) => (
+                            <MenuItem value={t.TDSsection}>{t.TDSsection}</MenuItem>
+                                        ))}
+
+                      </Select>
+                   
+                    </FormControl>
+                    <button className="btn btn-secondary btn-user" type="reset" style={{backgroundColor: "white", color: "black", marginTop:"-80px"}}>Reset Filter</button>
+    
+                    
+                  </div>
+                ),
+              }}
             
             options={{
 
