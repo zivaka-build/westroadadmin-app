@@ -11386,3 +11386,7 @@ input {
 .MuiIconButton-root {
   padding: 6px !important;
 }
+
+.MuiTypography-h6 {
+  padding-left: 10px !important;
+}

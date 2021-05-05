@@ -17,6 +17,7 @@ import IndividualLeadPage from "./routes/IndividualLeadPage"
 import AddTdsRatesPage from "./routes/AddTdsRatesPage"
 import ViewTdsRatesPage from "./routes/ViewTdsRatesPage"
 import ViewTdsPage from "./routes/ViewTdsPage"
+import ViewSitePage from "./routes/ViewSitePage"
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <AddTdsRatesPage path="/addtdsrates" />
           <ViewTdsRatesPage path="/viewtdsrates" />
           <ViewTdsPage path="/viewtds" />
+          <ViewSitePage path="/managesite" />
         </DefaultDashboard>
 
       </Router>

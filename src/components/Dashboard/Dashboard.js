@@ -325,7 +325,7 @@ const drawer = (
                     <h7>Add Site</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewsite'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/managesite'>
                     <ListItem button key={'Manage Site'}>
                     <h7>Manage Site</h7>
                     </ListItem>
