@@ -217,6 +217,10 @@ function ViewTds(){
                 axios
                 .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
+                    if(response.data.message == "no TDS found") {
+                        setTds([]);
+                    }
+                    else {
                     const tds = response.data.map((t)=>{
                         const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                         const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
@@ -248,7 +252,8 @@ function ViewTds(){
                             
                           };
                     })
-                    setTds(tds.reverse());          
+                    setTds(tds.reverse()); 
+                    }        
                 })
 
             }
@@ -258,6 +263,10 @@ function ViewTds(){
                 axios
                 .get(`${BASE_URL}/api/v1/tds/getlistoftds?TDSPaid=${tp}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
+                    if(response.data.message === "no TDS found"){
+                        setTds([]); 
+                    }
+                    else {
                     const tds = response.data.map((t)=>{
                         const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                         const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
@@ -289,7 +298,8 @@ function ViewTds(){
                             
                           };
                     })
-                    setTds(tds.reverse());          
+                    setTds(tds.reverse()); 
+                    }         
                 })
 
             }
@@ -299,6 +309,10 @@ function ViewTds(){
                 axios
                 .get(`${BASE_URL}/api/v1/tds/getlistoftds?TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
+                    if(response.data.message === "no TDS found"){
+                        setTds([]); 
+                    }
+                    else {
                     const tds = response.data.map((t)=>{
                         const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                         const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
@@ -330,7 +344,8 @@ function ViewTds(){
                             
                           };
                     })
-                    setTds(tds.reverse());          
+                    setTds(tds.reverse());
+                }          
                 })
 
             }
@@ -340,6 +355,10 @@ function ViewTds(){
                 axios
                 .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSPaid=${ts}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
+                    if(response.data.message === "no TDS found"){
+                        setTds([]); 
+                    }
+                    else {
                     const tds = response.data.map((t)=>{
                         const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                         const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
@@ -371,7 +390,8 @@ function ViewTds(){
                             
                           };
                     })
-                    setTds(tds.reverse());          
+                    setTds(tds.reverse());
+                }          
                 })
 
             }
@@ -381,6 +401,10 @@ function ViewTds(){
                 axios
                 .get(`${BASE_URL}/api/v1/tds/getlistoftds?TDSPaid=${tp}&TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
+                    if(response.data.message === "no TDS found"){
+                        setTds([]); 
+                    }
+                    else {
                     const tds = response.data.map((t)=>{
                         const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                         const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
@@ -412,7 +436,8 @@ function ViewTds(){
                             
                           };
                     })
-                    setTds(tds.reverse());          
+                    setTds(tds.reverse());   
+                }       
                 })
 
             }
@@ -422,6 +447,10 @@ function ViewTds(){
                 axios
                 .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
+                    if(response.data.message === "no TDS found"){
+                        setTds([]); 
+                    }
+                    else {
                     const tds = response.data.map((t)=>{
                         const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                         const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
@@ -453,7 +482,8 @@ function ViewTds(){
                             
                           };
                     })
-                    setTds(tds.reverse());          
+                    setTds(tds.reverse()); 
+                }         
                 })
 
             }
@@ -462,6 +492,10 @@ function ViewTds(){
                 axios
                 .get(`${BASE_URL}/api/v1/tds/getlistoftds?entityPAN=${ep}&TDSPaid=${tp}&TDSsection=${ts}`,{ headers : { 'Authorization' : Token }})
                 .then(response=>{
+                    if(response.data.message === "no TDS found"){
+                        setTds([]); 
+                    }
+                    else {
                     const tds = response.data.map((t)=>{
                         const {TDSId, TDSsection, entityType, entityName, entityPAN, taxSlab, TDSAmount, TDSBookingDate, TDSPaid,TDSPaidDate} = t
                         const formattedDate = TDSBookingDate.substring(8,10)+"-"+TDSBookingDate.substring(5,7)+"-"+TDSBookingDate.substring(0,4)
@@ -493,7 +527,8 @@ function ViewTds(){
                             
                           };
                     })
-                    setTds(tds.reverse());          
+                    setTds(tds.reverse());  
+                }        
                 })
 
             }
@@ -583,7 +618,7 @@ function ViewTds(){
                       </Select>
                   
                     </FormControl>
-                    <FormControl className={classes.formControl} style={{marginTop: "-50px"}}>
+                    <FormControl className={classes.formControl} style={{marginTop: "-50px", marginRight:"40px"}}>
                     <button className="btn btn-secondary btn-user" onClick={reset} style={{backgroundColor : "white", color : "black"}}>
                     Reset Filter
                     </button>
