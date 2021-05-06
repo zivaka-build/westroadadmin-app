@@ -82,6 +82,7 @@ function ViewSite(){
                     tooltip: 'View Site',
                     onClick: (event, rowData) => {
                         navigate(`/dashboard/individualsite/${rowData.siteId}`);
+                        Cookies.set('ActiveKeySite', 'first')
                     }
                 }
 

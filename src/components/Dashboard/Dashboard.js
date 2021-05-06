@@ -24,6 +24,7 @@ import {BsPeople} from 'react-icons/bs'
 import {GiTakeMyMoney} from 'react-icons/gi'
 import {BsFillPieChartFill} from 'react-icons/bs'
 import {AiOutlineSetting} from 'react-icons/ai'
+import {AiOutlineCalculator} from 'react-icons/ai'
 import {FaTools} from 'react-icons/fa'
 import {BsBellFill} from 'react-icons/bs'
 import Button from '@material-ui/core/Button';
@@ -370,9 +371,8 @@ return (
             <img className="logo" src={logo} alt="logo"/>
           </Typography>
           <div  style={{display: 'flex'}} >
-          
+          <a href="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></a>
           <a href="/" className="icon-link"><BsBellFill/></a>
-
           <a href="/" className="icon-link"><FaTools/></a>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
