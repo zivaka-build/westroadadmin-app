@@ -3,6 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
 import MaterialTable, { MTableToolbar } from "material-table";
+import { navigate } from "@reach/router";
 
 function ViewSite(){
 
@@ -79,7 +80,9 @@ function ViewSite(){
                 {
                     icon: 'remove_red_eye',
                     tooltip: 'View Site',
-                    
+                    onClick: (event, rowData) => {
+                        navigate(`/dashboard/individualsite/${rowData.siteId}`);
+                    }
                 }
 
             ]}
