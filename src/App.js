@@ -12,7 +12,16 @@ import AddSitePage from "./routes/AddSitePage"
 import TeamMemberPage from "./routes/TeamMemberPage.js";
 import LeadsPage from "./routes/LeadsPage.js"
 import AddLeadPage from "./routes/AddLeadPage"
-import ShowUnitPage from "./routes/ShowUnitPage";
+import ViewLeadPage from "./routes/ViewLeadPage"
+import IndividualLeadPage from "./routes/IndividualLeadPage"
+import AddTdsRatesPage from "./routes/AddTdsRatesPage"
+import ViewTdsRatesPage from "./routes/ViewTdsRatesPage"
+import ViewTdsPage from "./routes/ViewTdsPage"
+import ListofApplicationForm from "./components/Dashboard/ListofApplicationForm";
+import ViewSitePage from "./routes/ViewSitePage"
+import IndividualSitePage from "./routes/IndividualSitePage"
+import HLCPage from "./routes/HLCPage"
+import AddUnitPage from "./routes/AddUnitPage"
 
 function App() {
   return (
@@ -22,13 +31,22 @@ function App() {
         <NotFoundPage path="/notfound" />
         <DefaultDashboard path="/dashboard">
           <ConfigurationPage path="/config" />
+          <ListofApplicationForm path="/listofapplicationform" />
           <TeamMemberPage path="/teammember" />
           <AddMemberPage path="/addmember" />
           <SitePage path="/site" />
           <AddSitePage path="/addsite" />
           <LeadsPage path="/leads" />
           <AddLeadPage path="/addlead" />
-          <ShowUnitPage path="/showunit" />
+          <ViewLeadPage path="/viewlead" />
+          <IndividualLeadPage path="/individuallead/:leadID" />
+          <AddTdsRatesPage path="/addtdsrates" />
+          <ViewTdsRatesPage path="/viewtdsrates" />
+          <ViewTdsPage path="/viewtds" />
+          <ViewSitePage path="/managesite" />
+          <IndividualSitePage path="/individualsite/:siteID" />
+          <HLCPage path="/homeloancalculator" />
+          <AddUnitPage path="/addunit" />
         </DefaultDashboard>
 
       </Router>
