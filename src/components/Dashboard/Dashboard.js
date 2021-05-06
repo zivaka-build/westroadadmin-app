@@ -189,16 +189,12 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/createlead'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofunits'>
                     <ListItem button key={'Create Lead'}>
-                    <h7>Create Lead</h7>
+                    <h7>View Units</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/allactiveleads'>
-                    <ListItem button key={'Active Lead'}>
-                    <h7>Active Lead</h7>
-                    </ListItem>
-                    </Link>
+                    
                    
                     </List>
                 
