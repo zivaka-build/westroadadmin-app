@@ -22,6 +22,7 @@ import ViewSitePage from "./routes/ViewSitePage"
 import IndividualSitePage from "./routes/IndividualSitePage"
 import HLCPage from "./routes/HLCPage"
 import ListofUnits from "./components/Dashboard/ListofUnits";
+import AddUnitPage from "./routes/AddUnitPage"
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <ViewSitePage path="/managesite" />
           <IndividualSitePage path="/individualsite/:siteID" />
           <HLCPage path="/homeloancalculator" />
+          <AddUnitPage path="/addunit" />
         </DefaultDashboard>
 
       </Router>
