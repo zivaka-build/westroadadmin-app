@@ -18,6 +18,8 @@ import AddTdsRatesPage from "./routes/AddTdsRatesPage"
 import ViewTdsRatesPage from "./routes/ViewTdsRatesPage"
 import ViewTdsPage from "./routes/ViewTdsPage"
 import ListofApplicationForm from "./components/Dashboard/ListofApplicationForm";
+import ViewSitePage from "./routes/ViewSitePage"
+import IndividualSitePage from "./routes/IndividualSitePage"
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
           <AddTdsRatesPage path="/addtdsrates" />
           <ViewTdsRatesPage path="/viewtdsrates" />
           <ViewTdsPage path="/viewtds" />
+          <ViewSitePage path="/managesite" />
+          <IndividualSitePage path="/individualsite/:siteID" />
         </DefaultDashboard>
 
       </Router>
