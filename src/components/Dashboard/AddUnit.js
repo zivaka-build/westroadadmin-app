@@ -44,7 +44,7 @@ function AddUnit() {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
         axios
-            .post(`${BASE_URL}/api/v1/unit/addNewUnit`,{unitName: scode+"-"+ufloor+"-"+utype, unitSiteId: sid,unitTypeName: utype,unitPhase: uphase,unitFloor: ufloor},{ headers : { 'Authorization' : Token }})
+            .post(`${BASE_URL}/api/v1/unit/addNewUnit`,{unitName: scode+"-"+ufloor+"-"+utype, unitSiteId: sid,unitTypeName: utype,unitPhase: uphase,unitFloor: ufloor*1},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
                

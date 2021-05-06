@@ -21,6 +21,7 @@ import ListofApplicationForm from "./components/Dashboard/ListofApplicationForm"
 import ViewSitePage from "./routes/ViewSitePage"
 import IndividualSitePage from "./routes/IndividualSitePage"
 import HLCPage from "./routes/HLCPage"
+import ListofUnits from "./components/Dashboard/ListofUnits";
 import AddUnitPage from "./routes/AddUnitPage"
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <DefaultDashboard path="/dashboard">
           <ConfigurationPage path="/config" />
           <ListofApplicationForm path="/listofapplicationform" />
+          <ListofUnits path="/listofunits" />
           <TeamMemberPage path="/teammember" />
           <AddMemberPage path="/addmember" />
           <SitePage path="/site" />
