@@ -20,6 +20,7 @@ import ViewTdsPage from "./routes/ViewTdsPage"
 import ListofApplicationForm from "./components/Dashboard/ListofApplicationForm";
 import ViewSitePage from "./routes/ViewSitePage"
 import IndividualSitePage from "./routes/IndividualSitePage"
+import HLCPage from "./routes/HLCPage"
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <ViewTdsPage path="/viewtds" />
           <ViewSitePage path="/managesite" />
           <IndividualSitePage path="/individualsite/:siteID" />
+          <HLCPage path="/homeloancalculator" />
         </DefaultDashboard>
 
       </Router>
