@@ -70,8 +70,32 @@ function ViewTds(){
         setTs("");
     }
 
+   
+
+    const validatePan = (e) => {
+        var value = e.target.value
+        setEPan(value)
+        var regex = /^[A-Z0-9]{10}$/
+        var element = document.getElementById('entitypan');
+        var message = document.getElementById('panMessage')
+        if( regex.test(value)){
+            element.classList.remove('is-invalid');
+            element.classList.add('is-valid');
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+        }
+        else {
+            element.classList.add('is-invalid');
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            
+        }
+    }
+
     const updateEntity = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
+        var regex = /^[A-Z0-9]{10}$/
+        if(regex.test(ePan)) {
         axios
             .put(`${BASE_URL}/api/v1/tds/updateentitydetails`,{TDSId: tid,entityName: eName, entityPAN: ePan},{ headers : { 'Authorization' : Token }})
             .then(response => {
@@ -114,6 +138,7 @@ function ViewTds(){
                 setOpen1(false);          
             })
             })
+        }
 
     }
 
@@ -540,17 +565,16 @@ function ViewTds(){
     }, [ep, tp, ts])
 
     return(
-        <div className="row container-fluid px-0">
-        <div className="col-12 mt-4">
+        <div className="mt-3">
         <MaterialTable
             data={tds}
             title="TDS Rates"
             columns={
                 [
                     { title: 'TDS ID', field: 'TDSId' },
-                    { title: 'TDS Section', field: 'TDSsection' },
+                    { title: 'TDS Section', field: 'TDSsection'},
                     { title: 'Entity Type', field: 'entityType' },
-                    { title: 'Entity Name', field: 'entityName' },
+                    { title: 'Entity Name', field: 'entityName', },
                     { title: 'Entity Pan', field: 'entityPAN' },
                     { title: 'Tax Slab', field: 'taxSlab' },
                     { title: 'TDS Amount', field: 'TDSAmount' },
@@ -746,8 +770,12 @@ function ViewTds(){
                 name="entitypan"
                 id="entitypan"
                 value={ePan}
-                onChange={(e)=>setEPan(e.target.value)}
+                onChange={validatePan}
                 />
+                <small id="panMessage" className="text-danger d-none">
+                Must be of 10 characters with numbers and capitals only
+                <br />
+                </small>      
                 <br />
                 <div className="text-center">
                 <button className="btn btn-secondary btn-user" onClick={updateEntity}>
@@ -761,7 +789,6 @@ function ViewTds(){
             </div>
             </Fade>
       </Modal>
-        </div>
         </div>
     );
 
