@@ -18,6 +18,7 @@ import AddTdsRatesPage from "./routes/AddTdsRatesPage"
 import ViewTdsRatesPage from "./routes/ViewTdsRatesPage"
 import ViewTdsPage from "./routes/ViewTdsPage"
 import ListofApplicationForm from "./components/Dashboard/ListofApplicationForm";
+import CarParkingList from "./components/Dashboard/CarParkingList";
 import ViewSitePage from "./routes/ViewSitePage"
 import IndividualSitePage from "./routes/IndividualSitePage"
 import HLCPage from "./routes/HLCPage"
@@ -33,6 +34,7 @@ function App() {
         <DefaultDashboard path="/dashboard">
           <ConfigurationPage path="/config" />
           <ListofApplicationForm path="/listofapplicationform" />
+          <CarParkingList path="/carparkinglist" />
           <ListofUnits path="/listofunits" />
           <TeamMemberPage path="/teammember" />
           <AddMemberPage path="/addmember" />
