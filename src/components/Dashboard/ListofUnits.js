@@ -115,7 +115,7 @@ function ListofApplicationForm(){
         {
           axios.get(`${BASE_URL}/api/v1/unit/getlistofunit?unitSiteId=${usi}&unitPhaseCode=${upc}&status=${status}`,{headers:{Authorization:Token}})
           .then(response => {
-            
+            console.log(response)
             setForm(response.data)
           })
         }
@@ -204,6 +204,10 @@ function ListofApplicationForm(){
                         <MenuItem value="onHold">On Hold</MenuItem>
                         <MenuItem value="Alloted">Alloted</MenuItem>
                         <MenuItem value="handOver">Hand Over</MenuItem>
+                        <MenuItem value="saleAgreement ">Sale Agreement </MenuItem>
+                        <MenuItem value="warranty">Maintainance</MenuItem>
+                        <MenuItem value="closure">Closure</MenuItem>
+                        
                         
                       </Select>
                     
