@@ -127,7 +127,7 @@ function ListofApplicationForm(){
                 [
                     { title: 'Application Id', field: 'applicationId' },
                     { title: 'Unit Name', field: 'unitName' },
-                    { title: 'Car Parking Name', field: 'carParkingName' },
+                    { title: 'Car Parking Number', field: 'carParkings.length' },
                     { title: 'Status', field: 'status' },
                     { title: 'Booking By', field: 'bookingBy' },
                     { title: 'Bank Loan', field: 'isBankLoan' },
