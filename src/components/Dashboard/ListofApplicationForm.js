@@ -13,6 +13,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
+import { navigate } from "@reach/router";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,6 @@ function ListofApplicationForm(){
     };
 
     const [ form, setForm ] = useState([])
-    
     const [ appid, setAppid ] = useState("")
     const [ unitName, setUnitName] = useState("")
     const [ carPark, setCarPark] = useState("")
@@ -210,7 +210,8 @@ function ListofApplicationForm(){
                 icon: 'remove_red_eye',
                 tooltip: 'View Unit',
                 onClick: (event, rowData) => {
-
+                  navigate(`/dashboard/individualapplication/${rowData.applicationId}`);
+                  Cookies.set('ActiveKey','first')
                }
             }
 
