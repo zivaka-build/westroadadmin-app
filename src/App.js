@@ -24,6 +24,7 @@ import IndividualSitePage from "./routes/IndividualSitePage"
 import HLCPage from "./routes/HLCPage"
 import ListofUnits from "./components/Dashboard/ListofUnits";
 import AddUnitPage from "./routes/AddUnitPage"
+import ListofTransaction from "./components/Dashboard/ListofTransacrion";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <DefaultDashboard path="/dashboard">
           <ConfigurationPage path="/config" />
           <ListofApplicationForm path="/listofapplicationform" />
+          <ListofTransaction path="/listoftransaction" />
           <CarParkingList path="/carparkinglist" />
           <ListofUnits path="/listofunits" />
           <TeamMemberPage path="/teammember" />
