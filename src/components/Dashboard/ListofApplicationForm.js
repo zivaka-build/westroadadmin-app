@@ -205,30 +205,19 @@ function ListofApplicationForm(){
                 
                 }
             }}
-            // actions={[
-            //     rowData => (
-            //     {
-            //         icon: ()=> <GiGears />,
-            //         tooltip: 'Process TDS',
-            //         onClick: (event, rowData) => {
-            //         setOpen(true);
-            //         setTid(rowData.TDSId)},
-            //         disabled: rowData.entityPAN === null || rowData.TDSPaid === "Yes",
-            //     }),
-            //     rowData => ({
-            //         icon: 'edit',
-            //         tooltip: 'Update Entity',
-            //         onClick: (event, rowData) => {
-            //         setOpen1(true);
-            //         setEName(rowData.entityName);
-            //         setEPan(rowData.entityPAN);
-            //         setTid(rowData.TDSId);
-            //         },
-            //         disabled: rowData.TDSPaid === "Yes",
-            //     })
+            actions={[
+              {
+                icon: 'remove_red_eye',
+                tooltip: 'View Unit',
+                onClick: (event, rowData) => {
+
+               }
+            }
+
+        ]}
 
 
-            // ]}
+            
     
            ></MaterialTable>
             

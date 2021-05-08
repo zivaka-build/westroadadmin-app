@@ -138,7 +138,7 @@ function ListofTransaction(){
                     <MTableToolbar {...props} />
                     
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Transaction Type</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Type</InputLabel>
                       <Select
                         value={tt}
                         onChange={(e)=>setTt(e.target.value)}
@@ -160,7 +160,7 @@ function ListofTransaction(){
                     </FormControl>
 
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Transaction Category</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Category</InputLabel>
                       <Select
                         value={tc}
                         onChange={(e)=>setTc(e.target.value)}
@@ -172,10 +172,15 @@ function ListofTransaction(){
                           Transaction Category
                         </MenuItem>
                         <MenuItem value="online" >
-                        Online
-                        </MenuItem><MenuItem value="cash" >
+                        TDS Payment
+                        </MenuItem>
+                        <MenuItem value="cash" >
                         Cash
                         </MenuItem>
+                        <MenuItem value="bookingAmount" >
+                        Booking Amount
+                        </MenuItem>
+                        
 
                         
                       </Select>
