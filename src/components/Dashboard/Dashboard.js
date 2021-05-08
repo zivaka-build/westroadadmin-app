@@ -189,16 +189,22 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/createlead'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofapplicationform'>
                     <ListItem button key={'Create Lead'}>
-                    <h7>Create Lead</h7>
+                    <h7>List of Application</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/allactiveleads'>
-                    <ListItem button key={'Active Lead'}>
-                    <h7>Active Lead</h7>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofunits'>
+                    <ListItem button key={'Create Lead'}>
+                    <h7>View Units</h7>
                     </ListItem>
                     </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/carparkinglist'>
+                    <ListItem button key={'Create Lead'}>
+                    <h7>Car Parking</h7>
+                    </ListItem>
+                    </Link>
+                    
                    
                     </List>
                 
@@ -253,6 +259,12 @@ const drawer = (
                 <AccordionDetails>
                     <List>
                     
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
+                    <ListItem button key={'TDS'}>
+                    <h7>Transaction List</h7>
+                    </ListItem>
+                    </Link>
+
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
                     <ListItem button key={'TDS'}>
                     <h7>TDS</h7>

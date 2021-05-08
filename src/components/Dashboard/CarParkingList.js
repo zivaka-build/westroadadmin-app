@@ -13,8 +13,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
-import { navigate } from "@reach/router";
-
+import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -37,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
  
-function ListofApplicationForm(){
+function CarParkingList(){
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -54,20 +53,24 @@ function ListofApplicationForm(){
     };
 
     const [ form, setForm ] = useState([])
-    const [ appid, setAppid ] = useState("")
+    
+    const [ view, setView ] = useState("")
     const [ unitName, setUnitName] = useState("")
-    const [ carPark, setCarPark] = useState("")
+    const [ unitType, setUnitType] = useState("")
     const [ status, setStatus] = useState("")
-    const [ bookingBy, setBookingBy] = useState("")
-    const [ isBankLoan, setIsBankLoan] = useState("")
-    const [ siteName, setSiteName] = useState([])
-    const [ snf,setSnf] = useState("")
+    const [ unitFloor, setUnitFloor] = useState("")
+    const [ unitPhase, setUnitPhase] = useState("")
+    const [ onHold, setOnHold] = useState("")
+    const [ ptc, setPtc] = useState("")
+    const [ stat, setStat] = useState([])
+    const [ ptca, setPtca] = useState([])
     
    
 
     const reset = (e) => {
         setStatus("");
-        setSnf("");
+        setPtc("");
+        
         
     }
 
@@ -78,59 +81,53 @@ function ListofApplicationForm(){
     useEffect(() => {
        
         const Token = 'bearer' + " " + Cookies.get('Token')
-
-        axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{Authorization:Token}})
-        .then(response =>{
-          
-          setSiteName(response.data.siteMap)
+        if(status==="" && ptc === ""){
+            axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking`,{headers:{Authorization:Token}})
+          .then(response => {
+            
+            setForm(response.data)
+          })
+        }
+        else if(status !=="" && ptc === ""){
+            axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?status=${status}`,{headers:{Authorization:Token}})
+          .then(response => {
+            
+            setForm(response.data)
+          })
+        }
+        else if(status ==="" && ptc !== ""){
+            axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?parkingTypeCode=${ptc}`,{headers:{Authorization:Token}})
+          .then(response => {
+            
+            setForm(response.data)
+          })
+        }
+        else if(ptc!=="" && status!==""){
+          axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?parkingTypeCode=${ptc}&status=${status}`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          setForm(response.data)
         })
-
-        if(status==="" && snf ===""){
-          axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform`,{headers:{Authorization:Token}})
-          .then(response =>{
-            console.log(response.data)
-            setForm(response.data)
-          })
-        }
-        else if(status==="" && snf!==""){
-          axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}`,{headers:{Authorization:Token}})
-          .then(response =>{
-            console.log(response.data)
-            setForm(response.data)
-          })
-        }
-        else if(status!=="" && snf===""){
-          axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?status=${status}`,{headers:{Authorization:Token}})
-          .then(response =>{
-            console.log(response.data)
-            setForm(response.data)
-          })
-        }
-        else if(status!=="" && snf!==""){
-          axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}&status=${status}`,{headers:{Authorization:Token}})
-          .then(response =>{
-            console.log(response.data)
-            setForm(response.data)
-          })
-        }
+      }
         
-
-    },[status,snf])
+          
+          
+        
+    },[status,ptc])
 
     return(
         <div className="row container-fluid px-0">
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}
-            title="Application Forms"
+            title="Units"
             columns={
                 [
-                    { title: 'Application Id', field: 'applicationId' },
-                    { title: 'Unit Name', field: 'unitName' },
                     { title: 'Car Parking Name', field: 'carParkingName' },
+                    { title: 'Phase Name', field: 'phaseCode' },
+                    { title: 'Parking Type', field: 'parkingType' },
                     { title: 'Status', field: 'status' },
-                    { title: 'Booking By', field: 'bookingBy' },
-                    { title: 'Bank Loan', field: 'isBankLoan' },
+                    
                     
                     
                 ]
@@ -145,46 +142,58 @@ function ListofApplicationForm(){
                     <MTableToolbar {...props} />
                     
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
+                    <InputLabel id="demo-simple-select-helper-label">Parking Type</InputLabel>
+                      <Select
+                        value={ptc}
+                        onChange={(e)=>setPtc(e.target.value)}
+                        className={classes.selectEmpty}
+                        inputProps={{ "aria-label": "Without label" }}
+                      >
+                        <MenuItem value="" disabled>
+                         Parking type
+                        </MenuItem>
+                        <MenuItem value="GB" >
+                        Ground Basement
+                        </MenuItem><MenuItem value="GC" >
+                        Ground Covered
+                        </MenuItem><MenuItem value="OP" >
+                        Open Parking
+                        </MenuItem>
+                       
+
+                      </Select>
+                  
+                    </FormControl>
+
+                    <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
                     <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
                       <Select
                         value={status}
                         onChange={(e)=>setStatus(e.target.value)}
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
+                        
                       >
-                        <MenuItem value="all" >
-                          All
+                        <MenuItem value="all" disabled>
+                          Phase
                         </MenuItem>
-                        <MenuItem value="initiated">Booking Initiated</MenuItem>
-                        <MenuItem value="form_generated">Form Generated</MenuItem>
-                        <MenuItem value="amount_received">Booking Amount Recieved</MenuItem>
-                        <MenuItem value="prov_ltr_generated">Provisional Letter Generated</MenuItem>
-                        <MenuItem value="appointment">Agreement Appointment</MenuItem>
-                        <MenuItem value="signed">Sales Agreement Signed</MenuItem>
+                        <MenuItem value="available" >
+                        Available
+                        </MenuItem><MenuItem value="onHold" >
+                        On Hold
+                        </MenuItem><MenuItem value="alloted" >
+                        Alloted
+                        </MenuItem>
+
+                        
                       </Select>
                     
                     </FormControl>
-  
-                   
-                    <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Site Name</InputLabel>
-                      <Select
-                        value={snf}
-                        onChange={(e)=>setSnf(e.target.value)}
-                        className={classes.selectEmpty}
-                        inputProps={{ "aria-label": "Without label" }}
-                      >
-                        <MenuItem value="" disabled>
-                         Site Name
-                        </MenuItem>
-                        {siteName.map((t) => (
-                            <MenuItem key={t.SiteId} value={t.SiteId}>{t.SiteName}</MenuItem>
-                                        ))}
 
-                      </Select>
-                  
-                    </FormControl>
-                    <FormControl className={classes.formControl} style={{marginTop: "-50px"}}>
+  
+  
+                    
+                    <FormControl className={classes.formControl} style={{marginTop: "-50px",marginRight:"110px"}}>
                     <button className="btn btn-secondary btn-user" onClick={reset} style={{backgroundColor : "white", color : "black"}}>
                     Reset Filter
                     </button>
@@ -205,21 +214,7 @@ function ListofApplicationForm(){
                 
                 }
             }}
-            actions={[
-              {
-                icon: 'remove_red_eye',
-                tooltip: 'View Unit',
-                onClick: (event, rowData) => {
-                  navigate(`/dashboard/individualapplication/${rowData.applicationId}`);
-                  Cookies.set('ActiveKey','first')
-               }
-            }
-
-        ]}
-
-
             
-    
            ></MaterialTable>
             
         </div>
@@ -228,4 +223,4 @@ function ListofApplicationForm(){
 
 }
 
-export default ListofApplicationForm;
+export default CarParkingList;

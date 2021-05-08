@@ -18,9 +18,15 @@ import AddTdsRatesPage from "./routes/AddTdsRatesPage"
 import ViewTdsRatesPage from "./routes/ViewTdsRatesPage"
 import ViewTdsPage from "./routes/ViewTdsPage"
 import ListofApplicationForm from "./components/Dashboard/ListofApplicationForm";
+import CarParkingList from "./components/Dashboard/CarParkingList";
 import ViewSitePage from "./routes/ViewSitePage"
 import IndividualSitePage from "./routes/IndividualSitePage"
 import HLCPage from "./routes/HLCPage"
+import ListofUnits from "./components/Dashboard/ListofUnits";
+import AddUnitPage from "./routes/AddUnitPage"
+import ListofTransaction from "./components/Dashboard/ListofTransacrion";
+import IndividualApplicationform from "./components/Dashboard/IndividualApplicationform";
+import AddCarParking from "./components/Dashboard/AddCarParking";
 
 function App() {
   return (
@@ -31,20 +37,26 @@ function App() {
         <DefaultDashboard path="/dashboard">
           <ConfigurationPage path="/config" />
           <ListofApplicationForm path="/listofapplicationform" />
+          <ListofTransaction path="/listoftransaction" />
+          <CarParkingList path="/carparkinglist" />
+          <ListofUnits path="/listofunits" />
           <TeamMemberPage path="/teammember" />
           <AddMemberPage path="/addmember" />
           <SitePage path="/site" />
           <AddSitePage path="/addsite" />
+          <AddCarParking path="/addcarparking" />
           <LeadsPage path="/leads" />
           <AddLeadPage path="/addlead" />
           <ViewLeadPage path="/viewlead" />
           <IndividualLeadPage path="/individuallead/:leadID" />
+          <IndividualApplicationform path="/individualapplication/:applicationId" />
           <AddTdsRatesPage path="/addtdsrates" />
           <ViewTdsRatesPage path="/viewtdsrates" />
           <ViewTdsPage path="/viewtds" />
           <ViewSitePage path="/managesite" />
           <IndividualSitePage path="/individualsite/:siteID" />
           <HLCPage path="/homeloancalculator" />
+          <AddUnitPage path="/addunit" />
         </DefaultDashboard>
 
       </Router>
