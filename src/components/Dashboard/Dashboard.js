@@ -191,7 +191,7 @@ const drawer = (
                     <List>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofapplicationform'>
                     <ListItem button key={'Create Lead'}>
-                    <h7>Application List</h7>
+                    <h7>List of Application</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofunits'>
