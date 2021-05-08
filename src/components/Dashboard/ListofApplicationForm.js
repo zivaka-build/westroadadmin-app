@@ -13,6 +13,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
+import { navigate } from "@reach/router";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,6 @@ function ListofApplicationForm(){
     };
 
     const [ form, setForm ] = useState([])
-    
     const [ appid, setAppid ] = useState("")
     const [ unitName, setUnitName] = useState("")
     const [ carPark, setCarPark] = useState("")
@@ -205,30 +205,20 @@ function ListofApplicationForm(){
                 
                 }
             }}
-            // actions={[
-            //     rowData => (
-            //     {
-            //         icon: ()=> <GiGears />,
-            //         tooltip: 'Process TDS',
-            //         onClick: (event, rowData) => {
-            //         setOpen(true);
-            //         setTid(rowData.TDSId)},
-            //         disabled: rowData.entityPAN === null || rowData.TDSPaid === "Yes",
-            //     }),
-            //     rowData => ({
-            //         icon: 'edit',
-            //         tooltip: 'Update Entity',
-            //         onClick: (event, rowData) => {
-            //         setOpen1(true);
-            //         setEName(rowData.entityName);
-            //         setEPan(rowData.entityPAN);
-            //         setTid(rowData.TDSId);
-            //         },
-            //         disabled: rowData.TDSPaid === "Yes",
-            //     })
+            actions={[
+              {
+                icon: 'remove_red_eye',
+                tooltip: 'View Unit',
+                onClick: (event, rowData) => {
+                  navigate(`/dashboard/individualapplication/${rowData.applicationId}`);
+                  Cookies.set('ActiveKey','first')
+               }
+            }
+
+        ]}
 
 
-            // ]}
+            
     
            ></MaterialTable>
             

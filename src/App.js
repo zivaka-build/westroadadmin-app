@@ -25,6 +25,7 @@ import HLCPage from "./routes/HLCPage"
 import ListofUnits from "./components/Dashboard/ListofUnits";
 import AddUnitPage from "./routes/AddUnitPage"
 import ListofTransaction from "./components/Dashboard/ListofTransacrion";
+import IndividualApplicationform from "./components/Dashboard/IndividualApplicationform";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <AddLeadPage path="/addlead" />
           <ViewLeadPage path="/viewlead" />
           <IndividualLeadPage path="/individuallead/:leadID" />
+          <IndividualApplicationform path="/individualapplication/:applicationId" />
           <AddTdsRatesPage path="/addtdsrates" />
           <ViewTdsRatesPage path="/viewtdsrates" />
           <ViewTdsPage path="/viewtds" />
