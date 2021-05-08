@@ -540,8 +540,8 @@ function ViewTds(){
     }, [ep, tp, ts])
 
     return(
-        <div className="row container-fluid px-0">
-        <div className="col-12 mt-4">
+        <div className="mt-4">
+        
         <MaterialTable
             data={tds}
             title="TDS Rates"
@@ -761,7 +761,7 @@ function ViewTds(){
             </div>
             </Fade>
       </Modal>
-        </div>
+
         </div>
     );
 
