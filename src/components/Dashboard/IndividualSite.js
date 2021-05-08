@@ -15,34 +15,32 @@ import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 function IndividualSite() {
     
     const [leads, setLeads] = useState([]);
+    const [form,setForm] = useState([]);
+    const [car, setCar] = useState([]);
 
     const addUnit = () => {
         navigate("/dashboard/addunit")
     }
 
+    const AddCarParking = () => {
+        navigate("/dashboard/addcarparking")
+    }
+
     useEffect(() => {
         const Token = "bearer" + " " + Cookies.get("Token");
-        axios.get(
-          `${BASE_URL}/api/v1/lead/getAllLeads`,
-          { headers: { Authorization: Token } }
-        ).then((result) => {
-          console.log(result.data);
-          const arr = result.data
-          const leads = arr.leads.map((lead)=>{
-            const {leadID,name,phone,creationdate,leadWeightage,leadStatus} = lead
-            const formattedDate = creationdate.substring(11,13)+":"+creationdate.substring(14,16)+", "+creationdate.substring(8,10)+"-"+creationdate.substring(5,7)+"-"+creationdate.substring(0,4)
-    
-            return {
-                leadID,
-                name,
-                phone,
-                creationdate: formattedDate,
-                leadWeightage,
-                leadStatus
-                
-              };
-        })
-        setLeads(leads)});
+        axios.get(`${BASE_URL}/api/v1/unit/getlistofunit`,{headers:{Authorization:Token}})
+          .then(response => {
+            
+            console.log(response)
+            setForm(response.data)
+          })
+
+        axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking`,{headers:{Authorization:Token}})
+          .then(response => {
+            
+            console.log(response)
+            setCar(response.data)
+          })
       }, []);
     return(
         <>
@@ -97,18 +95,18 @@ function IndividualSite() {
                     <div className="col-lg-12 col-sm-12">
                         <br />
                         <br />
-                    <MaterialTable data={leads}
+                    <MaterialTable data={form}
 
-                        title="Leads"
+                        title="Units"
                         columns={
                             [
-                                { title: 'Lead Id', field: 'leadID' },
-                                { title: 'Name', field: 'name' },
-                                { title: 'Phone No', field: 'phone' },
-                                { title: 'Created At', field: 'creationdate' },
-                                { title: 'Lead Type', field: 'leadWeightage' },
-                                { title: 'Lead Status', field: 'leadStatus' },
-                                { title: 'Assigned To', field: 'assignedTo' },
+                                { title: 'Status', field: 'status' },
+                                { title: 'Unit Name', field: 'unitName' },
+                                { title: 'Unit Type', field: 'unitTypeName' },
+                                
+                                { title: 'Unit Floor', field: 'unitFloor' },
+                                { title: 'Unit Phase', field: 'unitPhaseName' },
+                                { title: 'On Hold', field: 'unitOnHold' },
 
                             ]
                         }
@@ -124,22 +122,48 @@ function IndividualSite() {
                             
                             }
                         }}
-                        actions={[
-                            {
-                                icon: ()=> <Edit />,
-                                tooltip: 'Edit Lead',
-                                onClick: (event, rowData) => {
-                                navigate(`/dashboard/individuallead/${rowData.leadID}`);
-                                Cookies.set('ActiveKey','first')}
-                            }
-
-                        ]}></MaterialTable>
+                        ></MaterialTable>
                         </div>
                     </center>
                     </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="fifth">
-                    
+                    <div className="mt-2 container-fluid px-0">
+                    <center>
+                    <div className="col-4">
+                    <button className="btn btn-secondary btn-user" onClick={AddCarParking}>Add Car Parking</button>
+                    </div>
+                    <div className="col-lg-12 col-sm-12">
+                        <br />
+                        <br />
+                    <MaterialTable data={car}
+
+                        title="Car Parking"
+                        columns={
+                            [
+                                { title: 'Car Parking Name', field: 'carParkingName' },
+                                { title: 'Phase Name', field: 'phaseCode' },
+                                { title: 'Parking Type', field: 'parkingType' },
+                                { title: 'Status', field: 'status' },
+
+                            ]
+                        }
+                        options={{
+                            search: true,
+                            actionsColumnIndex: -1,
+                        }}
+                        options={{
+
+                            headerStyle: {
+                                backgroundColor: '#EE4B46',
+                                color: '#fff',
+                            
+                            }
+                        }}
+                        ></MaterialTable>
+                        </div>
+                    </center>
+                    </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="sixth">
                     
