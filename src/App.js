@@ -26,6 +26,7 @@ import ListofUnits from "./components/Dashboard/ListofUnits";
 import AddUnitPage from "./routes/AddUnitPage"
 import ListofTransaction from "./components/Dashboard/ListofTransacrion";
 import IndividualApplicationform from "./components/Dashboard/IndividualApplicationform";
+import AddCarParking from "./components/Dashboard/AddCarParking";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <AddMemberPage path="/addmember" />
           <SitePage path="/site" />
           <AddSitePage path="/addsite" />
+          <AddCarParking path="/addcarparking" />
           <LeadsPage path="/leads" />
           <AddLeadPage path="/addlead" />
           <ViewLeadPage path="/viewlead" />
