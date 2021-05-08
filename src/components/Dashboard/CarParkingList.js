@@ -88,10 +88,10 @@ function CarParkingList(){
             setForm(response.data)
           })
         }
-        else if(status!=="" && ptc === ""){
+        else if(status !=="" && ptc === ""){
             axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?status=${status}`,{headers:{Authorization:Token}})
           .then(response => {
-            console.log(response)
+            
             setForm(response.data)
           })
         }
@@ -102,12 +102,14 @@ function CarParkingList(){
             setForm(response.data)
           })
         }
-        else if(status !=="" && ptc !== ""){
-            axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?status=${status}&parkingTypeCode=${ptc}`,{headers:{Authorization:Token}})
-          .then(response => {
-            setForm(response.data)
-          })
-        }
+        else if(ptc!=="" && status!==""){
+          axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?parkingTypeCode=${ptc}&status=${status}`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          setForm(response.data)
+        })
+      }
+        
           
           
         
