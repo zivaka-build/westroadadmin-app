@@ -99,7 +99,7 @@ function ListofApplicationForm(){
             setForm(response.data)
           })
         }
-        else if(status==!"" && snf==""){
+        else if(status!=="" && snf===""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?status=${status}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
