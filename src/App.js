@@ -27,6 +27,7 @@ import AddUnitPage from "./routes/AddUnitPage"
 import ListofTransaction from "./components/Dashboard/ListofTransacrion";
 import IndividualApplicationform from "./components/Dashboard/IndividualApplicationform";
 import AddCarParking from "./components/Dashboard/AddCarParking";
+import AddUnitTypePage from "./routes/AddUnitTypePage";
 
 function App() {
   return (
@@ -56,7 +57,8 @@ function App() {
           <ViewSitePage path="/managesite" />
           <IndividualSitePage path="/individualsite/:siteID" />
           <HLCPage path="/homeloancalculator" />
-          <AddUnitPage path="/addunit" />
+          <AddUnitPage path="/addunit/:siteID" />
+          <AddUnitTypePage path="/addunittype/:siteID" />
         </DefaultDashboard>
 
       </Router>

@@ -13,13 +13,19 @@ import { navigate } from "@reach/router";
 import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 
 function IndividualSite() {
-    
+
+    const {siteID} = useParams()
     const [leads, setLeads] = useState([]);
     const [form,setForm] = useState([]);
     const [car, setCar] = useState([]);
+    const [unitType, setUnitType] = useState([]);
 
     const addUnit = () => {
-        navigate("/dashboard/addunit")
+        navigate(`/dashboard/addunit/${siteID}`)
+    }
+
+    const addUnitType = () => {
+        navigate(`/dashboard/addunittype/${siteID}`)
     }
 
     const AddCarParking = () => {
@@ -30,17 +36,22 @@ function IndividualSite() {
         const Token = "bearer" + " " + Cookies.get("Token");
         axios.get(`${BASE_URL}/api/v1/unit/getlistofunit`,{headers:{Authorization:Token}})
           .then(response => {
-            
-            console.log(response)
+        
             setForm(response.data)
           })
 
         axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking`,{headers:{Authorization:Token}})
           .then(response => {
-            
-            console.log(response)
+
             setCar(response.data)
           })
+
+        axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+        .then(response => {
+            console.log(response.data.site.unitTypes)
+            setUnitType(response.data.site.unitTypes)
+        })
+        
       }, []);
     return(
         <>
@@ -84,6 +95,43 @@ function IndividualSite() {
                     
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
+                    <div className="mt-2">
+                    <div className="col-12 text-center">
+                    <button className="btn btn-secondary btn-user" onClick={addUnitType}>Add Unit Type</button>
+                    </div>
+                    <br />
+                    <br />
+                    <MaterialTable 
+                        data={unitType}
+                        title="Unit Types"
+                        columns={
+                            [
+                                { title: 'Type Name', field: 'unitTypeName' },
+                                { title: 'Phase Name', field: 'phaseName' },
+                                { title: 'BHK', field: 'bhk' },
+                                { title: 'Carpet', field: 'carpetArea' },
+                                { title: 'Balcony', field: 'balconyArea' },
+                                { title: 'Built Up', field: 'builtUpArea' },
+                                { title: 'Super Built Up', field: 'superBuiltUpArea' },
+                                { title: 'PLC', field: 'preferredLocationCharge' },
+                                { title: 'Rate', field: 'baseSqFeetRate' },
+
+                            ]
+                        }
+                        options={{
+                            search: true,
+                            actionsColumnIndex: -1,
+                        }}
+                        options={{
+
+                            headerStyle: {
+                                backgroundColor: '#EE4B46',
+                                color: '#fff',
+                            
+                            }
+                        }}
+                        ></MaterialTable>
+                    </div>
                     
                     </Tab.Pane>
                     <Tab.Pane eventKey="fourth">
