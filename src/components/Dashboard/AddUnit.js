@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react"
-import { useParams } from "@reach/router"
+import { useParams , navigate} from "@reach/router"
 import { Form } from "react-bootstrap";
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
+import {IoMdArrowBack} from 'react-icons/io'
 
 function AddUnit() {
-   
+    const {siteID} = useParams()
     const [ uname, setUname ] = useState("")
     const [ sid, setSid ] = useState("")
     const [ scode, setScode] = useState("")
@@ -19,6 +20,10 @@ function AddUnit() {
         var str = e.target.value
         setScode(str.substring(str.indexOf(' ') + 1))
         setSid(str.substring(0, str.indexOf(' ')))
+    }
+
+    const back = () => {
+        navigate(`/dashboard/individualsite/${siteID}`)
     }
 
     useEffect(() => { 
@@ -47,12 +52,18 @@ function AddUnit() {
             .post(`${BASE_URL}/api/v1/unit/addNewUnit`,{unitName: scode+"-"+ufloor+"-"+utype, unitSiteId: sid,unitTypeName: utype,unitPhase: uphase,unitFloor: ufloor*1},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
+                navigate(`/dashboard/individualsite/${siteID}`)
                
             })
     }
     return(
         <>
-        <div className="mt-5 row container-fluid justify-content-center">
+        <div className="mt-3 row container-fluid justify-content-center">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={back}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
+        <div className="row container-fluid justify-content-center">
             <div className="col-8">
             <h4>Add Unit</h4>
             </div>
