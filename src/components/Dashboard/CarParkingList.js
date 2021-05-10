@@ -177,11 +177,11 @@ function CarParkingList(){
                         <MenuItem value="all" disabled>
                           Phase
                         </MenuItem>
-                        <MenuItem value="available" >
+                        <MenuItem value="Available" >
                         Available
-                        </MenuItem><MenuItem value="onHold" >
+                        </MenuItem><MenuItem value="OnHold" >
                         On Hold
-                        </MenuItem><MenuItem value="alloted" >
+                        </MenuItem><MenuItem value="Alloted" >
                         Alloted
                         </MenuItem>
 
