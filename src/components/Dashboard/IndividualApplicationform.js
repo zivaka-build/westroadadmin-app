@@ -14,9 +14,7 @@ function IndividualApplicationform() {
 
     const {applicationId} = useParams()
     const [ applicant, setApplicant ] = useState([])
-    const [arr,setArr] =useState([{
-        applicantId:''
-    },])
+    let [arr,setArr] =useState([])
     const [ appid, setAppid ] = useState("")
     const [ siteid, setSiteid ] = useState("")
     const [ leadid, setLeadid ] = useState("")
@@ -26,7 +24,30 @@ function IndividualApplicationform() {
     const [ bookingBy, setBookingBy] = useState("")
     const [ isBankLoan, setIsBankLoan] = useState("")
 
+    const [file, setFile] = useState("");
 
+    
+    function handleUpload(event) {
+      setFile(event.target.files[0]);
+      
+    }
+
+    const upload = (e) =>{
+        e.preventDefault()
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        const f = new FormData()
+        f.append('file',f,f.name)
+        f.append('custId','123')
+        f.append('folderName','profile')
+
+        axios.post(`${BASE_URL}/api/v1/util/documentupload`,f ,{headers:{Authorization:Token}})
+        .then(response=>{
+            console.log(response)
+        })
+
+    }
+    
+      
     useEffect(()=>{
 
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -34,7 +55,7 @@ function IndividualApplicationform() {
         axios.get(`${BASE_URL}/api/v1/applicationform/getapplicationformbyapplicationid/${applicationId}`,{headers:{Authorization:Token}})
           .then(response =>{
 
-            
+            console.log(response)
             setAppid(response.data.applicationId)
             setUnitName(response.data.unitName)
             setCarPark(response.data.carParkingName)
@@ -43,29 +64,18 @@ function IndividualApplicationform() {
             setLeadid(response.data.leadId)
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
-            console.log(response.data)
-            var applicant = response.data.applicants
             
             
-            for(var i=0;i<applicant.length;i++){
-                const id = applicant[i]
-                const values = [...arr]
-              axios.get(`${BASE_URL}/api/v1/applicant/getapplicantbyapplicantid/${id}`,{headers:{Authorization:Token}})
-              .then(response=>{
-                
-                // values[i].applicantId=response.data.applicantId
-                // setArr(values)           
-                            
-            })
-
             
-            }
-
-            
-            console.log(arr)
             
           })
 
+          axios.get(`${BASE_URL}/api/v1/applicant/getlistofapplicantsbyapplicationID/${applicationId}`,{headers:{Authorization:Token}})
+              .then(response=>{
+                
+              console.log(response)
+              setArr(response.data)
+            })
           
 
           
@@ -203,13 +213,33 @@ function IndividualApplicationform() {
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="second">
-                {/* {arr.map((a)=>{
-                <div className="tab-card row container-fluid">
-                    <h4>{a.applicantId}</h4>
-                </div> */}
-                <div className="tab-card row container-fluid">
-                    {/* <h4>{arr.applicantId}</h4> */}
+                {arr.map((a)=>(
+                <div className="tab-card mt-3 py-3 container-fluid">
+                    <h4><span>Applicant ID:</span> {a.applicantId}</h4>
+                    <br/>
+                    <h5><span>Applicant Type:</span> {a.applicantType}</h5>
+                    <br/><br/>
+                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Name:</span> {a.name}</span>
+                    
+                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Mobile:</span> {a.applicantMobile}</span>
+                    
+                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Whatsapp:</span> {a.applicantWhatsapp}</span>
+                    <br/><br/>
+                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Father Name:</span> {a.fatherName}</span>
+
+                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Spouse Name:</span> {a.spouseName}</span>
+                    
+                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>PAN Number: </span>{a.applicantPAN}</span>
+                    
+                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Applicant Aadhar:</span> {a.applicantAadhar}</span>
+                    <br/><br/>
+                    <span><span style={{fontWeight:"bold", fontSize:"1rem"}}>Applicant Address:</span> {a.applicantAddress.fullAddress}, {a.applicantAddress.landmark}, {a.applicantAddress.city}, {a.applicantAddress.pinCode}, {a.applicantAddress.state}</span>
+                    <br/><br/>
+                    <span><span style={{fontWeight:"bold", fontSize:"1rem"}}>Correspondent Address:</span> {a.correspondentAddress.fullAddress}, {a.correspondentAddress.landmark}, {a.correspondentAddress.city}, {a.correspondentAddress.pinCode}, {a.correspondentAddress.state}</span>
+                    
+                    
                 </div>
+                ))}
 
                 
 
@@ -217,6 +247,16 @@ function IndividualApplicationform() {
                 
                 
 
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="third">
+                
+                
+                <input className="" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload}/><br/><br/>
+                        <span style={{paddingLeft:"1.5rem"}}>Filename: {file.name}</span>
+                <button onClick={upload}>Upload Document</button>
+              
                 </Tab.Pane>
             </Tab.Content>
             </Col>
