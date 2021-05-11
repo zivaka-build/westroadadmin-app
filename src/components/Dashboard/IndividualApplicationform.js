@@ -9,6 +9,7 @@ import Tab from 'react-bootstrap/Tab'
 import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Button from '@material-ui/core/Button';
 
 function IndividualApplicationform() {
 
@@ -35,14 +36,17 @@ function IndividualApplicationform() {
     const upload = (e) =>{
         e.preventDefault()
         const Token = 'bearer' + " " + Cookies.get('Token')
-        const f = new FormData()
-        f.append('file',f,f.name)
-        f.append('custId','123')
-        f.append('folderName','profile')
+        const formData = new FormData()
+        formData.append('file',file)
+        formData.append('custId','123')
+        formData.append('folderName','profile')
 
-        axios.post(`${BASE_URL}/api/v1/util/documentupload`,f ,{headers:{Authorization:Token}})
+        axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
         .then(response=>{
             console.log(response)
+            if(response.status === 200){
+                alert("File Successfully Uploaded")
+            }
         })
 
     }
@@ -84,7 +88,7 @@ function IndividualApplicationform() {
   
 
     return (
-        <div>
+        <div className="mt-2">
         <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveKey')}>
         <Row>
             <Col sm={12}>
@@ -252,11 +256,13 @@ function IndividualApplicationform() {
             <Tab.Content>
                 <Tab.Pane eventKey="third">
                 
-                
-                <input className="" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload}/><br/><br/>
-                        <span style={{paddingLeft:"1.5rem"}}>Filename: {file.name}</span>
-                <button onClick={upload}>Upload Document</button>
-              
+                <div className="row justify-content-center">
+                <div className="col-4 text-center">
+                <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
+                <br />
+                <button className="btn btn-danger" onClick={upload}>Upload Document</button>
+                </div>
+                </div>
                 </Tab.Pane>
             </Tab.Content>
             </Col>
