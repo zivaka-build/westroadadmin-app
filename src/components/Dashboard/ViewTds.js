@@ -58,6 +58,7 @@ function ViewTds(){
     const [ bank, setBank] = useState("")
     const [ eName, setEName] = useState("")
     const [ ePan, setEPan] = useState("")
+    const [disable, setDisable] = useState(false)
 
     const [ep, setEp] = useState("")
     const [tp, setTp] = useState("")
@@ -83,11 +84,13 @@ function ViewTds(){
             element.classList.add('is-valid');
             message.classList.remove('d-block');
             message.classList.add('d-none');
+            setDisable(false)
         }
         else {
             element.classList.add('is-invalid');
             message.classList.remove('d-none');
             message.classList.add('d-block');
+            setDisable(true)
             
         }
     }
@@ -778,7 +781,7 @@ function ViewTds(){
                 </small>      
                 <br />
                 <div className="text-center">
-                <button className="btn btn-secondary btn-user" onClick={updateEntity}>
+                <button className="btn btn-secondary btn-user" onClick={updateEntity} disabled={disable}>
                 Save
                 </button>
                 &nbsp;&nbsp;
