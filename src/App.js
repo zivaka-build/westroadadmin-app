@@ -29,6 +29,7 @@ import IndividualApplicationform from "./components/Dashboard/IndividualApplicat
 import AddCarParking from "./components/Dashboard/AddCarParking";
 import AddUnitTypePage from "./routes/AddUnitTypePage";
 import ListofDemand from "./components/Dashboard/ListofDemands";
+import ListofCheque from "./components/Dashboard/ListofCheques";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <ConfigurationPage path="/config" />
           <ListofApplicationForm path="/listofapplicationform" />
           <ListofTransaction path="/listoftransaction" />
+          <ListofCheque path="/listofcheque" />
           <CarParkingList path="/carparkinglist" />
           <ListofUnits path="/listofunits" />
           <ListofDemand path="/listofdemand" />
