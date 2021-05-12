@@ -19,6 +19,7 @@ function IndividualSite() {
     const [form,setForm] = useState([]);
     const [car, setCar] = useState([]);
     const [unitType, setUnitType] = useState([]);
+
     const [sn, setSn] = useState("")
     const [sc, setSc] = useState("")
     const [hr, setHr] = useState("")
@@ -42,7 +43,6 @@ function IndividualSite() {
     const [lcharges, setLcharges] = useState([])
     const [pterms, setPterms] = useState([])
   
-
 
 
     const addUnit = () => {
@@ -73,7 +73,8 @@ function IndividualSite() {
 
         axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
         .then(response => {
-    
+
+            console.log(response.data.site.unitTypes)
             setUnitType(response.data.site.unitTypes)
             console.log(response.data)
             setSn(response.data.site.siteName)
@@ -102,13 +103,9 @@ function IndividualSite() {
                     console.log(response.data.paymentTerms.termItems)
                     setPterms(response.data.paymentTerms.termItems)
             })
-         
-           
-
-         
+  
         })
 
-        
         
       }, []);
     return(
