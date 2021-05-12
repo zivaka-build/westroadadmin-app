@@ -28,6 +28,7 @@ import ListofTransaction from "./components/Dashboard/ListofTransacrion";
 import IndividualApplicationform from "./components/Dashboard/IndividualApplicationform";
 import AddCarParking from "./components/Dashboard/AddCarParking";
 import AddUnitTypePage from "./routes/AddUnitTypePage";
+import ListofDemand from "./components/Dashboard/ListofDemands";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <ListofTransaction path="/listoftransaction" />
           <CarParkingList path="/carparkinglist" />
           <ListofUnits path="/listofunits" />
+          <ListofDemand path="/listofdemand" />
           <TeamMemberPage path="/teammember" />
           <AddMemberPage path="/addmember" />
           <SitePage path="/site" />

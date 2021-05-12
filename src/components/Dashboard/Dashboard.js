@@ -265,6 +265,12 @@ const drawer = (
                     </ListItem>
                     </Link>
 
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
+                    <ListItem button key={'TDS'}>
+                    <h7>Demand List</h7>
+                    </ListItem>
+                    </Link>
+
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
                     <ListItem button key={'TDS'}>
                     <h7>TDS</h7>
