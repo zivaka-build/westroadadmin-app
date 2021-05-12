@@ -100,6 +100,7 @@ function IndividualSite() {
             axios.get(`${BASE_URL}/api/v1/payment/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
             .then(response => {
                     console.log(response.data.paymentTerms.termItems)
+                    setPterms(response.data.paymentTerms.termItems)
             })
          
            
@@ -436,7 +437,31 @@ function IndividualSite() {
                     </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
-                    
+                    <div className="mt-2 row justify-content-center">
+                        <div className="col-8">
+                        <h4>Payment Terms</h4>
+                        <br />
+                        <table class="table">
+                            <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
+                                <tr>
+                                <th scope="col">Description</th>
+                                <th scope="col">Percentage</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pterms.map((p)=>(
+                                    <tr>
+                                    <td>{p.description}</td>
+                                    <td>{p.percentage}</td>
+                                    
+                                    </tr>
+                                ))}
+                                
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="fourth">
                     <div className="mt-2">
