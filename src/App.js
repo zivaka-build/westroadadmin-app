@@ -56,7 +56,7 @@ function App() {
           <ViewLeadPage path="/viewlead" />
           <IndividualLeadPage path="/individuallead/:leadID" />
           <IndividualApplicationform path="/individualapplication/:applicationId" />
-          <InitiateAllotmentForm path="/initiateallotment/:siteID" />
+          <InitiateAllotmentForm path="/initiateallotment" />
           <AddTdsRatesPage path="/addtdsrates" />
           <ViewTdsRatesPage path="/viewtdsrates" />
           <ViewTdsPage path="/viewtds" />
