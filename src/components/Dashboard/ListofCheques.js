@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
  
-function CarParkingList(){
+function ListofCheque(){
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -57,23 +57,15 @@ function CarParkingList(){
     const [ view, setView ] = useState("")
     const [ unitName, setUnitName] = useState("")
     const [ unitType, setUnitType] = useState("")
-    const [ status, setStatus] = useState("")
+    const [ paid, setPaid] = useState("")
     const [ unitFloor, setUnitFloor] = useState("")
     const [ unitPhase, setUnitPhase] = useState("")
     const [ onHold, setOnHold] = useState("")
-    const [ ptc, setPtc] = useState("")
+    const [ dt, setDt] = useState("")
     const [ stat, setStat] = useState([])
     const [ ptca, setPtca] = useState([])
     
    
-
-    const reset = (e) => {
-        setStatus("");
-        setPtc("");
-        
-        
-    }
-
 
     
     
@@ -81,52 +73,40 @@ function CarParkingList(){
     useEffect(() => {
        
         const Token = 'bearer' + " " + Cookies.get('Token')
-        if(status==="" && ptc === ""){
-            axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking`,{headers:{Authorization:Token}})
-          .then(response => {
-            
-            setForm(response.data)
-          })
-        }
-        else if(status !=="" && ptc === ""){
-            axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?status=${status}`,{headers:{Authorization:Token}})
-          .then(response => {
-            
-            setForm(response.data)
-          })
-        }
-        else if(status ==="" && ptc !== ""){
-            axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?parkingTypeCode=${ptc}`,{headers:{Authorization:Token}})
-          .then(response => {
-            
-            setForm(response.data)
-          })
-        }
-        else if(ptc!=="" && status!==""){
-          axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?parkingTypeCode=${ptc}&status=${status}`,{headers:{Authorization:Token}})
+        
+            axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
           setForm(response.data)
         })
-      }
-        
-          
-          
-        
-    },[status,ptc])
+     
+    },[])
 
     return(
         <div className="row container-fluid px-0">
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}
-            title="Units"
+            title="List of Cheque"
             columns={
                 [
-                    { title: 'Car Parking Name', field: 'carParkingName' },
-                    { title: 'Phase Name', field: 'phaseCode' },
-                    { title: 'Parking Type', field: 'parkingType' },
-                    { title: 'Status', field: 'status' },
+                    { title: 'Cheque Number', field: 'chequeNo' },
+                    { title: 'Cheque Bank Name', field: 'chequeBankName' },
+                    { title: 'Cheque Account No.', field: 'chequeAccountNo' },
+                    { title: 'Cheque Date', field: 'chequeDate' },
+                    { title: 'Cheque Amount', field: 'chequeAmount' },
+                    { title: 'Issued To', field: 'issuedTo' },
+                    { title: 'Issued By', field: 'issuedBy' },
+                    { title: 'Payment Type', field: 'paymentType' },
+                    { title: 'Sent To Bank', field: 'sentToBank' },
+                    { title: 'Bank Submit Date', field: 'bankSubmitDate' },
+                    { title: 'Clearance Bank Name', field: 'clearanceBankName' },
+                    { title: 'Payment Category', field: 'paymentCategory' },
+                    { title: 'Clearance Bank Account', field: 'clearanceBankAccount' },
+                    { title: 'Clearance Processed', field: 'clearanceProcessed' },
+                    { title: 'Clearance Date', field: 'clearanceDate' },
+                    { title: 'Cheque Cleared', field: 'chequeCleared' },
+                    { title: 'Bounce Reason', field: 'bounceReason' },
                     
                     
                     
@@ -140,24 +120,27 @@ function CarParkingList(){
                 Toolbar: (props) => (
                   <div className="filters text-center">
                     <MTableToolbar {...props} />
-                    
+{/*                     
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Parking Type</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Demand Types</InputLabel>
                       <Select
-                        value={ptc}
-                        onChange={(e)=>setPtc(e.target.value)}
+                        value={dt}
+                        onChange={(e)=>setDt(e.target.value)}
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
                       >
                         <MenuItem value="" disabled>
-                         Parking type
+                        Demand Types
                         </MenuItem>
-                        <MenuItem value="GB" >
-                        Ground Basement
-                        </MenuItem><MenuItem value="GC" >
-                        Ground Covered
-                        </MenuItem><MenuItem value="OP" >
-                        Open Parking
+                        <MenuItem value="BasicConstructionCharge" >
+                        Basic Construction Charge
+                        </MenuItem><MenuItem value="LatePaymentFee" >
+                        Late Payment Fee
+                        </MenuItem>
+                        <MenuItem value="LegalCharge" >
+                        Legal Charge
+                        </MenuItem><MenuItem value="ExtraWork" >
+                        Extra Work
                         </MenuItem>
                        
 
@@ -166,39 +149,40 @@ function CarParkingList(){
                     </FormControl>
 
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Paid</InputLabel>
                       <Select
-                        value={status}
-                        onChange={(e)=>setStatus(e.target.value)}
+                        value={paid}
+                        onChange={(e)=>setPaid(e.target.value)}
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
                         
                       >
                         <MenuItem value="all" disabled>
-                          Phase
+                         Paid
                         </MenuItem>
-                        <MenuItem value="Available" >
-                        Available
-                        </MenuItem><MenuItem value="OnHold" >
-                        On Hold
-                        </MenuItem><MenuItem value="Alloted" >
-                        Alloted
+                        <MenuItem value="true" >
+                        Yes
                         </MenuItem>
+                        <MenuItem value="false" >
+                        No
+                        </MenuItem>
+                        
+                        
 
                         
                       </Select>
                     
-                    </FormControl>
+                    </FormControl> */}
 
   
   
-                    
+{/*                     
                     <FormControl className={classes.formControl} style={{marginTop: "-50px",marginRight:"110px"}}>
                     <button className="btn btn-secondary btn-user" onClick={reset} style={{backgroundColor : "white", color : "black"}}>
                     Reset Filter
                     </button>
                     </FormControl>
-                    
+                     */}
     
                     
                   </div>
@@ -223,4 +207,4 @@ function CarParkingList(){
 
 }
 
-export default CarParkingList;
+export default ListofCheque;
