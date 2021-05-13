@@ -5,15 +5,21 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
 import "./../../assets/css/form.css";
+import qs from 'qs';
+import Swal from 'sweetalert2';
 
 function InitiateAllotmentForm(){
-    const {siteID} = useParams()
+    
     const [name, setName ] = useState("");
     const [site, setSite ] = useState([]);
     const [phase, setPhase ] = useState([]);
-    const [flatno, setFlatno ] = useState([]);
+    const [unit,setUnit] = useState([]);
+    const [flat, setFlat ] = useState([]);
     const [flatname, setFlatname ] = useState("");
-    const [carParking, setCarParking] = useState([]);
+    const [carParking, setCarParking] = useState([])
+    const [addCarParking, setAddCarParking] = React.useState([
+         {parkingTypeCode: "", parkingType: "", carParkingPrice: "" },
+      ]);
     const [email, setEmail ] = useState("");
     const [phno, setPhno ] = useState("");
     const [leadId, setLeadId ] = useState([]);
@@ -21,77 +27,123 @@ function InitiateAllotmentForm(){
     const [sitename, setSitename ] = useState("");
     const [phasename, setPhasename ] = useState("");
     const [type, setType ] = useState("Hot");
-   
+    const [bankLoan, setBankLoan] = useState()
+    const [unitName, setUnitName] = useState("")
     
+   
+    const changeSite = (e) => {
+        setSitename(e.target.value)
 
-    // const submit = (e) => {
-    //     e.preventDefault();
-    //     const Token = 'bearer' + " " + Cookies.get('Token')
-    //     axios
-    //   .post(`${BASE_URL}/api/v1/lead/addLead`, {
-    //     name: name,
-    //     phone: mobile,
-    //     whatsapp: whatsapp,
-    //     email: email,
-    //     address: address,
-    //     city: city,
-    //     pincode: pincode,
-    //     leadSource: source,
-    //     subType: subType,
-    //     leadWeightage: type,
-    //     siteName: siteName,
-    //     leadBudget: budget,
-    //     leadReq: requirement,
-    //   },
-    //   { headers : { 'Authorization' : Token }})
-    //   .then((response) => {
-    //     console.log(response);
-    //     navigate("/dashboard/viewlead")
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // }
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${e.target.value}`,{headers:{Authorization:Token}})
+        .then(response=>{
+            setUnit(response.data.site.units)
+            setCarParking(response.data.site.carParkingType)
+            console.log(response)
+        })
+
+    }
+
+    const handleCP = (e) => {
+        const values = [...addCarParking];
+        values.push({ parkingTypeCode: "", parkingType: "", carParkingPrice: "" })
+        setAddCarParking(values)
+       
+    }
+
+    const deleteCP = (e) => {
+        const values = [...addCarParking];
+        values.pop()
+        setAddCarParking(values)
+    }
+
+    const handleCPChange = (index, event) => {
+        const values = [...addCarParking];
+        const str = event.target.value;
+        values[index].parkingType = str.substring(0, str.indexOf(' '))
+        values[index].parkingTypeCode = str.substring(str.indexOf(' ')+1,str.lastIndexOf(' '))
+        values[index].carParkingPrice = str.substring(str.lastIndexOf(' ')+1)
+        console.log(str)
+    }
+
+    const submit = (e) => {
+        e.preventDefault()
+        const Token = 'bearer' + " " + Cookies.get('Token');
+        axios.post(`${BASE_URL}/api/v1/applicationform/createapplicationform`, 
+        { 
+            siteId: sitename,
+            unitName: unitName,
+            carParkings: addCarParking ,
+            bookingBy: Cookies.get('FullName'),
+            isBankLoan: bankLoan,
+            registeredMobile: phno,
+            registeredEmail: email
+        }
+        ,
+        {headers:{Authorization:Token}} )
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ooops',
+                showClass: {
+                  popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                  popup: 'animate__animated animate__fadeOutUp'
+                },
+                text: "Unit already alloted!"
+              })
+        })
+        navigate("/dashboard/listofapplicationform")
+    }
+
+   
     
     useEffect(()=>{
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{Authorization:Token}})
         .then(response=>{
-            
-            setSite(response.data.siteMap)
-            console.log(site)
-        })
-
-        axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
-        .then(response=>{
             console.log(response)
-            
+            setSite(response.data.siteMap)
         })
 
-        axios.get(`${BASE_URL}/api/v1/lead/getAllLeads`,{headers:{Authorization:Token}})
-        .then(response=>{
-           
-            setLeadId(response.data.leads)
-            
-        })
-    
-
-       
     },[])
     
 
     return(
-        <div className="pt-5">
+        <div className="">
         <div className="row pt-3 justify-content-center">
-        <div className="col-lg-8 col-sm-12">
-        <h4>Initiate Allotment</h4>
-        <br />
+            <div className="col-lg-8 col-sm-12">
+            <h4>Create Application</h4>
+            </div>
+        </div>
+        <div className="row pt-3 justify-content-center">
+        <div className="col-lg-4 col-sm-12">
+        
         <Form.Group controlId="exampleForm.ControlSelect1">
-            <Form.Label>Site ID</Form.Label>
-            <Form.Control onChange={(e)=>setSitename(e.target.value)} as="select">
-                {site.map((t)=>{
-                    <option key = {t.SiteId}>{t.SiteName}</option>
-                })}
+            <Form.Label>Site Name</Form.Label>
+            <Form.Control onChange={changeSite} as="select">
+                <option value="">Select a site</option>
+                {site.map((t)=>(
+                    <option value={t.SiteId}>{t.SiteName}</option>
+                ))}
+               
+            
+            </Form.Control>
+            </Form.Group>
+        </div>
+        <div className="col-lg-4 col-sm-12">
+        
+        <Form.Group controlId="exampleForm.ControlSelect2">
+            <Form.Label>Unit</Form.Label>
+            <Form.Control onChange={(e)=>setUnitName(e.target.value)} as="select">
+                <option value="">Select a unit</option>
+                {unit.map((t)=>(
+                    <option value={t}>{t}</option>
+                ))}
                
             
             </Form.Control>
@@ -100,30 +152,53 @@ function InitiateAllotmentForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-lg-4 col-sm-6">
-            <label>Phase</label>
-            <input
-            type="number"
-            class="form-control"
-            name="contact"
-            id="outlined-basic"
-            onChange={(e)=>setPhasename(e.target.value)}
-            />
-        </div>
-        <div className="col-lg-4 col-sm-6">
-            <label>Flat Number</label>
-            <input
-            type="number"
-            class="form-control"
-            name="whatsapp"
-            id="outlined-basic"
-           onChange={(e)=>setFlatname(e.target.value)}
-            />
-        </div>
+        <div className="col-lg-8 col-sm-12"><h4>Car Parking</h4></div>
         </div>
         <br />
         <div className="row justify-content-center">
         <div className="col-lg-8 col-sm-12">
+        
+            { 
+                addCarParking.map((addCarParking,index)=> {
+                    return(
+                        <div className="row d-flex">
+                        <div className="col-6">
+                        <Form.Group controlId="exampleForm.ControlSelect2">
+                        <label>Car Parking Type</label>
+                        <Form.Control  as="select" onChange={(event) => handleCPChange(index, event)}>
+                        <option value="">Select a Car Parking Type</option>
+                        { 
+                        carParking.map((c)=>(
+                            <option value={c.type+" "+c.typeCode+" "+c.price}>{c.type}</option>
+                        ))}
+                        </Form.Control>
+                        </Form.Group>
+                        </div>
+                        <div className="col-6">
+                            <button className="add-btn mt-4" onClick={()=>handleCP()} style={{display : index === 2 ? "none": "inline-block"}}>Add Row</button>
+                            &nbsp;&nbsp;
+                            <button className="add-btn mt-4" onClick={()=>deleteCP()} style={{display : index === 0 ? "none": "inline-block"}}>Delete</button>
+                        </div>
+                        </div>
+                    )
+                })
+            }
+        
+        </div>
+        </div>
+        <br />
+        <div className="row justify-content-center">
+        <div className="col-lg-4 col-sm-12">
+            <label>Mobile Number</label>
+            <input
+            type="number"
+            class="form-control"
+            name="Number"
+            id="outlined-basic"
+           onChange={(e)=>setPhno(e.target.value)}
+            />
+        </div>
+        <div className="col-lg-4 col-sm-12">
             <label>Email</label>
             <input
             type="email"
@@ -136,63 +211,44 @@ function InitiateAllotmentForm(){
         </div>
         <br />
         <div className="row justify-content-center">
-        <div className="col-lg-8 col-sm-12">
-            <label>Mobile Number</label>
-            <input
-            type="number"
-            class="form-control"
-            name="Number"
-            id="outlined-basic"
-           onChange={(e)=>setPhno(e.target.value)}
-            />
+            
+                  <div className="col-lg-2 col-sm-4">
+                    <label class="text-align left">Bank Loan : </label>
+                  </div>
+                  <div className="col-lg-6 col-sm-8">
+                    <label class="form-check-label px-4">
+                      Yes
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="yes"
+                        name="bankloan"
+                        onClick={(e)=>setBankLoan(true)}
+                      />
+                    </label>
+
+                    <label class="form-check-label px-4">
+                      No
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="no"
+                        name="bankloan"
+                        onClick={(e)=>setBankLoan(false)}
+                      />
+                    </label>
+                    </div>
+                   
+            
         </div>
-        </div>
-        <br />
-        <div className="row justify-content-center">
-        <div className="col-lg-4 col-sm-6">
-            <label>Lead ID</label>
-            <input
-            type="text"
-            class="form-control"
-            name="city"
-            id="outlined-basic"
-           onChange={(e)=>setLead(e.target.value)}
-            />
-        </div>
-        
-        </div>
-        <br />
-        <div className="row justify-content-center">
-        {/* <div className="col-lg-4 col-sm-6">
-            <Form.Group controlId="exampleForm.ControlSelect1">
-            <Form.Label>Lead Source</Form.Label>
-            <Form.Control onChange={(e)=>setSource(e.target.value)} as="select">
-            <option>Select a source</option>   
-            <option>99Acres</option>
-            <option>Newspaper</option>
-            <option>Hoarding</option>
-            <option>Website</option>
-            <option>Facebook</option>
-            <option>Referral</option>
-            </Form.Control>
-            </Form.Group>
-        </div> */}
-        
-        
-        </div>
-        
-       
-       
-        <br />
-        
         <br />
         <div className="row justify-content-center">
         <div className="col-lg-2 col-sm-3">
                   <button
                     className="btn btn-secondary btn-user btn-block"
-                   
+                   onClick={submit}
                   >
-                    Submit
+                    Create
                   </button>
                 </div>
         </div>

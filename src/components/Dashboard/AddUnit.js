@@ -95,7 +95,7 @@ function AddUnit() {
             <option value="B">Flat B</option>
             <option value="C">Flat C</option>
             <option value="D">Flat D</option>
-            <option value="E">FLat E</option>
+            <option value="E">Flat E</option>
             <option value="F">Flat F</option>
             <option value="G">Flat G</option>
             <option value="H">Flat H</option>
