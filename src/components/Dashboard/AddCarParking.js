@@ -107,8 +107,8 @@ function AddCarParking() {
             <Form.Label>Parking Number</Form.Label>
             <Form.Control  as="select" onChange={(e)=>setPn(e.target.value)}>
             <option>Select a Parking Number</option>   
-            <option value="PI">1</option>
-            <option value="PII">2</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
             </Form.Control>
         </Form.Group>
         </div>
