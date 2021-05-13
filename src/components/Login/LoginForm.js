@@ -201,7 +201,7 @@ function LoginForm() {
                           </div>
                           
                           <div className="form-group">
-                            <Input type="password" className="form-control form-control-user form-input-styling" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (8+ characters)" />
+                            <Input type="password" className="form-control form-control-user form-input-styling" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (6+ characters)" />
                           </div>
                           
                           <div className="frgt" >
