@@ -27,6 +27,10 @@ import AddUnitPage from "./routes/AddUnitPage"
 import ListofTransaction from "./components/Dashboard/ListofTransacrion";
 import IndividualApplicationform from "./components/Dashboard/IndividualApplicationform";
 import AddCarParking from "./components/Dashboard/AddCarParking";
+import AddUnitTypePage from "./routes/AddUnitTypePage";
+import ListofDemand from "./components/Dashboard/ListofDemands";
+import ListofCheque from "./components/Dashboard/ListofCheques";
+import InitiateAllotmentForm from "./components/Dashboard/InitiateAllotmentForm";
 
 function App() {
   return (
@@ -38,8 +42,10 @@ function App() {
           <ConfigurationPage path="/config" />
           <ListofApplicationForm path="/listofapplicationform" />
           <ListofTransaction path="/listoftransaction" />
+          <ListofCheque path="/listofcheque" />
           <CarParkingList path="/carparkinglist" />
           <ListofUnits path="/listofunits" />
+          <ListofDemand path="/listofdemand" />
           <TeamMemberPage path="/teammember" />
           <AddMemberPage path="/addmember" />
           <SitePage path="/site" />
@@ -50,13 +56,15 @@ function App() {
           <ViewLeadPage path="/viewlead" />
           <IndividualLeadPage path="/individuallead/:leadID" />
           <IndividualApplicationform path="/individualapplication/:applicationId" />
+          <InitiateAllotmentForm path="/initiateallotment" />
           <AddTdsRatesPage path="/addtdsrates" />
           <ViewTdsRatesPage path="/viewtdsrates" />
           <ViewTdsPage path="/viewtds" />
           <ViewSitePage path="/managesite" />
           <IndividualSitePage path="/individualsite/:siteID" />
           <HLCPage path="/homeloancalculator" />
-          <AddUnitPage path="/addunit" />
+          <AddUnitPage path="/addunit/:siteID" />
+          <AddUnitTypePage path="/addunittype/:siteID" />
         </DefaultDashboard>
 
       </Router>

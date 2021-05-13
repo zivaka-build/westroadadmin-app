@@ -9,6 +9,8 @@ function HomeLoanCalculator() {
     const [ rt, setRt ] = useState("")
     const [ yr, setYr ] = useState("")
     const [ bank, setBank ] = useState("")
+    const [ emi, setEmi ] = useState("")
+    const [ totalInterest, setTotalInterest ] = useState("")
     const [ schedule, setSchedule ] = useState([])
     const [ disp, setDisp ] = useState("none")
 
@@ -19,6 +21,9 @@ function HomeLoanCalculator() {
             .post(`${BASE_URL}/api/v1/finance/getEMIschedule`,{principal: pr*1,rate: rt*1,time: yr*1,bankName: bank})
             .then(response => {
                 setDisp("block")
+                console.log(response)
+                setEmi(response.data.emiAmount)
+                setTotalInterest(response.data.totalInterest)
                 setSchedule(response.data.amortizationSchedule)
                
             })
@@ -98,6 +103,14 @@ function HomeLoanCalculator() {
         <div className="row container-fluid justify-content-center" style={{display : disp}}>
         <div className="col-12">
         <h4>EMI Schedule</h4>
+        <br />
+        <span style={{fontWeight : "bold"}}>Principal Amount : ₹{pr}</span>
+        <span style={{fontWeight : "bold", paddingLeft : 20}}>Tenure : {yr} years </span>
+        <span style={{fontWeight : "bold", paddingLeft : 20}}> Interest Rate : {rt}% </span>
+        <span style={{fontWeight : "bold", paddingLeft : 20}}>Bank Name : {bank} </span> 
+        <span style={{fontWeight : "bold", paddingLeft : 20}}>EMI Amount : ₹{emi}</span> 
+        <span style={{fontWeight : "bold", paddingLeft : 20}}>Total Interest : ₹{totalInterest}</span>
+        <br />
         <br />
         <table class="table">
             <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>

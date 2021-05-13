@@ -127,7 +127,7 @@ function ListofApplicationForm(){
                 [
                     { title: 'Application Id', field: 'applicationId' },
                     { title: 'Unit Name', field: 'unitName' },
-                    { title: 'Car Parking Name', field: 'carParkingName' },
+                    { title: 'Car Parking Number', field: 'carParkings.length' },
                     { title: 'Status', field: 'status' },
                     { title: 'Booking By', field: 'bookingBy' },
                     { title: 'Bank Loan', field: 'isBankLoan' },
@@ -152,10 +152,11 @@ function ListofApplicationForm(){
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
                       >
-                        <MenuItem value="all" >
+                        <MenuItem value="all" disabled>
                           All
-                        </MenuItem>
+                        </MenuItem >
                         <MenuItem value="initiated">Booking Initiated</MenuItem>
+                        <MenuItem value="Applicant Added">Applicant Added</MenuItem>
                         <MenuItem value="form_generated">Form Generated</MenuItem>
                         <MenuItem value="amount_received">Booking Amount Recieved</MenuItem>
                         <MenuItem value="prov_ltr_generated">Provisional Letter Generated</MenuItem>

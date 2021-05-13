@@ -111,7 +111,7 @@ function IndividualLead() {
                 setPincode(response.data.lead.pincode)
                 setSource(response.data.lead.leadSource)
                 setSubType(response.data.lead.subType)
-                setSiteName(response.data.lead.siteName[0])
+                setSiteName(response.data.lead.siteName)
                 setType(response.data.lead.leadWeightage)
                 setRequirement(response.data.lead.leadReq)
                 setBudget(response.data.lead.leadBudget)

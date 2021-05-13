@@ -12,7 +12,7 @@ function AddCarParking() {
     const [ scode, setScode] = useState("")
     const [ pt, setPt ] = useState("")
     const [ ptc, setPtc ] = useState("")
-    const [ pn, setPn ] = useState("")
+    const [ pn, setPn ] = useState(0)
     const [ uphase, setUphase ] = useState("")
     const [ site, setSite ] = useState([])
 
@@ -45,7 +45,7 @@ function AddCarParking() {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
         axios
-            .post(`${BASE_URL}/api/v1/parking/addNewCarParking`,{ SiteId: sid,unitPhase: uphase,parkingType:pt,  parkingNumber:pn},{ headers : { 'Authorization' : Token }})
+            .post(`${BASE_URL}/api/v1/parking/addNewCarParking`,{ SiteId: sid,unitPhase: uphase,parkingType:pt,  parkingNumber:pn*1},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
                
@@ -103,14 +103,12 @@ function AddCarParking() {
         </div>
 
         <div className="col-4">
-        <Form.Group controlId="unitphase">
-            <Form.Label>Parking Number</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setPn(e.target.value)}>
-            <option>Select a Parking Number</option>   
-            <option value="1">1</option>
-            <option value="2">2</option>
-            </Form.Control>
-        </Form.Group>
+       
+        <label>Parking Number</label>
+            
+        <input type="number" class="form-control" onChange={(e)=>setPn(e.target.value)}/>
+            
+
         </div>
         
         
