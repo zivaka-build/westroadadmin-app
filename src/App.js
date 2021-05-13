@@ -30,6 +30,7 @@ import AddCarParking from "./components/Dashboard/AddCarParking";
 import AddUnitTypePage from "./routes/AddUnitTypePage";
 import ListofDemand from "./components/Dashboard/ListofDemands";
 import ListofCheque from "./components/Dashboard/ListofCheques";
+import InitiateAllotmentForm from "./components/Dashboard/InitiateAllotmentForm";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <ViewLeadPage path="/viewlead" />
           <IndividualLeadPage path="/individuallead/:leadID" />
           <IndividualApplicationform path="/individualapplication/:applicationId" />
+          <InitiateAllotmentForm path="/initiateallotment/:siteID" />
           <AddTdsRatesPage path="/addtdsrates" />
           <ViewTdsRatesPage path="/viewtdsrates" />
           <ViewTdsPage path="/viewtds" />
