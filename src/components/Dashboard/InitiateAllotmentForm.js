@@ -7,6 +7,7 @@ import { BASE_URL } from "../../config/url";
 import "./../../assets/css/form.css";
 import qs from 'qs';
 import Swal from 'sweetalert2';
+var arraySort = require('array-sort');
 
 function InitiateAllotmentForm(){
     
@@ -37,7 +38,7 @@ function InitiateAllotmentForm(){
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${e.target.value}`,{headers:{Authorization:Token}})
         .then(response=>{
-            setUnit(response.data.site.units)
+            setUnit(arraySort(response.data.site.units))
             setCarParking(response.data.site.carParkingType)
             console.log(response)
         })
@@ -106,7 +107,7 @@ function InitiateAllotmentForm(){
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{Authorization:Token}})
         .then(response=>{
-            console.log(response)
+            
             setSite(response.data.siteMap)
         })
 
