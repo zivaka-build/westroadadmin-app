@@ -21,7 +21,9 @@ function AddLoanBank() {
             .post(`${BASE_URL}/api/v1/loan/addLoanBank`,{bankCode: bcode, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
-
+                if(response.status == 200) {
+                    navigate("/dashboard/listofbanks")
+                }
                
             })
     }

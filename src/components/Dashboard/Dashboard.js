@@ -287,6 +287,12 @@ const drawer = (
                     <h7>Add Loan Bank</h7>
                     </ListItem>
                     </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
+                    <ListItem button key={'List of Loan Bank'}>
+                    <h7>List of Loan Bank</h7>
+                    </ListItem>
+                    </Link>
                     </List>
                 
                 </AccordionDetails>
