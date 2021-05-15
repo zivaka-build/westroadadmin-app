@@ -89,28 +89,28 @@ function ListofApplicationForm(){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data)
+            setForm(response.data.reverse())
           })
         }
         else if(status==="" && snf!==""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data)
+            setForm(response.data.reverse())
           })
         }
         else if(status!=="" && snf===""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?status=${status}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data)
+            setForm(response.data.reverse())
           })
         }
         else if(status!=="" && snf!==""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}&status=${status}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data)
+            setForm(response.data.reverse())
           })
         }
         
