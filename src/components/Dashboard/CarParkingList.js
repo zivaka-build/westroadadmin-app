@@ -91,22 +91,38 @@ function CarParkingList(){
         else if(status !=="" && ptc === ""){
             axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?status=${status}`,{headers:{Authorization:Token}})
           .then(response => {
-            
-            setForm(response.data)
+            if(response.data.message == "no parking found")
+            {
+              setForm([])
+            }
+            else{
+              setForm(response.data)
+            }
           })
         }
         else if(status ==="" && ptc !== ""){
             axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?parkingTypeCode=${ptc}`,{headers:{Authorization:Token}})
           .then(response => {
+            if(response.data.message == "no parking found")
+            {
+              setForm([])
+            }
+            else{
+              setForm(response.data)
+            }
             
-            setForm(response.data)
           })
         }
         else if(ptc!=="" && status!==""){
           axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParking?parkingTypeCode=${ptc}&status=${status}`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          if(response.data.message == "no parking found")
+          {
+            setForm([])
+          }
+          else{
+            setForm(response.data)
+          }
         })
       }
         
@@ -120,7 +136,7 @@ function CarParkingList(){
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}
-            title="Units"
+            title="Car Parking"
             columns={
                 [
                     { title: 'Car Parking Name', field: 'carParkingName' },

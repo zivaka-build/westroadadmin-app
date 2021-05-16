@@ -85,30 +85,50 @@ function ListofDemand(){
         if(dt==="" && paid === ""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          console.log(response.data)
+          if(response.data.message == "no Demand found1"){
+            setForm([])
+          }
+          else{
+            setForm(response.data)
+          }
         })
      
         }
         else if(dt!=="" && paid===""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?demandType=${dt}`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          
+          if(response.data.message == "no Demand found3"){
+            setForm([])
+          }
+          else{
+            setForm(response.data)
+          }
         })
         }
         else if(dt==="" && paid!==""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?isPaid=${paid}`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          if(response.data.message == "no Demand found1"){
+            setForm([])
+          }
+          else{
+            setForm(response.data)
+          }
         })
         }
         else if(dt!=="" && paid!==""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?demandType=${dt}&isPaid=${paid}`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          if(response.data.message == "no Demand found1"){
+            setForm([])
+          }
+          else{
+            setForm(response.data)
+          }
+          
+          
         })
         }
       
@@ -164,8 +184,11 @@ function ListofDemand(){
                         </MenuItem>
                         <MenuItem value="LegalCharge" >
                         Legal Charge
-                        </MenuItem><MenuItem value="ExtraWork" >
-                        Extra Work
+                        </MenuItem><MenuItem value="SaleAgreement" >
+                        Sale Agreement
+                        </MenuItem>
+                        <MenuItem value="BCCFirstDemand" >
+                        BCC First Demand
                         </MenuItem>
                        
 
