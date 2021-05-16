@@ -31,7 +31,8 @@ import AddUnitTypePage from "./routes/AddUnitTypePage";
 import ListofDemand from "./components/Dashboard/ListofDemands";
 import ListofCheque from "./components/Dashboard/ListofCheques";
 import InitiateAllotmentForm from "./components/Dashboard/InitiateAllotmentForm";
-
+import AddLoanBankPage from "./routes/AddLoanBankPage"
+import ViewLoanBankPage from "./routes/ViewLoanBankPage"
 function App() {
   return (
     <div className="App">
@@ -65,6 +66,8 @@ function App() {
           <HLCPage path="/homeloancalculator" />
           <AddUnitPage path="/addunit/:siteID" />
           <AddUnitTypePage path="/addunittype/:siteID" />
+          <AddLoanBankPage path="/addloanbank" />
+          <ViewLoanBankPage path="/listofbanks" />
         </DefaultDashboard>
 
       </Router>

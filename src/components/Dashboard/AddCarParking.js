@@ -103,7 +103,8 @@ function AddCarParking() {
         </div>
 
         <div className="col-4">
-       
+
+        
         <label>Parking Number</label>
             
         <input type="number" class="form-control" onChange={(e)=>setPn(e.target.value)}/>
