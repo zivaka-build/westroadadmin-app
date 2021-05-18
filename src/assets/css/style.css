@@ -11306,6 +11306,8 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .makeStyles-content-7 {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
   padding-top: 0px !important;
 }
 
