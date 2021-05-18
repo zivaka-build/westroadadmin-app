@@ -1,12 +1,13 @@
-import {useState} from "react"
+import {useState,useEffect} from "react"
 import { Form } from "react-bootstrap";
 import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie'; 
+import { withMobileDialog } from "@material-ui/core";
 
 function HomeLoanCalculator() {
     const [ pr, setPr ] = useState("")
-    const [ rt, setRt ] = useState("")
+    const[ rt, setRt ] = useState("")
     const [ yr, setYr ] = useState("")
     const [ bank, setBank ] = useState("")
     const [ emi, setEmi ] = useState("")
@@ -14,8 +15,15 @@ function HomeLoanCalculator() {
     const [ schedule, setSchedule ] = useState([])
     const [ disp, setDisp ] = useState("none")
 
+    const [banks, setBanks] = useState([])
+    const [gi, setGi] = useState("")
+    const [wi, setWi] = useState("")
+    const [si, setSi] = useState("")
+
+
+
     const calculate = (e) => {
-        const Token = 'bearer' + " " + Cookies.get('Token')
+        
         e.preventDefault()
         axios
             .post(`${BASE_URL}/api/v1/finance/getEMIschedule`,{principal: pr*1,rate: rt*1,time: yr*1,bankName: bank})
@@ -28,6 +36,28 @@ function HomeLoanCalculator() {
                
             })
     }
+
+    const changeBank = (e) => {
+        var bankcode = e.target.value
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.get(`${BASE_URL}/api/v1/loan/getLoanBankByBankCode/${bankcode}`,{ headers : { 'Authorization' : Token }})
+        .then(response => {
+            console.log(response)
+            setGi(response.data.rateOfInterest)
+            setWi(response.data.rateOfInterestWomen)
+            setSi(response.data.rateOfInterestSenior)
+        })
+    }
+
+    useEffect(() => { 
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.get(`${BASE_URL}/api/v1/loan/getListOfLoanBank`,{ headers : { 'Authorization' : Token }})
+        .then(response => {
+            console.log(response)
+            setBanks(response.data.loan)
+        })
+    }, [])
+
     return(
         
         <>
@@ -50,19 +80,6 @@ function HomeLoanCalculator() {
                 />
             </div>
             <div className="col-4">
-                <label>Rate</label>
-                <input
-                type="number"
-                class="form-control"
-                name="rate"
-                id="rate"
-                onChange={(e)=>setRt(e.target.value)}
-                />
-            </div>
-        </div>
-        <br />
-        <div className="row container-fluid justify-content-center">
-            <div className="col-4">
             <label>Year</label>
                 <input
                 type="number"
@@ -72,20 +89,64 @@ function HomeLoanCalculator() {
                 onChange={(e)=>setYr(e.target.value)}
                 />
             </div>
+        </div>
+        <br />
+        <div className="row container-fluid justify-content-center">
             <div className="col-4">
                 <Form.Group controlId="bank">
                 <Form.Label>Bank</Form.Label>
-                <Form.Control  as="select" onChange={(e)=>setBank(e.target.value)}>
-                <option>Select a Bank</option>   
-                <option>SBI</option>
-                <option>IDBI Bank</option>
-                <option>UCO Bank</option>
-                <option>Canara Bank</option>
-                <option>Yes Bank</option>
-                <option>LIC HFL</option>
+                <Form.Control  as="select" onChange={changeBank}>
+                <option>Select a Bank</option> 
+                {
+                    banks.map((b)=> (
+                        <option value={b.bankCode}>{b.bankName}</option>
+                    ))
+                }  
                 </Form.Control>
                 </Form.Group>
             </div>
+            
+            
+        </div>
+        <br />
+        <div className="row justify-content-center">
+            
+                  <div className="col-5">
+                    <label class="text-align left">Loan Type : </label>
+                  
+                  
+                    <label class="form-check-label px-4">
+                      General
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="general"
+                        name="loantype"
+                        onClick={()=>setRt(gi)}
+                      />
+                    </label>
+
+                    <label class="form-check-label px-4">
+                      Women
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="women"
+                        name="loantype"
+                        onClick={()=>setRt(wi)}
+                      />
+                    </label>
+                    <label class="form-check-label px-4">
+                      Sr. Citizen
+                      <input
+                        type="radio"
+                        className="form-check-input"
+                        id="srcitizen"
+                        name="loantype"
+                        onClick={()=>setRt(si)}
+                      />
+                    </label>
+                    </div>
         </div>
         <br />
         <div className="row container-fluid justify-content-center">
