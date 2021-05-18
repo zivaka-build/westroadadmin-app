@@ -41,6 +41,8 @@ function IndividualSite() {
     const [parking, setParking] = useState([])
     const [charges, setCharges] = useState([])
     const [lcharges, setLcharges] = useState([])
+    const [pterms, setPterms] = useState([])
+  
 
 
     const addUnit = () => {
@@ -93,8 +95,17 @@ function IndividualSite() {
             setParking(response.data.site.carParkingType)
             setCharges(response.data.site.otherCharges)
             setLcharges(response.data.site.legalCharges)
+            var pt = response.data.site.paymentTerms[0].termsId
 
+           
+            axios.get(`${BASE_URL}/api/v1/payment/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
+            .then(response => {
+                    console.log(response.data.paymentTerms.termItems)
+                    setPterms(response.data.paymentTerms.termItems)
+            })
+  
         })
+
         
       }, []);
     return(
@@ -112,16 +123,19 @@ function IndividualSite() {
                     <Nav.Link className="tabs" eventKey="second">Site Configurations</Nav.Link>
                     </Nav.Item>
                     <Nav.Item onClick={()=>{Cookies.set('ActiveKeySite', 'third')}}>
-                    <Nav.Link className="tabs" eventKey="third">Unit Types</Nav.Link>
+                    <Nav.Link className="tabs" eventKey="third">Payment Terms</Nav.Link>
                     </Nav.Item>
                     <Nav.Item onClick={()=>{Cookies.set('ActiveKeySite', 'fourth')}}>
-                    <Nav.Link className="tabs" eventKey="fourth">Unit</Nav.Link>
+                    <Nav.Link className="tabs" eventKey="fourth">Unit Types</Nav.Link>
                     </Nav.Item>
-                    <Nav.Item onClick={()=>{Cookies.set('ActiveKeySite', 'fourth')}}>
-                    <Nav.Link className="tabs" eventKey="fifth">Car Parking</Nav.Link>
+                    <Nav.Item onClick={()=>{Cookies.set('ActiveKeySite', 'fifth')}}>
+                    <Nav.Link className="tabs" eventKey="fifth">Unit</Nav.Link>
                     </Nav.Item>
-                    <Nav.Item onClick={()=>{Cookies.set('ActiveKeySite', 'fourth')}}>
-                    <Nav.Link className="tabs" eventKey="sixth">Reports</Nav.Link>
+                    <Nav.Item onClick={()=>{Cookies.set('ActiveKeySite', 'sixth')}}>
+                    <Nav.Link className="tabs" eventKey="sixth">Car Parking</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item onClick={()=>{Cookies.set('ActiveKeySite', 'seventh')}}>
+                    <Nav.Link className="tabs" eventKey="seventh">Reports</Nav.Link>
                     </Nav.Item>
                 </Nav>
                 </center>
@@ -420,6 +434,33 @@ function IndividualSite() {
                     </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
+                    <div className="mt-2 row justify-content-center">
+                        <div className="col-8">
+                        <h4>Payment Terms</h4>
+                        <br />
+                        <table class="table">
+                            <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
+                                <tr>
+                                <th scope="col">Description</th>
+                                <th scope="col">Percentage</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {pterms.map((p)=>(
+                                    <tr>
+                                    <td>{p.description}</td>
+                                    <td>{p.percentage}</td>
+                                    
+                                    </tr>
+                                ))}
+                                
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="fourth">
                     <div className="mt-2">
                     <div className="col-12 text-center">
                     <button className="btn btn-secondary btn-user" onClick={addUnitType}>Add Unit Type</button>
@@ -459,7 +500,7 @@ function IndividualSite() {
                     </div>
                     
                     </Tab.Pane>
-                    <Tab.Pane eventKey="fourth">
+                    <Tab.Pane eventKey="fifth">
                     <div className="mt-2 container-fluid px-0">
                     <center>
                     <div className="col-4">
@@ -500,7 +541,7 @@ function IndividualSite() {
                     </center>
                     </div>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="fifth">
+                    <Tab.Pane eventKey="sixth">
                     <div className="mt-2 container-fluid px-0">
                     <center>
                     <div className="col-4">
@@ -538,7 +579,7 @@ function IndividualSite() {
                     </center>
                     </div>
                     </Tab.Pane>
-                    <Tab.Pane eventKey="sixth">
+                    <Tab.Pane eventKey="seventh">
                     
                     </Tab.Pane>
                 </Tab.Content>

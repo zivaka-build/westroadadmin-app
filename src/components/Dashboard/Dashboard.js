@@ -189,6 +189,11 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/initiateallotment'>
+                    <ListItem button key={'Create Application'}>
+                    <h7>Create Application</h7>
+                    </ListItem>
+                    </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofapplicationform'>
                     <ListItem button key={'Create Lead'}>
                     <h7>List of Application</h7>
@@ -261,19 +266,37 @@ const drawer = (
                     
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
                     <ListItem button key={'TDS'}>
-                    <h7>Transaction List</h7>
+                    <h7>Transaction</h7>
                     </ListItem>
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
                     <ListItem button key={'TDS'}>
-                    <h7>Demand List</h7>
+                    <h7>Demand</h7>
                     </ListItem>
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
                     <ListItem button key={'TDS'}>
                     <h7>TDS</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
+                    <ListItem button key={'TDS'}>
+                    <h7>Cheque</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addloanbank'>
+                    <ListItem button key={'Add Loan Bank'}>
+                    <h7>Add Loan Bank</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
+                    <ListItem button key={'List of Loan Bank'}>
+                    <h7>List of Loan Bank</h7>
                     </ListItem>
                     </Link>
                     </List>

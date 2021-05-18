@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
  
-function ListofDemand(){
+function ListofCheque(){
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
@@ -67,14 +67,6 @@ function ListofDemand(){
     
    
 
-    const reset = (e) => {
-        setPaid("");
-        setDt("");
-        
-        
-    }
-
-
     
     
 
@@ -82,76 +74,39 @@ function ListofDemand(){
        
         const Token = 'bearer' + " " + Cookies.get('Token')
         
-        if(dt==="" && paid === ""){
-            axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands`,{headers:{Authorization:Token}})
+            axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response.data)
-          if(response.data.message == "no Demand found1"){
-            setForm([])
-          }
-          else{
-            setForm(response.data)
-          }
+          console.log(response)
+          setForm(response.data)
         })
      
-        }
-        else if(dt!=="" && paid===""){
-            axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?demandType=${dt}`,{headers:{Authorization:Token}})
-        .then(response => {
-          
-          if(response.data.message == "no Demand found3"){
-            setForm([])
-          }
-          else{
-            setForm(response.data)
-          }
-        })
-        }
-        else if(dt==="" && paid!==""){
-            axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?isPaid=${paid}`,{headers:{Authorization:Token}})
-        .then(response => {
-          if(response.data.message == "no Demand found1"){
-            setForm([])
-          }
-          else{
-            setForm(response.data)
-          }
-        })
-        }
-        else if(dt!=="" && paid!==""){
-            axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?demandType=${dt}&isPaid=${paid}`,{headers:{Authorization:Token}})
-        .then(response => {
-          if(response.data.message == "no Demand found1"){
-            setForm([])
-          }
-          else{
-            setForm(response.data)
-          }
-          
-          
-        })
-        }
-      
-    },[dt,paid])
+    },[])
 
     return(
         <div className="row container-fluid px-0">
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}
-            title="Transaction List"
+            title="List of Cheque"
             columns={
                 [
-                    { title: 'Demand Id', field: 'demandId' },
-                    { title: 'Customer Id', field: 'customerId' },
-                    { title: 'Demand Generation Date', field: 'demandGenerationDate' },
-                    { title: 'Due Date', field: 'dueDate' },
-                    { title: 'Demand Type', field: 'demandType' },
-                    { title: 'Description', field: 'description' },
-                    { title: 'Amount', field: 'amount' },
-                    { title: 'Is Paid', field: 'isPaid' },
-                    { title: 'Payment Date', field: 'paymentDate' },
-                    { title: 'Credit Trans Id', field: 'creditTransId' },
+                    { title: 'Cheque Number', field: 'chequeNo' },
+                    { title: 'Cheque Bank Name', field: 'chequeBankName' },
+                    { title: 'Cheque Account No.', field: 'chequeAccountNo' },
+                    { title: 'Cheque Date', field: 'chequeDate' },
+                    { title: 'Cheque Amount', field: 'chequeAmount' },
+                    { title: 'Issued To', field: 'issuedTo' },
+                    { title: 'Issued By', field: 'issuedBy' },
+                    { title: 'Payment Type', field: 'paymentType' },
+                    { title: 'Sent To Bank', field: 'sentToBank' },
+                    { title: 'Bank Submit Date', field: 'bankSubmitDate' },
+                    { title: 'Clearance Bank Name', field: 'clearanceBankName' },
+                    { title: 'Payment Category', field: 'paymentCategory' },
+                    { title: 'Clearance Bank Account', field: 'clearanceBankAccount' },
+                    { title: 'Clearance Processed', field: 'clearanceProcessed' },
+                    { title: 'Clearance Date', field: 'clearanceDate' },
+                    { title: 'Cheque Cleared', field: 'chequeCleared' },
+                    { title: 'Bounce Reason', field: 'bounceReason' },
                     
                     
                     
@@ -165,7 +120,7 @@ function ListofDemand(){
                 Toolbar: (props) => (
                   <div className="filters text-center">
                     <MTableToolbar {...props} />
-                    
+{/*                     
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
                     <InputLabel id="demo-simple-select-helper-label">Demand Types</InputLabel>
                       <Select
@@ -184,11 +139,8 @@ function ListofDemand(){
                         </MenuItem>
                         <MenuItem value="LegalCharge" >
                         Legal Charge
-                        </MenuItem><MenuItem value="SaleAgreement" >
-                        Sale Agreement
-                        </MenuItem>
-                        <MenuItem value="BCCFirstDemand" >
-                        BCC First Demand
+                        </MenuItem><MenuItem value="ExtraWork" >
+                        Extra Work
                         </MenuItem>
                        
 
@@ -220,17 +172,17 @@ function ListofDemand(){
                         
                       </Select>
                     
-                    </FormControl>
+                    </FormControl> */}
 
   
   
-                    
+{/*                     
                     <FormControl className={classes.formControl} style={{marginTop: "-50px",marginRight:"110px"}}>
                     <button className="btn btn-secondary btn-user" onClick={reset} style={{backgroundColor : "white", color : "black"}}>
                     Reset Filter
                     </button>
                     </FormControl>
-                    
+                     */}
     
                     
                   </div>
@@ -255,4 +207,4 @@ function ListofDemand(){
 
 }
 
-export default ListofDemand;
+export default ListofCheque;
