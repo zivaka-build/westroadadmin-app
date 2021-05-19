@@ -84,7 +84,7 @@ function AddCarParking() {
             <option value="OP">Open Parking</option>
             <option value="GB">Ground Basement</option>
             <option value="GC">Ground Covered</option>
-            
+              
             </Form.Control>
         </Form.Group>
         </div>

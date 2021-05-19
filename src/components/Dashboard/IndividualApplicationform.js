@@ -54,6 +54,24 @@ function IndividualApplicationform() {
     const [aw, setAw]   = useState("")
     const [ae, setAe]   = useState("")
 
+    const [neft, setNeft] = useState(false)
+    const [cq, setCq] = useState(false) 
+
+    const [td,setTd] = useState("")
+    const [ta,setTa] = useState("")
+    const [tb,setTb] = useState("")
+    const [tc,setTc] = useState("")
+
+    const [can,setCan] = useState("")
+    const [cbn, setCbn] = useState("")
+    const [cd, setCd] = useState("")
+    const [cn, setCn] = useState("")
+    const [ib, setIb] = useState("")
+
+    const [funded, setFunded] = useState(false)
+    const [fb, setFb] = useState("")
+    const [fbp, setFbp] = useState("")
+
     const showApplicant = (e) => {
         if(disp === "none"){
             setDisp("block")
@@ -143,9 +161,35 @@ function IndividualApplicationform() {
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
             
-            
-            
-            
+            if(response.data.NEFTDetails){
+              setNeft(true)
+              setTd(response.data.NEFTDetails.transDate)
+              setTa(response.data.NEFTDetails.transactionAccount)
+              setTb(response.data.NEFTDetails.transactionBank)
+              setTc(response.data.NEFTDetails.transactionComments)
+            }            
+
+            if(response.data.chequeDetails) {
+              setCq(true)
+              setCan(response.data.chequeDetails.chequeAccountNo)
+              setCbn(response.data.chequeDetails.chequeBankName)
+              setCd(response.data.chequeDetails.chequeDate)
+              setCn(response.data.chequeDetails.chequeNo)
+              setIb(response.data.chequeDetails.issuedBy)
+            }
+
+            if(response.data.notFundedSelf === true) {
+              setFunded(true)
+              setFb(response.data.fundedBy)
+              setFbp(response.data.fundedByPAN)
+            }
+
+            else if(response.data.notFundedSelf === false){
+              setFunded(false)
+              setFb("Self")
+            }
+
+
           })
 
           axios.get(`${BASE_URL}/api/v1/applicant/getlistofapplicantsbyapplicationID/${applicationId}`,{headers:{Authorization:Token}})
@@ -188,6 +232,9 @@ function IndividualApplicationform() {
                 </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fourth')}}>
                 <Nav.Link className="tabs" eventKey="fourth">Documents</Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fifth')}}>
+                <Nav.Link className="tabs" eventKey="fifth">Booking Payment</Nav.Link>
                 </Nav.Item>
                 
             </Nav>
@@ -799,6 +846,172 @@ function IndividualApplicationform() {
                 <button className="btn btn-danger" onClick={upload}>Upload Document</button>
                 </div>
                 </div>
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="fifth">
+                
+                { 
+                neft === true ? 
+                <>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-8">
+                    <h5>NEFT Details</h5>
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Transaction Date</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={td.substring(8,10)+"-"+td.substring(5,7)+"-"+td.substring(0,4)}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Transaction Account</label>
+                  <input
+                  type="number"
+                  class="form-control"
+                  value={ta}
+                  />
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Transaction Bank</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={tb}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Transaction Comment</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={tc}
+                  />
+                  </div>
+                </div>
+                </>
+                : null
+                }
+
+                { 
+                  cq === true ?
+                  <>
+                  <br />
+                <div className="row justify-content-center">
+                  <div className="col-8">
+                    <h5>Cheque Details</h5>
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Cheque Account No.</label>
+                  <input
+                  type="number"
+                  class="form-control"
+                  value={can}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Cheque Bank Name</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={cbn}
+                  />
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Cheque Date</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={cd.substring(8,10)+"-"+cd.substring(5,7)+"-"+cd.substring(0,4)}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Cheque No.</label>
+                  <input
+                  type="number"
+                  class="form-control"
+                  value={cn}
+                  />
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Issued by</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={ib}
+                  />
+                  </div>
+                </div>
+                  </> 
+                  : null
+                }
+
+                {
+                  funded === true ?
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-8">
+                      <h5>Fund</h5>
+                    </div>
+                  </div>
+                  <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Funded By</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={fb}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Funded By PAN</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={fbp}
+                  />
+                  </div>
+                </div>
+                  </>
+                  : 
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-8">
+                      <h5>Fund</h5>
+                    </div>
+                  </div>
+                  <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Funded By</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={fb}
+                  />
+                  </div>
+                </div>
+                  </>
+                }
                 </Tab.Pane>
             </Tab.Content>
             </Col>
