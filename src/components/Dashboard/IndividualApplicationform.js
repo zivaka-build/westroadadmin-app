@@ -15,6 +15,8 @@ function IndividualApplicationform() {
 
     const {applicationId} = useParams()
     const [ applicant, setApplicant ] = useState([])
+    const [file, setFile] = useState("");
+
     let [arr,setArr] =useState([])
     const [ appid, setAppid ] = useState("")
     const [ siteid, setSiteid ] = useState("")
@@ -24,9 +26,81 @@ function IndividualApplicationform() {
     const [ status, setStatus] = useState("")
     const [ bookingBy, setBookingBy] = useState("")
     const [ isBankLoan, setIsBankLoan] = useState("")
+    const [parking, setParking] = useState([]);
+    const [pterms, setPterms] = useState([]);
+    const [disp, setDisp] = useState("none")
 
-    const [file, setFile] = useState("");
+    const [name, setName] = useState("")
+    const [fn, setFn] = useState("")
+    const [sn, setSn] = useState("")
+    const [oc, setOc] = useState("")
+    const [at, setAt] = useState("")
 
+    const [fa1, setFa1] = useState("")
+    const [lm1, setLm1] = useState("")
+    const [ct1, setCt1] = useState("")
+    const [pc1, setPc1] = useState("")
+    const [st1, setSt1] = useState("")
+
+    const [fa2, setFa2] = useState("")
+    const [lm2, setLm2] = useState("")
+    const [ct2, setCt2] = useState("")
+    const [pc2, setPc2] = useState("")
+    const [st2, setSt2] = useState("")
+
+    const [ap, setAp]   = useState("")
+    const [aa, setAa]   = useState("")
+    const [am, setAm]   = useState("")
+    const [aw, setAw]   = useState("")
+    const [ae, setAe]   = useState("")
+
+    const showApplicant = (e) => {
+        if(disp === "none"){
+            setDisp("block")
+        }
+        else{
+            setDisp("none")
+        }
+    }
+
+    const addApplicant = (e) => {
+        
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.post(`${BASE_URL}/api/v1/applicant/createNewApplicant`,
+        {
+            name: name,
+            applicationId: applicationId,
+            fatherName: fn,
+            spouseName: sn,
+            occupation: oc, 
+            applicantType: at,
+            applicantAddress : 
+            {
+                fullAddress: fa1,
+                landmark: lm1,
+                city: ct1,
+                pinCode: pc1,
+                state: st1
+            },
+            correspondentAddress : 
+            {
+                fullAddress: fa2,
+                landmark: lm2,
+                city: ct2,
+                pinCode: pc2,
+                state: st2
+            },
+            applicantPAN: ap,
+            applicantAadhar: aa,
+            applicantMobile: am,
+            applicantWhatsapp: aw,
+            applicantEmail: ae
+        },
+        {headers:{'Authorization':Token}})
+        .then(response => {
+            window.location.reload()
+        })
+    }
     
     function handleUpload(event) {
       setFile(event.target.files[0]);
@@ -79,7 +153,16 @@ function IndividualApplicationform() {
                 
               console.log(response)
               setArr(response.data)
+              var length = response.data.length
+              if(length === 0){
+                  setAt("First Applicant")
+              }
+              else if(length > 0){
+                  setAt(`Co Applicant ${length}`)
+                  
+              }
             })
+
           
 
           
@@ -101,7 +184,10 @@ function IndividualApplicationform() {
                 <Nav.Link className="tabs" eventKey="second">Applicants</Nav.Link>
                 </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'third')}}>
-                <Nav.Link className="tabs" eventKey="third">Documents</Nav.Link>
+                <Nav.Link className="tabs" eventKey="third">Payment Details</Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fourth')}}>
+                <Nav.Link className="tabs" eventKey="fourth">Documents</Nav.Link>
                 </Nav.Item>
                 
             </Nav>
@@ -217,7 +303,451 @@ function IndividualApplicationform() {
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="second">
+                <div className="mt-2">
+                    <div className="col-12 text-center">
+                    <button className="btn btn-danger" onClick={showApplicant} disabled={arr.length === 3 ? "disabled" : null}>Add Applicant</button>
+                    </div>
+                </div>
+                <div className="applicants" style={{display: disp}}>
+                    <form>
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>Name</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="name"
+                            id="name"
+                            onChange={(e)=>setName(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Spouse Name</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="sname"
+                            id="sname"
+                            onChange={(e)=>setSn(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Father's Name</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="fname"
+                            id="fname"
+                            onChange={(e)=>setFn(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>Mobile</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="mobile"
+                            id="mobile"
+                            onChange={(e)=>setAm(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Whatsapp</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="whatsapp"
+                            id="whatsapp"
+                            onChange={(e)=>setAw(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Email</label>
+                            <input
+                            type="email"
+                            class="form-control"
+                            name="email"
+                            id="email"
+                            onChange={(e)=>setAe(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>Occupation</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="oc"
+                            id="oc"
+                            onChange={(e)=>setOc(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>PAN</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="pan"
+                            id="pan"
+                            onChange={(e)=>setAp(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Aadhar</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="aa"
+                            id="aa"
+                            onChange={(e)=>setAa(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-12">
+                              <h4>Applicant Address</h4>
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Full Address</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="fa1"
+                            id="fa1"
+                            onChange={(e)=>setFa1(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Landmark</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="lm1"
+                            id="lm1"
+                            onChange={(e)=>setLm1(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>City</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="ct1"
+                            id="ct1"
+                            onChange={(e)=>setCt1(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Pincode</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="pc1"
+                            id="pc1"
+                            onChange={(e)=>setPc1(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>State</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="st1"
+                            id="st1"
+                            onChange={(e)=>setSt1(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-12">
+                              <h4>Correspondent Address</h4>
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Full Address</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="fa2"
+                            id="fa2"
+                            onChange={(e)=>setFa2(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Landmark</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="lm2"
+                            id="lm2"
+                            onChange={(e)=>setLm2(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>City</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="ct2"
+                            id="ct2"
+                            onChange={(e)=>setCt2(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Pincode</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="pc2"
+                            id="pc2"
+                            onChange={(e)=>setPc2(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>State</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="st2"
+                            id="st2"
+                            onChange={(e)=>setSt2(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <div className="mt-2">
+                        <div className="col-12 text-center">
+                        <button className="btn btn-danger" onClick={addApplicant}>Add</button>
+                        </div>
+                      </div>
+                    </form>                                            
+                </div>
                 {arr.map((a)=>(
+                
+                <div className="tab-card mt-5 py-3 container-fluid">
+                    <div className="row justify-content-center">
+                        <div className="col-4">
+                            <label>Applicant ID</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantId}
+                            />
+                        </div>
+                        <div className="col-4">
+                            <label>Applicant Type</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantType}
+                            />
+                        </div>
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>Name</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.name}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Spouse Name</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.spouseName}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Father's Name</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.fatherName}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>Mobile</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantMobile}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Whatsapp</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantWhatsapp}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Email</label>
+                            <input
+                            class="form-control"
+                            type="email"
+                            value={a.applicantEmail}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>Occupation</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.occupation}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>PAN</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantPAN}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Aadhar</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            value={a.applicantAadhar}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-12">
+                              <h4>Applicant Address</h4>
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Full Address</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantAddress.fullAddress}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Landmark</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantAddress.landmark}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>City</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantAddress.city}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Pincode</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            value={a.applicantAddress.pinCode}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>State</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.applicantAddress.state}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-12">
+                              <h4>Correspondent Address</h4>
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Full Address</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.correspondentAddress.fullAddress}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Landmark</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.correspondentAddress.landmark}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>City</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.correspondentAddress.city}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Pincode</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            value={a.correspondentAddress.pinCode}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>State</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.correspondentAddress.state}
+                            />
+                          </div>
+                      </div>
+                </div>
+                ))}
+                {/*{arr.map((a)=>(
                 <div className="tab-card mt-3 py-3 container-fluid">
                     <h4><span>Applicant ID:</span> {a.applicantId}</h4>
                     <br/>
@@ -243,8 +773,8 @@ function IndividualApplicationform() {
                     
                     
                 </div>
-                ))}
-
+                 ))}
+                */}
                 
 
                
@@ -255,6 +785,12 @@ function IndividualApplicationform() {
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="third">
+                
+                
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="fourth">
                 
                 <div className="row justify-content-center">
                 <div className="col-4 text-center">
