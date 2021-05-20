@@ -970,7 +970,7 @@ function IndividualApplicationform() {
                   <br />
                   <div className="row justify-content-center">
                     <div className="col-8">
-                      <h5>Fund</h5>
+                      <h5>Funding</h5>
                     </div>
                   </div>
                   <div className="row justify-content-center">
@@ -997,7 +997,7 @@ function IndividualApplicationform() {
                   <br />
                   <div className="row justify-content-center">
                     <div className="col-8">
-                      <h5>Fund</h5>
+                      <h5>Funding</h5>
                     </div>
                   </div>
                   <div className="row justify-content-center">
