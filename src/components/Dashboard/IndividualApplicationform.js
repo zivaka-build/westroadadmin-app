@@ -1110,7 +1110,9 @@ function IndividualApplicationform() {
             </Tab.Content>
             <Tab.Content>
             <Tab.Pane eventKey="fourth">
-            <div className="mt-2 row justify-content-center">
+               { pterms.length !== 0 ?
+               <>
+               <div className="mt-2 row justify-content-center">
                 <div className="col-lg-10 col-sm-12">
                 <h4>Payment Terms</h4>
                 <br />
@@ -1137,6 +1139,9 @@ function IndividualApplicationform() {
                 </table>
                 </div>
                 </div>
+                </>
+                : null
+                        }
                 
                 </Tab.Pane>
             </Tab.Content>
