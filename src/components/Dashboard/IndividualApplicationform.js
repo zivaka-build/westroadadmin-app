@@ -61,6 +61,7 @@ function IndividualApplicationform() {
     const [ isBankLoan, setIsBankLoan] = useState("")
     const [parking, setParking] = useState([]);
     const [pterms, setPterms] = useState([]);
+    const [termId, setTermId] = useState("")
     const [disp, setDisp] = useState("none")
 
     const [name, setName] = useState("")
@@ -207,6 +208,14 @@ function IndividualApplicationform() {
             setLeadid(response.data.leadId)
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
+            var pt = response.data.paymentTerms
+
+            axios.get(`${BASE_URL}/api/v1/payment/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
+                .then(response => {
+                    console.log(response.data.paymentTerms.termItems)
+                    setPterms(response.data.paymentTerms.termItems)
+                    })
+             
             
             if(response.data.NEFTDetails){
               setNeft(true)
@@ -264,10 +273,6 @@ function IndividualApplicationform() {
                   
               }
             })
-
-          
-
-          
     },[])
     
   
@@ -285,14 +290,14 @@ function IndividualApplicationform() {
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'second')}}>
                 <Nav.Link className="tabs" eventKey="second">Applicants</Nav.Link>
                 </Nav.Item>
-                <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fifth')}}>
-                <Nav.Link className="tabs" eventKey="fifth">Booking Payment</Nav.Link>
-                </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'third')}}>
-                <Nav.Link className="tabs" eventKey="third">Payment Terms</Nav.Link>
+                <Nav.Link className="tabs" eventKey="third">Booking Payment</Nav.Link>
                 </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fourth')}}>
-                <Nav.Link className="tabs" eventKey="fourth">Documents</Nav.Link>
+                <Nav.Link className="tabs" eventKey="fourth">Payment Terms</Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fifth')}}>
+                <Nav.Link className="tabs" eventKey="fifth">Documents</Nav.Link>
                 </Nav.Item>
             </Nav>
             </center>
@@ -851,62 +856,10 @@ function IndividualApplicationform() {
                       </div>
                 </div>
                 ))}
-                {/*{arr.map((a)=>(
-                <div className="tab-card mt-3 py-3 container-fluid">
-                    <h4><span>Applicant ID:</span> {a.applicantId}</h4>
-                    <br/>
-                    <h5><span>Applicant Type:</span> {a.applicantType}</h5>
-                    <br/><br/>
-                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Name:</span> {a.name}</span>
-                    
-                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Mobile:</span> {a.applicantMobile}</span>
-                    
-                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Whatsapp:</span> {a.applicantWhatsapp}</span>
-                    <br/><br/>
-                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Father Name:</span> {a.fatherName}</span>
-
-                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Spouse Name:</span> {a.spouseName}</span>
-                    
-                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>PAN Number: </span>{a.applicantPAN}</span>
-                    
-                    <span style={{paddingRight:"2rem"}}><span style={{fontWeight:"bold", fontSize:"1rem"}}>Applicant Aadhar:</span> {a.applicantAadhar}</span>
-                    <br/><br/>
-                    <span><span style={{fontWeight:"bold", fontSize:"1rem"}}>Applicant Address:</span> {a.applicantAddress.fullAddress}, {a.applicantAddress.landmark}, {a.applicantAddress.city}, {a.applicantAddress.pinCode}, {a.applicantAddress.state}</span>
-                    <br/><br/>
-                    <span><span style={{fontWeight:"bold", fontSize:"1rem"}}>Correspondent Address:</span> {a.correspondentAddress.fullAddress}, {a.correspondentAddress.landmark}, {a.correspondentAddress.city}, {a.correspondentAddress.pinCode}, {a.correspondentAddress.state}</span>
-                    
-                    
-                </div>
-                 ))}
-                */}
-                
-
-               
-                
-                
-
                 </Tab.Pane>
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="third">
-                
-                
-                </Tab.Pane>
-            </Tab.Content>
-            <Tab.Content>
-                <Tab.Pane eventKey="fourth">
-                
-                <div className="row justify-content-center">
-                <div className="col-4 text-center">
-                <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
-                <br />
-                <button className="btn btn-danger" onClick={upload}>Upload Document</button>
-                </div>
-                </div>
-                </Tab.Pane>
-            </Tab.Content>
-            <Tab.Content>
-                <Tab.Pane eventKey="fifth">
                 
                 { 
                 neft === true ? 
@@ -1155,8 +1108,55 @@ function IndividualApplicationform() {
             </Modal>
                 </Tab.Pane>
             </Tab.Content>
+            <Tab.Content>
+            <Tab.Pane eventKey="fourth">
+               { pterms.length !== 0 ?
+               <>
+               <div className="mt-2 row justify-content-center">
+                <div className="col-lg-10 col-sm-12">
+                <h4>Payment Terms</h4>
+                <br />
+                <table class="table">
+                    <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
+                        <tr>
+                        <th scope="col">Sl. No.</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Percentage</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pterms.map((p)=>(
+                            <tr>
+                            <td>{p.serial}</td>
+                            <td>{p.description}</td>
+                            <td>{p.percentage}</td>
+                            
+                            </tr>
+                        ))}
+                        
+                    </tbody>
+                </table>
+                </div>
+                </div>
+                </>
+                : null
+                        }
+                
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="fifth">
+                <div className="row justify-content-center">
+                <div className="col-4 text-center">
+                <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
+                <br />
+                <button className="btn btn-danger" onClick={upload}>Upload Document</button>
+                </div>
+                </div>
+                </Tab.Pane>
+            </Tab.Content>
             </Col>
-
         </Row>   
         </Tab.Container>
     </div>
