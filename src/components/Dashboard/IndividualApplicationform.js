@@ -285,16 +285,15 @@ function IndividualApplicationform() {
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'second')}}>
                 <Nav.Link className="tabs" eventKey="second">Applicants</Nav.Link>
                 </Nav.Item>
+                <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fifth')}}>
+                <Nav.Link className="tabs" eventKey="fifth">Booking Payment</Nav.Link>
+                </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'third')}}>
-                <Nav.Link className="tabs" eventKey="third">Payment Details</Nav.Link>
+                <Nav.Link className="tabs" eventKey="third">Payment Terms</Nav.Link>
                 </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fourth')}}>
                 <Nav.Link className="tabs" eventKey="fourth">Documents</Nav.Link>
                 </Nav.Item>
-                <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fifth')}}>
-                <Nav.Link className="tabs" eventKey="fifth">Booking Payment</Nav.Link>
-                </Nav.Item>
-                
             </Nav>
             </center>
             </Col>
@@ -1031,6 +1030,7 @@ function IndividualApplicationform() {
                       <h5>Funding</h5>
                     </div>
                   </div>
+                  <br />
                   <div className="row justify-content-center">
                   <div className="col-4">
                   <label>Funded By</label>
@@ -1060,6 +1060,7 @@ function IndividualApplicationform() {
                       <h5>Funding</h5>
                     </div>
                   </div>
+                  <br />
                   <div className="row justify-content-center">
                   <div className="col-4">
                   <label>Funded By</label>
