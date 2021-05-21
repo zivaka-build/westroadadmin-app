@@ -30,19 +30,26 @@ function InitiateAllotmentForm(){
     const [type, setType ] = useState("Hot");
     const [bankLoan, setBankLoan] = useState()
     const [unitName, setUnitName] = useState("")
+  
     
    
     const changeSite = (e) => {
         setSitename(e.target.value)
 
-        const Token = 'bearer' + " " + Cookies.get('Token')
-        axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${e.target.value}`,{headers:{Authorization:Token}})
-        .then(response=>{
-            setUnit(arraySort(response.data.site.units))
-            setCarParking(response.data.site.carParkingType)
-            console.log(response)
-        })
+    }
 
+    const changePhase = (e) => {
+        setPhasename(e.target.value)
+        var pn = e.target.value
+
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.get(`${BASE_URL}/api/v1/unit/getlistofunit?unitSiteId=${sitename}&unitPhaseCode=${pn}&status=Available`,{headers:{Authorization:Token}})
+        .then(response=>{
+            console.log(response.data)
+            setUnit(arraySort(response.data, "unitName"))
+            // setCarParking(response.data.site.carParkingType)
+            // console.log(response)
+        })
     }
 
     const handleCP = (e) => {
@@ -107,7 +114,6 @@ function InitiateAllotmentForm(){
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{Authorization:Token}})
         .then(response=>{
-            
             setSite(response.data.siteMap)
         })
 
@@ -122,7 +128,7 @@ function InitiateAllotmentForm(){
             </div>
         </div>
         <div className="row pt-3 justify-content-center">
-        <div className="col-lg-4 col-sm-12">
+        <div className="col-lg-8 col-sm-12">
         
         <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Site Name</Form.Label>
@@ -136,6 +142,20 @@ function InitiateAllotmentForm(){
             </Form.Control>
             </Form.Group>
         </div>
+        </div>
+        <div className="row pt-3 justify-content-center">
+       
+        <div className="col-lg-4 col-sm-12">
+        
+        <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Label>Phase</Form.Label>
+            <Form.Control onChange={changePhase} as="select">
+                <option value="">Select a phase</option>
+                <option value="PI">Phase 1</option>
+                <option value="PII">Phase 2</option>
+            </Form.Control>
+            </Form.Group>
+        </div>
         <div className="col-lg-4 col-sm-12">
         
         <Form.Group controlId="exampleForm.ControlSelect2">
@@ -143,7 +163,7 @@ function InitiateAllotmentForm(){
             <Form.Control onChange={(e)=>setUnitName(e.target.value)} as="select">
                 <option value="">Select a unit</option>
                 {unit.map((t)=>(
-                    <option value={t}>{t}</option>
+                    <option value={t.unitName}>{t.unitName}</option>
                 ))}
                
             
