@@ -149,13 +149,16 @@ function ListofCustomers(){
                         <MenuItem value="all" disabled>
                          Site
                         </MenuItem>
-                        { 
+                        <MenuItem value="WH" >
+                        Westroad Heights
+                        </MenuItem>
+                        {/*{ 
                         sites.map((s)=> (
                         <MenuItem value={s.SiteId} >
                         {s.SiteName}
                         </MenuItem>
                         ))
-                        }
+                        } */}
                         
                       </Select>
                     
@@ -186,6 +189,8 @@ function ListofCustomers(){
                     icon: ()=> <Edit />,
                     tooltip: 'Edit Customer',
                     onClick: (event, rowData) => {
+                      Cookies.set('ActiveCustKey', 'first')
+                      navigate(`/dashboard/individualcustomer/${rowData.custRegMobile}`)
                     }
                 }
 
