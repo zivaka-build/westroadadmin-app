@@ -242,6 +242,11 @@ const drawer = (
                     <h7>View Lead</h7>
                     </ListItem>
                     </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewcustomers'>
+                    <ListItem button key={'Customer List'}>
+                    <h7>Customer List</h7>
+                    </ListItem>
+                    </Link>
                     </List>
                 
                 </AccordionDetails>
