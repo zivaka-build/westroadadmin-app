@@ -497,12 +497,12 @@ function IndividualLead() {
                                     columns={
                                         [
                                             { title: 'Site Visit ID', field: 'siteVisitId' },
-                                            { title: 'Site ID', field: ''},
-                                            { title: 'Site Name', field: '' },
-                                            { title: 'Contact Person', field: '' },
-                                            { title: 'Contact Person No.', field: '' },
-                                            { title: 'Date & Time', field: '' },
-                                            { title: 'Status', field: '' },
+                                            { title: 'Site ID', field: 'siteID'},
+                                            { title: 'Site Name', field: 'siteName' },
+                                            { title: 'Contact Person', field: 'contactPerson' },
+                                            { title: 'Contact Person No.', field: 'contactPersonMobile' },
+                                            { title: 'Date & Time', render: (rowData) => rowData.siteVisitDate.substring(8,10)+"-"+rowData.siteVisitDate.substring(5,7)+"-"+rowData.siteVisitDate.substring(0,4)+", "+rowData.siteVisitDate.substring(11,16) },
+                                            { title: 'Status', field: 'status' },
                                         
 
                                         ]

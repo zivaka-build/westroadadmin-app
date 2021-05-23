@@ -149,13 +149,16 @@ function ListofCustomers(){
                         <MenuItem value="all" disabled>
                          Site
                         </MenuItem>
-                        { 
+                        <MenuItem value="WH">
+                         Westroad Heights
+                        </MenuItem>
+                        {/*{ 
                         sites.map((s)=> (
                         <MenuItem value={s.SiteId} >
                         {s.SiteName}
                         </MenuItem>
                         ))
-                        }
+                        }*/}
                         
                       </Select>
                     
