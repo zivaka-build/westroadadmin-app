@@ -34,6 +34,7 @@ import InitiateAllotmentForm from "./components/Dashboard/InitiateAllotmentForm"
 import AddLoanBankPage from "./routes/AddLoanBankPage"
 import ViewLoanBankPage from "./routes/ViewLoanBankPage"
 import CustomerPage from "./routes/CustomerPage"
+import IndividualBankPage from "./routes/IndividualBankPage"
 function App() {
   return (
     <div className="App">
@@ -70,6 +71,7 @@ function App() {
           <AddLoanBankPage path="/addloanbank" />
           <ViewLoanBankPage path="/listofbanks" />
           <CustomerPage path="/viewcustomers" />
+          <IndividualBankPage path="/individualbank/:bankCode" />
         </DefaultDashboard>
 
       </Router>
