@@ -149,9 +149,22 @@ function HomeLoanCalculator() {
                     </div>
         </div>
         <br />
+        <div className="row justify-content-center" >
+            <div className="col-4" style={{ display: rt === ""? "none" : "block"}}>
+                <label>Rate</label>
+                <input
+                type="number"
+                class="form-control"
+                name="rate"
+                id="rate"
+                value={rt}
+                />
+            </div>
+        </div>
+        <br />
         <div className="row container-fluid justify-content-center">
             <div className="col-4 text-right">
-                <button className="btn btn-secondary btn-user" type="reset" onClick={()=>setDisp("none")} style={{backgroundColor: "white", color: "black"}}>Reset</button>
+                <button className="btn btn-secondary btn-user" type="reset" onClick={()=>{setDisp("none");setRt("")}} style={{backgroundColor: "white", color: "black"}}>Reset</button>
 
             </div>
             <div className="col-4">
