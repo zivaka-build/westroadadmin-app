@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import { useParams } from "@reach/router"
+import { useParams , navigate} from "@reach/router"
 import { Form } from "react-bootstrap";
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
@@ -20,6 +20,13 @@ function AddCarParking() {
         var str = e.target.value
         setScode(str.substring(str.indexOf(' ') + 1))
         setSid(str.substring(0, str.indexOf(' ')))
+    }
+
+    const changeParking = (e) => {
+        var ptc = e.target.value.substring(0, e.target.value.indexOf(' '))
+        var pt = e.target.value.substring(e.target.value.indexOf(' ') + 1)
+        setPt(pt)
+        setPtc(ptc)
     }
 
     useEffect(() => { 
@@ -45,10 +52,10 @@ function AddCarParking() {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
         axios
-            .post(`${BASE_URL}/api/v1/parking/addNewCarParking`,{ SiteId: sid,unitPhase: uphase,parkingType:pt,  parkingNumber:pn*1},{ headers : { 'Authorization' : Token }})
+            .post(`${BASE_URL}/api/v1/parking/addNewCarParking`,{ siteId: sid, phaseCode: uphase, parkingType:pt, parkingTypeCode: ptc, parkingNumber:pn*1},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
-               
+                navigate(`/dashboard/individualsite/${sid}`)
             })
     }
     return(
