@@ -6,8 +6,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import {IoMdArrowBack} from 'react-icons/io'
 
-function AddLoanBank() {
-
+function IndividualLoanBank() {
+    const {bankCode} = useParams()
     const [bname, setBname] = useState("")
     const [bcode, setBcode] = useState("")
     const [gi, setGi] = useState("")
@@ -17,7 +17,7 @@ function AddLoanBank() {
         {name: "", contactNumber: "", whatsappNumber: "", emailId: ""}
     ])
 
-    
+console.log(agent)
 
     const handleAG = (e) => {
         const values = [...agent];
@@ -53,24 +53,37 @@ function AddLoanBank() {
         window.location.reload()
     }
 
+    useEffect(() => { 
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.get(`${BASE_URL}/api/v1/loan/getLoanBankByBankCode/${bankCode}`,{ headers : { 'Authorization' : Token }})
+        .then(response => {
+            console.log(response)
+            setBname(response.data.bankName)
+            setBcode(response.data.bankCode)
+            setGi(response.data.rateOfInterest)
+            setWi(response.data.rateOfInterestWomen)
+            setSi(response.data.rateOfInterestSenior)
+            setAgent(response.data.agent)
+        })
+    }, [])
+
 
     const submit = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
         axios
-            .post(`${BASE_URL}/api/v1/loan/addLoanBank`,{bankCode: bcode, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
+            .put(`${BASE_URL}/api/v1/loan/updateLoanBank`,{bankCode: bcode, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
-                if(response.status == 200) {
-                    navigate("/dashboard/listofbanks")
-                }
+                var saved = document.getElementById('saved')
+                saved.classList.remove('d-none');
             })
     }
     return(
         <>
         <div className="row mt-5 container-fluid justify-content-center">
             <div className="col-8">
-            <h4>Add Loan Bank</h4>
+            <h4>Edit Loan Bank</h4>
             </div>
         </div>
         <div className="row mt-3 container-fluid justify-content-center">
@@ -141,7 +154,7 @@ function AddLoanBank() {
         { 
                 agent.map((agent,index)=> {
                     return(
-                        <div className="row pl-4">
+                        <div className="row pl-4 mb-2">
                         <div className="col-9">
                             <div className="row">
                                 <div className="col-3">
@@ -151,6 +164,7 @@ function AddLoanBank() {
                                 class="form-control"
                                 name="name"
                                 id="name"
+                                value={agent.name}
                                 onChange={(event) => handleAGChange(index, event)}
                                 />
                                 </div>
@@ -161,6 +175,7 @@ function AddLoanBank() {
                                 class="form-control"
                                 name="phone"
                                 id="phone"
+                                value={agent.contactNumber}
                                 onChange={(event) => handleAGChange(index, event)}
                                 />
                                 </div>
@@ -171,6 +186,7 @@ function AddLoanBank() {
                                 class="form-control"
                                 name="whatsapp"
                                 id="whatsapp"
+                                value={agent.whatsappNumber}
                                 onChange={(event) => handleAGChange(index, event)}
                                 />
                                 </div>
@@ -181,6 +197,7 @@ function AddLoanBank() {
                                 class="form-control"
                                 name="email"
                                 id="email"
+                                value={agent.emailId}
                                 onChange={(event) => handleAGChange(index, event)}
                                 />
                                 </div>
@@ -197,13 +214,15 @@ function AddLoanBank() {
             }
         </div>
         </div>
+        <br />
+        <div className="text-center pr-4 d-none" id="saved"><em>All details saved succesfully!</em></div>
         <div className="row mt-4 container-fluid justify-content-center">
         <div className="col-4 text-right">
             <button className="btn btn-secondary btn-user" type="reset" onClick={reset}style={{backgroundColor: "white", color: "black"}}>Reset</button>
 
         </div>
         <div className="col-4">
-            <button className="btn btn-secondary btn-user" onClick={submit}>Add</button>
+            <button className="btn btn-secondary btn-user" onClick={submit}>Save</button>
                                         
         </div>
         </div>
@@ -212,4 +231,4 @@ function AddLoanBank() {
     )
 }
 
-export default AddLoanBank;
+export default IndividualLoanBank;
