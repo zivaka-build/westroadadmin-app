@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import { useParams } from "@reach/router"
+import { useParams , navigate} from "@reach/router"
 import { Form } from "react-bootstrap";
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
@@ -20,6 +20,13 @@ function AddCarParking() {
         var str = e.target.value
         setScode(str.substring(str.indexOf(' ') + 1))
         setSid(str.substring(0, str.indexOf(' ')))
+    }
+
+    const changeParking = (e) => {
+        var ptc = e.target.value.substring(0, e.target.value.indexOf(' '))
+        var pt = e.target.value.substring(e.target.value.indexOf(' ') + 1)
+        setPt(pt)
+        setPtc(ptc)
     }
 
     useEffect(() => { 
@@ -45,9 +52,10 @@ function AddCarParking() {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
         axios
-            .post(`${BASE_URL}/api/v1/parking/addNewCarParking`,{ SiteId: sid,unitPhase: uphase,parkingType:pt,  parkingNumber:pn*1},{ headers : { 'Authorization' : Token }})
+            .post(`${BASE_URL}/api/v1/parking/addNewCarParking`,{ siteId: sid, phaseCode: uphase, parkingType:pt, parkingTypeCode: ptc, parkingNumber:pn*1},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
+                navigate(`/dashboard/individualsite/${sid}`)
                
             })
     }
@@ -79,11 +87,11 @@ function AddCarParking() {
         <div className="col-4">
         <Form.Group controlId="unittype">
             <Form.Label>Unit Type Name</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setPt(e.target.value)}>
+            <Form.Control  as="select" onChange={changeParking}>
             <option>Parking Type</option>   
-            <option value="OP">Open Parking</option>
-            <option value="GB">Ground Basement</option>
-            <option value="GC">Ground Covered</option>
+            <option value="OP Open-Parking">Open Parking</option>
+            <option value="GB Ground-Basement">Ground Basement</option>
+            <option value="GC Ground-Covered">Ground Covered</option>
             
             </Form.Control>
         </Form.Group>
