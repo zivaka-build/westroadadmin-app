@@ -48,6 +48,10 @@ function AddLoanBank() {
         }
     }
 
+    const reset = (e) => {
+        window.location.reload()
+    }
+
 
     const submit = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -56,8 +60,9 @@ function AddLoanBank() {
             .post(`${BASE_URL}/api/v1/loan/addLoanBank`,{bankCode: bcode, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
-                
-               
+                if(response.status == 200) {
+                    navigate("/dashboard/listofbanks")
+                }
             })
     }
     return(
@@ -75,6 +80,7 @@ function AddLoanBank() {
                 class="form-control"
                 name="bankname"
                 id="bankname"
+                value={bname}
                 onChange={(e)=>setBname(e.target.value)}
             />
             </div>
@@ -85,6 +91,7 @@ function AddLoanBank() {
                 class="form-control"
                 name="bankcode"
                 id="bankcode"
+                value={bcode}
                 onChange={(e)=>setBcode(e.target.value)}
             />
             </div>
@@ -97,6 +104,7 @@ function AddLoanBank() {
                 class="form-control"
                 name="gi"
                 id="gi"
+                value={gi}
                 onChange={(e)=>setGi(e.target.value)}
             />
             </div>
@@ -107,6 +115,7 @@ function AddLoanBank() {
                 class="form-control"
                 name="wi"
                 id="wi"
+                value={wi}
                 onChange={(e)=>setWi(e.target.value)}
             />
             </div>
@@ -117,6 +126,7 @@ function AddLoanBank() {
                 class="form-control"
                 name="si"
                 id="si"
+                value={si}
                 onChange={(e)=>setSi(e.target.value)}
             />
             </div>
@@ -188,7 +198,7 @@ function AddLoanBank() {
         </div>
         <div className="row mt-4 container-fluid justify-content-center">
         <div className="col-4 text-right">
-            <button className="btn btn-secondary btn-user" type="reset"  style={{backgroundColor: "white", color: "black"}}>Reset</button>
+            <button className="btn btn-secondary btn-user" type="reset" onClick={reset}style={{backgroundColor: "white", color: "black"}}>Reset</button>
 
         </div>
         <div className="col-4">

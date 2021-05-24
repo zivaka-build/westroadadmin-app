@@ -16,17 +16,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 
 const useStyles = makeStyles((theme) => ({
-    modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
@@ -85,39 +74,279 @@ function ListofDemand(){
         if(dt==="" && paid === ""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          console.log(response.data)
+          if(response.data.message == "no Demand found1"){
+            setForm([])
+          }
+          else{
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
+          }
         })
      
         }
         else if(dt!=="" && paid===""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?demandType=${dt}`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          
+          if(response.data.message == "no Demand found3"){
+            setForm([])
+          }
+          else{
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
+          }
         })
         }
         else if(dt==="" && paid!==""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?isPaid=${paid}`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          if(response.data.message == "no Demand found1"){
+            setForm([])
+          }
+          else{
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
+          }
         })
         }
         else if(dt!=="" && paid!==""){
             axios.get(`${BASE_URL}/api/v1/demand/getlistofdemands?demandType=${dt}&isPaid=${paid}`,{headers:{Authorization:Token}})
         .then(response => {
-          console.log(response)
-          setForm(response.data)
+          if(response.data.message == "no Demand found1"){
+            setForm([])
+          }
+          else{
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
+          }
+          
+          
         })
         }
       
     },[dt,paid])
 
     return(
-        <div className="row container-fluid px-0">
-        <div className="col-12 mt-4">
+        <div className="mt-3">
         <MaterialTable
+
             data={form}
             title="Transaction List"
             columns={
@@ -129,7 +358,7 @@ function ListofDemand(){
                     { title: 'Demand Type', field: 'demandType' },
                     { title: 'Description', field: 'description' },
                     { title: 'Amount', field: 'amount' },
-                    { title: 'Is Paid', field: 'isPaid' },
+                    { title: 'Paid', field: 'isPaid' },
                     { title: 'Payment Date', field: 'paymentDate' },
                     { title: 'Credit Trans Id', field: 'creditTransId' },
                     
@@ -164,8 +393,11 @@ function ListofDemand(){
                         </MenuItem>
                         <MenuItem value="LegalCharge" >
                         Legal Charge
-                        </MenuItem><MenuItem value="ExtraWork" >
-                        Extra Work
+                        </MenuItem><MenuItem value="SaleAgreement" >
+                        Sale Agreement
+                        </MenuItem>
+                        <MenuItem value="BCCFirstDemand" >
+                        BCC First Demand
                         </MenuItem>
                        
 
@@ -226,7 +458,6 @@ function ListofDemand(){
             
            ></MaterialTable>
             
-        </div>
         </div>
     );
 

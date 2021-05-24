@@ -37,6 +37,7 @@ function IndividualLead() {
     const [dateTime, setDateTime] = useState("")
     const [sn, setSn] = useState("")
     const [sid, setSid] = useState("")
+    const [sv, setSv] = useState([])
 
     const toggleDiv = () => {
         if(toggle === 0) {
@@ -130,6 +131,13 @@ function IndividualLead() {
                       };
                 })
                 setComments(comments.reverse())
+
+        axios
+            .get(`${BASE_URL}/api/v1/lead/getlistofsitevisitbyleadid/${leadID}`,{ headers : { 'Authorization' : Token }})
+            .then(response => {
+                console.log(response.data)
+                setSv(response.data.reverse())
+            })
             })
 
             axios
@@ -484,16 +492,17 @@ function IndividualLead() {
                             : null}
                         <div className="col-12 pt-4">
                             <MaterialTable
-                                    title="Site Visit Details"
+                                    title="Site Visit Details"sv
+                                    data={sv}
                                     columns={
                                         [
-                                            { title: 'Site Visit ID', field: '' },
-                                            { title: 'Site ID', field: ''},
-                                            { title: 'Site Name', field: '' },
-                                            { title: 'Contact Person', field: '' },
-                                            { title: 'Contact Person No.', field: '' },
-                                            { title: 'Date & Time', field: '' },
-                                            { title: 'Status', field: '' },
+                                            { title: 'Site Visit ID', field: 'siteVisitId' },
+                                            { title: 'Site ID', field: 'siteID'},
+                                            { title: 'Site Name', field: 'siteName' },
+                                            { title: 'Contact Person', field: 'contactPerson' },
+                                            { title: 'Contact Person No.', field: 'contactPersonMobile' },
+                                            { title: 'Date & Time', render: (rowData) => rowData.siteVisitDate.substring(8,10)+"-"+rowData.siteVisitDate.substring(5,7)+"-"+rowData.siteVisitDate.substring(0,4)+", "+rowData.siteVisitDate.substring(11,16) },
+                                            { title: 'Status', field: 'status' },
                                         
 
                                         ]

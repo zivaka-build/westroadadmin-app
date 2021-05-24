@@ -89,28 +89,28 @@ function ListofApplicationForm(){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         else if(status==="" && snf!==""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         else if(status!=="" && snf===""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?status=${status}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         else if(status!=="" && snf!==""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}&status=${status}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         
@@ -125,7 +125,7 @@ function ListofApplicationForm(){
             title="Application Forms"
             columns={
                 [
-                    { title: 'Application Id', field: 'applicationId' },
+                    { title: 'Application Id', field: 'applicationId',defaultSort: 'desc', customSort: (a, b) => a.applicationId.toLowerCase() < b.applicationId.toLowerCase ? -1 : 1},
                     { title: 'Unit Name', field: 'unitName' },
                     { title: 'Car Parking Number', field: 'carParkings.length' },
                     { title: 'Status', field: 'status' },
@@ -138,6 +138,8 @@ function ListofApplicationForm(){
             options={{
                 search: true,
                 actionsColumnIndex: -1,
+                sorting: true
+
             }}
             components={{
                 Toolbar: (props) => (
