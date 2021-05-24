@@ -30,11 +30,18 @@ function InitiateAllotmentForm(){
     const [type, setType ] = useState("Hot");
     const [bankLoan, setBankLoan] = useState()
     const [unitName, setUnitName] = useState("")
+    const [leads, setLeads] = useState([])
   
     
    
     const changeSite = (e) => {
         setSitename(e.target.value)
+
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParkingTypes/${e.target.value}`,{headers:{Authorization:Token}})
+        .then(response=>{ 
+            setCarParking(response.data.carParkingType)
+        })
 
     }
 
@@ -47,7 +54,7 @@ function InitiateAllotmentForm(){
         .then(response=>{
             console.log(response.data)
             setUnit(arraySort(response.data, "unitName"))
-            // setCarParking(response.data.site.carParkingType)
+           
             // console.log(response)
         })
     }
@@ -85,7 +92,8 @@ function InitiateAllotmentForm(){
             bookingBy: Cookies.get('FullName'),
             isBankLoan: bankLoan,
             registeredMobile: phno,
-            registeredEmail: email
+            registeredEmail: email,
+            leadId: lead
         }
         ,
         {headers:{Authorization:Token}} )
@@ -116,6 +124,12 @@ function InitiateAllotmentForm(){
         .then(response=>{
             setSite(response.data.siteMap)
         })
+
+        axios.get(`${BASE_URL}/api/v1/lead/getAllLeads`,{ headers: { Authorization: Token } }) 
+        .then((response) => {
+            setLeads(response.data.leads)
+        })
+          
 
     },[])
     
@@ -229,6 +243,22 @@ function InitiateAllotmentForm(){
            onChange={(e)=>setEmail(e.target.value)}
             />
         </div>
+        </div>
+        <br />
+        <div className="row justify-content-center">
+            <div className="col-lg-4 col-sm-12">
+            <Form.Group controlId="leadid">
+            <label>Lead ID</label>
+            <Form.Control  as="select" onChange={(e)=>setLead(e.target.value)}>
+            <option value="">Select a Lead</option>
+            {
+                leads.map((l)=>(
+                    <option value={l.leadID}>{l.leadID}</option>
+                ))
+            }
+            </Form.Control>
+            </Form.Group>
+            </div>
         </div>
         <br />
         <div className="row justify-content-center">
