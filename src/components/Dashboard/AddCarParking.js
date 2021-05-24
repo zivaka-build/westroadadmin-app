@@ -56,7 +56,6 @@ function AddCarParking() {
             .then(response => {
                 console.log(response)
                 navigate(`/dashboard/individualsite/${sid}`)
-               
             })
     }
     return(
@@ -87,12 +86,12 @@ function AddCarParking() {
         <div className="col-4">
         <Form.Group controlId="unittype">
             <Form.Label>Unit Type Name</Form.Label>
-            <Form.Control  as="select" onChange={changeParking}>
-            <option>Parking Type</option>   
-            <option value="OP Open-Parking">Open Parking</option>
-            <option value="GB Ground-Basement">Ground Basement</option>
-            <option value="GC Ground-Covered">Ground Covered</option>
-            
+            <Form.Control  as="select" onChange={(e)=>setPt(e.target.value)}>
+            <option>Select a Parking Type</option>   
+            <option value="OP">Open Parking</option>
+            <option value="GB">Ground Basement</option>
+            <option value="GC">Ground Covered</option>
+              
             </Form.Control>
         </Form.Group>
         </div>
@@ -104,8 +103,9 @@ function AddCarParking() {
             <Form.Label>Unit Phase</Form.Label>
             <Form.Control  as="select" onChange={(e)=>setUphase(e.target.value)}>
             <option>Select a Unit Phase</option>   
-            <option value="PI">Phase 1</option>
-            <option value="PII">Phase 2</option>
+            <option value="PI" style={{display : pt === "GC" || pt === "" ? "block": "none"}}>Phase 1</option>
+            <option value="PII" style={{display : pt === "GC" || pt === "" || pt ==="GB" ? "block": "none"}}>Phase 2</option>
+            <option value="Common" style={{display : pt === "OP" || pt === "" ? "block": "none"}}>Common</option>
             </Form.Control>
         </Form.Group>
         </div>

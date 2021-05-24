@@ -201,7 +201,7 @@ const drawer = (
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofunits'>
                     <ListItem button key={'Create Lead'}>
-                    <h7>View Units</h7>
+                    <h7>Flats / Units</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/carparkinglist'>
@@ -240,6 +240,11 @@ const drawer = (
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewlead'>
                     <ListItem button key={'View Lead'}>
                     <h7>View Lead</h7>
+                    </ListItem>
+                    </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewcustomers'>
+                    <ListItem button key={'Customer List'}>
+                    <h7>Customer List</h7>
                     </ListItem>
                     </Link>
                     </List>
@@ -296,7 +301,7 @@ const drawer = (
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
                     <ListItem button key={'List of Loan Bank'}>
-                    <h7>List of Loan Bank</h7>
+                    <h7>Loan Bank</h7>
                     </ListItem>
                     </Link>
                     </List>
