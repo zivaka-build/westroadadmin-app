@@ -78,7 +78,7 @@ const ShowLead = () => {
                         }}
                         actions={[
                             {
-                                icon: ()=> <Edit />,
+                                icon: 'remove_red_eye',
                                 tooltip: 'Edit Lead',
                                 onClick: (event, rowData) => {
                                 navigate(`/dashboard/individuallead/${rowData.leadID}`);
