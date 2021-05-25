@@ -99,7 +99,7 @@ function ViewLoanBank(){
         </div>
         <MaterialTable
             data={banks}
-            title="Loan Bank"
+            title="Loan Banks"
             columns={
                 [
                     { title: 'Bank Name', field: 'bankName'},
