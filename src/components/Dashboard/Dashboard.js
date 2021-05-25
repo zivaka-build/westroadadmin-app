@@ -271,13 +271,13 @@ const drawer = (
                     
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
                     <ListItem button key={'TDS'}>
-                    <h7>Transaction</h7>
+                    <h7>Transactions</h7>
                     </ListItem>
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
                     <ListItem button key={'TDS'}>
-                    <h7>Demand</h7>
+                    <h7>Demands</h7>
                     </ListItem>
                     </Link>
 
@@ -289,7 +289,7 @@ const drawer = (
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
                     <ListItem button key={'TDS'}>
-                    <h7>Cheque</h7>
+                    <h7>Cheques</h7>
                     </ListItem>
                     </Link>
 
@@ -301,7 +301,7 @@ const drawer = (
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
                     <ListItem button key={'List of Loan Bank'}>
-                    <h7>Loan Bank</h7>
+                    <h7>Loan Banks</h7>
                     </ListItem>
                     </Link>
                     </List>
