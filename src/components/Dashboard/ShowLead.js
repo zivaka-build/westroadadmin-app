@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
 import { navigate } from "@reach/router";
+import {IoMdArrowBack} from 'react-icons/io'
 
 const ShowLead = () => {
     const [leads, setLeads] = useState([]);
@@ -45,6 +46,11 @@ const ShowLead = () => {
 
     return (
         <div className="container-fluid px-0">
+        <div className="mt-3 row container-fluid justify-content-center px-2" onLoad={window.scroll(0,0)}>
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
             <center>
                 <div className="col-lg-12 col-sm-12">
                     <br />

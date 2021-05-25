@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
 import "./../../assets/css/form.css";
+import {IoMdArrowBack} from 'react-icons/io'
 
 function AddLeadForm(){
     const [name, setName ] = useState("");
@@ -55,8 +56,13 @@ function AddLeadForm(){
     
 
     return(
-        <div className="pt-5">
-        <div className="row pt-3 justify-content-center">
+        <>
+        <div className="mt-3 row container-fluid justify-content-center">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
+        <div className="row justify-content-center">
         <div className="col-lg-8 col-sm-12">
         <h4>Add a Lead</h4>
         <br />
@@ -272,14 +278,8 @@ function AddLeadForm(){
                   </button>
                 </div>
         </div>
-
-       
-        
-        </div>
-       
-        
-        
-    );
+        </>
+    )
 }
 
 export default AddLeadForm;

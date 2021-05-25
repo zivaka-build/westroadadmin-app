@@ -22,6 +22,8 @@ import FinanceCheck from "./../../assets/icons/Addmember/financecheck.png";
 import PurchaseCheck from "./../../assets/icons/Addmember/purchasecheck.png";
 import ManagementCheck from "./../../assets/icons/Addmember/managementcheck.png";
 import Swal from "sweetalert2";
+import {IoMdArrowBack} from 'react-icons/io'
+import { useParams , navigate} from "@reach/router"
 
 function AddMember() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -243,6 +245,11 @@ function AddMember() {
 
   return (
     <div>
+      <div className="mt-3 row container-fluid justify-content-center px-1">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=> navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+        </div>
+      </div>
       <div className="customform">
         <Stepper activeStep={activeStep} orientation="vertical">
           <Step>

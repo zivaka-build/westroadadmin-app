@@ -5,9 +5,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
 import "./../../assets/css/form.css";
-import qs from 'qs';
 import Swal from 'sweetalert2';
+import {IoMdArrowBack} from 'react-icons/io'
 var arraySort = require('array-sort');
+
 
 function InitiateAllotmentForm(){
     
@@ -135,7 +136,12 @@ function InitiateAllotmentForm(){
     
 
     return(
-        <div className="">
+        <div>
+        <div className="mt-3 row container-fluid justify-content-center">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="row pt-3 justify-content-center">
             <div className="col-lg-8 col-sm-12">
             <h4>Create Application</h4>

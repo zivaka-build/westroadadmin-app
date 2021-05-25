@@ -8,6 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
+import {IoMdArrowBack} from 'react-icons/io'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -94,6 +95,11 @@ function ViewLoanBank(){
     return (
         <>
         <div className="container-fluid mt-4">
+        <div className="mt-3 row container-fluid justify-content-center px-1">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="col-12 mb-5 text-center">
         <button className="btn btn-secondary btn-user" onClick={add}>Add Loan Bank</button>
         </div>

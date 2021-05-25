@@ -35,6 +35,7 @@ import AddLoanBankPage from "./routes/AddLoanBankPage"
 import ViewLoanBankPage from "./routes/ViewLoanBankPage"
 import CustomerPage from "./routes/CustomerPage"
 import IndividualBankPage from "./routes/IndividualBankPage"
+import HomepagePage from "./routes/HomepagePage"
 function App() {
   return (
     <div className="App">
@@ -72,6 +73,7 @@ function App() {
           <ViewLoanBankPage path="/listofbanks" />
           <CustomerPage path="/viewcustomers" />
           <IndividualBankPage path="/individualbank/:bankCode" />
+          <HomepagePage path="/home" />
         </DefaultDashboard>
 
       </Router>
