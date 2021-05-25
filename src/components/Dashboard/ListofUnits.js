@@ -14,6 +14,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
 import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import {  navigate} from "@reach/router"
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -241,7 +242,7 @@ function ListofApplicationForm(){
                   icon: 'remove_red_eye',
                   tooltip: 'View Unit',
                   onClick: (event, rowData) => {
-
+                    navigate(`/dashboard/individualunit/${rowData.unitName}`)
                  }
               }
 
