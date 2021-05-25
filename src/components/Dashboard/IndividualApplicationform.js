@@ -211,7 +211,7 @@ function IndividualApplicationform() {
             setIsBankLoan(response.data.isBankLoan)
             var pt = response.data.paymentTerms
 
-            axios.get(`${BASE_URL}/api/v1/payment/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
+            axios.get(`${BASE_URL}/api/v1/paymentTerms/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
                 .then(response => {
                     console.log(response.data.paymentTerms.termItems)
                     setPterms(response.data.paymentTerms.termItems)
