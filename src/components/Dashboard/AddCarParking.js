@@ -4,6 +4,7 @@ import { Form } from "react-bootstrap";
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Swal from 'sweetalert2';
 
 function AddCarParking() {
    
@@ -27,6 +28,7 @@ function AddCarParking() {
         var pt = e.target.value.substring(e.target.value.indexOf(' ') + 1)
         setPt(pt)
         setPtc(ptc)
+        console.log(ptc)
     }
 
     useEffect(() => { 
@@ -51,11 +53,27 @@ function AddCarParking() {
     const addCarParking = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
+        console.log(ptc)
         axios
             .post(`${BASE_URL}/api/v1/parking/addNewCarParking`,{ siteId: sid, phaseCode: uphase, parkingType:pt, parkingTypeCode: ptc, parkingNumber:pn*1},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
-                navigate(`/dashboard/individualsite/${sid}`)
+                if(response.data.parkingExists === true){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops',
+                        showClass: {
+                          popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                          popup: 'animate__animated animate__fadeOutUp'
+                        },
+                        text: response.data.message
+                      })
+                }
+                else {
+                    navigate(`/dashboard/individualsite/${sid}`)
+                }
             })
     }
     return(
@@ -85,12 +103,12 @@ function AddCarParking() {
         </div>
         <div className="col-4">
         <Form.Group controlId="unittype">
-            <Form.Label>Unit Type Name</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setPt(e.target.value)}>
+            <Form.Label>Parking Type</Form.Label>
+            <Form.Control  as="select" onChange={changeParking}>
             <option>Select a Parking Type</option>   
-            <option value="OP">Open Parking</option>
-            <option value="GB">Ground Basement</option>
-            <option value="GC">Ground Covered</option>
+            <option value="OP Open-Parking">Open Parking</option>
+            <option value="GB Ground-Basement">Ground Basement</option>
+            <option value="GC Ground-Covered">Ground Covered</option>
               
             </Form.Control>
         </Form.Group>
@@ -100,12 +118,12 @@ function AddCarParking() {
     <div className="row container-fluid justify-content-center">
         <div className="col-4">
         <Form.Group controlId="unitphase">
-            <Form.Label>Unit Phase</Form.Label>
+            <Form.Label>Parking Phase</Form.Label>
             <Form.Control  as="select" onChange={(e)=>setUphase(e.target.value)}>
             <option>Select a Unit Phase</option>   
-            <option value="PI" style={{display : pt === "GC" || pt === "" ? "block": "none"}}>Phase 1</option>
-            <option value="PII" style={{display : pt === "GC" || pt === "" || pt ==="GB" ? "block": "none"}}>Phase 2</option>
-            <option value="Common" style={{display : pt === "OP" || pt === "" ? "block": "none"}}>Common</option>
+            <option value="PI" style={{display : ptc === "GC" || ptc === "" ? "block": "none"}}>Phase 1</option>
+            <option value="PII" style={{display : ptc === "GC" || ptc === "" || ptc ==="GB" ? "block": "none"}}>Phase 2</option>
+            <option value="Common" style={{display : ptc === "OP" || ptc === "" ? "block": "none"}}>Common</option>
             </Form.Control>
         </Form.Group>
         </div>
