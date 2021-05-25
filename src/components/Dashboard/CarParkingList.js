@@ -136,7 +136,7 @@ function CarParkingList(){
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}
-            title="Car Parking"
+            title="Car Parkings"
             columns={
                 [
                     { title: 'Car Parking Name', field: 'carParkingName' },

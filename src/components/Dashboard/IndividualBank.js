@@ -53,6 +53,10 @@ console.log(agent)
         window.location.reload()
     }
 
+    const back = (e) => {
+        navigate("/dashboard/listofbanks")
+    }
+
     useEffect(() => { 
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.get(`${BASE_URL}/api/v1/loan/getLoanBankByBankCode/${bankCode}`,{ headers : { 'Authorization' : Token }})
@@ -81,10 +85,17 @@ console.log(agent)
     }
     return(
         <>
-        <div className="row mt-5 container-fluid justify-content-center">
-            <div className="col-8">
-            <h4>Edit Loan Bank</h4>
+        <div className="mt-3 row container-fluid justify-content-center">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={back}><IoMdArrowBack />Back</button>
             </div>
+        </div>
+        <br />
+        <div className="tab-card pt-4 pb-4">
+        <div className="row justify-content-center">
+        <div className="col-lg-12 col-sm-12">
+            <h5 className="pl-4">Bank Details</h5>
+        </div>
         </div>
         <div className="row mt-3 container-fluid justify-content-center">
             <div className="col-lg-4 col-sm-12">
@@ -146,7 +157,9 @@ console.log(agent)
             </div>
 
         </div>
+        </div>
         <br />
+        <div className="tab-card pt-4 pb-4">
         <div className="row justify-content-center">
         <div className="col-lg-12 col-sm-12">
             <h5 className="pl-4">Agents</h5>
@@ -224,6 +237,7 @@ console.log(agent)
         <div className="col-4">
             <button className="btn btn-secondary btn-user" onClick={submit}>Save</button>
                                         
+        </div>
         </div>
         </div>
        
