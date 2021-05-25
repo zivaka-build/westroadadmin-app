@@ -112,7 +112,7 @@ function HomeLoanCalculator() {
         <div className="row justify-content-center">
             
                   <div className="col-5">
-                    <label class="text-align left">Loan Type : </label>
+                    <label class="text-align left">Applicant Type : </label>
                   
                   
                     <label class="form-check-label px-4">
@@ -121,7 +121,7 @@ function HomeLoanCalculator() {
                         type="radio"
                         className="form-check-input"
                         id="general"
-                        name="loantype"
+                        name="applicantType"
                         onClick={()=>setRt(gi)}
                       />
                     </label>
@@ -132,7 +132,7 @@ function HomeLoanCalculator() {
                         type="radio"
                         className="form-check-input"
                         id="women"
-                        name="loantype"
+                        name="applicantType"
                         onClick={()=>setRt(wi)}
                       />
                     </label>
@@ -142,7 +142,7 @@ function HomeLoanCalculator() {
                         type="radio"
                         className="form-check-input"
                         id="srcitizen"
-                        name="loantype"
+                        name="applicantType"
                         onClick={()=>setRt(si)}
                       />
                     </label>
@@ -150,15 +150,9 @@ function HomeLoanCalculator() {
         </div>
         <br />
         <div className="row justify-content-center" >
-            <div className="col-4" style={{ display: rt === ""? "none" : "block"}}>
-                <label>Rate</label>
-                <input
-                type="number"
-                class="form-control"
-                name="rate"
-                id="rate"
-                value={rt}
-                />
+            <div className="col-5" style={{ display: rt === ""? "none" : "block"}}>
+                <label>Rate of Interest : {rt}%</label>
+                
             </div>
         </div>
         <br />
