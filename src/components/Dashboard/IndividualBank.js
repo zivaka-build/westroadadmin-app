@@ -235,12 +235,10 @@ console.log(agent)
 
         </div>
         <div className="col-4">
-            <button className="btn btn-secondary btn-user" onClick={submit}>Save</button>
-                                        
+            <button className="btn btn-secondary btn-user" onClick={submit}>Save</button>                           
         </div>
         </div>
         </div>
-       
         </>
     )
 }
