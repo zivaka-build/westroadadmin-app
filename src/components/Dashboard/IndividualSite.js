@@ -536,6 +536,17 @@ function IndividualSite() {
                             
                             }
                         }}
+
+                        actions={[
+                            {
+                                icon: 'remove_red_eye',
+                                tooltip: 'View Unit',
+                                onClick: (event, rowData) => {
+                                  navigate(`/dashboard/individualunit/${rowData.unitName}`)
+                               }
+                            }
+              
+                        ]}
                         ></MaterialTable>
                         </div>
                     </center>
