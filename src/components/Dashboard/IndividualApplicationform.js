@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from "react"
 import { Form } from "react-bootstrap";
-import { useParams } from "@reach/router"
+import { useParams, navigate } from "@reach/router"
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -14,6 +14,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
+import {IoMdArrowBack} from 'react-icons/io'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -279,6 +280,11 @@ function IndividualApplicationform() {
 
     return (
         <div className="mt-2">
+          <div className="mt-3 row container-fluid justify-content-center px-1" >
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/listofapplicationform")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveKey')}>
         <Row>
             <Col sm={12}>

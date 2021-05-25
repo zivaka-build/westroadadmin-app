@@ -68,6 +68,11 @@ function AddLoanBank() {
     }
     return(
         <>
+        <div className="mt-3 row container-fluid justify-content-center px-2" >
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="row mt-5 container-fluid justify-content-center">
             <div className="col-8">
             <h4>Add Loan Bank</h4>

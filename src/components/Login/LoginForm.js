@@ -136,7 +136,7 @@ function LoginForm() {
             Cookies.set('userId', response.data.userId)
 
             Cookies.set('Role', response.data.role)
-            navigate("/dashboard/addmember")
+            navigate("/dashboard/home")
             Swal.fire({
               icon: 'success',
               title: 'Success!',

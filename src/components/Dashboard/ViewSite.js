@@ -4,6 +4,8 @@ import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
 import MaterialTable, { MTableToolbar } from "material-table";
 import { navigate } from "@reach/router";
+import {IoMdArrowBack} from 'react-icons/io'
+
 
 function ViewSite(){
 
@@ -41,7 +43,13 @@ function ViewSite(){
 
     return(
         <>
+        <div className="mt-3 row container-fluid justify-content-center">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=> navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+        </div>
+        </div>
         <div className="container-fluid mt-4">
+        
         <MaterialTable
             data={site}
             title="Sites"

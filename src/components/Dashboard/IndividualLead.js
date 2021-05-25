@@ -4,11 +4,12 @@ import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Form } from "react-bootstrap";
-import { useParams } from "@reach/router"
+import { useParams, navigate } from "@reach/router"
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
 import MaterialTable from "material-table";
+import {IoMdArrowBack} from 'react-icons/io'
 
 function IndividualLead() {
     const {leadID}=useParams()
@@ -154,8 +155,13 @@ function IndividualLead() {
     }, [])
 
     return(
-        <>
-        <div className="tabs-container" id="tabs-container" style={{paddingTop: "70px"}}>
+        <div>
+        <div className="mt-3 row container-fluid justify-content-center px-1" >
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/viewlead")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
+        <div className="tabs-container" id="tabs-container">
 
         <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveKey')}>
             <Row>
@@ -589,7 +595,7 @@ function IndividualLead() {
             </Row>
             </Tab.Container>
         </div>
-    </>
+    </div>
     )
 }
 
