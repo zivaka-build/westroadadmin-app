@@ -111,6 +111,19 @@ function IndividualApplicationform() {
     const [vb, setVb] = useState("")
     const [vd, setVd] = useState("")
 
+    const [bpm, setBpm] = useState(false)
+    const [paymentMode, setPaymentMode] = useState("")
+    const [notFundedSelf, setNotFundedSelf] = useState()
+    const [fundedBy, setFundedBy] = useState("")
+    const [fundedPan, setFundedPan] = useState("")
+
+    const [tdate, setTdate] = useState("")
+    const [account, setAccount] = useState("")
+    const [bank, setBank] = useState("")
+    const [issuedBy, setIssuedBy] = useState("")
+    const [chequeNo, setChequeNo] = useState("")
+    const [comments, setComments] = useState("")
+
     const showApplicant = (e) => {
         if(disp === "none"){
             setDisp("block")
@@ -191,6 +204,96 @@ function IndividualApplicationform() {
           
         })
     }
+
+    const submit = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      if( notFundedSelf === false) {
+        if(paymentMode === "Cheque" || paymentMode === "DD") {  
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            chequeNo: chequeNo,
+            chequeAccountNo: account,
+            chequeBankName: bank,
+            chequeDate: tdate,
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+              
+          })
+        }
+
+        else {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            transactionComments: comments,
+            transactionAccount: account,
+            transactionBank: bank,
+            transDate: tdate,
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        }
+      }
+
+      else if(notFundedSelf === true) {
+        if(paymentMode === "Cheque" || paymentMode === "DD") {  
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            chequeNo: chequeNo,
+            chequeAccountNo: account,
+            chequeBankName: bank,
+            chequeDate: tdate,
+            fundedBy: fundedBy,
+            fundedByPAN: fundedPan
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        }
+
+        else {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            transactionComments: comments,
+            transactionAccount: account,
+            transactionBank: bank,
+            transDate: tdate,
+            fundedBy: fundedBy,
+            fundedByPAN: fundedPan
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        }
+
+      }
+      
+    }
     
       
     useEffect(()=>{
@@ -255,6 +358,10 @@ function IndividualApplicationform() {
               else {
                 setPv(false)
               }
+            }
+
+            if(response.data.bookingPaymentMode) {
+              setBpm(true)
             }
 
 
@@ -866,6 +973,315 @@ function IndividualApplicationform() {
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="third">
+                  { 
+                  bpm === false ?
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-8">
+                      <h5>Booking Payment</h5>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-2 col-sm-12">
+                      <label class="text-align left">Payment Mode : </label>
+                    </div>
+                    <div className="col-lg-6 col-sm-12">
+                      <label class="form-check-label px-4">
+                        Cheque
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("Cheque")}
+                        />
+                      </label>
+
+                      <label class="form-check-label px-4">
+                        Demand Draft
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("DD")}
+                        />
+                      </label>
+
+                      <label class="form-check-label px-4">
+                        NEFT
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="neft"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("NEFT")}
+                        />
+                      </label>
+
+                      <label class="form-check-label px-4">
+                        RTGS
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="rtgs"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("RTGS")}
+                        />
+                      </label>
+
+                      <label class="form-check-label px-4">
+                        IMPS
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="imps"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("IMPS")}
+                        />
+                      </label>
+                      </div>
+                  </div>
+                  <br />
+                  { paymentMode === "Cheque" || paymentMode === "DD" ?
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Cheque No.: </label>
+                      <input
+                      type="number"
+                      class="form-control"
+                      onChange={(e)=>setChequeNo(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Bank Name : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setBank(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Cheque Account No.: </label>
+                      <input
+                      type="number"
+                      class="form-control"
+                      onChange={(e)=>setAccount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Cheque Date : </label>
+                      <input
+                      type="date"
+                      class="form-control"
+                      onChange={(e)=>setTdate(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-8 col-sm-12">
+                      <label>Issued By: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setIssuedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                  
+                    <div className="col-lg-2 col-sm-12">
+                      <label>Funded By: </label>
+                    </div>
+                    <div className="col-lg-6 col-sm-12">
+                      <label class="form-check-label px-4">
+                        Self
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(false)}
+                        />
+                      </label>
+
+                      <label class="form-check-label px-4">
+                        Other
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(true)}
+                        />
+                      </label>
+                      </div>
+                  </div>
+                  <br />
+                  { notFundedSelf === true ?
+                  <>
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedBy(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By PAN : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedPan(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  </> : null
+                  }
+                  </>
+                  : null
+                  }
+                  { 
+                  paymentMode === "NEFT" || paymentMode === "RTGS" || paymentMode === "IMPS" ?
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Transaction Date: </label>
+                      <input
+                      type="date"
+                      class="form-control"
+                      onChange={(e)=>setTdate(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Bank Name : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setBank(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Transaction Account No.: </label>
+                      <input
+                      type="number"
+                      class="form-control"
+                      onChange={(e)=>setAccount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Comments (NEFT/RTGS/IMPS Ref Number) : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setComments(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-8 col-sm-12">
+                      <label>Issued By: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setIssuedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                  
+                    <div className="col-lg-2 col-sm-12">
+                      <label>Funded By: </label>
+                    </div>
+                    <div className="col-lg-6 col-sm-12">
+                      <label class="form-check-label px-4">
+                        Self
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(false)}
+                        />
+                      </label>
+
+                      <label class="form-check-label px-4">
+                        Other
+                        <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(true)}
+                        />
+                      </label>
+                      </div>
+                  </div>
+                  <br />
+                  { notFundedSelf === true ?
+                  <>
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedBy(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By PAN : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedPan(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  </> : null
+                  }
+                 
+                  </> : null
+                  }
+                  
+                  </> :
+                  null
+                  
+                  }
+                  
+                { bpm === false ?
+                <>
+                <br />
+                  <div className="row justify-content-center">
+                  <div className="col-lg-2 col-sm-3">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                   onClick={submit}
+                  >
+                    Create
+                  </button>
+                </div>
+                </div>
+                </> : null}
                 
                 { 
                 neft === true ? 
@@ -917,6 +1333,8 @@ function IndividualApplicationform() {
                 </>
                 : null
                 }
+
+            
 
                 { 
                   cq === true ?
@@ -979,6 +1397,8 @@ function IndividualApplicationform() {
                   </> 
                   : null
                 }
+
+               
 
                 {
                   funded === true ?
