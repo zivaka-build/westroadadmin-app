@@ -196,13 +196,13 @@ function IndividualApplicationform() {
     }
 
     const validate = (e) => {
-      
-      axios.put(`${BASE_URL}/api/v1/payment/validatepayment`, {applicationId: applicationId, paymentValidatedBy: Cookies.get("FullName"), paymentValidatedDate: date })
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.put(`${BASE_URL}/api/v1/applicationform/validatepayment`, {applicationId: applicationId, paymentValidatedBy: Cookies.get("FullName"), paymentValidatedDate: date }, {headers:{'Authorization':Token}})
         .then(response=>{
             console.log(response)
             window.location.reload()
-          
         })
+       
     }
 
     const submit = (e) => {
