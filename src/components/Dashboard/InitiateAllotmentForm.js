@@ -32,7 +32,9 @@ function InitiateAllotmentForm(){
     const [bankLoan, setBankLoan] = useState()
     const [unitName, setUnitName] = useState("")
     const [leads, setLeads] = useState([])
-  
+
+   
+      
     
    
     const changeSite = (e) => {
