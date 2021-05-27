@@ -659,8 +659,6 @@ function IndividualLead() {
                                     name="remarks"
                                     onChange={(e)=>setRemarks(e.target.value)}
                                     />
-                                   
-
                                     </> 
                                     : null
                                     }
