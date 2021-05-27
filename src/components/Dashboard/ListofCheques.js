@@ -4,7 +4,11 @@ import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
 import { makeStyles } from '@material-ui/core/styles';
 import MaterialTable, { MTableToolbar } from "material-table";
-
+import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { Form } from "react-bootstrap";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -34,33 +38,38 @@ function ListofCheque(){
 
     const handleClose = () => {
         setOpen(false);
+        setClearanceBank("")
     };
 
-    const [open1, setOpen1] = React.useState(false);
-
-
-    const handleClose1 = () => {
-        setOpen1(false);
-    };
-
+  
     const [ form, setForm ] = useState([])
-    
-    const [ view, setView ] = useState("")
-    const [ unitName, setUnitName] = useState("")
-    const [ unitType, setUnitType] = useState("")
-    const [ paid, setPaid] = useState("")
-    const [ unitFloor, setUnitFloor] = useState("")
-    const [ unitPhase, setUnitPhase] = useState("")
-    const [ onHold, setOnHold] = useState("")
-    const [ dt, setDt] = useState("")
-    const [ stat, setStat] = useState([])
-    const [ ptca, setPtca] = useState([])
-    
-   
+    var [clearanceBank, setClearanceBank] = useState("")
+    const [ chequeNo, setChequeNo] = useState("")
 
-    
-    
+    var bankAccount = ""
 
+    if(clearanceBank === "Bank1") {
+      bankAccount = "11111"
+    }
+    else if(clearanceBank === "Bank2") {
+      bankAccount = "22222"
+    }
+
+    const sendCheque = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios
+      .post(`${BASE_URL}/api/v1/cheque/chequesenttobank`,{clearanceBankName : clearanceBank, clearanceBankAccount: bankAccount, chequeNo: chequeNo},{ headers : { 'Authorization' : Token }})
+      .then(response => {
+          console.log(response)
+          axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          setForm(response.data)
+          setOpen(false)
+        })
+      })
+    }
+ 
     useEffect(() => {
        
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -84,18 +93,18 @@ function ListofCheque(){
                     { title: 'Cheque Number', field: 'chequeNo' },
                     { title: 'Cheque Bank Name', field: 'chequeBankName' },
                     { title: 'Cheque Account No.', field: 'chequeAccountNo' },
-                    { title: 'Cheque Date', field: 'chequeDate' },
+                    { title: 'Cheque Date', render: (rowData) => !rowData.chequeDate ?  "": rowData.chequeDate.substring(8,10)+"-"+rowData.chequeDate.substring(5,7)+"-"+rowData.chequeDate.substring(0,4) },
                     { title: 'Cheque Amount', field: 'chequeAmount' },
                     { title: 'Issued To', field: 'issuedTo' },
                     { title: 'Issued By', field: 'issuedBy' },
                     { title: 'Payment Type', field: 'paymentType' },
                     { title: 'Sent To Bank', field: 'sentToBank' },
-                    { title: 'Bank Submit Date', field: 'bankSubmitDate' },
+                    { title: 'Bank Submit Date', render: (rowData) => !rowData.bankSubmitDate ?  "": rowData.bankSubmitDate.substring(8,10)+"-"+rowData.bankSubmitDate.substring(5,7)+"-"+rowData.bankSubmitDate.substring(0,4)},
                     { title: 'Clearance Bank Name', field: 'clearanceBankName' },
                     { title: 'Payment Category', field: 'paymentCategory' },
                     { title: 'Clearance Bank Account', field: 'clearanceBankAccount' },
                     { title: 'Clearance Processed', field: 'clearanceProcessed' },
-                    { title: 'Clearance Date', field: 'clearanceDate' },
+                    { title: 'Clearance Date', render: (rowData) => !rowData.clearanceDate ?  "": rowData.clearanceDate.substring(8,10)+"-"+rowData.clearanceDate.substring(5,7)+"-"+rowData.clearanceDate.substring(0,4) },
                     { title: 'Cheque Cleared', field: 'chequeCleared' },
                     { title: 'Bounce Reason', field: 'bounceReason' },
                     
@@ -189,8 +198,81 @@ function ListofCheque(){
                 
                 }
             }}
+
+            actions={[
+              {
+                  icon: ()=> <Edit />,
+                  tooltip: 'Send To Bank',
+                  onClick: (event, rowData) => {
+                    setOpen(true)
+                    setChequeNo(rowData.chequeNo)
+                  }
+              }
+
+          ]}
             
            ></MaterialTable>
+            <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open}>
+                            <div className={classes.paper}>
+                              <Form.Group controlId="clearanceBank" onChange={(e)=> setClearanceBank(e.target.value)}>
+                                <Form.Label>Clearance Bank Name</Form.Label>
+                                <Form.Control  as="select" >
+                                <option>Select a Clearance Bank</option>
+                                <option value="Bank1">Bank1</option>    
+                                <option value="Bank2">Bank2</option> 
+                                </Form.Control>
+                              </Form.Group>
+
+                              { clearanceBank !== "" ?
+                              <>
+                              <label>Clearance Bank Account</label>
+                              <input 
+                               type="number"
+                               class="form-control"
+                               name="bankAccount"
+                               value={clearanceBank === "Bank1" ? "11111" : clearanceBank === "Bank2" ? "22222" : null}
+                               readonly="true"
+                               />
+
+                              <br />
+                              <label>Cheque No.</label>
+                              <input 
+                               type="number"
+                               class="form-control"
+                               name="chequeNo"
+                               value={chequeNo}
+                               readonly="true"
+                               />
+
+                              <br />
+                              <div className="text-center">
+                              <button className="btn btn-secondary btn-user" onClick={sendCheque}>
+                              Send
+                              </button>
+                              &nbsp;&nbsp;
+                              <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                              Cancel
+                              </button>
+                              </div>
+
+                              </> : null 
+                              }
+
+                            </div>
+                            </Fade>
+                    </Modal>
             
         </div>
         </div>
