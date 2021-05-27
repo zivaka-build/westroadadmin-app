@@ -32,10 +32,7 @@ function InitiateAllotmentForm(){
     const [bankLoan, setBankLoan] = useState()
     const [unitName, setUnitName] = useState("")
     const [leads, setLeads] = useState([])
-
-   
-      
-    
+    const [paymentTerms, setPaymentTerms] = useState("")
    
     const changeSite = (e) => {
         setSitename(e.target.value)
@@ -57,8 +54,12 @@ function InitiateAllotmentForm(){
         .then(response=>{
             console.log(response.data)
             setUnit(arraySort(response.data, "unitName"))
-           
-            // console.log(response)
+        })
+
+        axios.get(`${BASE_URL}/api/v1/payment/getpaymenttermsid?siteId=${sitename}&phaseCode=${pn}`,{headers:{Authorization:Token}})
+        .then(response=>{
+            console.log(response.data)
+            setPaymentTerms(response.data[0].paymentTermsId)
         })
     }
 
@@ -96,27 +97,15 @@ function InitiateAllotmentForm(){
             isBankLoan: bankLoan,
             registeredMobile: phno,
             registeredEmail: email,
-            leadId: lead
+            leadId: lead,
+            paymentTerms: paymentTerms,
         }
         ,
         {headers:{Authorization:Token}} )
         .then(response => {
             console.log(response)
         })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ooops',
-                showClass: {
-                  popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                  popup: 'animate__animated animate__fadeOutUp'
-                },
-                text: "Unit already alloted!"
-              })
-        })
-        navigate("/dashboard/listofapplicationform")
+        //navigate("/dashboard/listofapplicationform")
     }
 
    

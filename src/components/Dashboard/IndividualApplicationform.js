@@ -315,7 +315,7 @@ function IndividualApplicationform() {
 
             axios.get(`${BASE_URL}/api/v1/paymentTerms/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
                 .then(response => {
-                    console.log(response.data.paymentTerms.termItems)
+                    console.log(response)
                     setPterms(response.data.paymentTerms.termItems)
                     })
              
