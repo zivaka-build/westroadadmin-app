@@ -141,22 +141,15 @@ function IndividualLead() {
     const editSv = () => {
         const Token = 'bearer' + " " + Cookies.get('Token')
         if(svStatus === "Completed") {
-            if(siteVisitStatus === "Interested"){
+           
                 axios
                 .post(`${BASE_URL}/api/v1/siteVisit/completeSiteVisit`,{siteVisitId: svid, siteVisitStatus: siteVisitStatus, siteVisitRemarks : remarks},{ headers : { 'Authorization' : Token }})
                 .then(response => {
                     console.log(response)
                     window.location.reload()
                 })
-            }
-            else if(siteVisitStatus === "Not Interested"){
-                axios
-                .post(`${BASE_URL}/api/v1/siteVisit/completeSiteVisit`,{siteVisitId: svid, siteVisitStatus: siteVisitStatus},{ headers : { 'Authorization' : Token }})
-                .then(response => {
-                    console.log(response)
-                    window.location.reload()
-                })
-            }
+           
+            
         }
 
         else if(svStatus === "Cancelled"){
@@ -657,7 +650,7 @@ function IndividualLead() {
                                         </Form.Control>
                                     </Form.Group>
                                     { 
-                                    siteVisitStatus === "Interested" ?
+                                    siteVisitStatus === "Interested" || siteVisitStatus === "Not Interested"?
                                     <>
                                      <label>Remarks</label>
                                      <input
