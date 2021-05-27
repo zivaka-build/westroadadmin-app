@@ -1276,7 +1276,7 @@ function IndividualApplicationform() {
                     className="btn btn-secondary btn-user btn-block"
                    onClick={submit}
                   >
-                    Create
+                    Add Payment
                   </button>
                 </div>
                 </div>
