@@ -10,8 +10,42 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import MaterialTable from "material-table";
 import {IoMdArrowBack} from 'react-icons/io'
+import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    paper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
+  }));
 
 function IndividualLead() {
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false);
+        setSvStatus("")
+        setSiteVisitStatus("")
+    };
+
     const {leadID}=useParams()
     const [name, setName ] = useState("");
     const [mobile, setMobile ] = useState("");
@@ -39,6 +73,13 @@ function IndividualLead() {
     const [sn, setSn] = useState("")
     const [sid, setSid] = useState("")
     const [sv, setSv] = useState([])
+
+    const [svid, setSvid] = useState("")
+    const [ svStatus, setSvStatus] = useState("")
+    const [ siteVisitStatus, setSiteVisitStatus] = useState("")
+    const [ remarks, setRemarks] = useState("")
+    const [ creason, setCreason] = useState("")
+    const [ rdate, setRdate] = useState("")
 
     const toggleDiv = () => {
         if(toggle === 0) {
@@ -95,6 +136,46 @@ function IndividualLead() {
                 window.location.reload()
             })
 
+    }
+
+    const editSv = () => {
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        if(svStatus === "Completed") {
+            if(siteVisitStatus === "Interested"){
+                axios
+                .post(`${BASE_URL}/api/v1/siteVisit/completeSiteVisit`,{siteVisitId: svid, siteVisitStatus: siteVisitStatus, siteVisitRemarks : remarks},{ headers : { 'Authorization' : Token }})
+                .then(response => {
+                    console.log(response)
+                    window.location.reload()
+                })
+            }
+            else if(siteVisitStatus === "Not Interested"){
+                axios
+                .post(`${BASE_URL}/api/v1/siteVisit/completeSiteVisit`,{siteVisitId: svid, siteVisitStatus: siteVisitStatus},{ headers : { 'Authorization' : Token }})
+                .then(response => {
+                    console.log(response)
+                    window.location.reload()
+                })
+            }
+        }
+
+        else if(svStatus === "Cancelled"){
+            axios
+                .post(`${BASE_URL}/api/v1/siteVisit/cancelSiteVisit`,{siteVisitId: svid, cancellationReason: creason},{ headers : { 'Authorization' : Token }})
+                .then(response => {
+                    console.log(response)
+                    window.location.reload()
+                })
+        }
+
+        else if(svStatus === "Rescheduled"){
+            axios
+                .put(`${BASE_URL}/api/v1/siteVisit/rescheduleSiteVisitByLeadId`,{siteVisitId: svid, siteVisitDate: rdate},{ headers : { 'Authorization' : Token }})
+                .then(response => {
+                    console.log(response)
+                    window.location.reload()
+                })
+        }
     }
 
     useEffect(() => {
@@ -525,10 +606,135 @@ function IndividualLead() {
                                         
                                         }
                                     }}
+                                    actions={[
+                                        {
+                                            icon: () => <Edit />,
+                                            tooltip: 'Edit',
+                                            onClick: (event, rowData) => {
+                                                setOpen(true)
+                                                setSvid(rowData.siteVisitId)
+                                           }
+                                        }
+            
+                                    ]}
                                 ></MaterialTable>
                         </div>
                         </div>
-                        
+                        <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open}>
+                            <div className={classes.paper}>
+                               
+                                    <Form.Group controlId="status">
+                                        <Form.Label>Status</Form.Label>
+                                        <Form.Control  as="select" onChange={(e)=> setSvStatus(e.target.value)}>
+                                        <option>Select a Status</option>
+                                        <option value="Completed">Completed</option>    
+                                        <option value="Cancelled">Cancelled</option> 
+                                        <option value="Rescheduled">Rescheduled</option> 
+                                        </Form.Control>
+                                    </Form.Group>
+                                    
+                                    { 
+                                    svStatus === "Completed" ?
+                                    <>
+                                    <Form.Group controlId="status">
+                                        <Form.Label>Site Visit Status</Form.Label>
+                                        <Form.Control  as="select" onChange={(e)=>setSiteVisitStatus(e.target.value)}>
+                                        <option>Select a Site Visit Status</option>
+                                        <option value="Interested">Interested</option>    
+                                        <option value="Not Interested">Not Interested</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    { 
+                                    siteVisitStatus === "Interested" ?
+                                    <>
+                                     <label>Remarks</label>
+                                     <input
+                                    type="text"
+                                    class="form-control"
+                                    name="remarks"
+                                    onChange={(e)=>setRemarks(e.target.value)}
+                                    />
+                                   
+
+                                    </> 
+                                    : null
+                                    }
+                                    <br />
+                                    <div className="text-center">
+                                    <button className="btn btn-secondary btn-user" onClick={editSv}>
+                                    Save
+                                    </button>
+                                    &nbsp;&nbsp;
+                                    <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                                    Cancel
+                                    </button>
+                                    </div>
+                                    </>
+                                    : null
+                                    }
+
+                                    { 
+                                        svStatus === "Cancelled" ?
+                                        <>
+                                        <label>Reason for cancellation</label>
+                                        <input
+                                        type="text"
+                                        class="form-control"
+                                        name="reason"
+                                        onChange={(e)=>setCreason(e.target.value)}
+                                        />
+
+                                        <br />
+                                        <div className="text-center">
+                                        <button className="btn btn-secondary btn-user" onClick={editSv}>
+                                        Save
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                                        Cancel
+                                        </button>
+                                        </div>
+                                        </> : null
+                                    }
+
+                                    { 
+                                        svStatus === "Rescheduled" ?
+                                        <>
+                                        <label>Reschedule on</label>
+                                        <input
+                                        type="datetime-local"
+                                        class="form-control"
+                                        name="rdate"
+                                        onChange={(e)=>setRdate(e.target.value)}
+                                        />
+
+                                        <br />
+                                        <div className="text-center">
+                                        <button className="btn btn-secondary btn-user" onClick={editSv}>
+                                        Save
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                                        Cancel
+                                        </button>
+                                        </div>
+                                        </> : null
+                                    }
+                            </div>
+                            </Fade>
+                    </Modal>
                     </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">

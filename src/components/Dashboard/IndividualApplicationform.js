@@ -202,7 +202,6 @@ function IndividualApplicationform() {
             console.log(response)
             window.location.reload()
         })
-       
     }
 
     const submit = (e) => {
