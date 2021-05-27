@@ -200,14 +200,15 @@ function ListofCheque(){
             }}
 
             actions={[
-              {
+              rowData => ({
                   icon: ()=> <Edit />,
                   tooltip: 'Send To Bank',
                   onClick: (event, rowData) => {
                     setOpen(true)
                     setChequeNo(rowData.chequeNo)
-                  }
-              }
+                  },
+                  disabled: rowData.bankSubmitDate
+                })
 
           ]}
             
