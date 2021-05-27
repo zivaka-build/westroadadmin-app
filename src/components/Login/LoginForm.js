@@ -108,6 +108,19 @@ function LoginForm() {
         text: 'username and password cannot be left empty!'
       })
     }
+    else if(userName === 'Customer' && password === '1234') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ooops',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        },
+        text: 'This username cannot be used'
+      })
+    }
     else {
       const data = {
         userName: userName,
@@ -123,7 +136,7 @@ function LoginForm() {
             Cookies.set('userId', response.data.userId)
 
             Cookies.set('Role', response.data.role)
-            navigate("/dashboard/addmember")
+            navigate("/dashboard/home")
             Swal.fire({
               icon: 'success',
               title: 'Success!',
@@ -188,7 +201,7 @@ function LoginForm() {
                           </div>
                           
                           <div className="form-group">
-                            <Input type="password" className="form-control form-control-user form-input-styling" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (8+ characters)" />
+                            <Input type="password" className="form-control form-control-user form-input-styling" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (6+ characters)" />
                           </div>
                           
                           <div className="frgt" >

@@ -11306,6 +11306,8 @@ body.sidebar-toggled footer.sticky-footer {
 }
 
 .makeStyles-content-7 {
+  padding-left: 18px !important;
+  padding-right: 18px !important;
   padding-top: 0px !important;
 }
 
@@ -11381,4 +11383,12 @@ input {
 .MuiListItem-root {
   padding-top: 4px !important;
   padding-bottom: 4px !important;
+}
+
+.MuiIconButton-root {
+  padding: 6px !important;
+}
+
+.MuiTypography-h6 {
+  padding-left: 10px !important;
 }
