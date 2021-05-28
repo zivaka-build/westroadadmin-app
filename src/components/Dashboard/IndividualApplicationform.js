@@ -65,7 +65,10 @@ function IndividualApplicationform() {
     const [termId, setTermId] = useState("")
     const [disp, setDisp] = useState("none")
 
-    const [name, setName] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [middleName, setMiddleName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [salutation, setSalutation] = useState("")
     const [fn, setFn] = useState("")
     const [sn, setSn] = useState("")
     const [oc, setOc] = useState("")
@@ -138,7 +141,10 @@ function IndividualApplicationform() {
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.post(`${BASE_URL}/api/v1/applicant/createNewApplicant`,
         {
-            name: name,
+            firstName: firstName,
+            middleName: middleName,
+            lastName: lastName,
+            salutation: salutation,
             applicationId: applicationId,
             fatherName: fn,
             spouseName: sn,
@@ -531,18 +537,57 @@ function IndividualApplicationform() {
                 </div>
                 <div className="applicants" style={{display: disp}}>
                     <form>
+                    <br />
+                    <div className="row justify-content-center">
+                      <div className="col-4">
+                      <Form.Group controlId="salutation">
+                        <Form.Label>Salutation</Form.Label>
+                        <Form.Control  as="select" onChange={(e)=>setSalutation(e.target.value)}>
+                        <option>Select a Salutation</option>   
+                        <option value="Mr.">Mr.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Dr.">Dr.</option>
+                        </Form.Control>
+                    </Form.Group>
+                      </div>
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                      <div className="col-4">
+                          <label>First Name</label>
+                          <input
+                          type="text"
+                          class="form-control"
+                          name="firstName"
+                          id="firstName"
+                          onChange={(e)=>setFirstName(e.target.value)}
+                          />
+                      </div>
+                      <div className="col-4">
+                          <label>Middle Name</label>
+                          <input
+                          type="text"
+                          class="form-control"
+                          name="middleName"
+                          id="middleName"
+                          onChange={(e)=>setMiddleName(e.target.value)}
+                          />
+                      </div>
+                      <div className="col-4">
+                          <label>Last Name</label>
+                          <input
+                          type="text"
+                          class="form-control"
+                          name="lastName"
+                          id="lastName"
+                          onChange={(e)=>setLastName(e.target.value)}
+                          />
+                      </div>
+                    </div>
                       <div className="row justify-content-center">
-                          <div className="col-4">
-                            <label>Name</label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            name="name"
-                            id="name"
-                            onChange={(e)=>setName(e.target.value)}
-                            />
-                          </div>
-                          <div className="col-4">
+                          
+                          <div className="col-6">
                             <label>Spouse Name</label>
                             <input
                             type="text"
@@ -552,7 +597,7 @@ function IndividualApplicationform() {
                             onChange={(e)=>setSn(e.target.value)}
                             />
                           </div>
-                          <div className="col-4">
+                          <div className="col-6">
                             <label>Father's Name</label>
                             <input
                             type="text"
@@ -780,18 +825,46 @@ function IndividualApplicationform() {
                             value={a.applicantType}
                             />
                         </div>
-                    </div>
-                    <br />
-                    <div className="row justify-content-center">
-                          <div className="col-4">
-                            <label>Name</label>
+                        <div className="col-4">
+                            <label>Salutation</label>
                             <input
                             type="text"
                             class="form-control"
-                            value={a.name}
+                            value={a.salutation}
                             />
-                          </div>
-                          <div className="col-4">
+                        </div>
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                      <div className="col-4">
+                        <label>First Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        value={a.firstName}
+                        />
+                      </div>
+                      <div className="col-4">
+                        <label>Middle Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        value={a.middleName}
+                        />
+                      </div>
+                      <div className="col-4">
+                        <label>Last Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        value={a.lastName}
+                        />
+                      </div>
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                          
+                          <div className="col-6">
                             <label>Spouse Name</label>
                             <input
                             type="text"
@@ -799,7 +872,7 @@ function IndividualApplicationform() {
                             value={a.spouseName}
                             />
                           </div>
-                          <div className="col-4">
+                          <div className="col-6">
                             <label>Father's Name</label>
                             <input
                             type="text"
