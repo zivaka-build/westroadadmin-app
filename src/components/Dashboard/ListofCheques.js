@@ -9,6 +9,10 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { Form } from "react-bootstrap";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import InputLabel from '@material-ui/core/InputLabel';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -45,6 +49,8 @@ function ListofCheque(){
     const [ form, setForm ] = useState([])
     var [clearanceBank, setClearanceBank] = useState("")
     const [ chequeNo, setChequeNo] = useState("")
+    const [status, setStatus] = useState("")
+    const [ptype, setPtype] = useState("")
 
     var bankAccount = ""
 
@@ -53,6 +59,11 @@ function ListofCheque(){
     }
     else if(clearanceBank === "Bank2") {
       bankAccount = "22222"
+    }
+
+    const reset = (e) => {
+        setPtype("")
+        setStatus("")
     }
 
     const sendCheque = (e) => {
@@ -74,13 +85,94 @@ function ListofCheque(){
        
         const Token = 'bearer' + " " + Cookies.get('Token')
         
-            axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque`,{headers:{Authorization:Token}})
+        if(ptype === "" && status === ""){
+        axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
-          setForm(response.data)
+          if (response.status === 200){
+            setForm(response.data)
+          }
+          
         })
+        .catch(error => {
+          console.log(error)
+          setForm([])
+        })
+      }
+      else if(ptype !== "" && status === ""){
+        axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque?paymentType=${ptype}`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          if (response.status === 200){
+            setForm(response.data)
+          }
+          
+        })
+        .catch(error => {
+          console.log(error)
+          setForm([])
+        })
+      }
+
+      else if(ptype !== "" && status !== "") {
+        if( status === "Received"){
+        axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque?paymentType=${ptype}&sentToBank=false`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          if (response.status === 200){
+            setForm(response.data)
+          }
+          
+        })
+        .catch(error => {
+          console.log(error)
+          setForm([])
+        })
+        }
+        else if( status === "Sent To Bank"){
+        axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque?paymentType=${ptype}&sentToBank=true`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          if (response.status === 200){
+            setForm(response.data)
+          }
+          
+        })
+        .catch(error => {
+          console.log(error)
+          setForm([])
+        })
+        }
+        else if( status === "Clearance Done") {
+        axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque?paymentType=${ptype}&clearanceProcessed=true`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          if (response.status === 200){
+            setForm(response.data)
+          }
+  
+        })
+        .catch(error => {
+          console.log(error)
+          setForm([])
+        })
+        }
+        else if( status === "Cheque Bounced") {
+        axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque?paymentType=${ptype}&clearanceProcessed=false`,{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          if (response.status === 200){
+            setForm(response.data)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          setForm([])
+        })
+        }
+      }
      
-    },[])
+    },[ptype, status])
 
     return(
         <div className="row container-fluid px-0">
@@ -120,69 +212,61 @@ function ListofCheque(){
                 Toolbar: (props) => (
                   <div className="filters text-center">
                     <MTableToolbar {...props} />
-{/*                     
+      
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Demand Types</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Payment Type</InputLabel>
                       <Select
-                        value={dt}
-                        onChange={(e)=>setDt(e.target.value)}
+                        value={ptype}
+                        onChange={(e)=>setPtype(e.target.value)}
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
                       >
                         <MenuItem value="" disabled>
-                        Demand Types
+                        Payment Type
                         </MenuItem>
-                        <MenuItem value="BasicConstructionCharge" >
-                        Basic Construction Charge
-                        </MenuItem><MenuItem value="LatePaymentFee" >
-                        Late Payment Fee
+                        <MenuItem value="Credit" >
+                        Credit
                         </MenuItem>
-                        <MenuItem value="LegalCharge" >
-                        Legal Charge
-                        </MenuItem><MenuItem value="ExtraWork" >
-                        Extra Work
+                        <MenuItem value="Debit" >
+                        Debit
                         </MenuItem>
-                       
-
                       </Select>
                   
                     </FormControl>
 
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Paid</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Status</InputLabel>
                       <Select
-                        value={paid}
-                        onChange={(e)=>setPaid(e.target.value)}
+                        value={status}
+                        onChange={(e)=>setStatus(e.target.value)}
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
                         
                       >
                         <MenuItem value="all" disabled>
-                         Paid
+                         Status
                         </MenuItem>
-                        <MenuItem value="true" >
-                        Yes
+                        <MenuItem value="Received">
+                        Received
                         </MenuItem>
-                        <MenuItem value="false" >
-                        No
+                        <MenuItem value="Sent To Bank">
+                        Sent To Bank
                         </MenuItem>
-                        
-                        
-
-                        
+                        <MenuItem value="Clearance Done">
+                        Clearance Done
+                        </MenuItem>
+                        <MenuItem value="Cheque Bounced">
+                        Cheque Bounced
+                        </MenuItem>
                       </Select>
-                    
-                    </FormControl> */}
+                    </FormControl> 
 
-  
-  
-{/*                     
                     <FormControl className={classes.formControl} style={{marginTop: "-50px",marginRight:"110px"}}>
                     <button className="btn btn-secondary btn-user" onClick={reset} style={{backgroundColor : "white", color : "black"}}>
                     Reset Filter
                     </button>
                     </FormControl>
-                     */}
+                    
     
                     
                   </div>
