@@ -112,7 +112,7 @@ function IndividualUnit(){
         </div>
         </div>
         <br />
-        <div className="row container-fluid justify-content-center">
+      {/*  <div className="row container-fluid justify-content-center">
         <div className="col-4 text-right">
             <button className="btn btn-secondary btn-user" type="reset"  style={{backgroundColor: "white", color: "black"}}>Reset</button>
 
@@ -121,7 +121,7 @@ function IndividualUnit(){
             <button className="btn btn-secondary btn-user" >Save</button>
                                         
         </div>
-    </div>
+    </div> */}
         </>
     )
 }

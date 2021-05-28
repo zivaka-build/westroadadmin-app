@@ -105,7 +105,7 @@ function InitiateAllotmentForm(){
         .then(response => {
             console.log(response)
         })
-        //navigate("/dashboard/listofapplicationform")
+        navigate("/dashboard/listofapplicationform")
     }
 
    

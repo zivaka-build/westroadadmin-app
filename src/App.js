@@ -37,6 +37,7 @@ import CustomerPage from "./routes/CustomerPage"
 import IndividualBankPage from "./routes/IndividualBankPage"
 import HomepagePage from "./routes/HomepagePage"
 import IndividualUnitPage from "./routes/IndividualUnitPage"
+import IssueChequePage from "./routes/IssueChequePage"
 function App() {
   return (
     <div className="App">
@@ -76,6 +77,7 @@ function App() {
           <IndividualBankPage path="/individualbank/:bankCode" />
           <HomepagePage path="/home" />
           <IndividualUnitPage path="/individualunit/:unitName" />
+          <IssueChequePage path="/issuecheque" />
         </DefaultDashboard>
 
       </Router>
