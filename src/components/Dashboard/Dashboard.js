@@ -287,6 +287,12 @@ const drawer = (
                     </ListItem>
                     </Link>
 
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/issuecheque'>
+                    <ListItem button key={'Issue Cheque'}>
+                    <h7>Issue Cheque</h7>
+                    </ListItem>
+                    </Link>
+
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
                     <ListItem button key={'TDS'}>
                     <h7>Cheques</h7>
