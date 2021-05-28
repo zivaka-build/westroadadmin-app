@@ -39,10 +39,18 @@ function ListofCheque(){
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
 
-
     const handleClose = () => {
         setOpen(false);
         setClearanceBank("")
+    };
+
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClose1 = () => {
+        setOpen1(false);
+        setCdate("");
+        setBreason("");
+        setCleared()
     };
 
   
@@ -51,6 +59,9 @@ function ListofCheque(){
     const [ chequeNo, setChequeNo] = useState("")
     const [status, setStatus] = useState("")
     const [ptype, setPtype] = useState("")
+    const [cdate, setCdate] = useState("")
+    const [cleared, setCleared] = useState()
+    const [breason, setBreason] = useState("")
 
     var bankAccount = ""
 
@@ -79,6 +90,36 @@ function ListofCheque(){
           setOpen(false)
         })
       })
+    }
+
+    const clearCheque = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      if( cleared === true){
+        axios
+        .post(`${BASE_URL}/api/v1/cheque/chequeclearenceconfirmation`,{chequeNo: chequeNo, clearanceDate: cdate, chequeCleared : cleared},{ headers : { 'Authorization' : Token }})
+        .then(response => {
+            console.log(response)
+            axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
+            setForm(response.data)
+            setOpen1(false)
+          })
+        })
+      }
+      else if( cleared === false){
+        axios
+        .post(`${BASE_URL}/api/v1/cheque/chequeclearenceconfirmation`,{chequeNo: chequeNo, clearanceDate: cdate, chequeCleared : cleared, bounceReason : breason},{ headers : { 'Authorization' : Token }})
+        .then(response => {
+            console.log(response)
+            axios.get(`${BASE_URL}/api/v1/cheque/getlistofcheque`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
+            setForm(response.data)
+            setOpen1(false)
+          })
+        })
+      }
     }
  
     useEffect(() => {
@@ -199,9 +240,6 @@ function ListofCheque(){
                     { title: 'Clearance Date', render: (rowData) => !rowData.clearanceDate ?  "": rowData.clearanceDate.substring(8,10)+"-"+rowData.clearanceDate.substring(5,7)+"-"+rowData.clearanceDate.substring(0,4) },
                     { title: 'Cheque Cleared', field: 'chequeCleared' },
                     { title: 'Bounce Reason', field: 'bounceReason' },
-                    
-                    
-                    
                 ]
             }
             options={{
@@ -292,7 +330,18 @@ function ListofCheque(){
                     setChequeNo(rowData.chequeNo)
                   },
                   disabled: rowData.bankSubmitDate
+                }),
+                rowData => ({
+                  icon: ()=> <Edit />,
+                  tooltip: 'Clearance',
+                  onClick: (event, rowData) => {
+                    setOpen1(true)
+                    setChequeNo(rowData.chequeNo)
+                  },
+                  disabled: rowData.sentToBank === false
                 })
+
+
 
           ]}
             
@@ -355,6 +404,103 @@ function ListofCheque(){
                               </> : null 
                               }
 
+                            </div>
+                            </Fade>
+                    </Modal>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open1}
+                        onClose={handleClose1}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open1}>
+                            <div className={classes.paper}>
+                              <label>Cheque No.</label>
+                              <input 
+                               type="number"
+                               class="form-control"
+                               name="chequeNo"
+                               value={chequeNo}
+                               readonly="true"
+                               />
+                              
+                              <br />
+                              <label>Clearance Date</label>
+                              <input 
+                               type="date"
+                               class="form-control"
+                               name="clearanceDate"
+                               onChange={(e)=>setCdate(e.target.value)}
+                               />
+
+                               <br />
+                               <div className="row">
+                               <div className="col-4">
+                               <label>Cleared</label>
+                               </div>
+                               <div className="col-3">
+                                <label>
+                                 Yes
+                               <input 
+                               type="radio"
+                               class="form-check-input"
+                               name="chequeCleared"
+                               id="yes"
+                               onClick={(e)=>setCleared(true)}
+                               />
+                               </label>
+                               </div>
+                               &nbsp;&nbsp;
+                              <div className="col-3">
+                              <label>
+                                No
+                              <input 
+                               type="radio"
+                               class="form-check-input"
+                               name="chequeCleared"
+                               id="no"
+                               onClick={(e)=>setCleared(false)}
+                               />
+                              </label>
+                              </div>
+                              </div>
+
+                              { cleared === true ?
+                              null :
+                              cleared === false ?
+                              <>
+                              <br />
+                              <label>Bounce Reason</label>
+                              <input 
+                               type="text"
+                               class="form-control"
+                               name="breason"
+                               onChange={(e)=>setBreason(e.target.value)}
+                               />
+                              </>
+                              : null
+                              }
+                              { cleared !== undefined ?
+                              <>
+                              <br />
+                              <div className="text-center">
+                              <button className="btn btn-secondary btn-user" onClick={clearCheque}>
+                              Send
+                              </button>
+                              &nbsp;&nbsp;
+                              <button className="btn btn-secondary btn-user" onClick={handleClose1} style={{backgroundColor : "white", color : "black"}}>
+                              Cancel
+                              </button>
+                              </div>
+                              </>
+                              : null
+                              }
                             </div>
                             </Fade>
                     </Modal>
