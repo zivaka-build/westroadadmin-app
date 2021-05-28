@@ -11,9 +11,18 @@ import Cookies from "js-cookie";
 import MaterialTable from "material-table";
 
 function IndividualCustomer(){
-    const {customerId} = useParams()
+    
+    useEffect(() => {
+       
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        
+        axios.get(`${BASE_URL}/api/v1/customer/getCustomerByCustomerId`,{customerId: Cookies.get('CustomerId')},{headers:{Authorization:Token}})
+        .then(response=>{
+            console.log(response)
+        })
+     
+    },[])
 
-    console.log(customerId)
     return(
         <>
         <div className="tabs-container" id="tabs-container" style={{paddingTop: "70px"}}>

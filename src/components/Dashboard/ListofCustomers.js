@@ -190,7 +190,8 @@ function ListofCustomers(){
                     tooltip: 'Edit Customer',
                     onClick: (event, rowData) => {
                       Cookies.set('ActiveCustKey', 'first')
-                      navigate(`/dashboard/individualcustomer/${rowData.custRegMobile}`)
+                      Cookies.set('CustomerId', rowData.customerId)
+                      navigate("/dashboard/individualcustomer")
                     }
                 }
 

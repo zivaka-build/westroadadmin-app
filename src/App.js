@@ -71,7 +71,7 @@ function App() {
           <AddLoanBankPage path="/addloanbank" />
           <ViewLoanBankPage path="/listofbanks" />
           <CustomerPage path="/viewcustomers" />
-          <IndividualCustomerPage path="/individualcustomer/:customerId" />
+          <IndividualCustomerPage path="/individualcustomer" />
         </DefaultDashboard>
 
       </Router>
