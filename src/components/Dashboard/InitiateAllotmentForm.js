@@ -85,6 +85,18 @@ function InitiateAllotmentForm(){
         console.log(str)
     }
 
+    const changeLead = (e) => {
+        setLead(e.target.value)
+        const Token = 'bearer' + " " + Cookies.get('Token');
+        axios.get(`${BASE_URL}/api/v1/lead/getLeadByLeadId/${e.target.value}`,{headers:{Authorization:Token}})
+        .then(response=>{
+            console.log(response)
+            setEmail(response.data.lead.email)
+            setPhno(response.data.lead.phone)
+        })
+
+    }
+
     const submit = (e) => {
         e.preventDefault()
         const Token = 'bearer' + " " + Cookies.get('Token');
@@ -220,6 +232,22 @@ function InitiateAllotmentForm(){
         </div>
         <br />
         <div className="row justify-content-center">
+            <div className="col-lg-4 col-sm-12">
+            <Form.Group controlId="leadid">
+            <label>Lead ID</label>
+            <Form.Control  as="select" onChange={changeLead}>
+            <option value="">Select a Lead</option>
+            {
+                leads.map((l)=>(
+                    <option value={l.leadID}>{l.leadID}</option>
+                ))
+            }
+            </Form.Control>
+            </Form.Group>
+            </div>
+        </div>
+        <br />
+        <div className="row justify-content-center">
         <div className="col-lg-4 col-sm-12">
             <label>Mobile Number</label>
             <input
@@ -227,6 +255,7 @@ function InitiateAllotmentForm(){
             class="form-control"
             name="Number"
             id="outlined-basic"
+            value={phno}
            onChange={(e)=>setPhno(e.target.value)}
             />
         </div>
@@ -237,25 +266,10 @@ function InitiateAllotmentForm(){
             class="form-control"
             name="email"
             id="outlined-basic"
+            value={email}
            onChange={(e)=>setEmail(e.target.value)}
             />
         </div>
-        </div>
-        <br />
-        <div className="row justify-content-center">
-            <div className="col-lg-4 col-sm-12">
-            <Form.Group controlId="leadid">
-            <label>Lead ID</label>
-            <Form.Control  as="select" onChange={(e)=>setLead(e.target.value)}>
-            <option value="">Select a Lead</option>
-            {
-                leads.map((l)=>(
-                    <option value={l.leadID}>{l.leadID}</option>
-                ))
-            }
-            </Form.Control>
-            </Form.Group>
-            </div>
         </div>
         <br />
         <div className="row justify-content-center">
