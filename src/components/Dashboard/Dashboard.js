@@ -423,9 +423,9 @@ return (
             <img className="logo" src={logo} alt="logo"/>
           </Typography>
           <div  style={{display: 'flex'}} >
-          <a href="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></a>
-          <a href="/" className="icon-link"><BsBellFill/></a>
-          <a href="/" className="icon-link"><FaTools/></a>
+          <Link to="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></Link>
+          <Link to="/" className="icon-link"><BsBellFill/></Link>
+          <Link to="/dashboard/tasklist" className="icon-link"><FaTools  onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
           ref={anchorRef}

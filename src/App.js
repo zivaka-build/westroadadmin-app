@@ -38,6 +38,7 @@ import IndividualBankPage from "./routes/IndividualBankPage"
 import HomepagePage from "./routes/HomepagePage"
 import IndividualUnitPage from "./routes/IndividualUnitPage"
 import IssueChequePage from "./routes/IssueChequePage"
+import TaskListPage from "./routes/TaskListPage"
 function App() {
   return (
     <div className="App">
@@ -78,6 +79,7 @@ function App() {
           <HomepagePage path="/home" />
           <IndividualUnitPage path="/individualunit/:unitName" />
           <IssueChequePage path="/issuecheque" />
+          <TaskListPage path="/tasklist" />
         </DefaultDashboard>
 
       </Router>

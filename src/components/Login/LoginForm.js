@@ -133,7 +133,7 @@ function LoginForm() {
           if (response.status == 200) {
             Cookies.set('Token', response.data.message)
             Cookies.set('FullName', response.data.fullName)
-            Cookies.set('userId', response.data.userId)
+            Cookies.set('UserName', response.data.userName)
 
             Cookies.set('Role', response.data.role)
             navigate("/dashboard/home")
