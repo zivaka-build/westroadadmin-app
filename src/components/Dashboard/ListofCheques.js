@@ -323,7 +323,7 @@ function ListofCheque(){
 
             actions={[
               rowData => ({
-                  icon: ()=> <Edit />,
+                  icon: 'edit',
                   tooltip: 'Send To Bank',
                   onClick: (event, rowData) => {
                     setOpen(true)
@@ -332,7 +332,7 @@ function ListofCheque(){
                   disabled: rowData.bankSubmitDate
                 }),
                 rowData => ({
-                  icon: ()=> <Edit />,
+                  icon: 'edit',
                   tooltip: 'Clearance',
                   onClick: (event, rowData) => {
                     setOpen1(true)
