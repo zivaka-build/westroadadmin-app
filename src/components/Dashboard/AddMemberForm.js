@@ -225,15 +225,13 @@ function AddMember() {
   const addTeamMember = (e) => {
     e.preventDefault();
     axios
-      .post(`${BASE_URL}/api/v1/user/addTeamMember`, {
+      .post(`${BASE_URL}/api/v1/user/addNewUser`, {
         userName: username,
-        userFirstName: firstname,
-        userLastName: lastname,
+        userFullName: firstname+ " " + lastname,
         password: password,
-        userGender: gender,
         userMobile: mobilenumber,
         userEmail: email,
-        userWhatsapp: whatsapp,
+        isActive: true,
       })
       .then((response) => {
         console.log(response);
