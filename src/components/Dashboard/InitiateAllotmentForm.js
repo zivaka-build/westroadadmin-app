@@ -56,7 +56,7 @@ function InitiateAllotmentForm(){
             setUnit(arraySort(response.data, "unitName"))
         })
 
-        axios.get(`${BASE_URL}/api/v1/payment/getpaymenttermsid?siteId=${sitename}&phaseCode=${pn}`,{headers:{Authorization:Token}})
+        axios.get(`${BASE_URL}/api/v1/paymentterms/getpaymenttermsid?siteId=${sitename}&phaseCode=${pn}`,{headers:{Authorization:Token}})
         .then(response=>{
             console.log(response.data)
             setPaymentTerms(response.data[0].paymentTermsId)
