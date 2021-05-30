@@ -64,6 +64,7 @@ function IndividualApplicationform() {
     const [pterms, setPterms] = useState([]);
     const [termId, setTermId] = useState("")
     const [disp, setDisp] = useState("none")
+    const [spinner, setSpinner] = useState("none")
 
     const [firstName, setFirstName] = useState("")
     const [middleName, setMiddleName] = useState("")
@@ -202,6 +203,7 @@ function IndividualApplicationform() {
     }
 
     const validate = (e) => {
+      setSpinner("block")
       const Token = 'bearer' + " " + Cookies.get('Token')
       axios.put(`${BASE_URL}/api/v1/applicationform/validatepayment`, {applicationId: applicationId, paymentValidatedBy: Cookies.get("FullName"), paymentValidatedDate: date }, {headers:{'Authorization':Token}})
         .then(response=>{
@@ -539,7 +541,7 @@ function IndividualApplicationform() {
                     <form>
                     <br />
                     <div className="row justify-content-center">
-                      <div className="col-4">
+                    <div className="col-3">
                       <Form.Group controlId="salutation">
                         <Form.Label>Salutation</Form.Label>
                         <Form.Control  as="select" onChange={(e)=>setSalutation(e.target.value)}>
@@ -549,12 +551,9 @@ function IndividualApplicationform() {
                         <option value="Ms.">Ms.</option>
                         <option value="Dr.">Dr.</option>
                         </Form.Control>
-                    </Form.Group>
+                      </Form.Group>
                       </div>
-                    </div>
-                    <br />
-                    <div className="row justify-content-center">
-                      <div className="col-4">
+                      <div className="col-3">
                           <label>First Name</label>
                           <input
                           type="text"
@@ -564,7 +563,7 @@ function IndividualApplicationform() {
                           onChange={(e)=>setFirstName(e.target.value)}
                           />
                       </div>
-                      <div className="col-4">
+                      <div className="col-3">
                           <label>Middle Name</label>
                           <input
                           type="text"
@@ -574,7 +573,7 @@ function IndividualApplicationform() {
                           onChange={(e)=>setMiddleName(e.target.value)}
                           />
                       </div>
-                      <div className="col-4">
+                      <div className="col-3">
                           <label>Last Name</label>
                           <input
                           type="text"
@@ -825,7 +824,11 @@ function IndividualApplicationform() {
                             value={a.applicantType}
                             />
                         </div>
-                        <div className="col-4">
+                        
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                      <div className="col-3">
                             <label>Salutation</label>
                             <input
                             type="text"
@@ -833,10 +836,7 @@ function IndividualApplicationform() {
                             value={a.salutation}
                             />
                         </div>
-                    </div>
-                    <br />
-                    <div className="row justify-content-center">
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>First Name</label>
                         <input
                         type="text"
@@ -844,7 +844,7 @@ function IndividualApplicationform() {
                         value={a.firstName}
                         />
                       </div>
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>Middle Name</label>
                         <input
                         type="text"
@@ -852,7 +852,7 @@ function IndividualApplicationform() {
                         value={a.middleName}
                         />
                       </div>
-                      <div className="col-4">
+                      <div className="col-3">
                         <label>Last Name</label>
                         <input
                         type="text"
@@ -1587,6 +1587,7 @@ function IndividualApplicationform() {
             >
             <Fade in={open}>
             <div className={classes.paper}>
+                <br />
                 <div className="row">
                     <p>Are you sure you want to validate payment ?</p>
                 </div>
@@ -1598,8 +1599,14 @@ function IndividualApplicationform() {
                     &nbsp;&nbsp;
                     <div className="col-4">
                         <button className="btn btn-secondary btn-user" onClick={validate}>Yes</button>
-                                                    
+                                                  
                     </div>
+                </div>
+                <br />
+                <div className="row container-fluid justify-content-center" >
+                <div className="spinner-border text-dark" role="status" style={{display : spinner}}>
+                    <span className="sr-only">Loading...</span>
+                </div>
                 </div>
             </div>
             </Fade>
