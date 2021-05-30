@@ -127,6 +127,52 @@ function IndividualApplicationform() {
     const [issuedBy, setIssuedBy] = useState("")
     const [chequeNo, setChequeNo] = useState("")
     const [comments, setComments] = useState("")
+    
+    const [draftname, setDraftname] = useState("")
+    const [duploadedby, setDuploadedby] = useState("")
+    const [duploadedat, setDuploadedat] = useState("")
+    const [ds3link, setDs3link] = useState("")
+    const [draft, setDraft] = useState(false)
+
+    
+    const [afsuploadedby, setAfsuploadedby] = useState("")
+    const [afsdname, setAfsdname] = useState("")
+    const [afsuploadeddate, setAfsuploadeddate] = useState("")
+    const [afss3link, setAfss3link] = useState("")
+    const [afs, setAfs] = useState(false)
+
+    const [cauploadedby, setCauploadedby] = useState("")
+    const [cadname, setCadname] = useState("")
+    const [cauploadeddate, setCauploadeddate] = useState("")
+    const [cas3link, setCas3link] = useState("")
+    const [ca, setCa] = useState(false)
+
+    const [cpuploadedby, setCpuploadedby] = useState("")
+    const [cpname, setCpname] = useState("")
+    const [cpuploadeddate, setCpuploadeddate] = useState("")
+    const [cps3link, setCps3link] = useState("")
+    const [cp, setCp] = useState(false)
+
+    const [paluploadedby, setPaluploadedby] = useState("")
+    const [palname, setPalname] = useState("")
+    const [paluploadeddate, setPaluploadeddate] = useState("")
+    const [pals3link, setPals3link] = useState("")
+    const [pal, setPal] = useState(false)
+
+    const [saduploadedby, setSaduploadedby] = useState("")
+    const [sadname, setSadname] = useState("")
+    const [saduploadeddate, setSaduploadeddate] = useState("")
+    const [sads3link, setSads3link] = useState("")
+    const [sad, setSad] = useState(false)
+
+    const [sasuploadedby, setSasuploadedby] = useState("")
+    const [sasname, setSasname] = useState("")
+    const [sasuploadeddate, setSasuploadeddate] = useState("")
+    const [sass3link, setSass3link] = useState("")
+    const [sas, setSas] = useState(false)
+    
+
+
 
     const showApplicant = (e) => {
         if(disp === "none"){
@@ -136,6 +182,8 @@ function IndividualApplicationform() {
             setDisp("none")
         }
     }
+
+
 
     const addApplicant = (e) => {
         
@@ -209,6 +257,15 @@ function IndividualApplicationform() {
         .then(response=>{
             console.log(response)
             window.location.reload()
+        })
+    }
+
+    const generateApfd = (e) =>{
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.post(`${BASE_URL}/api/v1/util/bookingFormPdf`, {applicationId: applicationId}, {headers:{'Authorization':Token}})
+        .then(response=>{
+            console.log(response)
+            
         })
     }
 
@@ -320,6 +377,127 @@ function IndividualApplicationform() {
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
             var pt = response.data.paymentTerms
+
+
+
+            if(response.data.applicationFormDraft === false){
+              setDraft(false)
+            }
+            else if(response.data.applicationFormDraft===true){
+              setDraft(true)
+              for(var i=0;i<response.data.documents.length;i++){
+                if(response.data.documents[i].documentType === "Application Form - Draft"){
+                  setDraftname(response.data.documents[i].documentName)
+                  setDuploadedby(response.data.documents[i].uploadedBy)
+                  setDuploadedat(response.data.documents[i].uploadedDate)
+                  setDs3link(response.data.documents[i].s3Link)
+                }
+              }
+            }
+
+              if(response.data.applicationFormScan === false){
+                setAfs(false)
+              }
+              else if(response.data.applicationFormScan===true){
+                setAfs(true)
+                for(var i=0;i<response.data.documents.length;i++){
+                  if(response.data.documents[i].documentType === "Application Form - Scan Copy"){
+                    setAfsdname(response.data.documents[i].documentName)
+                    setAfsuploadedby(response.data.documents[i].uploadedBy)
+                    setAfsuploadeddate(response.data.documents[i].uploadedDate)
+                    setAfss3link(response.data.documents[i].s3Link)
+                  }
+                }
+            }
+          
+          if(response.data.customerAadhar === false){
+            setCa(false)
+          }
+          else if(response.data.customerAadhar===true){
+            setCa(true)
+            for(var i=0;i<response.data.documents.length;i++){
+              if(response.data.documents[i].documentType === "Customer Aadhar Card"){
+                setCadname(response.data.documents[i].documentName)
+                setCauploadedby(response.data.documents[i].uploadedBy)
+                setCauploadeddate(response.data.documents[i].uploadedDate)
+                setCas3link(response.data.documents[i].s3Link)
+              }
+            }
+          }
+
+            if(response.data.customerPAN === false){
+              setCp(false)
+            }
+            else if(response.data.customerPAN===true){
+              setCp(true)
+              for(var i=0;i<response.data.documents.length;i++){
+                if(response.data.documents[i].documentType === "Customer PAN Card"){
+                  setCpname(response.data.documents[i].documentName)
+                  setCpuploadedby(response.data.documents[i].uploadedBy)
+                  setCpuploadeddate(response.data.documents[i].uploadedDate)
+                  setCps3link(response.data.documents[i].s3Link)
+                }
+              }
+          }
+
+          if(response.data.provisionalAllotmentLetter  === false && response.data.provisionalAllotmentLetterSent === false){
+            setPal(false)
+          }
+          else if(response.data.provisionalAllotmentLetter ===true && response.data.provisionalAllotmentLetterSent === false){
+            setPal(true)
+            for(var i=0;i<response.data.documents.length;i++){
+              if(response.data.documents[i].documentType === "Application Form - Scan Copy"){
+                setPalname(response.data.documents[i].documentName)
+                setPaluploadedby(response.data.documents[i].uploadedBy)
+                setPaluploadeddate(response.data.documents[i].uploadedDate)
+                setPals3link(response.data.documents[i].s3Link)
+              }
+            }
+          }
+
+            else if(response.data.provisionalAllotmentLetter ===true && response.data.provisionalAllotmentLetterSent === true){
+              setPal(true)
+              for(var i=0;i<response.data.documents.length;i++){
+                if(response.data.documents[i].documentType === "Application Form - Scan Copy"){
+                  setPalname(response.data.documents[i].documentName)
+                  setPaluploadedby(response.data.documents[i].uploadedBy)
+                  setPaluploadeddate(response.data.documents[i].uploadedDate)
+                  setPals3link(response.data.documents[i].s3Link)
+                }
+              }
+        }
+
+        if(response.data.salesAgreementDraft === false){
+          setSad(false)
+        }
+        else if(response.data.salesAgreementDraft===true){
+          setSad(true)
+          for(var i=0;i<response.data.documents.length;i++){
+            if(response.data.documents[i].documentType === "Sales Agreement Draft"){
+              setSadname(response.data.documents[i].documentName)
+              setSaduploadedby(response.data.documents[i].uploadedBy)
+              setSaduploadeddate(response.data.documents[i].uploadedDate)
+              setSads3link(response.data.documents[i].s3Link)
+            }
+          }
+      }
+
+      if(response.data.salesAgreementScan === false){
+        setSas(false)
+      }
+      else if(response.data.salesAgreementScan===true){
+        setSas(true)
+        for(var i=0;i<response.data.documents.length;i++){
+          if(response.data.documents[i].documentType === "Sales Agreement - Scan Copy"){
+            setSasname(response.data.documents[i].documentName)
+            setSasuploadedby(response.data.documents[i].uploadedBy)
+            setSasuploadeddate(response.data.documents[i].uploadedDate)
+            setSass3link(response.data.documents[i].s3Link)
+          }
+        }
+    }
+        
+
 
             axios.get(`${BASE_URL}/api/v1/paymentTerms/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
                 .then(response => {
@@ -1653,10 +1831,23 @@ function IndividualApplicationform() {
             <Tab.Content>
                 <Tab.Pane eventKey="fifth">
                 <div className="row justify-content-center">
-                <div className="col-4 text-center">
-                <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
+                <div className="col-6 tab-card text-center">
+                {/* <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
                 <br />
-                <button className="btn btn-danger" onClick={upload}>Upload Document</button>
+                <button className="btn btn-danger" onClick={upload}>Upload Document</button> */}
+                {
+                  draft===false?
+                  <>
+                  <button className="btn btn-secondary btn-user" onClick={generateApfd}>Generate Application Form</button>
+                  </>:
+                  <>
+                    <h6>{draftname}</h6>
+                    <h6>{duploadedby}</h6>
+                    <h6>{duploadedat}</h6>
+                    <h6>{ds3link}</h6>
+                  </>
+                }
+                  
                 </div>
                 </div>
                 </Tab.Pane>
