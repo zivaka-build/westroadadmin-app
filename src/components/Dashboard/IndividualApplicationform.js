@@ -140,6 +140,7 @@ function IndividualApplicationform() {
     const [afsuploadeddate, setAfsuploadeddate] = useState("")
     const [afss3link, setAfss3link] = useState("")
     const [afs, setAfs] = useState(false)
+    const [afsfile, setAfsfile] = useState("")
 
     const [cauploadedby, setCauploadedby] = useState("")
     const [cadname, setCadname] = useState("")
@@ -182,6 +183,7 @@ function IndividualApplicationform() {
             setDisp("none")
         }
     }
+
 
 
 
@@ -231,6 +233,28 @@ function IndividualApplicationform() {
       setFile(event.target.files[0]);
       
     }
+
+    function changeAFS(event) {
+      setAfsfile(event.target.files[0])
+    }
+    
+    const uploadAFS = (e) =>{
+      e.preventDefault()
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      const formData = new FormData()
+      formData.append('documentName',file)
+      formData.append('custId','123')
+      formData.append('folderName','profile')
+
+      axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
+      .then(response=>{
+          console.log(response)
+          if(response.status === 200){
+              alert("File Successfully Uploaded")
+          }
+      })
+
+  }
 
     const upload = (e) =>{
         e.preventDefault()
@@ -1864,17 +1888,17 @@ function IndividualApplicationform() {
                     <br/>
                   <div style={{display: 'flex'}}> 
                     
-                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeAFS} style={{backgroundColor : 'white', color : 'black'}}/>
                
-                <button className="btn btn-secondary btn-user" onClick={upload}>Upload Document</button>
+                <button className="btn btn-secondary btn-user" onClick={uploadAFS}>Upload Document</button>
                   </div>
                   </>:
                   <>
                   <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft </h4><br/>
-                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{draftname}</h6>
-                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {duploadedby}</h6>
-                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{duploadedat.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
-                    <h6><a href={ds3link} target="_blank">View Document</a></h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{afsdname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {afsuploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{afsuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={afss3link} target="_blank">View Document</a></h6>
                   </>
                 }
                   
