@@ -41,8 +41,19 @@ function IssueCheque(){
             })
 
     }
+
+    const back = () => {
+        navigate("/dashboard/home")
+    }
+
     return(
         <>
+        <br />
+        <div className="mt-3 row container-fluid justify-content-center">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={back}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="row container-fluid justify-content-center">
             <div className="col-8">
             <h4>Issue Cheque</h4>
