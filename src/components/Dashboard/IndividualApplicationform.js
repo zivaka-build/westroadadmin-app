@@ -1855,6 +1855,30 @@ function IndividualApplicationform() {
                 }
                   
                 </div>
+                <div className="col-6 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  afs===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Scan </h4>
+                    <br/>
+                  <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={upload}>Upload Document</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft </h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{draftname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {duploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{duploadedat.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={ds3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
                 </div>
                 </Tab.Pane>
             </Tab.Content>
