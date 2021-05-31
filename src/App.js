@@ -39,6 +39,8 @@ import HomepagePage from "./routes/HomepagePage"
 import IndividualUnitPage from "./routes/IndividualUnitPage"
 import IssueChequePage from "./routes/IssueChequePage"
 import TaskListPage from "./routes/TaskListPage"
+import AddCashPage from "./routes/AddCashPage"
+
 function App() {
   return (
     <div className="App">
@@ -80,6 +82,7 @@ function App() {
           <IndividualUnitPage path="/individualunit/:unitName" />
           <IssueChequePage path="/issuecheque" />
           <TaskListPage path="/tasklist" />
+          <AddCashPage path="/addcash" />
         </DefaultDashboard>
 
       </Router>
