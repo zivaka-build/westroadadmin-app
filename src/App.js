@@ -40,6 +40,7 @@ import IndividualUnitPage from "./routes/IndividualUnitPage"
 import IssueChequePage from "./routes/IssueChequePage"
 import TaskListPage from "./routes/TaskListPage"
 import AddCashPage from "./routes/AddCashPage"
+import AddTaskPage from "./routes/AddTaskPage"
 
 function App() {
   return (
@@ -83,6 +84,7 @@ function App() {
           <IssueChequePage path="/issuecheque" />
           <TaskListPage path="/tasklist" />
           <AddCashPage path="/addcash" />
+          <AddTaskPage path="/addtask" />
         </DefaultDashboard>
 
       </Router>

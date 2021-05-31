@@ -67,6 +67,10 @@ function TaskList() {
             <Col sm={12}>
             <Tab.Content>
                     <Tab.Pane eventKey="first">
+                        <div className="col-12 text-center">
+                            <button className="btn btn-secondary btn-user" onClick={()=>navigate("/dashboard/addtask")}>Create Task</button>
+                        </div>
+                        <br />
                         <MaterialTable 
                         data={myTasks}
                         title="My Tasks"
@@ -104,6 +108,10 @@ function TaskList() {
                         ]}></MaterialTable>
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
+                        <div className="col-12 text-center">
+                            <button className="btn btn-secondary btn-user" onClick={()=>navigate("/dashboard/addtask")}>Create Task</button>
+                        </div>
+                        <br />
                         <MaterialTable 
                             data={otherTasks}
                             title="All Other Tasks"
@@ -143,6 +151,10 @@ function TaskList() {
 
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
+                    <div className="col-12 text-center">
+                            <button className="btn btn-secondary btn-user" onClick={()=>navigate("/dashboard/addtask")}>Create Task</button>
+                    </div>
+                    <br />
                     <MaterialTable 
                         data={closedTasks}
                         title="Closed Tasks"
@@ -172,8 +184,8 @@ function TaskList() {
                         }}
                         actions={[
                             {
-                                icon: 'remove_red_eye',
-                                tooltip: 'Edit Lead',
+                                icon: 'edit',
+                                tooltip: 'Edit Task',
                                 onClick: (event, rowData) => {
                                 }
                             }
