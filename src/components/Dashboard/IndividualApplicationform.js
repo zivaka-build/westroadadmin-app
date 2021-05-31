@@ -265,6 +265,7 @@ function IndividualApplicationform() {
       axios.post(`${BASE_URL}/api/v1/util/bookingFormPdf`, {applicationId: applicationId}, {headers:{'Authorization':Token}})
         .then(response=>{
             console.log(response)
+            window.location.reload()
             
         })
     }
@@ -504,6 +505,7 @@ function IndividualApplicationform() {
                     console.log(response)
                     setPterms(response.data.paymentTerms.termItems)
                     })
+                    
              
             
             if(response.data.NEFTDetails){
@@ -1831,20 +1833,24 @@ function IndividualApplicationform() {
             <Tab.Content>
                 <Tab.Pane eventKey="fifth">
                 <div className="row justify-content-center">
-                <div className="col-6 tab-card text-center">
+                <div className="col-6 tab-card pt-5 pb-5 text-center">
                 {/* <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
                 <br />
                 <button className="btn btn-danger" onClick={upload}>Upload Document</button> */}
                 {
                   draft===false?
                   <>
+                  <div style={{display: 'flex'}}> 
+                    <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft :</h4>
                   <button className="btn btn-secondary btn-user" onClick={generateApfd}>Generate Application Form</button>
+                  </div>
                   </>:
                   <>
-                    <h6>{draftname}</h6>
-                    <h6>{duploadedby}</h6>
-                    <h6>{duploadedat}</h6>
-                    <h6>{ds3link}</h6>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft </h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{draftname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {duploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{duploadedat.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={ds3link} target="_blank">View Document</a></h6>
                   </>
                 }
                   
