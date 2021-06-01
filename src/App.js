@@ -42,6 +42,7 @@ import TaskListPage from "./routes/TaskListPage"
 import AddCashPage from "./routes/AddCashPage"
 import AddTaskPage from "./routes/AddTaskPage"
 import ViewCashDepositPage from "./routes/ViewCashDepositPage"
+import IndividualApplicantPage from "./routes/IndividualApplicantPage"
 function App() {
   return (
     <div className="App">
@@ -86,6 +87,7 @@ function App() {
           <AddCashPage path="/addcash" />
           <AddTaskPage path="/addtask" />
           <ViewCashDepositPage path="/listofcashdeposit" />
+          <IndividualApplicantPage path="/individualapplicant/:applicantId" />
         </DefaultDashboard>
 
       </Router>
