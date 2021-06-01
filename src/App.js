@@ -41,7 +41,7 @@ import IssueChequePage from "./routes/IssueChequePage"
 import TaskListPage from "./routes/TaskListPage"
 import AddCashPage from "./routes/AddCashPage"
 import AddTaskPage from "./routes/AddTaskPage"
-
+import ViewCashDepositPage from "./routes/ViewCashDepositPage"
 function App() {
   return (
     <div className="App">
@@ -85,6 +85,7 @@ function App() {
           <TaskListPage path="/tasklist" />
           <AddCashPage path="/addcash" />
           <AddTaskPage path="/addtask" />
+          <ViewCashDepositPage path="/listofcashdeposit" />
         </DefaultDashboard>
 
       </Router>
