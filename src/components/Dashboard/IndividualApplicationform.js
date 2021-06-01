@@ -106,6 +106,7 @@ function IndividualApplicationform() {
     const [cd, setCd] = useState("")
     const [cn, setCn] = useState("")
     const [ib, setIb] = useState("")
+    const [tam, setTam] = useState("")
 
     const [funded, setFunded] = useState()
     const [fb, setFb] = useState("")
@@ -125,6 +126,7 @@ function IndividualApplicationform() {
     const [account, setAccount] = useState("")
     const [bank, setBank] = useState("")
     const [issuedBy, setIssuedBy] = useState("")
+    const [tamount, setTamount] = useState(100000)
     const [chequeNo, setChequeNo] = useState("")
     const [comments, setComments] = useState("")
     
@@ -284,6 +286,7 @@ function IndividualApplicationform() {
             chequeAccountNo: account,
             chequeBankName: bank,
             chequeDate: tdate,
+            transactionAmount: tamount
           },
           {headers:{'Authorization':Token}})
           .then(response=>{
@@ -304,6 +307,7 @@ function IndividualApplicationform() {
             transactionAccount: account,
             transactionBank: bank,
             transDate: tdate,
+            transactionAmount: tamount
           },
           {headers:{'Authorization':Token}})
           .then(response=>{
@@ -326,7 +330,8 @@ function IndividualApplicationform() {
             chequeBankName: bank,
             chequeDate: tdate,
             fundedBy: fundedBy,
-            fundedByPAN: fundedPan
+            fundedByPAN: fundedPan,
+            transactionAmount: tamount
           },
           {headers:{'Authorization':Token}})
           .then(response=>{
@@ -347,7 +352,8 @@ function IndividualApplicationform() {
             transactionBank: bank,
             transDate: tdate,
             fundedBy: fundedBy,
-            fundedByPAN: fundedPan
+            fundedByPAN: fundedPan,
+            transactionAmount: tamount
           },
           {headers:{'Authorization':Token}})
           .then(response=>{
@@ -360,7 +366,6 @@ function IndividualApplicationform() {
       
     }
     
-      
     useEffect(()=>{
 
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -514,6 +519,7 @@ function IndividualApplicationform() {
               setTa(response.data.NEFTDetails.transactionAccount)
               setTb(response.data.NEFTDetails.transactionBank)
               setTc(response.data.NEFTDetails.transactionComments)
+              setTam(response.data.NEFTDetails.transactionAmount)
             }            
 
             if(response.data.chequeDetails) {
@@ -522,6 +528,7 @@ function IndividualApplicationform() {
               setCbn(response.data.chequeDetails.chequeBankName)
               setCd(response.data.chequeDetails.chequeDate)
               setCn(response.data.chequeDetails.chequeNo)
+              setTam(response.data.chequeDetails.transactionAmount)
               setIb(response.data.chequeDetails.issuedBy)
             }
 
@@ -1339,7 +1346,16 @@ function IndividualApplicationform() {
                   </div>
                   <br />
                   <div className="row justify-content-center">
-                    <div className="col-lg-8 col-sm-12">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Amount: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      value={tamount}
+                      onChange={(e)=>setTamount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
                       <label>Issued By: </label>
                       <input
                       type="text"
@@ -1448,7 +1464,16 @@ function IndividualApplicationform() {
                   </div>
                   <br />
                   <div className="row justify-content-center">
-                    <div className="col-lg-8 col-sm-12">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Amount: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      value={tamount}
+                      onChange={(e)=>setTamount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
                       <label>Issued By: </label>
                       <input
                       type="text"
@@ -1582,6 +1607,18 @@ function IndividualApplicationform() {
                   />
                   </div>
                 </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Amount</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={tam}
+                  />
+                  </div>
+                  
+                </div>
                 </>
                 : null
                 }
@@ -1637,6 +1674,14 @@ function IndividualApplicationform() {
                 </div>
                 <br />
                 <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Amount</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={tam}
+                  />
+                  </div>
                   <div className="col-4">
                   <label>Issued by</label>
                   <input
