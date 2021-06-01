@@ -150,6 +150,7 @@ function IndividualApplicationform() {
     const [cauploadeddate, setCauploadeddate] = useState("")
     const [cas3link, setCas3link] = useState("")
     const [ca, setCa] = useState(false)
+    const [cafile, setCafile] = useState("")
 
     const [cpuploadedby, setCpuploadedby] = useState("")
     const [cpname, setCpname] = useState("")
@@ -251,13 +252,38 @@ function IndividualApplicationform() {
 
       axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
       .then(response=>{
-          console.log(response)
+          
           if(response.status === 200){
               window.location.reload()
           }
       })
 
   }
+  
+  function changeCA(event) {
+    setCafile(event.target.files[0])
+  }
+
+  const uploadCA = (e) =>{
+    e.preventDefault()
+    const Token = 'bearer' + " " + Cookies.get('Token')
+    const formData = new FormData()
+    formData.append('file',cafile)
+    formData.append('documentName',`CustomerAadharCard-${unitName}-${applicationId}`)
+    formData.append('uploadedBy',Cookies.get('FullName'))
+    formData.append('uploadedDate',today)
+    formData.append('documentType','customerAadhar')
+    formData.append('applicationId',applicationId)
+
+    axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
+    .then(response=>{
+        console.log(response)
+        if(response.status === 200){
+            window.location.reload()
+        }
+    })
+
+}
 
     const upload = (e) =>{
         e.preventDefault()
@@ -447,11 +473,12 @@ function IndividualApplicationform() {
           else if(response.data.customerAadhar===true){
             setCa(true)
             for(var i=0;i<response.data.documents.length;i++){
-              if(response.data.documents[i].documentType === "Customer Aadhar Card"){
+              if(response.data.documents[i].documentType === "customerAadhar"){
                 setCadname(response.data.documents[i].documentName)
                 setCauploadedby(response.data.documents[i].uploadedBy)
                 setCauploadeddate(response.data.documents[i].uploadedDate)
                 setCas3link(response.data.documents[i].s3Link)
+                console.log(cadname,cauploadedby)
               }
             }
           }
@@ -1954,6 +1981,33 @@ function IndividualApplicationform() {
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {afsuploadedby}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{afsuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
                     <h6><a href={afss3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  ca===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer Aadhar Card</h4>
+                    <br/>
+                  <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeCA} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadCA}>Upload Document</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer Aadhar Card</h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{cadname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {cauploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{cauploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={cas3link} target="_blank">View Document</a></h6>
                   </>
                 }
                   
