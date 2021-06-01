@@ -365,7 +365,6 @@ function IndividualApplicationform() {
       
     }
     
-      
     useEffect(()=>{
 
         const Token = 'bearer' + " " + Cookies.get('Token')
