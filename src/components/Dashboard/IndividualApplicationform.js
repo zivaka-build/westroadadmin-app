@@ -141,6 +141,7 @@ function IndividualApplicationform() {
     const [afss3link, setAfss3link] = useState("")
     const [afs, setAfs] = useState(false)
     const [afsfile, setAfsfile] = useState("")
+    var today = new Date();
 
     const [cauploadedby, setCauploadedby] = useState("")
     const [cadname, setCadname] = useState("")
@@ -229,10 +230,7 @@ function IndividualApplicationform() {
         })
     }
     
-    function handleUpload(event) {
-      setFile(event.target.files[0]);
-      
-    }
+    
 
     function changeAFS(event) {
       setAfsfile(event.target.files[0])
@@ -242,15 +240,18 @@ function IndividualApplicationform() {
       e.preventDefault()
       const Token = 'bearer' + " " + Cookies.get('Token')
       const formData = new FormData()
-      formData.append('documentName',file)
-      formData.append('custId','123')
-      formData.append('folderName','profile')
+      formData.append('file',afsfile)
+      formData.append('documentName',`ApplicationFormScanCopy-${unitName}-${applicationId}`)
+      formData.append('uploadedBy',Cookies.get('FullName'))
+      formData.append('uploadedDate',today)
+      formData.append('documentType','ApplicationFormScanCopy')
+      formData.append('applicationId',applicationId)
 
       axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
       .then(response=>{
           console.log(response)
           if(response.status === 200){
-              alert("File Successfully Uploaded")
+              window.location.reload()
           }
       })
 
@@ -426,7 +427,7 @@ function IndividualApplicationform() {
               else if(response.data.applicationFormScan===true){
                 setAfs(true)
                 for(var i=0;i<response.data.documents.length;i++){
-                  if(response.data.documents[i].documentType === "Application Form - Scan Copy"){
+                  if(response.data.documents[i].documentType === "ApplicationFormScanCopy"){
                     setAfsdname(response.data.documents[i].documentName)
                     setAfsuploadedby(response.data.documents[i].uploadedBy)
                     setAfsuploadeddate(response.data.documents[i].uploadedDate)
@@ -1856,8 +1857,8 @@ function IndividualApplicationform() {
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="fifth">
-                <div className="row justify-content-center">
-                <div className="col-6 tab-card pt-5 pb-5 text-center">
+                <div className="row justify-content-center mb-3 mx-2">
+                <div className="col-12  tab-card pt-5 pb-5 text-center">
                 {/* <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
                 <br />
                 <button className="btn btn-danger" onClick={upload}>Upload Document</button> */}
@@ -1879,12 +1880,15 @@ function IndividualApplicationform() {
                 }
                   
                 </div>
-                <div className="col-6 tab-card pt-5 pb-5 text-center">
+               
+                </div>
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
                 
                 {
                   afs===false?
                   <>
-                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Scan </h4>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Scan Copy</h4>
                     <br/>
                   <div style={{display: 'flex'}}> 
                     
@@ -1894,7 +1898,7 @@ function IndividualApplicationform() {
                   </div>
                   </>:
                   <>
-                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft </h4><br/>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Scan Copy </h4><br/>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{afsdname}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {afsuploadedby}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{afsuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
