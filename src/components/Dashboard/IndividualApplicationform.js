@@ -799,7 +799,7 @@ function IndividualApplicationform() {
                           <div className="col-4">
                             <label>Mobile</label>
                             <input
-                            type="text"
+                            type="number"
                             class="form-control"
                             name="mobile"
                             id="mobile"
@@ -809,7 +809,7 @@ function IndividualApplicationform() {
                           <div className="col-4">
                             <label>Whatsapp</label>
                             <input
-                            type="text"
+                            type="number"
                             class="form-control"
                             name="whatsapp"
                             id="whatsapp"
@@ -1225,6 +1225,12 @@ function IndividualApplicationform() {
                             value={a.correspondentAddress.state}
                             />
                           </div>
+                      </div>
+                      <br /> 
+                      <div className="mt-2">
+                        <div className="col-12 text-center">
+                        <button className="btn btn-danger" onClick={()=>{navigate(`/dashboard/individualapplicant/${a.applicantId}`)}} disabled={ status !== "Booking Initiated" && status !== "Applicant Added" && status !== "Application Form Generated" ? true : false}>Edit Applicant</button>
+                        </div>
                       </div>
                 </div>
                 ))}
