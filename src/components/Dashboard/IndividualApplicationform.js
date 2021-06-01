@@ -157,6 +157,8 @@ function IndividualApplicationform() {
     const [cpuploadeddate, setCpuploadeddate] = useState("")
     const [cps3link, setCps3link] = useState("")
     const [cp, setCp] = useState(false)
+    const [cpfile, setCpfile] = useState("")
+
 
     const [paluploadedby, setPaluploadedby] = useState("")
     const [palname, setPalname] = useState("")
@@ -284,6 +286,32 @@ function IndividualApplicationform() {
     })
 
 }
+
+function changeCP(event) {
+  setCpfile(event.target.files[0])
+}
+
+const uploadCP = (e) =>{
+  e.preventDefault()
+  const Token = 'bearer' + " " + Cookies.get('Token')
+  const formData = new FormData()
+  formData.append('file',cpfile)
+  formData.append('documentName',`CustomerPANCard-${unitName}-${applicationId}`)
+  formData.append('uploadedBy',Cookies.get('FullName'))
+  formData.append('uploadedDate',today)
+  formData.append('documentType','customerPAN')
+  formData.append('applicationId',applicationId)
+
+  axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
+  .then(response=>{
+      console.log(response)
+      if(response.status === 200){
+          window.location.reload()
+      }
+  })
+
+}
+
 
     const upload = (e) =>{
         e.preventDefault()
@@ -489,7 +517,7 @@ function IndividualApplicationform() {
             else if(response.data.customerPAN===true){
               setCp(true)
               for(var i=0;i<response.data.documents.length;i++){
-                if(response.data.documents[i].documentType === "Customer PAN Card"){
+                if(response.data.documents[i].documentType === "customerPAN"){
                   setCpname(response.data.documents[i].documentName)
                   setCpuploadedby(response.data.documents[i].uploadedBy)
                   setCpuploadeddate(response.data.documents[i].uploadedDate)
@@ -2008,6 +2036,33 @@ function IndividualApplicationform() {
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {cauploadedby}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{cauploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
                     <h6><a href={cas3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  cp===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer PAN</h4>
+                    <br/>
+                  <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeCP} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadCP}>Upload Document</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer PAN</h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{cpname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {cpuploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{cpuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={cps3link} target="_blank">View Document</a></h6>
                   </>
                 }
                   
