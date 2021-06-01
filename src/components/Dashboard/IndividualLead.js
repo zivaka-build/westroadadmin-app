@@ -522,7 +522,7 @@ function IndividualLead() {
                                         <Form.Control  as="select" onChange={changeCperson}>
                                         <option>Select a Contact Person</option>   
                                         {users.map((user) => (
-                                        <option value={user.Id+" "+user.fullName}>{user.fullName}</option> 
+                                        <option value={user.userId+" "+user.userFullName}>{user.userFullName}</option> 
                                         ))}
                                         
                                         </Form.Control>

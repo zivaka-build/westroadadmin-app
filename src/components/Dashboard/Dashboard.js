@@ -288,8 +288,14 @@ const drawer = (
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addcash'>
-                    <ListItem button key={'Cash Deposit'}>
-                    <h7>Cash Deposit</h7>
+                    <ListItem button key={'Deposit Cash'}>
+                    <h7>Deposit Cash</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit'>
+                    <ListItem button key={'Cash Deposits'}>
+                    <h7>Cash Deposits</h7>
                     </ListItem>
                     </Link>
 
