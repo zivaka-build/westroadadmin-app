@@ -11,21 +11,113 @@ import Cookies from "js-cookie";
 import MaterialTable from "material-table";
 import { navigate } from "@reach/router";
 import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    paper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
+  }));
 
 function TaskList() {
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
+
+ 
     const [myTasks, setMyTasks] = useState([])
     const [otherTasks, setOtherTasks] = useState([])
     const [closedTasks, setClosedTasks] = useState([])
+    const [taskId, setTaskId] = useState("")
+
+    const closeMyTask = (e) => {
+        e.preventDefault()
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.post(`${BASE_URL}/api/v1/task/closeTaskByTaskId`,{taskID : taskId},{headers:{Authorization:Token}})
+        .then(response => {
+            axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Open&userName=${Cookies.get('UserName')}`,{headers:{Authorization:Token}})
+            .then(response => {
+            setMyTasks(response.data)
+            })
+
+            axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Open`,{headers:{Authorization:Token}})
+            .then(response => {
+                console.log(response)
+            setOtherTasks(response.data)
+            })
+
+            axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Closed`,{headers:{Authorization:Token}})
+            .then(response => {
+            setClosedTasks(response.data)
+            })
+            
+            setOpen(false)
+        })
+        
+    }
     
+    const closeOtherTask = (e) => {
+        e.preventDefault()
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.post(`${BASE_URL}/api/v1/task/closeTaskByTaskId`,{taskID : taskId},{headers:{Authorization:Token}})
+        .then(response => {
+            axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Open&userName=${Cookies.get('UserName')}`,{headers:{Authorization:Token}})
+            .then(response => {
+            setMyTasks(response.data)
+            })
+
+            axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Open`,{headers:{Authorization:Token}})
+            .then(response => {
+                console.log(response)
+            setOtherTasks(response.data)
+            })
+
+            axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Closed`,{headers:{Authorization:Token}})
+            .then(response => {
+            setClosedTasks(response.data)
+            })
+            
+            setOpen1(false)
+        })
+    }
     useEffect(() => {
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Open&userName=${Cookies.get('UserName')}`,{headers:{Authorization:Token}})
         .then(response => {
+            console.log(response)
           setMyTasks(response.data)
         })
 
         axios.get(`${BASE_URL}/api/v1/task/getalltasks?taskStatus=Open`,{headers:{Authorization:Token}})
         .then(response => {
+            console.log(response)
           setOtherTasks(response.data)
         })
 
@@ -99,13 +191,49 @@ function TaskList() {
                         }}
                         actions={[
                             {
-                                icon: 'edit',
-                                tooltip: 'Edit Task',
+                                icon: 'close',
+                                tooltip: 'Close Task',
                                 onClick: (event, rowData) => {
+                                    setOpen(true)
+                                    setTaskId(rowData.taskID)
                                 }
                             }
 
                         ]}></MaterialTable>
+                        <Modal
+                            aria-labelledby="transition-modal-title"
+                            aria-describedby="transition-modal-description"
+                            className={classes.modal}
+                            open={open}
+                            onClose={handleClose}
+                            closeAfterTransition
+                            BackdropComponent={Backdrop}
+                            BackdropProps={{
+                            timeout: 500,
+                            }}
+                        >
+                        <Fade in={open}>
+                        <div className={classes.paper}>
+                            <br />
+                            <div className="row">
+                                <p>Are you sure you want to close the task ?</p>
+                            </div>
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-4 text-right">
+                                    <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={()=> setOpen(false)}>No</button>
+
+                                </div>
+                                &nbsp;&nbsp;
+                                <div className="col-4">
+                                    <button className="btn btn-secondary btn-user" onClick={closeMyTask}>Yes</button>
+                                                            
+                                </div>
+                            </div>
+                            <br />
+                            
+                        </div>
+                        </Fade>
+                        </Modal>
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
                         <div className="col-12 text-center">
@@ -141,13 +269,49 @@ function TaskList() {
                             }}
                             actions={[
                                 {
-                                    icon: 'edit',
-                                    tooltip: 'Edit Task',
+                                    icon: 'close',
+                                    tooltip: 'Close Task',
                                     onClick: (event, rowData) => {
+                                        setOpen1(true);
+                                        setTaskId(rowData.taskID)
                                     }
                                 }
 
                             ]}></MaterialTable>
+                            <Modal
+                            aria-labelledby="transition-modal-title"
+                            aria-describedby="transition-modal-description"
+                            className={classes.modal}
+                            open={open1}
+                            onClose={handleClose1}
+                            closeAfterTransition
+                            BackdropComponent={Backdrop}
+                            BackdropProps={{
+                            timeout: 500,
+                            }}
+                        >
+                        <Fade in={open1}>
+                        <div className={classes.paper}>
+                            <br />
+                            <div className="row">
+                                <p>Are you sure you want to close the task ?</p>
+                            </div>
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-4 text-right">
+                                    <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={()=> setOpen1(false)}>No</button>
+
+                                </div>
+                                &nbsp;&nbsp;
+                                <div className="col-4">
+                                    <button className="btn btn-secondary btn-user" onClick={closeOtherTask}>Yes</button>
+                                                            
+                                </div>
+                            </div>
+                            <br />
+                            
+                        </div>
+                        </Fade>
+                        </Modal>
 
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
@@ -182,15 +346,7 @@ function TaskList() {
                             
                             }
                         }}
-                        actions={[
-                            {
-                                icon: 'edit',
-                                tooltip: 'Edit Task',
-                                onClick: (event, rowData) => {
-                                }
-                            }
-
-                        ]}></MaterialTable>
+                        ></MaterialTable>
                     </Tab.Pane>
             </Tab.Content>        
 

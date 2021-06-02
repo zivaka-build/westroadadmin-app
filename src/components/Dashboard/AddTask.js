@@ -17,8 +17,8 @@ function AddTask(){
 
      const changeUser = (e) => {
         var user = e.target.value
-        setUserFullname(user.substring(0, user.indexOf(' ')))
-        setUserName(user.substring(user.indexOf(' ') + 1))
+        setUserFullname(user.substring(0, user.lastIndexOf(' ')))
+        setUserName(user.substring(user.lastIndexOf(' ') + 1))
      }
 
      const addTask = (e) => {
