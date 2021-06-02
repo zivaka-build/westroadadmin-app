@@ -2002,6 +2002,12 @@ const uploadSAS = (e) =>{
                 <>
                 <br />
                 <div className="row justify-content-center">
+                  <div className="col-8">
+                    <h5>Cash Details</h5>
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
                   <div className="col-4">
                   <label>Received Date</label>
                   <input
