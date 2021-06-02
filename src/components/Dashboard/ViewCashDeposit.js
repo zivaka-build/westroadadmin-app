@@ -40,11 +40,17 @@ function ViewCashDeposit() {
         setOpen(false);
     };
 
+    const [open1, setOpen1] = React.useState(false);
+
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
+
     const [cash, setCash] = useState([])
     const [cashId, setCashId] = useState("")
     const [depositor, setDepositor] = useState("")
     const [depositBank, setDepositBank] = useState("")
-    const [stbDate, setStbDate] = useState("")
+    const [csDate, setCsDate] = useState("")
 
     const sentToBank = (e) => {
       const Token = 'bearer' + " " + Cookies.get('Token')
@@ -67,6 +73,29 @@ function ViewCashDeposit() {
             
           })
           setOpen(false)
+        })
+
+    }
+
+    const cashSubmit = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+
+      axios.put(`${BASE_URL}/api/v1/finance/cashdeposited`,
+      {
+        cashDepositId : cashId,
+        cashSubmitted : true,
+        cashSubmittedDate : csDate
+
+      },{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          axios.get(`${BASE_URL}/api/v1/finance/getlistofcashdeposit`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
+            setCash(response.data)
+            
+          })
+          setOpen1(false)
         })
 
     }
@@ -98,6 +127,7 @@ function ViewCashDeposit() {
                   { title: 'Send To Bank Date', render : (rowData) => !rowData.sentToBankDate ?  "": rowData.sentToBankDate.substring(8,10)+"-"+rowData.sentToBankDate.substring(5,7)+"-"+rowData.sentToBankDate.substring(0,4), customSort: (a, b) => a.sentToBankDate < b.sentToBankDate ? -1 : 1 },
                   { title: 'Depositor', render : (rowData) => !rowData.depositor ? "" : rowData.depositor, customSort: (a, b) => a.depositor < b.depositor ? -1 : 1},
                   { title: 'Cash Submitted', field: 'cashSubmitted' },
+                  { title: 'Cash Submitted Date', render : (rowData) => !rowData.cashSubmittedDate ?  "": rowData.cashSubmittedDate.substring(8,10)+"-"+rowData.cashSubmittedDate.substring(5,7)+"-"+rowData.cashSubmittedDate.substring(0,4), customSort: (a, b) => a.cashSubmittedDate < b.cashSubmittedDate ? -1 : 1 },
                     
                 ]
             }
@@ -194,9 +224,10 @@ function ViewCashDeposit() {
                   icon: 'edit',
                   tooltip: 'Cash',
                   onClick: (event, rowData) => {
-                   
+                   setOpen1(true)
+                   setCashId(rowData.cashDepositId)
                   },
-                  disabled: rowData.sentToBank === "false"
+                  disabled: rowData.sentToBank === "false" || rowData.cashSubmitted === "true"
                 })
 
 
@@ -205,6 +236,47 @@ function ViewCashDeposit() {
             
            ></MaterialTable>
            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open1}
+                onClose={handleClose1}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+            <Fade in={open1}>
+            <div className={classes.paper}>
+                <br />
+                
+                    <label>Cash Submit Date</label>
+                    <input
+                    type="date"
+                    class="form-control"
+                    name="submitDate"
+                    id="submitDate"
+                    onChange={(e)=>setCsDate(e.target.value)}
+                    />
+                    <br />
+                <br />
+                <div className="row container-fluid justify-content-center">
+                    <div className="col-4 text-right">
+                        <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={()=> setOpen1(false)}>No</button>
+
+                    </div>
+                    &nbsp;&nbsp;
+                    <div className="col-4">
+                        <button className="btn btn-secondary btn-user" onClick={cashSubmit}>Yes</button>
+                                                  
+                    </div>
+                </div>
+               
+            </div>
+            </Fade>
+            </Modal>
+            <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
