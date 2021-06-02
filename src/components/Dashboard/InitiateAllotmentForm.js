@@ -33,6 +33,8 @@ function InitiateAllotmentForm(){
     const [unitName, setUnitName] = useState("")
     const [leads, setLeads] = useState([])
     const [paymentTerms, setPaymentTerms] = useState("")
+    const [emailValidated, setEmailValidated] = useState(true)
+    const [phoneValidated, setPhoneValidated] = useState(true)
    
     const changeSite = (e) => {
         setSitename(e.target.value)
@@ -93,14 +95,65 @@ function InitiateAllotmentForm(){
             console.log(response)
             setEmail(response.data.lead.email)
             setPhno(response.data.lead.phone)
+        
         })
+
+    }
+    const PhNo = (e) =>{
+        var val = e.target.value
+        setPhno(val)
+        
+        var element = document.getElementById('outlined-basic-phno');
+        var message = document.getElementById('phnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+          
+            setPhoneValidated(true)
+            
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+
+        }
+
+
+    }
+
+    const EmailVal = (e) =>{
+        var val1 = e.target.value
+        setEmail(val1)
+        var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        var element = document.getElementById('outlined-basic-email');
+        var message = document.getElementById('emailMessage');
+        if( regex.test(val1)){
+           
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setEmailValidated(true)
+            
+        }
+        else {
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setEmailValidated(false)
+
+            
+            
+        }
 
     }
 
     const submit = (e) => {
         e.preventDefault()
-        const Token = 'bearer' + " " + Cookies.get('Token');
-        axios.post(`${BASE_URL}/api/v1/applicationform/createapplicationform`, 
+        console.log(emailValidated, phoneValidated)
+        if(emailValidated===true && phoneValidated===true){
+            const Token = 'bearer' + " " + Cookies.get('Token');
+            axios.post(`${BASE_URL}/api/v1/applicationform/createapplicationform`, 
         { 
             siteId: sitename,
             unitName: unitName,
@@ -118,6 +171,10 @@ function InitiateAllotmentForm(){
             console.log(response)
         })
         navigate("/dashboard/listofapplicationform")
+
+        }
+        
+
     }
 
    
@@ -150,12 +207,13 @@ function InitiateAllotmentForm(){
             <h4>Create Application</h4>
             </div>
         </div>
+        <form onSubmit={submit}>
         <div className="row pt-3 justify-content-center">
         <div className="col-lg-8 col-sm-12">
         
         <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Site Name</Form.Label>
-            <Form.Control onChange={changeSite} as="select">
+            <Form.Control required onChange={changeSite} as="select">
                 <option value="">Select a site</option>
                 {site.map((t)=>(
                     <option value={t.SiteId}>{t.SiteName}</option>
@@ -183,7 +241,7 @@ function InitiateAllotmentForm(){
         
         <Form.Group controlId="exampleForm.ControlSelect2">
             <Form.Label>Unit</Form.Label>
-            <Form.Control onChange={(e)=>setUnitName(e.target.value)} as="select">
+            <Form.Control required onChange={(e)=>setUnitName(e.target.value)} as="select">
                 <option value="">Select a unit</option>
                 {unit.map((t)=>(
                     <option value={t.unitName}>{t.unitName}</option>
@@ -209,7 +267,7 @@ function InitiateAllotmentForm(){
                         <div className="col-6">
                         <Form.Group controlId="exampleForm.ControlSelect2">
                         <label>Car Parking Type</label>
-                        <Form.Control  as="select" onChange={(event) => handleCPChange(index, event)}>
+                        <Form.Control   as="select" onChange={(event) => handleCPChange(index, event)}>
                         <option value="">Select a Car Parking Type</option>
                         { 
                         carParking.map((c)=>(
@@ -235,7 +293,7 @@ function InitiateAllotmentForm(){
             <div className="col-lg-4 col-sm-12">
             <Form.Group controlId="leadid">
             <label>Lead ID</label>
-            <Form.Control  as="select" onChange={changeLead}>
+            <Form.Control   as="select" onChange={changeLead}>
             <option value="">Select a Lead</option>
             {
                 leads.map((l)=>(
@@ -247,28 +305,42 @@ function InitiateAllotmentForm(){
             </div>
         </div>
         <br />
+        
         <div className="row justify-content-center">
+        
         <div className="col-lg-4 col-sm-12">
             <label>Mobile Number</label>
             <input
             type="number"
             class="form-control"
             name="Number"
-            id="outlined-basic"
+            id="outlined-basic-phno"
             value={phno}
-           onChange={(e)=>setPhno(e.target.value)}
+           onChange={PhNo}
+           required
             />
+            <small id="phnoMessage" className="text-danger d-none">
+                Must be of 10 characters with numbers only
+               
+            </small>   
         </div>
+        
+        
+        
         <div className="col-lg-4 col-sm-12">
             <label>Email</label>
             <input
             type="email"
             class="form-control"
             name="email"
-            id="outlined-basic"
+            id="outlined-basic-email"
             value={email}
-           onChange={(e)=>setEmail(e.target.value)}
+           onChange={EmailVal}
+           required
             />
+            <small id="emailMessage" className="text-danger d-none">
+               Enter Valid Email
+            </small>  
         </div>
         </div>
         <br />
@@ -307,15 +379,16 @@ function InitiateAllotmentForm(){
         <div className="row justify-content-center">
         <div className="col-lg-2 col-sm-3">
                   <button
+                  type="submit"
                     className="btn btn-secondary btn-user btn-block"
-                   onClick={submit}
+                   
                   >
                     Create
                   </button>
                 </div>
         </div>
-
-       
+        
+        </form>
         
         </div>
        
