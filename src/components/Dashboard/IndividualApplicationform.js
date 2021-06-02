@@ -165,6 +165,7 @@ function IndividualApplicationform() {
     const [paluploadeddate, setPaluploadeddate] = useState("")
     const [pals3link, setPals3link] = useState("")
     const [pal, setPal] = useState(false)
+    const [pals, setPals] = useState(false)
 
     const [saduploadedby, setSaduploadedby] = useState("")
     const [sadname, setSadname] = useState("")
@@ -310,6 +311,16 @@ const uploadCP = (e) =>{
       }
   })
 
+}
+const approveButton =()=>{
+  const Token = 'bearer' + " " + Cookies.get('Token')
+  axios.post(`${BASE_URL}/api/v1/applicationform/sendprovisionalletter`,{applicationId:applicationId},{headers:{'Authorization':Token}})
+  .then(response=>{
+    if(response.status === 200){
+      window.location.reload()
+  }
+    
+  })
 }
 
 // CARD 7
@@ -556,11 +567,13 @@ const uploadSAS = (e) =>{
 
           if(response.data.provisionalAllotmentLetter  === false && response.data.provisionalAllotmentLetterSent === false){
             setPal(false)
+            setPals(false)
           }
           else if(response.data.provisionalAllotmentLetter ===true && response.data.provisionalAllotmentLetterSent === false){
             setPal(true)
+            setPals(false)
             for(var i=0;i<response.data.documents.length;i++){
-              if(response.data.documents[i].documentType === "Application Form - Scan Copy"){
+              if(response.data.documents[i].documentType === "ProvisionalAllotmentLetter"){
                 setPalname(response.data.documents[i].documentName)
                 setPaluploadedby(response.data.documents[i].uploadedBy)
                 setPaluploadeddate(response.data.documents[i].uploadedDate)
@@ -571,8 +584,9 @@ const uploadSAS = (e) =>{
 
             else if(response.data.provisionalAllotmentLetter ===true && response.data.provisionalAllotmentLetterSent === true){
               setPal(true)
+              setPals(true)
               for(var i=0;i<response.data.documents.length;i++){
-                if(response.data.documents[i].documentType === "Application Form - Scan Copy"){
+                if(response.data.documents[i].documentType === "ProvisionalAllotmentLetter"){
                   setPalname(response.data.documents[i].documentName)
                   setPaluploadedby(response.data.documents[i].uploadedBy)
                   setPaluploadeddate(response.data.documents[i].uploadedDate)
@@ -2101,17 +2115,54 @@ const uploadSAS = (e) =>{
                 <div className="col-12 tab-card pt-5 pb-5 text-center">
                 
                 {
+                  pals===false?
+                  pal===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4>
+                    <br/>
+                    <h4>Provisional Allotment Letter not generated as payment not validated</h4>
+                  {/* <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeCP} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadCP}>Upload Document</button>
+                  </div> */}
+                  </>:
+                  <>
+                  
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4><br/>
+                  <h4> Provisional Allotment Letter generated but not approved </h4>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{palname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {paluploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{paluploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={pals3link} target="_blank">View Document</a></h6>
+
+                    <button className="btn btn-secondary btn-user" onClick={approveButton}>Approve</button>
+                  </>: 
+                  <>
+                 
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4><br/>
+                  <h4>Provisional Allotment Letter generated and sent to customer</h4>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{palname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {paluploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{paluploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={pals3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
                   sas===false?
                   <>
                   <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4>
                     <br/>
-                  {/* <div style={{display: 'flex'}}> 
-                    
-                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeSAS} style={{backgroundColor : 'white', color : 'black'}}/>
-               
-                <button className="btn btn-secondary btn-user" onClick={uploadSAS}>Upload Document</button>
-                  </div> */}
-                  <h3>Sales Agreement Draft not generated</h3>
+                 
+                  <h4>Sales Agreement Draft not generated</h4>
                   </>:
                   <>
                   <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4><br/>
