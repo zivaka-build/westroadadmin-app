@@ -113,6 +113,7 @@ function IndividualApplicationform() {
     const [fbp, setFbp] = useState("")
 
     const [pv, setPv] = useState()
+    const [baa, setBaa] = useState()
     const [vb, setVb] = useState("")
     const [vd, setVd] = useState("")
 
@@ -532,6 +533,37 @@ const uploadSAS = (e) =>{
       }
       
     }
+
+    const approve = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.put(`${BASE_URL}/api/v1/applicationform/bookingamountapproval`, 
+          { 
+            applicationId : applicationId,
+            isApproved: true
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        
+    }
+
+    const reject = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.put(`${BASE_URL}/api/v1/applicationform/bookingamountapproval`, 
+          { 
+            applicationId : applicationId,
+            isApproved: false
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+    }
+
+    
     
     useEffect(()=>{
 
@@ -730,6 +762,15 @@ const uploadSAS = (e) =>{
               }
               else {
                 setPv(false)
+              }
+            }
+            if(response.data.NEFTDetails || response.data.chequeDetails || response.data.CashDetails){
+              if(response.data.bookingAmountApproval === true){
+                setBaa(true)
+                
+              }
+              else {
+                setBaa(false)
               }
             }
 
@@ -2104,7 +2145,7 @@ const uploadSAS = (e) =>{
                   : null
                 }
                 { 
-                pv === false ?
+                pv === false && baa === false?
                 <>
                 <br />
                 <div className="row justify-content-center">
@@ -2150,6 +2191,30 @@ const uploadSAS = (e) =>{
                 </>
                 :
                 null
+                }
+                {
+                  pv === false && baa === true ?
+                  <>
+                  <br />
+                   <div className="row container-fluid justify-content-center">
+                  <div className="col-8">
+                    <h5>Approve Booking Amount</h5>
+                  </div>
+                  </div>
+                  <br />
+                  <div className="row container-fluid justify-content-center">
+                  <div className="col-4 text-right">
+                        <button className="btn btn-secondary btn-user" onClick={approve}>Approve Booking Amount</button>
+                                                  
+                    </div>
+                    &nbsp;&nbsp;
+                    <div className="col-4">
+                        <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={reject}>Reject Booking Amount</button>
+
+                    </div>
+                </div>
+                  </>
+                  : null
                 }
                 <Modal
                 aria-labelledby="transition-modal-title"
