@@ -80,6 +80,8 @@ function IndividualLead() {
     const [ remarks, setRemarks] = useState("")
     const [ creason, setCreason] = useState("")
     const [ rdate, setRdate] = useState("")
+    const [phoneValidated, setPhoneValidated] = useState(true)
+
 
     const toggleDiv = () => {
         if(toggle === 0) {
@@ -118,13 +120,16 @@ function IndividualLead() {
 
     const scheduleVisit = (e) => {
         e.preventDefault()
-        const Token = 'bearer' + " " + Cookies.get('Token')
+        if(phoneValidated==true){
+            const Token = 'bearer' + " " + Cookies.get('Token')
         axios
         .post(`${BASE_URL}/api/v1/siteVisit/addSitevisitByLeadId`,{siteVisitDate: dateTime, contactPerson: contactPerson,contactPersonMobile:contactPersonNo,leadID: leadID,siteID: sid,siteName: sn},{ headers : { 'Authorization' : Token }})
         .then(response => {
             console.log(response)
             window.location.reload()
         })
+        }
+        
     }
 
     const addComment = () => {
@@ -169,6 +174,30 @@ function IndividualLead() {
                     window.location.reload()
                 })
         }
+    }
+
+    const PhNo = (e) =>{
+        var val = e.target.value
+        setContactPersonNo(val)
+        
+        var element = document.getElementById('outlined-basic-phno');
+        var message = document.getElementById('phnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+          
+            setPhoneValidated(true)
+            
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+
+        }
+
+
     }
 
     useEffect(() => {
@@ -510,17 +539,17 @@ function IndividualLead() {
                             {toggle === 1 ?
                             <>
                             <div className="col-12 pt-4 scheduleVisit">
-                            <form>
+                            <form onSubmit={scheduleVisit}>
                                 <div className="row justify-content-center">
                                     <div className="col-4">
                                         <label for="dateTime">Date & Time</label>
-                                        <input className="form-control" type="datetime-local" id="dateTime" name="dateTime" onChange={(e)=>{setDateTime(e.target.value)}}/>
+                                        <input required className="form-control" type="datetime-local" id="dateTime" name="dateTime" onChange={(e)=>{setDateTime(e.target.value)}}/>
                                     </div>
                                     <div className="col-4">
                                         <Form.Group controlId="exampleForm.ControlSelect1">
                                         <Form.Label>Contact Person</Form.Label>
-                                        <Form.Control  as="select" onChange={changeCperson}>
-                                        <option>Select a Contact Person</option>   
+                                        <Form.Control required as="select" onChange={changeCperson}>
+                                        <option value="">Select a Contact Person</option>   
                                         {users.map((user) => (
                                         <option value={user.userId+" "+user.userFullName}>{user.userFullName}</option> 
                                         ))}
@@ -533,8 +562,8 @@ function IndividualLead() {
                                     <div className="col-4">
                                         <Form.Group controlId="exampleForm.ControlSelect2">
                                         <Form.Label>Site Name</Form.Label>
-                                        <Form.Control  as="select" onChange={changeSiteName}>
-                                        <option>Select a Site</option> 
+                                        <Form.Control required as="select" onChange={changeSiteName}>
+                                        <option value="">Select a Site</option> 
                                         {sites.map((site) => (
                                         <option value={site.SiteId+" "+site.SiteName}>{site.SiteName}</option> 
                                         ))}
@@ -549,10 +578,13 @@ function IndividualLead() {
                                         type="number"
                                         class="form-control"
                                         name="contactPersonNo"
-                                        id="outlined-basic"
-                                        onChange={(e)=>setContactPersonNo(e.target.value)}
+                                        id="outlined-basic-phno"
+                                        onChange={PhNo}
                                         value={contactPersonNo}
-                                        />
+                                        required/>
+                                        <small id="phnoMessage" className="text-danger d-none">
+                                            Must be of 10 characters with numbers only
+                                        </small>   
                                     </div>
                                 </div>
                                 <div className="row justify-content-center">
@@ -561,7 +593,7 @@ function IndividualLead() {
 
                                     </div>
                                     <div className="col-4">
-                                    <button className="btn btn-secondary btn-user" onClick={scheduleVisit}style={{borderRadius : "10px"}}>Schedule</button>
+                                    <button className="btn btn-secondary btn-user" type="submit" style={{borderRadius : "10px"}}>Schedule</button>
                                     
                                     </div>
                                 </div>
