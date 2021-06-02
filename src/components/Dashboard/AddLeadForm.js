@@ -22,35 +22,114 @@ function AddLeadForm(){
     const [requirement, setRequirement ] = useState("");
     const [budget, setBudget ] = useState("");
     const [subType, setSubType] = useState("");
+    const [emailValidated, setEmailValidated] = useState(true)
+    const [phoneValidated, setPhoneValidated] = useState(true)
+    const [wpValidated, setWpValidated] = useState(true)
     
 
     const submit = (e) => {
         e.preventDefault();
-        const Token = 'bearer' + " " + Cookies.get('Token')
-        axios
-      .post(`${BASE_URL}/api/v1/lead/addLead`, {
-        name: name,
-        phone: mobile,
-        whatsapp: whatsapp,
-        email: email,
-        address: address,
-        city: city,
-        pincode: pincode,
-        leadSource: source,
-        subType: subType,
-        leadWeightage: type,
-        siteName: siteName,
-        leadBudget: budget,
-        leadReq: requirement,
-      },
-      { headers : { 'Authorization' : Token }})
-      .then((response) => {
-        console.log(response);
-        navigate("/dashboard/viewlead")
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        if(emailValidated===true && phoneValidated ===true && wpValidated===true){
+            const Token = 'bearer' + " " + Cookies.get('Token')
+            axios
+          .post(`${BASE_URL}/api/v1/lead/addLead`, {
+            name: name,
+            phone: mobile,
+            whatsapp: whatsapp,
+            email: email,
+            address: address,
+            city: city,
+            pincode: pincode,
+            leadSource: source,
+            subType: subType,
+            leadWeightage: type,
+            siteName: siteName,
+            leadBudget: budget,
+            leadReq: requirement,
+          },
+          { headers : { 'Authorization' : Token }})
+          .then((response) => {
+            console.log(response);
+            navigate("/dashboard/viewlead")
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        }
+    }
+        
+
+    const PhNo = (e) =>{
+        var val = e.target.value
+        setMobile(val)
+        
+        var element = document.getElementById('outlined-basic-phno');
+        var message = document.getElementById('phnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+          
+            setPhoneValidated(true)
+            
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+
+        }
+
+
+    }
+
+    const wpno = (e) =>{
+        var val = e.target.value
+        setWhatsapp(val)
+        
+        var element = document.getElementById('outlined-basic-wpno');
+        var message = document.getElementById('wpnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+          
+            setPhoneValidated(true)
+            
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+
+        }
+
+
+    }
+
+    const EmailVal = (e) =>{
+        var val1 = e.target.value
+        setEmail(val1)
+        var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        var element = document.getElementById('outlined-basic-email');
+        var message = document.getElementById('emailMessage');
+        if( regex.test(val1)){
+           
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setEmailValidated(true)
+            
+        }
+        else {
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setEmailValidated(false)
+
+            
+            
+        }
+
     }
     
     
@@ -62,6 +141,7 @@ function AddLeadForm(){
             <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
             </div>
         </div>
+        <form onSubmit={submit}>
         <div className="row justify-content-center">
         <div className="col-lg-8 col-sm-12">
         <h4>Add a Lead</h4>
@@ -73,7 +153,7 @@ function AddLeadForm(){
             name="name"
             id="outlined-basic"
             onChange={(e)=>setName(e.target.value)}
-            />
+            required/>
         </div>
         </div>
         <br />
@@ -84,9 +164,13 @@ function AddLeadForm(){
             type="number"
             class="form-control"
             name="contact"
-            id="outlined-basic"
-            onChange={(e)=>setMobile(e.target.value)}
-            />
+            id="outlined-basic-phno"
+            onChange={PhNo}
+            required/>
+            <small id="phnoMessage" className="text-danger d-none">
+                Must be of 10 characters with numbers only
+               
+            </small>   
         </div>
         <div className="col-lg-4 col-sm-6">
             <label>Whatsapp No.</label>
@@ -94,9 +178,13 @@ function AddLeadForm(){
             type="number"
             class="form-control"
             name="whatsapp"
-            id="outlined-basic"
-           onChange={(e)=>setWhatsapp(e.target.value)}
-            />
+            id="outlined-basic-wpno"
+           onChange={wpno}
+            required/>
+            <small id="wpnoMessage" className="text-danger d-none">
+                Must be of 10 characters with numbers only
+               
+            </small>   
         </div>
         </div>
         <br />
@@ -107,9 +195,12 @@ function AddLeadForm(){
             type="email"
             class="form-control"
             name="email"
-            id="outlined-basic"
-           onChange={(e)=>setEmail(e.target.value)}
-            />
+            id="outlined-basic-email"
+           onChange={EmailVal}
+            required/>
+            <small id="emailMessage" className="text-danger d-none">
+               Enter Valid Email
+            </small> 
         </div>
         </div>
         <br />
@@ -145,7 +236,7 @@ function AddLeadForm(){
             name="pincode"
             id="outlined-basic"
            onChange={(e)=>setPincode(e.target.value)}
-            />
+           required />
         </div>
         </div>
         <br />
@@ -271,13 +362,15 @@ function AddLeadForm(){
         <div className="row justify-content-center">
         <div className="col-lg-2 col-sm-3">
                   <button
+                  type="submit"
                     className="btn btn-secondary btn-user btn-block"
-                   onClick={submit}
+                   
                   >
                     Submit
                   </button>
                 </div>
         </div>
+        </form>
         </>
     )
 }
