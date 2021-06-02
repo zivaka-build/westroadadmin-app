@@ -83,7 +83,7 @@ function AddUnitType() {
             </div>
         </div>
         <br />
-        <form>
+        <form onSubmit={addUnitType}>
         <div className="row container-fluid justify-content-center">
             <div className="col-4">
                 <label>Unit Name</label>
@@ -93,13 +93,13 @@ function AddUnitType() {
                 name="unitname"
                 id="unitname"
                 onChange={(e)=>setUn(e.target.value)}
-                />
+                required/>
             </div>
             <div className="col-4">
             <Form.Group controlId="bhk">
                 <Form.Label>BHK</Form.Label>
-                <Form.Control  as="select" onChange={(e)=>setBhk(e.target.value)}>
-                <option>Select a BHK</option>   
+                <Form.Control required  as="select" onChange={(e)=>setBhk(e.target.value)}>
+                <option value="">Select a BHK</option>   
                 <option value="1BHK">1BHK</option>
                 <option value="2BHK">2BHK</option>
                 <option value="3BHK">3BHK</option>
@@ -117,7 +117,7 @@ function AddUnitType() {
                 name="carpetarea"
                 id="carpetarea"
                 onChange={(e)=>setCa(e.target.value)}
-                />
+                required/>
             </div>
             <div className="col-4">
                 <label>Balcony Area</label>
@@ -127,7 +127,7 @@ function AddUnitType() {
                 name="balconyarea"
                 id="balconyarea"
                 onChange={(e)=>setBa(e.target.value)}
-                />
+                required/>
             </div>
         </div>
         <br />
@@ -140,7 +140,7 @@ function AddUnitType() {
                 name="builtuparea"
                 id="builtuparea"
                 onChange={(e)=>setBua(e.target.value)}
-                />
+                required/>
             </div>
             <div className="col-4">
                 <label>Super Built Up Area</label>
@@ -150,7 +150,7 @@ function AddUnitType() {
                 name="sbuarea"
                 id="sbuarea"
                 onChange={(e)=>setSbua(e.target.value)}
-                />
+                required/>
             </div>
         </div>
         <br />
@@ -163,7 +163,7 @@ function AddUnitType() {
                 name="plc"
                 id="plc"
                 onChange={(e)=>setPlc(e.target.value)}
-                />
+                required/>
             </div>
             <div className="col-4">
                 <label>Base Sq. Ft. Rate</label>
@@ -173,7 +173,7 @@ function AddUnitType() {
                 name="rate"
                 id="rate"
                 onChange={(e)=>setRate(e.target.value)}
-                />
+                required/>
             </div>
         </div>
         <br />
@@ -181,8 +181,8 @@ function AddUnitType() {
             <div className="col-4">
             <Form.Group controlId="phasename">
                 <Form.Label>Phase Name</Form.Label>
-                <Form.Control  as="select" onChange={changePhase}>
-                <option>Select a Phase Name</option>   
+                <Form.Control required  as="select" onChange={changePhase}>
+                <option value="">Select a Phase Name</option>   
                 { 
                     phase.map((p)=>(
                         <option value={p.phaseCode+" "+p.phaseName}>{p.phaseName}</option>
@@ -198,7 +198,7 @@ function AddUnitType() {
 
             </div>
             <div className="col-4">
-                <button className="btn btn-secondary btn-user" onClick={addUnitType}>Add Unit</button>
+                <button type="submit" className="btn btn-secondary btn-user" >Add Unit</button>
                                             
             </div>
         </div>
