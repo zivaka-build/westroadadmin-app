@@ -129,6 +129,7 @@ function IndividualApplicationform() {
     const [tamount, setTamount] = useState(100000)
     const [chequeNo, setChequeNo] = useState("")
     const [comments, setComments] = useState("")
+    const [receivedBy, setReceivedBy] = useState("")
     
     const [draftname, setDraftname] = useState("")
     const [duploadedby, setDuploadedby] = useState("")
@@ -179,6 +180,13 @@ function IndividualApplicationform() {
     const [sass3link, setSass3link] = useState("")
     const [sas, setSas] = useState(false)
     const [sasfile, setSasfile] = useState("")
+
+    const [ cs, setCs] = useState(false)
+    const [csa, setCsa] = useState("")
+    const [csrb, setCsrb] = useState("")
+    const [csd, setCsd] = useState("")
+    const [csib, setCsib] = useState("")
+
 
 
 
@@ -414,6 +422,25 @@ const uploadSAS = (e) =>{
           })
         }
 
+        else if(paymentMode === "Cash") {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            receivedBy: receivedBy,
+            receivedDate: tdate,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+              
+          })
+        }
+
         else {
           axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
           { 
@@ -457,6 +484,28 @@ const uploadSAS = (e) =>{
               window.location.reload()
           })
         }
+
+        else if(paymentMode === "Cash") {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            receivedBy: receivedBy,
+            receivedDate: tdate,
+            fundedBy: fundedBy,
+            fundedByPAN: fundedPan,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+              
+          })
+        }
+
 
         else {
           axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
@@ -654,6 +703,14 @@ const uploadSAS = (e) =>{
               setIb(response.data.chequeDetails.issuedBy)
             }
 
+            if(response.data.CashDetails) {
+              setCs(true)
+              setCsa(response.data.CashDetails.transactionAmount)
+              setCsrb(response.data.CashDetails.receivedBy)
+              setCsd(response.data.CashDetails.receivedDate)
+              setCsib(response.data.CashDetails.issuedBy)
+            }
+
             if(response.data.notFundedSelf === true) {
               setFunded(true)
               setFb(response.data.fundedBy)
@@ -665,7 +722,7 @@ const uploadSAS = (e) =>{
               setFb("Self")
             }
 
-            if(response.data.NEFTDetails || response.data.chequeDetails){
+            if(response.data.NEFTDetails || response.data.chequeDetails || response.data.CashDetails){
               if(response.data.paymentValidated === true){
                 setPv(true)
                 setVb(response.data.paymentValidatedBy)
@@ -1371,64 +1428,77 @@ const uploadSAS = (e) =>{
                   </div>
                   <br />
                   <div className="row justify-content-center">
-                    <div className="col-lg-2 col-sm-12">
+                    <div className="col-lg-1 col-sm-12">
                       <label class="text-align left">Payment Mode : </label>
                     </div>
-                    <div className="col-lg-6 col-sm-12">
-                      <label class="form-check-label px-4">
-                        Cheque
-                        <input
+                    <div className="col-lg-7 col-sm-12">
+                    <input
                           type="radio"
                           className="form-check-input"
                           id="cheque"
                           name="bpm"
                           onClick={(e)=>setPaymentMode("Cheque")}
                         />
+                      <label class="form-check-label pl-5">
+                        Cheque
                       </label>
-
-                      <label class="form-check-label px-4">
-                        Demand Draft
-                        <input
+                      
+                      <input
                           type="radio"
                           className="form-check-input"
                           id="dd"
                           name="bpm"
                           onClick={(e)=>setPaymentMode("DD")}
                         />
+                      <label class="form-check-label pl-5">
+                        Demand Draft
                       </label>
-
-                      <label class="form-check-label px-4">
-                        NEFT
-                        <input
+                      
+                      <input
                           type="radio"
                           className="form-check-input"
                           id="neft"
                           name="bpm"
                           onClick={(e)=>setPaymentMode("NEFT")}
                         />
+                      <label class="form-check-label pl-5">
+                        NEFT
                       </label>
-
-                      <label class="form-check-label px-4">
-                        RTGS
-                        <input
+                      
+                      <input
                           type="radio"
                           className="form-check-input"
                           id="rtgs"
                           name="bpm"
                           onClick={(e)=>setPaymentMode("RTGS")}
                         />
-                      </label>
 
-                      <label class="form-check-label px-4">
-                        IMPS
-                        <input
+                      <label class="form-check-label pl-5">
+                        RTGS
+                      </label>
+                      
+                      <input
                           type="radio"
                           className="form-check-input"
                           id="imps"
                           name="bpm"
                           onClick={(e)=>setPaymentMode("IMPS")}
                         />
+                      <label class="form-check-label pl-5">
+                        IMPS
                       </label>
+                      
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cash"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("Cash")}
+                        />
+                      <label class="form-check-label pl-5">
+                        Cash
+                      </label>
+                      
                       </div>
                   </div>
                   <br />
@@ -1499,26 +1569,27 @@ const uploadSAS = (e) =>{
                       <label>Funded By: </label>
                     </div>
                     <div className="col-lg-6 col-sm-12">
-                      <label class="form-check-label px-4">
-                        Self
-                        <input
+                    <input
                           type="radio"
                           className="form-check-input"
                           id="cheque"
                           name="fund"
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
+                      <label class="form-check-label pl-5">
+                        Self
+                        
                       </label>
-
-                      <label class="form-check-label px-4">
-                        Other
-                        <input
+                      <input
                           type="radio"
                           className="form-check-input"
                           id="dd"
                           name="fund"
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
+                      <label class="form-check-label pl-5">
+                        Other
+                        
                       </label>
                       </div>
                   </div>
@@ -1617,26 +1688,27 @@ const uploadSAS = (e) =>{
                       <label>Funded By: </label>
                     </div>
                     <div className="col-lg-6 col-sm-12">
-                      <label class="form-check-label px-4">
-                        Self
-                        <input
+                    <input
                           type="radio"
                           className="form-check-input"
                           id="cheque"
                           name="fund"
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
+                      <label class="form-check-label pl-5">
+                        Self
+                        
                       </label>
-
-                      <label class="form-check-label px-4">
-                        Other
-                        <input
+                      <input
                           type="radio"
                           className="form-check-input"
                           id="dd"
                           name="fund"
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
+                      <label class="form-check-label pl-5">
+                        Other
+                        
                       </label>
                       </div>
                   </div>
@@ -1666,12 +1738,114 @@ const uploadSAS = (e) =>{
                   }
                  
                   </> : null
+               
                   }
                   
                   </> :
                   null
                   
                   }
+
+                  { 
+                  paymentMode === "Cash" ?
+                <>
+                <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Received Date: </label>
+                      <input
+                      type="date"
+                      class="form-control"
+                      onChange={(e)=>setTdate(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Received By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setReceivedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Amount: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      value={tamount}
+                      onChange={(e)=>setTamount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Issued By: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setIssuedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                  
+                    <div className="col-lg-2 col-sm-12">
+                      <label>Funded By: </label>
+                    </div>
+                    <div className="col-lg-6 col-sm-12">
+                    <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(false)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Self
+                        
+                      </label>
+
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(true)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Other
+                        
+                      </label>
+                      </div>
+                  </div>
+                  <br />
+                  { notFundedSelf === true ?
+                  <>
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedBy(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By PAN : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedPan(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  </> : null
+                  }
+                </> : null}
+                  
                   
                 { bpm === false ?
                 <>
@@ -1821,6 +1995,57 @@ const uploadSAS = (e) =>{
                 </div>
                   </> 
                   : null
+                }
+
+                { 
+                cs === true ?
+                <>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-8">
+                    <h5>Cash Details</h5>
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Received Date</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csd.substring(8,10)+"-"+csd.substring(5,7)+"-"+csd.substring(0,4)}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Received by</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csrb}
+                  />
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Transaction Amount</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csa}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Issued by</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csib}
+                  />
+                  </div>
+                </div>
+                </>
+                : null
                 }
 
                
