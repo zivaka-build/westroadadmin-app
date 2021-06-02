@@ -10,7 +10,66 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
 import {IoMdArrowBack} from 'react-icons/io'
 
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+  formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+}));
+
 function ViewCashDeposit() {
+    var today = new Date();
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const [cash, setCash] = useState([])
+    const [cashId, setCashId] = useState("")
+    const [depositor, setDepositor] = useState("")
+    const [depositBank, setDepositBank] = useState("")
+    const [stbDate, setStbDate] = useState("")
+
+    const sentToBank = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+
+      axios.put(`${BASE_URL}/api/v1/finance/cashsenttobank`,
+      {
+        cashDepositId : cashId,
+        sentToBank : true,
+        depositor: depositor,
+        sentToBankDate: today,
+        depositBank: depositBank
+
+      },{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          axios.get(`${BASE_URL}/api/v1/finance/getlistofcashdeposit`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
+            setCash(response.data)
+            
+          })
+          setOpen(false)
+        })
+
+    }
 
     useEffect(() => {
        
@@ -19,6 +78,7 @@ function ViewCashDeposit() {
         axios.get(`${BASE_URL}/api/v1/finance/getlistofcashdeposit`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
+          setCash(response.data)
           
         })
     },[])
@@ -26,17 +86,18 @@ function ViewCashDeposit() {
         <>
         <br />
         <MaterialTable
-            // data={form}
-            title="List of Cash Deposits"
+            data={cash}
+            title="Cash Deposits"
             columns={
                 [
-                    { title: 'Cheque Number', field: 'chequeNo' },
-                    { title: 'Cheque Bank Name', field: 'chequeBankName' },
-                    { title: 'Cheque Account No.', field: 'chequeAccountNo' },
-                    { title: 'Cheque Date', defaultSort : 'desc', render : (rowData) => !rowData.chequeDate ?  "": rowData.chequeDate.substring(8,10)+"-"+rowData.chequeDate.substring(5,7)+"-"+rowData.chequeDate.substring(0,4), customSort: (a, b) => a.chequeDate < b.chequeDate ? -1 : 1 },
-                    { title: 'Cheque Amount', field: 'chequeAmount' },
-                    { title: 'Issued To', field: 'issuedTo' },
-                    { title: 'Issued By', field: 'issuedBy' },
+                  { title: 'Cash Deposit ID', defaultSort : 'desc', render: (rowData) => rowData.cashDepositId, customSort: (a, b) => a.tableData.id < b.tableData.id ? -1 : 1 },
+                  { title: 'Amount', field: 'depositAmount' },
+                  { title: 'Received By', field: 'receivedBy' },
+                  { title: 'Received Date', render : (rowData) => !rowData.receivedDate ?  "": rowData.receivedDate.substring(8,10)+"-"+rowData.receivedDate.substring(5,7)+"-"+rowData.receivedDate.substring(0,4), customSort: (a, b) => a.receivedDate < b.receivedDate ? -1 : 1 },
+                  { title: 'Send To Bank', field: 'sentToBank' },
+                  { title: 'Send To Bank Date', render : (rowData) => !rowData.sentToBankDate ?  "": rowData.sentToBankDate.substring(8,10)+"-"+rowData.sentToBankDate.substring(5,7)+"-"+rowData.sentToBankDate.substring(0,4), customSort: (a, b) => a.sentToBankDate < b.sentToBankDate ? -1 : 1 },
+                  { title: 'Depositor', render : (rowData) => !rowData.depositor ? "" : rowData.depositor, customSort: (a, b) => a.depositor < b.depositor ? -1 : 1},
+                  { title: 'Cash Submitted', field: 'cashSubmitted' },
                     
                 ]
             }
@@ -124,17 +185,18 @@ function ViewCashDeposit() {
                   icon: 'edit',
                   tooltip: 'Send To Bank',
                   onClick: (event, rowData) => {
-                    
+                    setOpen(true)
+                    setCashId(rowData.cashDepositId)
                   },
-                 // disabled: rowData.bankSubmitDate
+                 disabled: rowData.sentToBank === "true"
                 }),
                 rowData => ({
                   icon: 'edit',
-                  tooltip: 'Clearance',
+                  tooltip: 'Cash',
                   onClick: (event, rowData) => {
                    
                   },
-                  //disabled: rowData.sentToBank === false
+                  disabled: rowData.sentToBank === "false"
                 })
 
 
@@ -142,6 +204,58 @@ function ViewCashDeposit() {
           ]}
             
            ></MaterialTable>
+           <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+            <Fade in={open}>
+            <div className={classes.paper}>
+                <br />
+                
+                    <label>Depositor</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="depositor"
+                    id="depositor"
+                    onChange={(e)=>setDepositor(e.target.value)}
+                    />
+                    <br />
+
+                    <label>Deposit Bank</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="depositBank"
+                    id="depositBank"
+                    onChange={(e)=>setDepositBank(e.target.value)}
+                    />
+                    <br />
+                
+                <br />
+                <div className="row container-fluid justify-content-center">
+                    <div className="col-4 text-right">
+                        <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={()=> setOpen(false)}>No</button>
+
+                    </div>
+                    &nbsp;&nbsp;
+                    <div className="col-4">
+                        <button className="btn btn-secondary btn-user" onClick={sentToBank}>Yes</button>
+                                                  
+                    </div>
+                </div>
+               
+            </div>
+            </Fade>
+            </Modal>
         </>
     )
 }
