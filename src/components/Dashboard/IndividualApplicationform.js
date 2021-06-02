@@ -587,7 +587,7 @@ const uploadSAS = (e) =>{
         else if(response.data.salesAgreementDraft===true){
           setSad(true)
           for(var i=0;i<response.data.documents.length;i++){
-            if(response.data.documents[i].documentType === "Sales Agreement Draft"){
+            if(response.data.documents[i].documentType === "SalesAgreementDraft"){
               setSadname(response.data.documents[i].documentName)
               setSaduploadedby(response.data.documents[i].uploadedBy)
               setSaduploadeddate(response.data.documents[i].uploadedDate)
@@ -2091,6 +2091,34 @@ const uploadSAS = (e) =>{
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {cpuploadedby}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{cpuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
                     <h6><a href={cps3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  sas===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4>
+                    <br/>
+                  {/* <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeSAS} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadSAS}>Upload Document</button>
+                  </div> */}
+                  <h3>Sales Agreement Draft not generated</h3>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{sadname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {saduploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{saduploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={sads3link} target="_blank">View Document</a></h6>
                   </>
                 }
                   
