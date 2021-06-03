@@ -268,24 +268,26 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                    
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
-                    <ListItem button key={'TDS'}>
-                    <h7>Transactions</h7>
-                    </ListItem>
-                    </Link>
-
+                
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
-                    <ListItem button key={'TDS'}>
+                    <ListItem button key={'Demands'}>
                     <h7>Demands</h7>
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
-                    <ListItem button key={'TDS'}>
-                    <h7>TDS</h7>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
+                    <ListItem button key={'Credit Voucher'}>
+                    <h7>Credit Voucher</h7>
                     </ListItem>
                     </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
+                    <ListItem button key={'Debit Voucher'}>
+                    <h7>Debit Voucher</h7>
+                    </ListItem>
+                    </Link>
+
+                    
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addcash'>
                     <ListItem button key={'Deposit Cash'}>
@@ -294,8 +296,8 @@ const drawer = (
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit'>
-                    <ListItem button key={'Cash Deposits'}>
-                    <h7>Cash Deposits</h7>
+                    <ListItem button key={'Cash Book'}>
+                    <h7>Cash Book</h7>
                     </ListItem>
                     </Link>
 
@@ -306,8 +308,20 @@ const drawer = (
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
+                    <ListItem button key={'Cheque Book'}>
+                    <h7>Cheque Book</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewtds'>
                     <ListItem button key={'TDS'}>
-                    <h7>Cheques</h7>
+                    <h7>TDS</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
+                    <ListItem button key={'Transactions'}>
+                    <h7>Transactions</h7>
                     </ListItem>
                     </Link>
 
