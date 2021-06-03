@@ -1469,10 +1469,9 @@ const uploadSAS = (e) =>{
                   </div>
                   <br />
                   <div className="row justify-content-center">
-                    <div className="col-lg-1 col-sm-12">
-                      <label class="text-align left">Payment Mode : </label>
-                    </div>
-                    <div className="col-lg-7 col-sm-12">
+                    
+                    <div className="col-lg-8 col-sm-12">
+                    <label class="text-align left">Payment Mode : </label>
                     <input
                           type="radio"
                           className="form-check-input"
