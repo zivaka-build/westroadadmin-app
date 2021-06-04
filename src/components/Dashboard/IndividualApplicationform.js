@@ -188,6 +188,9 @@ function IndividualApplicationform() {
     const [csd, setCsd] = useState("")
     const [csib, setCsib] = useState("")
 
+    const [bpr, setBpr] = useState(false)
+    const [brn, setBrn] = useState("")
+    const [bcv, setBcv] = useState("")
 
 
 
@@ -581,9 +584,13 @@ const uploadSAS = (e) =>{
             setLeadid(response.data.leadId)
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
+            setBpr(response.data.bookingPaymentReciept)
             var pt = response.data.paymentTerms
 
-
+            if(response.data.bookingPaymentReceipt === true ){
+              setBrn(response.data.bookingPaymentRecieptNumber)
+              setBcv(response.data.bookingPaymentRecieptLink)
+            }
 
             if(response.data.applicationFormDraft === false){
               setDraft(false)
@@ -2397,6 +2404,21 @@ const uploadSAS = (e) =>{
                   </>
                 }
                   
+                </div>
+                </div>
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                  {
+                    bpr === false ?
+                    <>
+                    <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Credit Voucher for Booking Payment</h4>
+                    </> : 
+                    <>
+                    <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Credit Voucher for Booking Payment</h4>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Receipt Number: </span>{brn}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Credit Voucher: </span><a href={bcv} target="_blank">Receipt Link</a></h6>
+                    </>
+                  }
                 </div>
                 </div>
 
