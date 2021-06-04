@@ -384,7 +384,7 @@ const drawer = (
                     <h7>Add User</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/teammember'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewuser'>
                     <ListItem button key={'View User'}>
                     <h7>View User</h7>
                     </ListItem>

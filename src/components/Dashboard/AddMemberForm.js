@@ -51,10 +51,25 @@ function AddMember() {
         isActive: true,
       })
       .then((response) => {
-        console.log(response);
+        if(response.status === 200){
+        navigate("/dashboard/viewuser")
+        } 
+       
+        
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
+        Swal.fire({
+          icon: "error",
+          title: "Ooops",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
+          text: "User or Email already exists!",
+        });
       });
     }
    
