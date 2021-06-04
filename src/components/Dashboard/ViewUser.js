@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
                     { title: 'Username', field: 'userName' },
                     { title: 'Mobile', field: 'userMobile'},
                     { title: 'Email', field: 'userEmail' },
-                    
+                    { title: "Active", render : (rowData) => rowData.isActive === true ? "Yes" : "No"}
                 ]
             }
             options={{
