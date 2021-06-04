@@ -380,13 +380,13 @@ const drawer = (
                 <AccordionDetails>
                     <List>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addmember'>
-                    <ListItem button key={'Add Member'}>
-                    <h7>Add Member</h7>
+                    <ListItem button key={'Add User'}>
+                    <h7>Add User</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/teammember'>
-                    <ListItem button key={'Manage Members'}>
-                    <h7>Manage Members</h7>
+                    <ListItem button key={'View User'}>
+                    <h7>View User</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addsite'>
