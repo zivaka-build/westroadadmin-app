@@ -48,7 +48,7 @@ function ListofCustomers(){
        
         const Token = 'bearer' + " " + Cookies.get('Token')
         
-        axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{Authorization:Token}})
+        axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{'Authorization':Token}})
         .then(response=>{
             setSites(response.data.siteMap)
         })
@@ -149,8 +149,8 @@ function ListofCustomers(){
                         <MenuItem value="all" disabled>
                          Site
                         </MenuItem>
-                        <MenuItem value="WH" >
-                        Westroad Heights
+                        <MenuItem value="WH">
+                         Westroad Heights
                         </MenuItem>
                         {/*{ 
                         sites.map((s)=> (
@@ -158,7 +158,7 @@ function ListofCustomers(){
                         {s.SiteName}
                         </MenuItem>
                         ))
-                        } */}
+                        }*/}
                         
                       </Select>
                     

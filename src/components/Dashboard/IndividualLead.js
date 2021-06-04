@@ -4,13 +4,48 @@ import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Form } from "react-bootstrap";
-import { useParams } from "@reach/router"
+import { useParams, navigate } from "@reach/router"
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
 import MaterialTable from "material-table";
+import {IoMdArrowBack} from 'react-icons/io'
+import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    paper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
+  }));
 
 function IndividualLead() {
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false);
+        setSvStatus("")
+        setSiteVisitStatus("")
+    };
+
     const {leadID}=useParams()
     const [name, setName ] = useState("");
     const [mobile, setMobile ] = useState("");
@@ -38,6 +73,15 @@ function IndividualLead() {
     const [sn, setSn] = useState("")
     const [sid, setSid] = useState("")
     const [sv, setSv] = useState([])
+
+    const [svid, setSvid] = useState("")
+    const [ svStatus, setSvStatus] = useState("")
+    const [ siteVisitStatus, setSiteVisitStatus] = useState("")
+    const [ remarks, setRemarks] = useState("")
+    const [ creason, setCreason] = useState("")
+    const [ rdate, setRdate] = useState("")
+    const [phoneValidated, setPhoneValidated] = useState(true)
+
 
     const toggleDiv = () => {
         if(toggle === 0) {
@@ -76,13 +120,16 @@ function IndividualLead() {
 
     const scheduleVisit = (e) => {
         e.preventDefault()
-        const Token = 'bearer' + " " + Cookies.get('Token')
+        if(phoneValidated==true){
+            const Token = 'bearer' + " " + Cookies.get('Token')
         axios
         .post(`${BASE_URL}/api/v1/siteVisit/addSitevisitByLeadId`,{siteVisitDate: dateTime, contactPerson: contactPerson,contactPersonMobile:contactPersonNo,leadID: leadID,siteID: sid,siteName: sn},{ headers : { 'Authorization' : Token }})
         .then(response => {
             console.log(response)
             window.location.reload()
         })
+        }
+        
     }
 
     const addComment = () => {
@@ -93,6 +140,63 @@ function IndividualLead() {
                 console.log(response)
                 window.location.reload()
             })
+
+    }
+
+    const editSv = () => {
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        if(svStatus === "Completed") {
+           
+                axios
+                .post(`${BASE_URL}/api/v1/siteVisit/completeSiteVisit`,{siteVisitId: svid, siteVisitStatus: siteVisitStatus, siteVisitRemarks : remarks},{ headers : { 'Authorization' : Token }})
+                .then(response => {
+                    console.log(response)
+                    window.location.reload()
+                })
+           
+            
+        }
+
+        else if(svStatus === "Cancelled"){
+            axios
+                .post(`${BASE_URL}/api/v1/siteVisit/cancelSiteVisit`,{siteVisitId: svid, cancellationReason: creason},{ headers : { 'Authorization' : Token }})
+                .then(response => {
+                    console.log(response)
+                    window.location.reload()
+                })
+        }
+
+        else if(svStatus === "Rescheduled"){
+            axios
+                .put(`${BASE_URL}/api/v1/siteVisit/rescheduleSiteVisitByLeadId`,{siteVisitId: svid, siteVisitDate: rdate},{ headers : { 'Authorization' : Token }})
+                .then(response => {
+                    console.log(response)
+                    window.location.reload()
+                })
+        }
+    }
+
+    const PhNo = (e) =>{
+        var val = e.target.value
+        setContactPersonNo(val)
+        
+        var element = document.getElementById('outlined-basic-phno');
+        var message = document.getElementById('phnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+          
+            setPhoneValidated(true)
+            
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+
+        }
+
 
     }
 
@@ -154,8 +258,13 @@ function IndividualLead() {
     }, [])
 
     return(
-        <>
-        <div className="tabs-container" id="tabs-container" style={{paddingTop: "70px"}}>
+        <div>
+        <div className="mt-3 row container-fluid justify-content-center px-1" >
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/viewlead")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
+        <div className="tabs-container" id="tabs-container">
 
         <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveKey')}>
             <Row>
@@ -430,19 +539,19 @@ function IndividualLead() {
                             {toggle === 1 ?
                             <>
                             <div className="col-12 pt-4 scheduleVisit">
-                            <form>
+                            <form onSubmit={scheduleVisit}>
                                 <div className="row justify-content-center">
                                     <div className="col-4">
                                         <label for="dateTime">Date & Time</label>
-                                        <input className="form-control" type="datetime-local" id="dateTime" name="dateTime" onChange={(e)=>{setDateTime(e.target.value)}}/>
+                                        <input required className="form-control" type="datetime-local" id="dateTime" name="dateTime" onChange={(e)=>{setDateTime(e.target.value)}}/>
                                     </div>
                                     <div className="col-4">
                                         <Form.Group controlId="exampleForm.ControlSelect1">
                                         <Form.Label>Contact Person</Form.Label>
-                                        <Form.Control  as="select" onChange={changeCperson}>
-                                        <option>Select a Contact Person</option>   
+                                        <Form.Control required as="select" onChange={changeCperson}>
+                                        <option value="">Select a Contact Person</option>   
                                         {users.map((user) => (
-                                        <option value={user.Id+" "+user.fullName}>{user.fullName}</option> 
+                                        <option value={user.userId+" "+user.userFullName}>{user.userFullName}</option> 
                                         ))}
                                         
                                         </Form.Control>
@@ -453,8 +562,8 @@ function IndividualLead() {
                                     <div className="col-4">
                                         <Form.Group controlId="exampleForm.ControlSelect2">
                                         <Form.Label>Site Name</Form.Label>
-                                        <Form.Control  as="select" onChange={changeSiteName}>
-                                        <option>Select a Site</option> 
+                                        <Form.Control required as="select" onChange={changeSiteName}>
+                                        <option value="">Select a Site</option> 
                                         {sites.map((site) => (
                                         <option value={site.SiteId+" "+site.SiteName}>{site.SiteName}</option> 
                                         ))}
@@ -469,10 +578,13 @@ function IndividualLead() {
                                         type="number"
                                         class="form-control"
                                         name="contactPersonNo"
-                                        id="outlined-basic"
-                                        onChange={(e)=>setContactPersonNo(e.target.value)}
+                                        id="outlined-basic-phno"
+                                        onChange={PhNo}
                                         value={contactPersonNo}
-                                        />
+                                        required/>
+                                        <small id="phnoMessage" className="text-danger d-none">
+                                            Must be of 10 characters with numbers only
+                                        </small>   
                                     </div>
                                 </div>
                                 <div className="row justify-content-center">
@@ -481,7 +593,7 @@ function IndividualLead() {
 
                                     </div>
                                     <div className="col-4">
-                                    <button className="btn btn-secondary btn-user" onClick={scheduleVisit}style={{borderRadius : "10px"}}>Schedule</button>
+                                    <button className="btn btn-secondary btn-user" type="submit" style={{borderRadius : "10px"}}>Schedule</button>
                                     
                                     </div>
                                 </div>
@@ -497,12 +609,12 @@ function IndividualLead() {
                                     columns={
                                         [
                                             { title: 'Site Visit ID', field: 'siteVisitId' },
-                                            { title: 'Site ID', field: ''},
-                                            { title: 'Site Name', field: '' },
-                                            { title: 'Contact Person', field: '' },
-                                            { title: 'Contact Person No.', field: '' },
-                                            { title: 'Date & Time', field: '' },
-                                            { title: 'Status', field: '' },
+                                            { title: 'Site ID', field: 'siteID'},
+                                            { title: 'Site Name', field: 'siteName' },
+                                            { title: 'Contact Person', field: 'contactPerson' },
+                                            { title: 'Contact Person No.', field: 'contactPersonMobile' },
+                                            { title: 'Date & Time', render: (rowData) => rowData.siteVisitDate.substring(8,10)+"-"+rowData.siteVisitDate.substring(5,7)+"-"+rowData.siteVisitDate.substring(0,4)+", "+rowData.siteVisitDate.substring(11,16) },
+                                            { title: 'Status', field: 'status' },
                                         
 
                                         ]
@@ -519,10 +631,133 @@ function IndividualLead() {
                                         
                                         }
                                     }}
+                                    actions={[
+                                        {
+                                            icon: () => <Edit />,
+                                            tooltip: 'Edit',
+                                            onClick: (event, rowData) => {
+                                                setOpen(true)
+                                                setSvid(rowData.siteVisitId)
+                                           }
+                                        }
+            
+                                    ]}
                                 ></MaterialTable>
                         </div>
                         </div>
-                        
+                        <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open}>
+                            <div className={classes.paper}>
+                               
+                                    <Form.Group controlId="status">
+                                        <Form.Label>Status</Form.Label>
+                                        <Form.Control  as="select" onChange={(e)=> setSvStatus(e.target.value)}>
+                                        <option>Select a Status</option>
+                                        <option value="Completed">Completed</option>    
+                                        <option value="Cancelled">Cancelled</option> 
+                                        <option value="Rescheduled">Rescheduled</option> 
+                                        </Form.Control>
+                                    </Form.Group>
+                                    
+                                    { 
+                                    svStatus === "Completed" ?
+                                    <>
+                                    <Form.Group controlId="status">
+                                        <Form.Label>Site Visit Status</Form.Label>
+                                        <Form.Control  as="select" onChange={(e)=>setSiteVisitStatus(e.target.value)}>
+                                        <option>Select a Site Visit Status</option>
+                                        <option value="Interested">Interested</option>    
+                                        <option value="Not Interested">Not Interested</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    { 
+                                    siteVisitStatus === "Interested" || siteVisitStatus === "Not Interested"?
+                                    <>
+                                     <label>Remarks</label>
+                                     <input
+                                    type="text"
+                                    class="form-control"
+                                    name="remarks"
+                                    onChange={(e)=>setRemarks(e.target.value)}
+                                    />
+                                    </> 
+                                    : null
+                                    }
+                                    <br />
+                                    <div className="text-center">
+                                    <button className="btn btn-secondary btn-user" onClick={editSv}>
+                                    Save
+                                    </button>
+                                    &nbsp;&nbsp;
+                                    <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                                    Cancel
+                                    </button>
+                                    </div>
+                                    </>
+                                    : null
+                                    }
+
+                                    { 
+                                        svStatus === "Cancelled" ?
+                                        <>
+                                        <label>Reason for cancellation</label>
+                                        <input
+                                        type="text"
+                                        class="form-control"
+                                        name="reason"
+                                        onChange={(e)=>setCreason(e.target.value)}
+                                        />
+
+                                        <br />
+                                        <div className="text-center">
+                                        <button className="btn btn-secondary btn-user" onClick={editSv}>
+                                        Save
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                                        Cancel
+                                        </button>
+                                        </div>
+                                        </> : null
+                                    }
+
+                                    { 
+                                        svStatus === "Rescheduled" ?
+                                        <>
+                                        <label>Reschedule on</label>
+                                        <input
+                                        type="datetime-local"
+                                        class="form-control"
+                                        name="rdate"
+                                        onChange={(e)=>setRdate(e.target.value)}
+                                        />
+
+                                        <br />
+                                        <div className="text-center">
+                                        <button className="btn btn-secondary btn-user" onClick={editSv}>
+                                        Save
+                                        </button>
+                                        &nbsp;&nbsp;
+                                        <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                                        Cancel
+                                        </button>
+                                        </div>
+                                        </> : null
+                                    }
+                            </div>
+                            </Fade>
+                    </Modal>
                     </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
@@ -589,7 +824,7 @@ function IndividualLead() {
             </Row>
             </Tab.Container>
         </div>
-    </>
+    </div>
     )
 }
 

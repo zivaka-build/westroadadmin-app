@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from "react"
 import { Form } from "react-bootstrap";
-import { useParams } from "@reach/router"
+import { useParams, navigate } from "@reach/router"
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -14,6 +14,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
+import {IoMdArrowBack} from 'react-icons/io'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -63,8 +64,12 @@ function IndividualApplicationform() {
     const [pterms, setPterms] = useState([]);
     const [termId, setTermId] = useState("")
     const [disp, setDisp] = useState("none")
+    const [spinner, setSpinner] = useState("none")
 
-    const [name, setName] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [middleName, setMiddleName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [salutation, setSalutation] = useState("")
     const [fn, setFn] = useState("")
     const [sn, setSn] = useState("")
     const [oc, setOc] = useState("")
@@ -101,14 +106,90 @@ function IndividualApplicationform() {
     const [cd, setCd] = useState("")
     const [cn, setCn] = useState("")
     const [ib, setIb] = useState("")
+    const [tam, setTam] = useState("")
 
     const [funded, setFunded] = useState()
     const [fb, setFb] = useState("")
     const [fbp, setFbp] = useState("")
 
     const [pv, setPv] = useState()
+    const [baa, setBaa] = useState()
     const [vb, setVb] = useState("")
     const [vd, setVd] = useState("")
+
+    const [bpm, setBpm] = useState(false)
+    const [paymentMode, setPaymentMode] = useState("")
+    const [notFundedSelf, setNotFundedSelf] = useState()
+    const [fundedBy, setFundedBy] = useState("")
+    const [fundedPan, setFundedPan] = useState("")
+
+    const [tdate, setTdate] = useState("")
+    const [account, setAccount] = useState("")
+    const [bank, setBank] = useState("")
+    const [issuedBy, setIssuedBy] = useState("")
+    const [tamount, setTamount] = useState(100000)
+    const [chequeNo, setChequeNo] = useState("")
+    const [comments, setComments] = useState("")
+    const [receivedBy, setReceivedBy] = useState("")
+    
+    const [draftname, setDraftname] = useState("")
+    const [duploadedby, setDuploadedby] = useState("")
+    const [duploadedat, setDuploadedat] = useState("")
+    const [ds3link, setDs3link] = useState("")
+    const [draft, setDraft] = useState(false)
+
+    
+    const [afsuploadedby, setAfsuploadedby] = useState("")
+    const [afsdname, setAfsdname] = useState("")
+    const [afsuploadeddate, setAfsuploadeddate] = useState("")
+    const [afss3link, setAfss3link] = useState("")
+    const [afs, setAfs] = useState(false)
+    const [afsfile, setAfsfile] = useState("")
+    var today = new Date();
+
+    const [cauploadedby, setCauploadedby] = useState("")
+    const [cadname, setCadname] = useState("")
+    const [cauploadeddate, setCauploadeddate] = useState("")
+    const [cas3link, setCas3link] = useState("")
+    const [ca, setCa] = useState(false)
+    const [cafile, setCafile] = useState("")
+
+    const [cpuploadedby, setCpuploadedby] = useState("")
+    const [cpname, setCpname] = useState("")
+    const [cpuploadeddate, setCpuploadeddate] = useState("")
+    const [cps3link, setCps3link] = useState("")
+    const [cp, setCp] = useState(false)
+    const [cpfile, setCpfile] = useState("")
+
+
+    const [paluploadedby, setPaluploadedby] = useState("")
+    const [palname, setPalname] = useState("")
+    const [paluploadeddate, setPaluploadeddate] = useState("")
+    const [pals3link, setPals3link] = useState("")
+    const [pal, setPal] = useState(false)
+    const [pals, setPals] = useState(false)
+
+    const [saduploadedby, setSaduploadedby] = useState("")
+    const [sadname, setSadname] = useState("")
+    const [saduploadeddate, setSaduploadeddate] = useState("")
+    const [sads3link, setSads3link] = useState("")
+    const [sad, setSad] = useState(false)
+
+    const [sasuploadedby, setSasuploadedby] = useState("")
+    const [sasname, setSasname] = useState("")
+    const [sasuploadeddate, setSasuploadeddate] = useState("")
+    const [sass3link, setSass3link] = useState("")
+    const [sas, setSas] = useState(false)
+    const [sasfile, setSasfile] = useState("")
+
+    const [ cs, setCs] = useState(false)
+    const [csa, setCsa] = useState("")
+    const [csrb, setCsrb] = useState("")
+    const [csd, setCsd] = useState("")
+    const [csib, setCsib] = useState("")
+
+
+
 
     const showApplicant = (e) => {
         if(disp === "none"){
@@ -119,12 +200,18 @@ function IndividualApplicationform() {
         }
     }
 
+
+
+
     const addApplicant = (e) => {
         
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.post(`${BASE_URL}/api/v1/applicant/createNewApplicant`,
         {
-            name: name,
+            firstName: firstName,
+            middleName: middleName,
+            lastName: lastName,
+            salutation: salutation,
             applicationId: applicationId,
             fatherName: fn,
             spouseName: sn,
@@ -158,10 +245,121 @@ function IndividualApplicationform() {
         })
     }
     
-    function handleUpload(event) {
-      setFile(event.target.files[0]);
-      
+    
+
+    function changeAFS(event) {
+      setAfsfile(event.target.files[0])
     }
+    
+    const uploadAFS = (e) =>{
+      e.preventDefault()
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      const formData = new FormData()
+      formData.append('file',afsfile)
+      formData.append('documentName',`ApplicationFormScanCopy-${unitName}-${applicationId}`)
+      formData.append('uploadedBy',Cookies.get('FullName'))
+      formData.append('uploadedDate',today)
+      formData.append('documentType','ApplicationFormScanCopy')
+      formData.append('applicationId',applicationId)
+
+      axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
+      .then(response=>{
+          
+          if(response.status === 200){
+              window.location.reload()
+          }
+      })
+
+  }
+  
+  function changeCA(event) {
+    setCafile(event.target.files[0])
+  }
+
+  const uploadCA = (e) =>{
+    e.preventDefault()
+    const Token = 'bearer' + " " + Cookies.get('Token')
+    const formData = new FormData()
+    formData.append('file',cafile)
+    formData.append('documentName',`CustomerAadharCard-${unitName}-${applicationId}`)
+    formData.append('uploadedBy',Cookies.get('FullName'))
+    formData.append('uploadedDate',today)
+    formData.append('documentType','customerAadhar')
+    formData.append('applicationId',applicationId)
+
+    axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
+    .then(response=>{
+        console.log(response)
+        if(response.status === 200){
+            window.location.reload()
+        }
+    })
+
+}
+
+function changeCP(event) {
+  setCpfile(event.target.files[0])
+}
+
+const uploadCP = (e) =>{
+  e.preventDefault()
+  const Token = 'bearer' + " " + Cookies.get('Token')
+  const formData = new FormData()
+  formData.append('file',cpfile)
+  formData.append('documentName',`CustomerPANCard-${unitName}-${applicationId}`)
+  formData.append('uploadedBy',Cookies.get('FullName'))
+  formData.append('uploadedDate',today)
+  formData.append('documentType','customerPAN')
+  formData.append('applicationId',applicationId)
+
+  axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
+  .then(response=>{
+      console.log(response)
+      if(response.status === 200){
+          window.location.reload()
+      }
+  })
+
+}
+const approveButton =()=>{
+  const Token = 'bearer' + " " + Cookies.get('Token')
+  axios.post(`${BASE_URL}/api/v1/applicationform/sendprovisionalletter`,{applicationId:applicationId},{headers:{'Authorization':Token}})
+  .then(response=>{
+    if(response.status === 200){
+      window.location.reload()
+  }
+    
+  })
+}
+
+// CARD 7
+
+function changeSAS(event) {
+  setSasfile(event.target.files[0])
+}
+
+const uploadSAS = (e) =>{
+  e.preventDefault()
+  const Token = 'bearer' + " " + Cookies.get('Token')
+  const formData = new FormData()
+  formData.append('file',sasfile)
+  formData.append('documentName',`CustomerAadharCard-${unitName}-${applicationId}`)
+  formData.append('uploadedBy',Cookies.get('FullName'))
+  formData.append('uploadedDate',today)
+  formData.append('documentType','salesAgreementScan')
+  formData.append('applicationId',applicationId)
+
+  axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
+  .then(response=>{
+      console.log(response)
+      if(response.status === 200){
+          window.location.reload()
+      }
+  })
+
+}
+
+
 
     const upload = (e) =>{
         e.preventDefault()
@@ -182,16 +380,191 @@ function IndividualApplicationform() {
     }
 
     const validate = (e) => {
-      
-      axios.put(`${BASE_URL}/api/v1/payment/validatepayment`, {applicationId: applicationId, paymentValidatedBy: Cookies.get("FullName"), paymentValidatedDate: date })
+      setSpinner("block")
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.put(`${BASE_URL}/api/v1/applicationform/validatepayment`, {applicationId: applicationId, paymentValidatedBy: Cookies.get("FullName"), paymentValidatedDate: date }, {headers:{'Authorization':Token}})
         .then(response=>{
             console.log(response)
             window.location.reload()
-          
         })
     }
-    
+
+    const generateApfd = (e) =>{
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.post(`${BASE_URL}/api/v1/util/bookingFormPdf`, {applicationId: applicationId}, {headers:{'Authorization':Token}})
+        .then(response=>{
+            console.log(response)
+            window.location.reload()
+            
+        })
+    }
+
+    const submit = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      if( notFundedSelf === false) {
+        if(paymentMode === "Cheque" || paymentMode === "DD") {  
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            chequeNo: chequeNo,
+            chequeAccountNo: account,
+            chequeBankName: bank,
+            chequeDate: tdate,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+              
+          })
+        }
+
+        else if(paymentMode === "Cash") {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            receivedBy: receivedBy,
+            receivedDate: tdate,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+              
+          })
+        }
+
+        else {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            transactionComments: comments,
+            transactionAccount: account,
+            transactionBank: bank,
+            transDate: tdate,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        }
+      }
+
+      else if(notFundedSelf === true) {
+        if(paymentMode === "Cheque" || paymentMode === "DD") {  
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            chequeNo: chequeNo,
+            chequeAccountNo: account,
+            chequeBankName: bank,
+            chequeDate: tdate,
+            fundedBy: fundedBy,
+            fundedByPAN: fundedPan,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        }
+
+        else if(paymentMode === "Cash") {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            receivedBy: receivedBy,
+            receivedDate: tdate,
+            fundedBy: fundedBy,
+            fundedByPAN: fundedPan,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+              
+          })
+        }
+
+
+        else {
+          axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
+          { 
+            applicationId : applicationId,
+            notFundedSelf: notFundedSelf,
+            bookingPaymentMode: paymentMode,
+            issuedBy: issuedBy,
+            transactionComments: comments,
+            transactionAccount: account,
+            transactionBank: bank,
+            transDate: tdate,
+            fundedBy: fundedBy,
+            fundedByPAN: fundedPan,
+            transactionAmount: tamount
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        }
+
+      }
       
+    }
+
+    const approve = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.put(`${BASE_URL}/api/v1/applicationform/bookingamountapproval`, 
+          { 
+            applicationId : applicationId,
+            isApproved: true
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+        
+    }
+
+    const reject = (e) => {
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.put(`${BASE_URL}/api/v1/applicationform/bookingamountapproval`, 
+          { 
+            applicationId : applicationId,
+            isApproved: false
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+    }
+
+    
+    
     useEffect(()=>{
 
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -210,11 +583,137 @@ function IndividualApplicationform() {
             setIsBankLoan(response.data.isBankLoan)
             var pt = response.data.paymentTerms
 
-            axios.get(`${BASE_URL}/api/v1/payment/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
+
+
+            if(response.data.applicationFormDraft === false){
+              setDraft(false)
+            }
+            else if(response.data.applicationFormDraft===true){
+              setDraft(true)
+              for(var i=0;i<response.data.documents.length;i++){
+                if(response.data.documents[i].documentType === "Application Form - Draft"){
+                  setDraftname(response.data.documents[i].documentName)
+                  setDuploadedby(response.data.documents[i].uploadedBy)
+                  setDuploadedat(response.data.documents[i].uploadedDate)
+                  setDs3link(response.data.documents[i].s3Link)
+                }
+              }
+            }
+
+              if(response.data.applicationFormScan === false){
+                setAfs(false)
+              }
+              else if(response.data.applicationFormScan===true){
+                setAfs(true)
+                for(var i=0;i<response.data.documents.length;i++){
+                  if(response.data.documents[i].documentType === "ApplicationFormScanCopy"){
+                    setAfsdname(response.data.documents[i].documentName)
+                    setAfsuploadedby(response.data.documents[i].uploadedBy)
+                    setAfsuploadeddate(response.data.documents[i].uploadedDate)
+                    setAfss3link(response.data.documents[i].s3Link)
+                  }
+                }
+            }
+          
+          if(response.data.customerAadhar === false){
+            setCa(false)
+          }
+          else if(response.data.customerAadhar===true){
+            setCa(true)
+            for(var i=0;i<response.data.documents.length;i++){
+              if(response.data.documents[i].documentType === "customerAadhar"){
+                setCadname(response.data.documents[i].documentName)
+                setCauploadedby(response.data.documents[i].uploadedBy)
+                setCauploadeddate(response.data.documents[i].uploadedDate)
+                setCas3link(response.data.documents[i].s3Link)
+                console.log(cadname,cauploadedby)
+              }
+            }
+          }
+
+            if(response.data.customerPAN === false){
+              setCp(false)
+            }
+            else if(response.data.customerPAN===true){
+              setCp(true)
+              for(var i=0;i<response.data.documents.length;i++){
+                if(response.data.documents[i].documentType === "customerPAN"){
+                  setCpname(response.data.documents[i].documentName)
+                  setCpuploadedby(response.data.documents[i].uploadedBy)
+                  setCpuploadeddate(response.data.documents[i].uploadedDate)
+                  setCps3link(response.data.documents[i].s3Link)
+                }
+              }
+          }
+
+          if(response.data.provisionalAllotmentLetter  === false && response.data.provisionalAllotmentLetterSent === false){
+            setPal(false)
+            setPals(false)
+          }
+          else if(response.data.provisionalAllotmentLetter ===true && response.data.provisionalAllotmentLetterSent === false){
+            setPal(true)
+            setPals(false)
+            for(var i=0;i<response.data.documents.length;i++){
+              if(response.data.documents[i].documentType === "ProvisionalAllotmentLetter"){
+                setPalname(response.data.documents[i].documentName)
+                setPaluploadedby(response.data.documents[i].uploadedBy)
+                setPaluploadeddate(response.data.documents[i].uploadedDate)
+                setPals3link(response.data.documents[i].s3Link)
+              }
+            }
+          }
+
+            else if(response.data.provisionalAllotmentLetter ===true && response.data.provisionalAllotmentLetterSent === true){
+              setPal(true)
+              setPals(true)
+              for(var i=0;i<response.data.documents.length;i++){
+                if(response.data.documents[i].documentType === "ProvisionalAllotmentLetter"){
+                  setPalname(response.data.documents[i].documentName)
+                  setPaluploadedby(response.data.documents[i].uploadedBy)
+                  setPaluploadeddate(response.data.documents[i].uploadedDate)
+                  setPals3link(response.data.documents[i].s3Link)
+                }
+              }
+        }
+
+        if(response.data.salesAgreementDraft === false){
+          setSad(false)
+        }
+        else if(response.data.salesAgreementDraft===true){
+          setSad(true)
+          for(var i=0;i<response.data.documents.length;i++){
+            if(response.data.documents[i].documentType === "SalesAgreementDraft"){
+              setSadname(response.data.documents[i].documentName)
+              setSaduploadedby(response.data.documents[i].uploadedBy)
+              setSaduploadeddate(response.data.documents[i].uploadedDate)
+              setSads3link(response.data.documents[i].s3Link)
+            }
+          }
+      }
+
+      if(response.data.salesAgreementScan === false){
+        setSas(false)
+      }
+      else if(response.data.salesAgreementScan===true){
+        setSas(true)
+        for(var i=0;i<response.data.documents.length;i++){
+          if(response.data.documents[i].documentType === "salesAgreementScan"){
+            setSasname(response.data.documents[i].documentName)
+            setSasuploadedby(response.data.documents[i].uploadedBy)
+            setSasuploadeddate(response.data.documents[i].uploadedDate)
+            setSass3link(response.data.documents[i].s3Link)
+          }
+        }
+    }
+        
+
+
+            axios.get(`${BASE_URL}/api/v1/paymentTerms/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
                 .then(response => {
-                    console.log(response.data.paymentTerms.termItems)
+                    console.log(response)
                     setPterms(response.data.paymentTerms.termItems)
                     })
+                    
              
             
             if(response.data.NEFTDetails){
@@ -223,6 +722,7 @@ function IndividualApplicationform() {
               setTa(response.data.NEFTDetails.transactionAccount)
               setTb(response.data.NEFTDetails.transactionBank)
               setTc(response.data.NEFTDetails.transactionComments)
+              setTam(response.data.NEFTDetails.transactionAmount)
             }            
 
             if(response.data.chequeDetails) {
@@ -231,7 +731,16 @@ function IndividualApplicationform() {
               setCbn(response.data.chequeDetails.chequeBankName)
               setCd(response.data.chequeDetails.chequeDate)
               setCn(response.data.chequeDetails.chequeNo)
+              setTam(response.data.chequeDetails.transactionAmount)
               setIb(response.data.chequeDetails.issuedBy)
+            }
+
+            if(response.data.CashDetails) {
+              setCs(true)
+              setCsa(response.data.CashDetails.transactionAmount)
+              setCsrb(response.data.CashDetails.receivedBy)
+              setCsd(response.data.CashDetails.receivedDate)
+              setCsib(response.data.CashDetails.issuedBy)
             }
 
             if(response.data.notFundedSelf === true) {
@@ -245,7 +754,7 @@ function IndividualApplicationform() {
               setFb("Self")
             }
 
-            if(response.data.NEFTDetails || response.data.chequeDetails){
+            if(response.data.NEFTDetails || response.data.chequeDetails || response.data.CashDetails){
               if(response.data.paymentValidated === true){
                 setPv(true)
                 setVb(response.data.paymentValidatedBy)
@@ -254,6 +763,19 @@ function IndividualApplicationform() {
               else {
                 setPv(false)
               }
+            }
+            if(response.data.NEFTDetails || response.data.chequeDetails || response.data.CashDetails){
+              if(response.data.bookingAmountApproval === true){
+                setBaa(true)
+                
+              }
+              else {
+                setBaa(false)
+              }
+            }
+
+            if(response.data.bookingPaymentMode) {
+              setBpm(true)
             }
 
 
@@ -279,6 +801,11 @@ function IndividualApplicationform() {
 
     return (
         <div className="mt-2">
+          <div className="mt-3 row container-fluid justify-content-center px-1" >
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/listofapplicationform")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveKey')}>
         <Row>
             <Col sm={12}>
@@ -419,18 +946,54 @@ function IndividualApplicationform() {
                 </div>
                 <div className="applicants" style={{display: disp}}>
                     <form>
+                    <br />
+                    <div className="row justify-content-center">
+                    <div className="col-3">
+                      <Form.Group controlId="salutation">
+                        <Form.Label>Salutation</Form.Label>
+                        <Form.Control  as="select" onChange={(e)=>setSalutation(e.target.value)}>
+                        <option>Select a Salutation</option>   
+                        <option value="Mr.">Mr.</option>
+                        <option value="Mrs.">Mrs.</option>
+                        <option value="Ms.">Ms.</option>
+                        <option value="Dr.">Dr.</option>
+                        </Form.Control>
+                      </Form.Group>
+                      </div>
+                      <div className="col-3">
+                          <label>First Name</label>
+                          <input
+                          type="text"
+                          class="form-control"
+                          name="firstName"
+                          id="firstName"
+                          onChange={(e)=>setFirstName(e.target.value)}
+                          />
+                      </div>
+                      <div className="col-3">
+                          <label>Middle Name</label>
+                          <input
+                          type="text"
+                          class="form-control"
+                          name="middleName"
+                          id="middleName"
+                          onChange={(e)=>setMiddleName(e.target.value)}
+                          />
+                      </div>
+                      <div className="col-3">
+                          <label>Last Name</label>
+                          <input
+                          type="text"
+                          class="form-control"
+                          name="lastName"
+                          id="lastName"
+                          onChange={(e)=>setLastName(e.target.value)}
+                          />
+                      </div>
+                    </div>
                       <div className="row justify-content-center">
-                          <div className="col-4">
-                            <label>Name</label>
-                            <input
-                            type="text"
-                            class="form-control"
-                            name="name"
-                            id="name"
-                            onChange={(e)=>setName(e.target.value)}
-                            />
-                          </div>
-                          <div className="col-4">
+                          
+                          <div className="col-6">
                             <label>Spouse Name</label>
                             <input
                             type="text"
@@ -440,7 +1003,7 @@ function IndividualApplicationform() {
                             onChange={(e)=>setSn(e.target.value)}
                             />
                           </div>
-                          <div className="col-4">
+                          <div className="col-6">
                             <label>Father's Name</label>
                             <input
                             type="text"
@@ -456,7 +1019,7 @@ function IndividualApplicationform() {
                           <div className="col-4">
                             <label>Mobile</label>
                             <input
-                            type="text"
+                            type="number"
                             class="form-control"
                             name="mobile"
                             id="mobile"
@@ -466,7 +1029,7 @@ function IndividualApplicationform() {
                           <div className="col-4">
                             <label>Whatsapp</label>
                             <input
-                            type="text"
+                            type="number"
                             class="form-control"
                             name="whatsapp"
                             id="whatsapp"
@@ -668,18 +1231,47 @@ function IndividualApplicationform() {
                             value={a.applicantType}
                             />
                         </div>
+                        
                     </div>
                     <br />
                     <div className="row justify-content-center">
-                          <div className="col-4">
-                            <label>Name</label>
+                      <div className="col-3">
+                            <label>Salutation</label>
                             <input
                             type="text"
                             class="form-control"
-                            value={a.name}
+                            value={a.salutation}
                             />
-                          </div>
-                          <div className="col-4">
+                        </div>
+                      <div className="col-3">
+                        <label>First Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        value={a.firstName}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <label>Middle Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        value={a.middleName}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <label>Last Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        value={a.lastName}
+                        />
+                      </div>
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                          
+                          <div className="col-6">
                             <label>Spouse Name</label>
                             <input
                             type="text"
@@ -687,7 +1279,7 @@ function IndividualApplicationform() {
                             value={a.spouseName}
                             />
                           </div>
-                          <div className="col-4">
+                          <div className="col-6">
                             <label>Father's Name</label>
                             <input
                             type="text"
@@ -854,12 +1446,461 @@ function IndividualApplicationform() {
                             />
                           </div>
                       </div>
+                      <br /> 
+                      <div className="mt-2">
+                        <div className="col-12 text-center">
+                        <button className="btn btn-danger" onClick={()=>{navigate(`/dashboard/individualapplicant/${a.applicantId}`)}} disabled={ status !== "Booking Initiated" && status !== "Applicant Added" && status !== "Application Form Generated" ? true : false}>Edit Applicant</button>
+                        </div>
+                      </div>
                 </div>
                 ))}
                 </Tab.Pane>
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="third">
+                  { 
+                  bpm === false ?
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-8">
+                      <h5>Booking Payment</h5>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    
+                    <div className="col-lg-8 col-sm-12">
+                    <label class="text-align left">Payment Mode : </label>
+                    <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("Cheque")}
+                        />
+                      <label class="form-check-label pl-5">
+                        Cheque
+                      </label>
+                      
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("DD")}
+                        />
+                      <label class="form-check-label pl-5">
+                        Demand Draft
+                      </label>
+                      
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="neft"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("NEFT")}
+                        />
+                      <label class="form-check-label pl-5">
+                        NEFT
+                      </label>
+                      
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="rtgs"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("RTGS")}
+                        />
+
+                      <label class="form-check-label pl-5">
+                        RTGS
+                      </label>
+                      
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="imps"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("IMPS")}
+                        />
+                      <label class="form-check-label pl-5">
+                        IMPS
+                      </label>
+                      
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cash"
+                          name="bpm"
+                          onClick={(e)=>setPaymentMode("Cash")}
+                        />
+                      <label class="form-check-label pl-5">
+                        Cash
+                      </label>
+                      
+                      </div>
+                  </div>
+                  <br />
+                  { paymentMode === "Cheque" || paymentMode === "DD" ?
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Cheque No.: </label>
+                      <input
+                      type="number"
+                      class="form-control"
+                      onChange={(e)=>setChequeNo(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Bank Name : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setBank(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Cheque Account No.: </label>
+                      <input
+                      type="number"
+                      class="form-control"
+                      onChange={(e)=>setAccount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Cheque Date : </label>
+                      <input
+                      type="date"
+                      class="form-control"
+                      onChange={(e)=>setTdate(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Amount: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      value={tamount}
+                      onChange={(e)=>setTamount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Issued By: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setIssuedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                  
+                    <div className="col-lg-2 col-sm-12">
+                      <label>Funded By: </label>
+                    </div>
+                    <div className="col-lg-6 col-sm-12">
+                    <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(false)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Self
+                        
+                      </label>
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(true)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Other
+                        
+                      </label>
+                      </div>
+                  </div>
+                  <br />
+                  { notFundedSelf === true ?
+                  <>
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedBy(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By PAN : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedPan(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  </> : null
+                  }
+                  </>
+                  : null
+                  }
+                  { 
+                  paymentMode === "NEFT" || paymentMode === "RTGS" || paymentMode === "IMPS" ?
+                  <>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Transaction Date: </label>
+                      <input
+                      type="date"
+                      class="form-control"
+                      onChange={(e)=>setTdate(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Bank Name : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setBank(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Transaction Account No.: </label>
+                      <input
+                      type="number"
+                      class="form-control"
+                      onChange={(e)=>setAccount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Comments (NEFT/RTGS/IMPS Ref Number) : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setComments(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Amount: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      value={tamount}
+                      onChange={(e)=>setTamount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Issued By: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setIssuedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                  
+                    <div className="col-lg-2 col-sm-12">
+                      <label>Funded By: </label>
+                    </div>
+                    <div className="col-lg-6 col-sm-12">
+                    <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(false)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Self
+                        
+                      </label>
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(true)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Other
+                        
+                      </label>
+                      </div>
+                  </div>
+                  <br />
+                  { notFundedSelf === true ?
+                  <>
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedBy(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By PAN : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedPan(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  </> : null
+                  }
+                 
+                  </> : null
+               
+                  }
+                  
+                  </> :
+                  null
+                  
+                  }
+
+                  { 
+                  paymentMode === "Cash" ?
+                <>
+                <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Received Date: </label>
+                      <input
+                      type="date"
+                      class="form-control"
+                      onChange={(e)=>setTdate(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Received By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setReceivedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Amount: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      value={tamount}
+                      onChange={(e)=>setTamount(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Issued By: </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setIssuedBy(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                  
+                    <div className="col-lg-2 col-sm-12">
+                      <label>Funded By: </label>
+                    </div>
+                    <div className="col-lg-6 col-sm-12">
+                    <input
+                          type="radio"
+                          className="form-check-input"
+                          id="cheque"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(false)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Self
+                        
+                      </label>
+
+                      <input
+                          type="radio"
+                          className="form-check-input"
+                          id="dd"
+                          name="fund"
+                          onClick={(e)=>setNotFundedSelf(true)}
+                        />
+                      <label class="form-check-label pl-5">
+                        Other
+                        
+                      </label>
+                      </div>
+                  </div>
+                  <br />
+                  { notFundedSelf === true ?
+                  <>
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedBy(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Funded By PAN : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      onChange={(e)=>setFundedPan(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  
+                  </> : null
+                  }
+                </> : null}
+                  
+                  
+                { bpm === false ?
+                <>
+                <br />
+                  <div className="row justify-content-center">
+                  <div className="col-lg-2 col-sm-3">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                   onClick={submit}
+                  >
+                    Add Payment
+                  </button>
+                </div>
+                </div>
+                </> : null}
                 
                 { 
                 neft === true ? 
@@ -908,9 +1949,23 @@ function IndividualApplicationform() {
                   />
                   </div>
                 </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Amount</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={tam}
+                  />
+                  </div>
+                  
+                </div>
                 </>
                 : null
                 }
+
+            
 
                 { 
                   cq === true ?
@@ -962,6 +2017,14 @@ function IndividualApplicationform() {
                 <br />
                 <div className="row justify-content-center">
                   <div className="col-4">
+                  <label>Amount</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={tam}
+                  />
+                  </div>
+                  <div className="col-4">
                   <label>Issued by</label>
                   <input
                   type="text"
@@ -973,6 +2036,59 @@ function IndividualApplicationform() {
                   </> 
                   : null
                 }
+
+                { 
+                cs === true ?
+                <>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-8">
+                    <h5>Cash Details</h5>
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Received Date</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csd.substring(8,10)+"-"+csd.substring(5,7)+"-"+csd.substring(0,4)}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Received by</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csrb}
+                  />
+                  </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Transaction Amount</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csa}
+                  />
+                  </div>
+                  <div className="col-4">
+                  <label>Issued by</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={csib}
+                  />
+                  </div>
+                </div>
+                </>
+                : null
+                }
+
+               
 
                 {
                   funded === true ?
@@ -1028,7 +2144,7 @@ function IndividualApplicationform() {
                   : null
                 }
                 { 
-                pv === false ?
+                pv === false && baa === false?
                 <>
                 <br />
                 <div className="row justify-content-center">
@@ -1075,6 +2191,30 @@ function IndividualApplicationform() {
                 :
                 null
                 }
+                {
+                  pv === false && baa === true ?
+                  <>
+                  <br />
+                   <div className="row container-fluid justify-content-center">
+                  <div className="col-8">
+                    <h5>Approve Booking Amount</h5>
+                  </div>
+                  </div>
+                  <br />
+                  <div className="row container-fluid justify-content-center">
+                  <div className="col-4 text-right">
+                        <button className="btn btn-secondary btn-user" onClick={approve}>Approve Booking Amount</button>
+                                                  
+                    </div>
+                    &nbsp;&nbsp;
+                    <div className="col-4">
+                        <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={reject}>Reject Booking Amount</button>
+
+                    </div>
+                </div>
+                  </>
+                  : null
+                }
                 <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -1089,6 +2229,7 @@ function IndividualApplicationform() {
             >
             <Fade in={open}>
             <div className={classes.paper}>
+                <br />
                 <div className="row">
                     <p>Are you sure you want to validate payment ?</p>
                 </div>
@@ -1100,8 +2241,14 @@ function IndividualApplicationform() {
                     &nbsp;&nbsp;
                     <div className="col-4">
                         <button className="btn btn-secondary btn-user" onClick={validate}>Yes</button>
-                                                    
+                                                  
                     </div>
+                </div>
+                <br />
+                <div className="row container-fluid justify-content-center" >
+                <div className="spinner-border text-dark" role="status" style={{display : spinner}}>
+                    <span className="sr-only">Loading...</span>
+                </div>
                 </div>
             </div>
             </Fade>
@@ -1147,11 +2294,201 @@ function IndividualApplicationform() {
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="fifth">
-                <div className="row justify-content-center">
-                <div className="col-4 text-center">
-                <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
+                <div className="row justify-content-center mb-3 mx-2">
+                <div className="col-12  tab-card pt-5 pb-5 text-center">
+                {/* <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
                 <br />
-                <button className="btn btn-danger" onClick={upload}>Upload Document</button>
+                <button className="btn btn-danger" onClick={upload}>Upload Document</button> */}
+                {
+                  draft===false?
+                  <>
+                  <div style={{display: 'flex'}}> 
+                    <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft :</h4>
+                  <button className="btn btn-secondary btn-user" onClick={generateApfd}>Generate Application Form</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft </h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{draftname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {duploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{duploadedat.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={ds3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+               
+                </div>
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  afs===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Scan Copy</h4>
+                    <br/>
+                  <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeAFS} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadAFS}>Upload Document</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Scan Copy </h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{afsdname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {afsuploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{afsuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={afss3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  ca===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer Aadhar Card</h4>
+                    <br/>
+                  <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeCA} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadCA}>Upload Document</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer Aadhar Card</h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{cadname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {cauploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{cauploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={cas3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  cp===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer PAN</h4>
+                    <br/>
+                  <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeCP} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadCP}>Upload Document</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Customer PAN</h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{cpname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {cpuploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{cpuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={cps3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  pals===false?
+                  pal===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4>
+                    <br/>
+                    <h4>Provisional Allotment Letter not generated as payment not validated</h4>
+                  {/* <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeCP} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadCP}>Upload Document</button>
+                  </div> */}
+                  </>:
+                  <>
+                  
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4><br/>
+                  <h4> Provisional Allotment Letter generated but not approved </h4>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{palname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {paluploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{paluploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={pals3link} target="_blank">View Document</a></h6>
+
+                    <button className="btn btn-secondary btn-user" onClick={approveButton}>Approve</button>
+                  </>: 
+                  <>
+                 
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4><br/>
+                  <h4>Provisional Allotment Letter generated and sent to customer</h4>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{palname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {paluploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{paluploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={pals3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  sas===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4>
+                    <br/>
+                 
+                  <h4>Sales Agreement Draft not generated</h4>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{sadname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {saduploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{saduploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={sads3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
+                </div>
+                </div>
+
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                
+                {
+                  sas===false?
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Scan</h4>
+                    <br/>
+                  <div style={{display: 'flex'}}> 
+                    
+                    <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={changeSAS} style={{backgroundColor : 'white', color : 'black'}}/>
+               
+                <button className="btn btn-secondary btn-user" onClick={uploadSAS}>Upload Document</button>
+                  </div>
+                  </>:
+                  <>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Scan</h4><br/>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{sasname}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {sasuploadedby}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{sasuploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><a href={sass3link} target="_blank">View Document</a></h6>
+                  </>
+                }
+                  
                 </div>
                 </div>
                 </Tab.Pane>

@@ -14,7 +14,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
 import { navigate } from "@reach/router";
-
+import {IoMdArrowBack} from 'react-icons/io'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -119,6 +119,11 @@ function ListofApplicationForm(){
 
     return(
         <div className="row container-fluid px-0">
+          <div className="mt-3 row container-fluid justify-content-center px-2" >
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}

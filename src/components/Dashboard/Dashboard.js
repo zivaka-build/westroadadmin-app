@@ -268,16 +268,48 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                    
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
-                    <ListItem button key={'TDS'}>
-                    <h7>Transaction</h7>
+                
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
+                    <ListItem button key={'Demands'}>
+                    <h7>Demands</h7>
                     </ListItem>
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
-                    <ListItem button key={'TDS'}>
-                    <h7>Demand</h7>
+                    <ListItem button key={'Credit Voucher'}>
+                    <h7>Credit Voucher</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
+                    <ListItem button key={'Debit Voucher'}>
+                    <h7>Debit Voucher</h7>
+                    </ListItem>
+                    </Link>
+
+                    
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addcash'>
+                    <ListItem button key={'Deposit Cash'}>
+                    <h7>Deposit Cash</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit'>
+                    <ListItem button key={'Cash Book'}>
+                    <h7>Cash Book</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/issuecheque'>
+                    <ListItem button key={'Issue Cheque'}>
+                    <h7>Issue Cheque</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
+                    <ListItem button key={'Cheque Book'}>
+                    <h7>Cheque Book</h7>
                     </ListItem>
                     </Link>
 
@@ -287,23 +319,13 @@ const drawer = (
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
-                    <ListItem button key={'TDS'}>
-                    <h7>Cheque</h7>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
+                    <ListItem button key={'Transactions'}>
+                    <h7>Transactions</h7>
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addloanbank'>
-                    <ListItem button key={'Add Loan Bank'}>
-                    <h7>Add Loan Bank</h7>
-                    </ListItem>
-                    </Link>
-
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
-                    <ListItem button key={'List of Loan Bank'}>
-                    <h7>Loan Bank</h7>
-                    </ListItem>
-                    </Link>
+                    
                     </List>
                 
                 </AccordionDetails>
@@ -387,6 +409,19 @@ const drawer = (
                     <h7>View TDS Rates</h7>
                     </ListItem>
                     </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addloanbank'>
+                    <ListItem button key={'Add Loan Bank'}>
+                    <h7>Add Loan Bank</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
+                    <ListItem button key={'List of Loan Bank'}>
+                    <h7>Loan Banks</h7>
+                    </ListItem>
+                    </Link>
+                    
                     </List>
                 
                 </AccordionDetails>
@@ -417,9 +452,9 @@ return (
             <img className="logo" src={logo} alt="logo"/>
           </Typography>
           <div  style={{display: 'flex'}} >
-          <a href="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></a>
-          <a href="/" className="icon-link"><BsBellFill/></a>
-          <a href="/" className="icon-link"><FaTools/></a>
+          <Link to="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></Link>
+          <Link to="/" className="icon-link"><BsBellFill/></Link>
+          <Link to="/dashboard/tasklist" className="icon-link"><FaTools  onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
           ref={anchorRef}

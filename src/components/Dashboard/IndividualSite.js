@@ -42,6 +42,9 @@ function IndividualSite() {
     const [charges, setCharges] = useState([])
     const [lcharges, setLcharges] = useState([])
     const [pterms, setPterms] = useState([])
+    const [pt, setPt] = useState([])
+    const [ptbol, setPtbol] = useState(false)
+    const [termId, setTermId] = useState("")
   
 
 
@@ -55,6 +58,18 @@ function IndividualSite() {
 
     const AddCarParking = () => {
         navigate("/dashboard/addcarparking")
+    }
+
+    const changePhase = (e) => {
+        const Token = "bearer" + " " + Cookies.get("Token");
+        var termId = e.target.value
+        setTermId(e.target.value)
+        axios.get(`${BASE_URL}/api/v1/paymentTerms/getPaymentTermsById/${termId}`,{headers:{Authorization:Token}})
+        .then(response => {
+            console.log(response)
+            setPtbol(true)
+            setPterms(response.data.paymentTerms.termItems)
+            })
     }
 
     useEffect(() => {
@@ -95,15 +110,8 @@ function IndividualSite() {
             setParking(response.data.site.carParkingType)
             setCharges(response.data.site.otherCharges)
             setLcharges(response.data.site.legalCharges)
-            var pt = response.data.site.paymentTerms[0].termsId
-
-           
-            axios.get(`${BASE_URL}/api/v1/payment/getPaymentTermsById/${pt}`,{headers:{Authorization:Token}})
-            .then(response => {
-                    console.log(response.data.paymentTerms.termItems)
-                    setPterms(response.data.paymentTerms.termItems)
-            })
-  
+            setPt(response.data.site.paymentTerms)
+            
         })
 
         
@@ -435,8 +443,28 @@ function IndividualSite() {
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
                     <div className="mt-2 row justify-content-center">
+                        <div className="col-4">
+                        <Form.Group controlId="paymentTerms">
+                            <Form.Label>Phase Code</Form.Label>
+                            <Form.Control  as="select" onChange={changePhase}>
+                            <option>Select a Phase</option> 
+                            {
+                                pt.map((s)=>(
+                                    <option value={s.termID}>{s.phaseCode}</option>
+                                ))
+                            }  
+                        
+
+                            </Form.Control>
+                        </Form.Group>
+                        </div>
+                    </div>
+                    { ptbol === false ?
+                    null : 
+                    <>
+                    <div className="mt-2 row justify-content-center">
                         <div className="col-8">
-                        <h4>Payment Terms</h4>
+                        <h4>Payment Term - {termId} </h4> 
                         <br />
                         <table class="table">
                             <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
@@ -459,6 +487,8 @@ function IndividualSite() {
                         </table>
                         </div>
                     </div>
+                    </>
+                    }
                     </Tab.Pane>
                     <Tab.Pane eventKey="fourth">
                     <div className="mt-2">
@@ -536,6 +566,17 @@ function IndividualSite() {
                             
                             }
                         }}
+
+                        actions={[
+                            {
+                                icon: 'remove_red_eye',
+                                tooltip: 'View Unit',
+                                onClick: (event, rowData) => {
+                                  navigate(`/dashboard/individualunit/${rowData.unitName}`)
+                               }
+                            }
+              
+                        ]}
                         ></MaterialTable>
                         </div>
                     </center>

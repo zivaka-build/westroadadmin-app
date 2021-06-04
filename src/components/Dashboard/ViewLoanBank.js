@@ -8,6 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
+import {IoMdArrowBack} from 'react-icons/io'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -39,12 +40,7 @@ function ViewLoanBank(){
         setOpen(false);
     };
 
-    const [open1, setOpen1] = React.useState(false);
-
-
-    const handleClose1 = () => {
-        setOpen1(false);
-    };
+    
 
     const [banks, setBanks] = useState([])
 
@@ -83,21 +79,7 @@ function ViewLoanBank(){
         })
     }
 
-    const save = (e) =>{
-        const Token = 'bearer' + " " + Cookies.get('Token')
-        axios
-            .put(`${BASE_URL}/api/v1/loan/updateLoanBank`,{bankCode: bcode, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si},{ headers : { 'Authorization' : Token }})
-            .then(response => {
-                if(response.status == 200) {
-                    axios.get(`${BASE_URL}/api/v1/loan/getListOfLoanBank`,{ headers : { 'Authorization' : Token }})
-                        .then(response => {
-                        setBanks(response.data.loan.reverse()) 
-                    })
-                    setOpen1(false)
-                }
-               
-            })
-    }
+
 
     useEffect(() => { 
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -113,12 +95,17 @@ function ViewLoanBank(){
     return (
         <>
         <div className="container-fluid mt-4">
+        <div className="mt-3 row container-fluid justify-content-center px-1">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="col-12 mb-5 text-center">
         <button className="btn btn-secondary btn-user" onClick={add}>Add Loan Bank</button>
         </div>
         <MaterialTable
             data={banks}
-            title="Loan Bank"
+            title="Loan Banks"
             columns={
                 [
                     { title: 'Bank Name', field: 'bankName'},
@@ -145,12 +132,10 @@ function ViewLoanBank(){
 
             actions={[
                 {
-                    icon: 'edit',
-                    tooltip: 'Edit',
+                    icon: 'remove_red_eye',
+                    tooltip: 'View Loan Bank',
                     onClick: (event, rowData) => {
-                        setOpen1(true)
-                        Cookies.set("BankCode", rowData.bankCode)
-                        changeBankCode()
+                       navigate(`/dashboard/individualbank/${rowData.bankCode}`)
                     },
                 },
                 rowData => ({
@@ -190,89 +175,6 @@ function ViewLoanBank(){
                     &nbsp;&nbsp;
                     <div className="col-4">
                         <button className="btn btn-secondary btn-user" onClick={deleteBank}>Yes</button>
-                                                    
-                    </div>
-                </div>
-            </div>
-            </Fade>
-      </Modal>
-      <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={open1}
-                onClose={handleClose1}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
-            >
-            <Fade in={open1}>
-            <div className={classes.paper}>
-                <div className="row">
-                    <label>Bank Name</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    name="bankname"
-                    id="bankname"
-                    value={bname}
-                    onChange={(e)=>setBname(e.target.value)} />
-                </div>
-                <br />
-                <div className="row">
-                    <label>Bank Code</label>
-                    <input
-                    type="text"
-                    class="form-control"
-                    name="bankcode"
-                    id="bankcode"
-                    value={bcode}
-                    onChange={(e)=>setBcode(e.target.value)} />
-                </div>
-                <br />
-                <div className="row">
-                    <label>General Rate of Interest</label>
-                    <input
-                    type="number"
-                    class="form-control"
-                    name="gi"
-                    id="gi"
-                    value={gi}
-                    onChange={(e)=>setGi(e.target.value)} />
-                </div>
-                <br />
-                <div className="row">
-                    <label>Rate of Interest for Women</label>
-                    <input
-                    type="number"
-                    class="form-control"
-                    name="wi"
-                    id="wi"
-                    value={wi}
-                    onChange={(e)=>setWi(e.target.value)} />
-                </div>
-                <br />
-                <div className="row">
-                    <label>Rate of Interest for Senior Citizen</label>
-                    <input
-                    type="number"
-                    class="form-control"
-                    name="si"
-                    id="si"
-                    value={si}
-                    onChange={(e)=>setSi(e.target.value)} />
-                </div>
-                <br />
-                <div className="row container-fluid justify-content-center">
-                    <div className="col-4 text-right">
-                        <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={()=> setOpen1(false)}>Cancel</button>
-
-                    </div>
-                    &nbsp;&nbsp;
-                    <div className="col-4">
-                        <button className="btn btn-secondary btn-user" onClick={save}>Save</button>
                                                     
                     </div>
                 </div>

@@ -5,9 +5,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { BASE_URL } from "../../config/url";
 import "./../../assets/css/form.css";
-import qs from 'qs';
 import Swal from 'sweetalert2';
+import {IoMdArrowBack} from 'react-icons/io'
 var arraySort = require('array-sort');
+
 
 function InitiateAllotmentForm(){
     
@@ -30,11 +31,19 @@ function InitiateAllotmentForm(){
     const [type, setType ] = useState("Hot");
     const [bankLoan, setBankLoan] = useState()
     const [unitName, setUnitName] = useState("")
-  
-    
+    const [leads, setLeads] = useState([])
+    const [paymentTerms, setPaymentTerms] = useState("")
+    const [emailValidated, setEmailValidated] = useState(true)
+    const [phoneValidated, setPhoneValidated] = useState(true)
    
     const changeSite = (e) => {
         setSitename(e.target.value)
+
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParkingTypes/${e.target.value}`,{headers:{Authorization:Token}})
+        .then(response=>{ 
+            setCarParking(response.data.carParkingType)
+        })
 
     }
 
@@ -47,8 +56,12 @@ function InitiateAllotmentForm(){
         .then(response=>{
             console.log(response.data)
             setUnit(arraySort(response.data, "unitName"))
-            // setCarParking(response.data.site.carParkingType)
-            // console.log(response)
+        })
+
+        axios.get(`${BASE_URL}/api/v1/paymentterms/getpaymenttermsid?siteId=${sitename}&phaseCode=${pn}`,{headers:{Authorization:Token}})
+        .then(response=>{
+            console.log(response.data)
+            setPaymentTerms(response.data[0].paymentTermsId)
         })
     }
 
@@ -74,10 +87,73 @@ function InitiateAllotmentForm(){
         console.log(str)
     }
 
+    const changeLead = (e) => {
+        setLead(e.target.value)
+        const Token = 'bearer' + " " + Cookies.get('Token');
+        axios.get(`${BASE_URL}/api/v1/lead/getLeadByLeadId/${e.target.value}`,{headers:{Authorization:Token}})
+        .then(response=>{
+            console.log(response)
+            setEmail(response.data.lead.email)
+            setPhno(response.data.lead.phone)
+        
+        })
+
+    }
+    const PhNo = (e) =>{
+        var val = e.target.value
+        setPhno(val)
+        
+        var element = document.getElementById('outlined-basic-phno');
+        var message = document.getElementById('phnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+          
+            setPhoneValidated(true)
+            
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+
+        }
+
+
+    }
+
+    const EmailVal = (e) =>{
+        var val1 = e.target.value
+        setEmail(val1)
+        var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        var element = document.getElementById('outlined-basic-email');
+        var message = document.getElementById('emailMessage');
+        if( regex.test(val1)){
+           
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setEmailValidated(true)
+            
+        }
+        else {
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setEmailValidated(false)
+
+            
+            
+        }
+
+    }
+
     const submit = (e) => {
         e.preventDefault()
-        const Token = 'bearer' + " " + Cookies.get('Token');
-        axios.post(`${BASE_URL}/api/v1/applicationform/createapplicationform`, 
+        console.log(emailValidated, phoneValidated)
+        if(emailValidated===true && phoneValidated===true){
+            const Token = 'bearer' + " " + Cookies.get('Token');
+            axios.post(`${BASE_URL}/api/v1/applicationform/createapplicationform`, 
         { 
             siteId: sitename,
             unitName: unitName,
@@ -85,27 +161,20 @@ function InitiateAllotmentForm(){
             bookingBy: Cookies.get('FullName'),
             isBankLoan: bankLoan,
             registeredMobile: phno,
-            registeredEmail: email
+            registeredEmail: email,
+            leadId: lead,
+            paymentTerms: paymentTerms,
         }
         ,
         {headers:{Authorization:Token}} )
         .then(response => {
             console.log(response)
         })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Ooops',
-                showClass: {
-                  popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                  popup: 'animate__animated animate__fadeOutUp'
-                },
-                text: "Unit already alloted!"
-              })
-        })
         navigate("/dashboard/listofapplicationform")
+
+        }
+        
+
     }
 
    
@@ -117,22 +186,34 @@ function InitiateAllotmentForm(){
             setSite(response.data.siteMap)
         })
 
+        axios.get(`${BASE_URL}/api/v1/lead/getAllLeads`,{ headers: { Authorization: Token } }) 
+        .then((response) => {
+            setLeads(response.data.leads)
+        })
+          
+
     },[])
     
 
     return(
-        <div className="">
+        <div>
+        <div className="mt-3 row container-fluid justify-content-center">
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="row pt-3 justify-content-center">
             <div className="col-lg-8 col-sm-12">
             <h4>Create Application</h4>
             </div>
         </div>
+        <form onSubmit={submit}>
         <div className="row pt-3 justify-content-center">
         <div className="col-lg-8 col-sm-12">
         
         <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Site Name</Form.Label>
-            <Form.Control onChange={changeSite} as="select">
+            <Form.Control required onChange={changeSite} as="select">
                 <option value="">Select a site</option>
                 {site.map((t)=>(
                     <option value={t.SiteId}>{t.SiteName}</option>
@@ -160,7 +241,7 @@ function InitiateAllotmentForm(){
         
         <Form.Group controlId="exampleForm.ControlSelect2">
             <Form.Label>Unit</Form.Label>
-            <Form.Control onChange={(e)=>setUnitName(e.target.value)} as="select">
+            <Form.Control required onChange={(e)=>setUnitName(e.target.value)} as="select">
                 <option value="">Select a unit</option>
                 {unit.map((t)=>(
                     <option value={t.unitName}>{t.unitName}</option>
@@ -186,7 +267,7 @@ function InitiateAllotmentForm(){
                         <div className="col-6">
                         <Form.Group controlId="exampleForm.ControlSelect2">
                         <label>Car Parking Type</label>
-                        <Form.Control  as="select" onChange={(event) => handleCPChange(index, event)}>
+                        <Form.Control   as="select" onChange={(event) => handleCPChange(index, event)}>
                         <option value="">Select a Car Parking Type</option>
                         { 
                         carParking.map((c)=>(
@@ -209,25 +290,57 @@ function InitiateAllotmentForm(){
         </div>
         <br />
         <div className="row justify-content-center">
+            <div className="col-lg-4 col-sm-12">
+            <Form.Group controlId="leadid">
+            <label>Lead ID</label>
+            <Form.Control   as="select" onChange={changeLead}>
+            <option value="">Select a Lead</option>
+            {
+                leads.map((l)=>(
+                    <option value={l.leadID}>{l.leadID}</option>
+                ))
+            }
+            </Form.Control>
+            </Form.Group>
+            </div>
+        </div>
+        <br />
+        
+        <div className="row justify-content-center">
+        
         <div className="col-lg-4 col-sm-12">
             <label>Mobile Number</label>
             <input
             type="number"
             class="form-control"
             name="Number"
-            id="outlined-basic"
-           onChange={(e)=>setPhno(e.target.value)}
+            id="outlined-basic-phno"
+            value={phno}
+           onChange={PhNo}
+           required
             />
+            <small id="phnoMessage" className="text-danger d-none">
+                Must be of 10 characters with numbers only
+               
+            </small>   
         </div>
+        
+        
+        
         <div className="col-lg-4 col-sm-12">
             <label>Email</label>
             <input
             type="email"
             class="form-control"
             name="email"
-            id="outlined-basic"
-           onChange={(e)=>setEmail(e.target.value)}
+            id="outlined-basic-email"
+            value={email}
+           onChange={EmailVal}
+           required
             />
+            <small id="emailMessage" className="text-danger d-none">
+               Enter Valid Email
+            </small>  
         </div>
         </div>
         <br />
@@ -266,15 +379,16 @@ function InitiateAllotmentForm(){
         <div className="row justify-content-center">
         <div className="col-lg-2 col-sm-3">
                   <button
+                  type="submit"
                     className="btn btn-secondary btn-user btn-block"
-                   onClick={submit}
+                   
                   >
                     Create
                   </button>
                 </div>
         </div>
-
-       
+        
+        </form>
         
         </div>
        

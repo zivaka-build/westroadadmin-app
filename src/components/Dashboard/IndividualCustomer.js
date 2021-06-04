@@ -9,14 +9,15 @@ import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
 import MaterialTable from "material-table";
+import { ContactMailTwoTone } from "@material-ui/icons"
 
 function IndividualCustomer(){
     
     useEffect(() => {
        
         const Token = 'bearer' + " " + Cookies.get('Token')
-        
-        axios.get(`${BASE_URL}/api/v1/customer/getCustomerByCustomerId`,{customerId: Cookies.get('CustomerId')},{headers:{Authorization:Token}})
+       
+        axios.post(`${BASE_URL}/api/v1/customer/getCustomerByCustomerId`,{customerId: Cookies.get('CustomerId')},{headers:{Authorization:Token}})
         .then(response=>{
             console.log(response)
         })
