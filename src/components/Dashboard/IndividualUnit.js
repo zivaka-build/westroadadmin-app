@@ -36,6 +36,7 @@ function IndividualUnit(){
             <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={() => navigate(-1)}><IoMdArrowBack />Back</button>
             </div>
         </div>
+        <br />
         <div className="row container-fluid justify-content-center">
         <div className="col-4">
         <label>Site</label>
@@ -59,10 +60,6 @@ function IndividualUnit(){
            // onChange={(e)=>setSname(e.target.value)}
             />
         </div>
-
-        </div>
-        <br />
-        <div className="row container-fluid justify-content-center">
         <div className="col-4">
         <label>Unit Name</label>
             <input
@@ -74,6 +71,11 @@ function IndividualUnit(){
            // onChange={(e)=>setSname(e.target.value)}
             />
         </div>
+
+        </div>
+        <br />
+        <div className="row container-fluid justify-content-center">
+        
         <div className="col-4">
         <label>Unit Phase</label>
             <input
@@ -85,9 +87,6 @@ function IndividualUnit(){
            // onChange={(e)=>setSname(e.target.value)}
             />
         </div>
-        </div>
-        <br />
-        <div className="row container-fluid justify-content-center">
         <div className="col-4">
         <label>Unit Type</label>
             <input
@@ -110,6 +109,10 @@ function IndividualUnit(){
            // onChange={(e)=>setSname(e.target.value)}
             />
         </div>
+        </div>
+        <br />
+        <div className="row container-fluid justify-content-center">
+        
         </div>
         <br />
       {/*  <div className="row container-fluid justify-content-center">

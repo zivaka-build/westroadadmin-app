@@ -168,7 +168,7 @@ function TaskList() {
                         title="My Tasks"
                         columns={
                             [
-                                { title: 'Task Id', defaultSort : 'desc', field: 'taskID' },
+                                { title: 'Task Id', defaultSort : 'desc', render : (rowData) => rowData.taskID, customSort : (a,b) => a.tableData.id < b.tableData.id ? -1 : 1 },
                                 { title: 'Task Title', field: 'taskTitle' },
                                 { title: 'Task Description', field: 'taskDescription' },
                                 { title: 'Task Type', field: 'taskType' },
@@ -245,7 +245,7 @@ function TaskList() {
                             title="All Other Tasks"
                             columns={
                                 [
-                                    { title: 'Task Id', defaultSort : 'desc', field: 'taskID' },
+                                    { title: 'Task Id', defaultSort : 'desc', render : (rowData) => rowData.taskID, customSort : (a,b) => a.tableData.id < b.tableData.id ? -1 : 1},
                                     { title: 'Task Title', field: 'taskTitle' },
                                     { title: 'Task Description', field: 'taskDescription' },
                                     { title: 'Task Type', field: 'taskType' },
@@ -324,7 +324,7 @@ function TaskList() {
                         title="Closed Tasks"
                         columns={
                             [
-                                { title: 'Task Id', defaultSort : 'desc', field: 'taskID' },
+                                { title: 'Task Id', defaultSort : 'desc', render : (rowData) => rowData.taskID, customSort : (a,b) => a.tableData.id < b.tableData.id ? -1 : 1 },
                                 { title: 'Task Title', field: 'taskTitle' },
                                 { title: 'Task Description', field: 'taskDescription' },
                                 { title: 'Task Type', field: 'taskType' },

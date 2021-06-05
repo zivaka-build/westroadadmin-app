@@ -9,6 +9,10 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
 import {IoMdArrowBack} from 'react-icons/io'
+import Tab from 'react-bootstrap/Tab'
+import Nav from 'react-bootstrap/Nav'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -103,7 +107,6 @@ function ViewCashDeposit() {
     useEffect(() => {
        
         const Token = 'bearer' + " " + Cookies.get('Token')
-
         axios.get(`${BASE_URL}/api/v1/finance/getlistofcashdeposit`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
@@ -112,7 +115,29 @@ function ViewCashDeposit() {
         })
     },[])
     return(
-        <>
+    <>
+    <br />
+    <div className="tabs-container" id="tabs-container">
+
+    <Tab.Container id="left-tabs-example" defaultActiveKey={Cookies.get('ActiveCashKey')}>
+    <Row>
+        <Col sm={12}>
+        <center>
+        <Nav variant="pills" className="justify-content-center flex-row">
+            <Nav.Item onClick={()=>{Cookies.set('ActiveCashKey', 'first')}}>
+            <Nav.Link className="tabs" eventKey="first">Cash Deposits</Nav.Link>
+            </Nav.Item>
+            <Nav.Item onClick={()=>{Cookies.set('ActiveCashKey', 'second')}}>
+            <Nav.Link className="tabs" eventKey="second">Cash Payments</Nav.Link>
+            </Nav.Item>
+        </Nav>
+        </center>
+        </Col>
+    </Row>
+    <br />
+    <Tab.Content>
+      <Col sm={12}>
+        <Tab.Pane eventKey="first">
         <br />
         <MaterialTable
             data={cash}
@@ -328,6 +353,15 @@ function ViewCashDeposit() {
             </div>
             </Fade>
             </Modal>
+        </Tab.Pane>
+        <Tab.Pane eventKey="second">
+          
+        </Tab.Pane>
+      </Col>
+    </Tab.Content>
+    </Tab.Container>
+    </div>
+        
         </>
     )
 }
