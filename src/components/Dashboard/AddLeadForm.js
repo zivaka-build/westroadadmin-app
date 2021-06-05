@@ -350,7 +350,7 @@ function AddLeadForm(){
         <div className="col-lg-4 col-sm-6">
         <label>Budget</label>
             <input
-            type="number"
+            type="text"
             class="form-control"
             name="budget"
             id="outlined-basic"

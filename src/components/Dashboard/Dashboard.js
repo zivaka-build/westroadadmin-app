@@ -295,7 +295,7 @@ const drawer = (
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit' onClick={()=>Cookies.set("ActiveCashKey", "first")}>
                     <ListItem button key={'Cash Book'}>
                     <h7>Cash Book</h7>
                     </ListItem>
