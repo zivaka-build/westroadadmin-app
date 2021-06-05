@@ -27,6 +27,7 @@ import {AiOutlineSetting} from 'react-icons/ai'
 import {AiOutlineCalculator} from 'react-icons/ai'
 import {FaTools} from 'react-icons/fa'
 import {BsBellFill} from 'react-icons/bs'
+import {FaReceipt} from 'react-icons/fa'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -455,6 +456,7 @@ return (
           <Link to="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></Link>
           <Link to="/" className="icon-link"><BsBellFill/></Link>
           <Link to="/dashboard/tasklist" className="icon-link"><FaTools  onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
+          <Link to="/dashboard/voucher" className="icon-link"><FaReceipt/></Link>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
           ref={anchorRef}
