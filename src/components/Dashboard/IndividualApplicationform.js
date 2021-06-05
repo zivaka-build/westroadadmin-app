@@ -501,6 +501,7 @@ const uploadSAS = (e) =>{
     }
 
     const submit = (e) => {
+      e.preventDefault()
       const Token = 'bearer' + " " + Cookies.get('Token')
       if( notFundedSelf === false) {
         if(paymentMode === "Cheque" || paymentMode === "DD") {  
@@ -1145,7 +1146,6 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="whatsapp"
                             id="whatsapp"
-                            required
                             onChange={changeWhatsapp}
                             />
                             <small id="waMessage" className="text-danger d-none">
@@ -1679,12 +1679,14 @@ const uploadSAS = (e) =>{
                   { paymentMode === "Cheque" || paymentMode === "DD" ?
                   <>
                   <br />
+                  <form onSubmit={submit}>
                   <div className="row justify-content-center">
                     <div className="col-lg-4 col-sm-12">
                       <label>Cheque No.: </label>
                       <input
                       type="number"
                       class="form-control"
+                      required
                       onChange={(e)=>setChequeNo(e.target.value)}
                       />
                     </div>
@@ -1693,6 +1695,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setBank(e.target.value)}
                       />
                     </div>
@@ -1704,6 +1707,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="number"
                       class="form-control"
+                      required
                       onChange={(e)=>setAccount(e.target.value)}
                       />
                     </div>
@@ -1712,6 +1716,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="date"
                       class="form-control"
+                      required
                       onChange={(e)=>setTdate(e.target.value)}
                       />
                     </div>
@@ -1724,6 +1729,7 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       value={tamount}
+                      required
                       onChange={(e)=>setTamount(e.target.value)}
                       />
                     </div>
@@ -1732,6 +1738,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setIssuedBy(e.target.value)}
                       />
                     </div>
@@ -1748,6 +1755,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="cheque"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
                       <label class="form-check-label pl-5">
@@ -1759,6 +1767,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="dd"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
                       <label class="form-check-label pl-5">
@@ -1776,6 +1785,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedBy(e.target.value)}
                       />
                     </div>
@@ -1784,13 +1794,28 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedPan(e.target.value)}
                       />
                     </div>
                   </div>
                   
+                  
                   </> : null
                   }
+
+                <br />
+                  <div className="row justify-content-center">
+                  <div className="col-lg-2 col-sm-3">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    type="submit"
+                  >
+                    Add Payment
+                  </button>
+                </div>
+                </div>
+                  </form>
                   </>
                   : null
                   }
@@ -1798,12 +1823,14 @@ const uploadSAS = (e) =>{
                   paymentMode === "NEFT" || paymentMode === "RTGS" || paymentMode === "IMPS" ?
                   <>
                   <br />
+                  <form onSubmit={submit}>
                   <div className="row justify-content-center">
                     <div className="col-lg-4 col-sm-12">
                       <label>Transaction Date: </label>
                       <input
                       type="date"
                       class="form-control"
+                      required
                       onChange={(e)=>setTdate(e.target.value)}
                       />
                     </div>
@@ -1812,6 +1839,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setBank(e.target.value)}
                       />
                     </div>
@@ -1823,6 +1851,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="number"
                       class="form-control"
+                      required
                       onChange={(e)=>setAccount(e.target.value)}
                       />
                     </div>
@@ -1831,6 +1860,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setComments(e.target.value)}
                       />
                     </div>
@@ -1843,6 +1873,7 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       value={tamount}
+                      required
                       onChange={(e)=>setTamount(e.target.value)}
                       />
                     </div>
@@ -1851,6 +1882,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setIssuedBy(e.target.value)}
                       />
                     </div>
@@ -1867,6 +1899,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="cheque"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
                       <label class="form-check-label pl-5">
@@ -1878,6 +1911,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="dd"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
                       <label class="form-check-label pl-5">
@@ -1895,6 +1929,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedBy(e.target.value)}
                       />
                     </div>
@@ -1903,6 +1938,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedPan(e.target.value)}
                       />
                     </div>
@@ -1910,7 +1946,18 @@ const uploadSAS = (e) =>{
                   
                   </> : null
                   }
-                 
+                 <br />
+                  <div className="row justify-content-center">
+                  <div className="col-lg-2 col-sm-3">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    type="submit"
+                  >
+                    Add Payment
+                  </button>
+                </div>
+                </div>
+                </form>
                   </> : null
                
                   }
@@ -1924,12 +1971,14 @@ const uploadSAS = (e) =>{
                   paymentMode === "Cash" ?
                 <>
                 <br />
+                  <form onSubmit={submit}>
                   <div className="row justify-content-center">
                     <div className="col-lg-4 col-sm-12">
                       <label>Received Date: </label>
                       <input
                       type="date"
                       class="form-control"
+                      required
                       onChange={(e)=>setTdate(e.target.value)}
                       />
                     </div>
@@ -1938,6 +1987,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setReceivedBy(e.target.value)}
                       />
                     </div>
@@ -1950,6 +2000,7 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       value={tamount}
+                      required
                       onChange={(e)=>setTamount(e.target.value)}
                       />
                     </div>
@@ -1958,6 +2009,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setIssuedBy(e.target.value)}
                       />
                     </div>
@@ -1974,6 +2026,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="cheque"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
                       <label class="form-check-label pl-5">
@@ -1986,6 +2039,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="dd"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
                       <label class="form-check-label pl-5">
@@ -2003,6 +2057,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedBy(e.target.value)}
                       />
                     </div>
@@ -2011,6 +2066,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedPan(e.target.value)}
                       />
                     </div>
@@ -2018,23 +2074,20 @@ const uploadSAS = (e) =>{
                   
                   </> : null
                   }
-                </> : null}
-                  
-                  
-                { bpm === false ?
-                <>
-                <br />
+                   <br />
                   <div className="row justify-content-center">
                   <div className="col-lg-2 col-sm-3">
                   <button
                     className="btn btn-secondary btn-user btn-block"
-                   onClick={submit}
+                    type="submit"
                   >
                     Add Payment
                   </button>
                 </div>
                 </div>
+                </form>
                 </> : null}
+                  
                 
                 { 
                 neft === true ? 
