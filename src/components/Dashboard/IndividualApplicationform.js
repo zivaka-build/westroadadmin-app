@@ -192,6 +192,12 @@ function IndividualApplicationform() {
     const [brn, setBrn] = useState("")
     const [bcv, setBcv] = useState("")
 
+    const [phoneValidated, setPhoneValidated] = useState(false)
+    const [waValidated, setWaValidated] = useState(false)
+    const [emailValidated, setEmailValidated] = useState(false)
+    const [aadharValidated, setAadharValidated] = useState(false)
+    const [panValidated, setPanValidated] = useState(false)
+
 
 
     const showApplicant = (e) => {
@@ -203,12 +209,103 @@ function IndividualApplicationform() {
         }
     }
 
+    const changePhone = (e) => {
+      var val = e.target.value
+      setAm(e.target.value)
 
+      var message = document.getElementById('phnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setPhoneValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+        }
 
+    }
+
+    const changeWhatsapp = (e) => {
+      var val = e.target.value
+      setAw(e.target.value)
+
+      var message = document.getElementById('waMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setWaValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setWaValidated(false)
+        }
+    }
+
+    const changeEmail = (e) => {
+      var val = e.target.value
+      setAe(e.target.value)
+      var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+      var message = document.getElementById('emailMessage');
+        if(regex.test(val)){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setEmailValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setEmailValidated(false)
+        }
+    }
+
+    const changeAadhar = (e) => {
+      var val = e.target.value
+      setAa(e.target.value)
+      
+      var message = document.getElementById('aadharMessage');
+        if(val.length == 12){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setAadharValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setAadharValidated(false)
+        }
+    }
+
+    const changePan = (e) => {
+      var val = e.target.value
+      setAp(e.target.value)
+      var regex = /^[A-Z0-9]{10}$/
+      var message = document.getElementById('panMessage');
+        if(regex.test(val)){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setPanValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPanValidated(false)
+        }
+    }
 
     const addApplicant = (e) => {
-        
+        e.preventDefault()
         const Token = 'bearer' + " " + Cookies.get('Token')
+        if(phoneValidated === true && waValidated ===true && emailValidated === true && aadharValidated === true && panValidated === true)
+        {
         axios.post(`${BASE_URL}/api/v1/applicant/createNewApplicant`,
         {
             firstName: firstName,
@@ -246,6 +343,7 @@ function IndividualApplicationform() {
         .then(response => {
             window.location.reload()
         })
+      }
     }
     
     
@@ -1034,8 +1132,11 @@ const uploadSAS = (e) =>{
                             name="mobile"
                             id="mobile"
                             required
-                            onChange={(e)=>setAm(e.target.value)}
+                            onChange={changePhone}
                             />
+                            <small id="phnoMessage" className="text-danger d-none">
+                              Must be of 10 characters with numbers only
+                            </small>
                           </div>
                           <div className="col-4">
                             <label>Whatsapp</label>
@@ -1045,8 +1146,11 @@ const uploadSAS = (e) =>{
                             name="whatsapp"
                             id="whatsapp"
                             required
-                            onChange={(e)=>setAw(e.target.value)}
+                            onChange={changeWhatsapp}
                             />
+                            <small id="waMessage" className="text-danger d-none">
+                              Must be of 10 characters with numbers only
+                            </small>
                           </div>
                           <div className="col-4">
                             <label>Email</label>
@@ -1056,8 +1160,11 @@ const uploadSAS = (e) =>{
                             name="email"
                             id="email"
                             required
-                            onChange={(e)=>setAe(e.target.value)}
+                            onChange={changeEmail}
                             />
+                            <small id="emailMessage" className="text-danger d-none">
+                              Please provide a valid email
+                            </small>
                           </div>
                       </div>
                       <br />
@@ -1081,8 +1188,11 @@ const uploadSAS = (e) =>{
                             name="pan"
                             id="pan"
                             required
-                            onChange={(e)=>setAp(e.target.value)}
+                            onChange={changePan}
                             />
+                            <small id="panMessage" className="text-danger d-none">
+                              Must be 10 characters with capitals and numbers only
+                            </small>
                           </div>
                           <div className="col-4">
                             <label>Aadhar</label>
@@ -1092,8 +1202,11 @@ const uploadSAS = (e) =>{
                             name="aa"
                             id="aa"
                             required
-                            onChange={(e)=>setAa(e.target.value)}
+                            onChange={changeAadhar}
                             />
+                            <small id="aadharMessage" className="text-danger d-none">
+                              Must be 12 digits
+                            </small>
                           </div>
                       </div>
                       <br />
