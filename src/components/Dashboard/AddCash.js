@@ -74,7 +74,7 @@ function AddCash() {
             <Form.Group controlId="depositType">
             <Form.Label>Deposit Type</Form.Label>
             <Form.Control  as="select" onChange={(e)=>setDepositType(e.target.value)} required>
-            <option>Select a Deposit type</option>   
+            <option value="">Select a Deposit type</option>   
             <option value="BookingAmount">Booking Amount</option>
             <option value="AdditionalBookingAmount">Additional Booking Amount</option>
             <option value="LegalCharges">Legal Charges</option>

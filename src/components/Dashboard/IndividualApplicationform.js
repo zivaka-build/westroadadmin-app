@@ -1145,7 +1145,6 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="whatsapp"
                             id="whatsapp"
-                            required
                             onChange={changeWhatsapp}
                             />
                             <small id="waMessage" className="text-danger d-none">
