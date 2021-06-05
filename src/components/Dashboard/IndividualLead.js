@@ -507,7 +507,7 @@ function IndividualLead() {
                                 <div className="col-4">
                                 <label>Budget</label>
                                     <input
-                                    type="number"
+                                    type="text"
                                     class="form-control"
                                     name="budget"
                                     id="outlined-basic"
