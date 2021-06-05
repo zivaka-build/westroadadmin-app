@@ -47,6 +47,15 @@ const useStyles = makeStyles((theme) => ({
     };
 
     const [users, setUsers] = useState([])
+    const [username, setUsername] = useState("")
+
+    const deactivate = (e) => {
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.put(`${BASE_URL}/api/v1/user/deactivateUserByUserName/${username}`,{ headers : { 'Authorization' : Token }})
+        .then(response => {
+            console.log(response.data)
+        })
+    }
 
     useEffect(() => { 
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -98,13 +107,43 @@ const useStyles = makeStyles((theme) => ({
                     icon: () => <GiGears />,
                     tooltip: 'Deactivate User',
                     onClick: (event, rowData) => {
-                       
+                       setUsername(rowData.userName)
+                       setOpen(true)
                     },
                 }
 
             ]}
             
            ></MaterialTable>
+           <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+            <Fade in={open}>
+            <div className={classes.paper}>
+               
+                <h6>Are you sure you want to deactivate this user ?</h6>
+                <br />
+                <div className="text-center">
+                <button className="btn btn-secondary btn-user" onClick={deactivate}>
+                Deactivate User
+                </button>
+                &nbsp;&nbsp;
+                <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                Cancel
+                </button>
+                </div>
+            </div>
+            </Fade>
+      </Modal>
           </>
       )
   }
