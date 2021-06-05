@@ -11,7 +11,24 @@ var arraySort = require('array-sort');
 
 
 function InitiateAllotmentForm(){
-    
+    var date = new Date();
+
+    var today = new Date();
+
+    var tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    var dd = tomorrow.getDate();
+    var mm = tomorrow.getMonth() + 1; //January is 0!
+    var yyyy = tomorrow.getFullYear();
+    if (dd < 10) {
+    dd = '0' + dd
+    }
+    if (mm < 10) {
+    mm = '0' + mm
+    }
+
+    tomorrow = yyyy + '-' + mm + '-' + dd;
+
     const [name, setName ] = useState("");
     const [site, setSite ] = useState([]);
     const [phase, setPhase ] = useState([]);
@@ -31,6 +48,7 @@ function InitiateAllotmentForm(){
     const [type, setType ] = useState("Hot");
     const [bankLoan, setBankLoan] = useState()
     const [unitName, setUnitName] = useState("")
+    const [appointmentDate, setAppointmentDate] = useState("")
     const [leads, setLeads] = useState([])
     const [paymentTerms, setPaymentTerms] = useState("")
     const [emailValidated, setEmailValidated] = useState(true)
@@ -164,6 +182,8 @@ function InitiateAllotmentForm(){
             registeredEmail: email,
             leadId: lead,
             paymentTerms: paymentTerms,
+            applicationCreateDate: date,
+            bookingAppointmentDate: appointmentDate,
         }
         ,
         {headers:{Authorization:Token}} )
@@ -303,12 +323,7 @@ function InitiateAllotmentForm(){
             </Form.Control>
             </Form.Group>
             </div>
-        </div>
-        <br />
-        
-        <div className="row justify-content-center">
-        
-        <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-4 col-sm-12">
             <label>Mobile Number</label>
             <input
             type="number"
@@ -324,9 +339,11 @@ function InitiateAllotmentForm(){
                
             </small>   
         </div>
+        </div>
+        <br />
         
-        
-        
+        <div className="row justify-content-center">
+    
         <div className="col-lg-4 col-sm-12">
             <label>Email</label>
             <input
@@ -341,6 +358,17 @@ function InitiateAllotmentForm(){
             <small id="emailMessage" className="text-danger d-none">
                Enter Valid Email
             </small>  
+        </div>
+        <div className="col-lg-4 col-sm-12">
+            <label>Appointment Date</label>
+            <input
+            type="date"
+            class="form-control"
+            name="adate"
+            min={tomorrow}
+            onChange={(e)=>setAppointmentDate(e.target.value)}
+            required
+            />
         </div>
         </div>
         <br />
