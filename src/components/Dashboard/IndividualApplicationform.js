@@ -847,14 +847,14 @@ const uploadSAS = (e) =>{
                     </div>
                 </div>
                 <div className="applicants" style={{display: disp}}>
-                    <form>
+                    <form onSubmit={addApplicant}>
                     <br />
                     <div className="row justify-content-center">
                     <div className="col-3">
                       <Form.Group controlId="salutation">
                         <Form.Label>Salutation</Form.Label>
-                        <Form.Control  as="select" onChange={(e)=>setSalutation(e.target.value)}>
-                        <option>Select a Salutation</option>   
+                        <Form.Control  as="select" onChange={(e)=>setSalutation(e.target.value)} required>
+                        <option value="">Select a Salutation</option>   
                         <option value="Mr.">Mr.</option>
                         <option value="Mrs.">Mrs.</option>
                         <option value="Ms.">Ms.</option>
@@ -869,6 +869,7 @@ const uploadSAS = (e) =>{
                           class="form-control"
                           name="firstName"
                           id="firstName"
+                          required
                           onChange={(e)=>setFirstName(e.target.value)}
                           />
                       </div>
@@ -889,6 +890,7 @@ const uploadSAS = (e) =>{
                           class="form-control"
                           name="lastName"
                           id="lastName"
+                          required
                           onChange={(e)=>setLastName(e.target.value)}
                           />
                       </div>
@@ -912,6 +914,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="fname"
                             id="fname"
+                            required
                             onChange={(e)=>setFn(e.target.value)}
                             />
                           </div>
@@ -925,6 +928,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="mobile"
                             id="mobile"
+                            required
                             onChange={(e)=>setAm(e.target.value)}
                             />
                           </div>
@@ -935,6 +939,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="whatsapp"
                             id="whatsapp"
+                            required
                             onChange={(e)=>setAw(e.target.value)}
                             />
                           </div>
@@ -945,6 +950,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="email"
                             id="email"
+                            required
                             onChange={(e)=>setAe(e.target.value)}
                             />
                           </div>
@@ -958,6 +964,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="oc"
                             id="oc"
+                            required
                             onChange={(e)=>setOc(e.target.value)}
                             />
                           </div>
@@ -968,6 +975,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="pan"
                             id="pan"
+                            required
                             onChange={(e)=>setAp(e.target.value)}
                             />
                           </div>
@@ -978,6 +986,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="aa"
                             id="aa"
+                            required
                             onChange={(e)=>setAa(e.target.value)}
                             />
                           </div>
@@ -997,6 +1006,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="fa1"
                             id="fa1"
+                            required
                             onChange={(e)=>setFa1(e.target.value)}
                             />
                           </div>
@@ -1007,6 +1017,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="lm1"
                             id="lm1"
+                            required
                             onChange={(e)=>setLm1(e.target.value)}
                             />
                           </div>
@@ -1020,6 +1031,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="ct1"
                             id="ct1"
+                            required
                             onChange={(e)=>setCt1(e.target.value)}
                             />
                           </div>
@@ -1030,6 +1042,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="pc1"
                             id="pc1"
+                            required
                             onChange={(e)=>setPc1(e.target.value)}
                             />
                           </div>
@@ -1040,6 +1053,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="st1"
                             id="st1"
+                            required
                             onChange={(e)=>setSt1(e.target.value)}
                             />
                           </div>
@@ -1108,7 +1122,7 @@ const uploadSAS = (e) =>{
                       </div>
                       <div className="mt-2">
                         <div className="col-12 text-center">
-                        <button className="btn btn-danger" onClick={addApplicant}>Add</button>
+                        <button className="btn btn-danger" type="submit">Add</button>
                         </div>
                       </div>
                     </form>                                            
