@@ -191,8 +191,8 @@ const drawer = (
                 <AccordionDetails>
                     <List>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/initiateallotment'>
-                    <ListItem button key={'Create Application'}>
-                    <h7>Create Application</h7>
+                    <ListItem button key={'Initiate Booking'}>
+                    <h7>Initiate Booking</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofapplicationform'>
