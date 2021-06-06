@@ -193,7 +193,6 @@ function InitiateAllotmentForm(){
         navigate("/dashboard/listofapplicationform")
 
         }
-        
 
     }
 
