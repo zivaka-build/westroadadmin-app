@@ -237,7 +237,7 @@ function InitiateAllotmentForm(){
         </div>
         <div className="row pt-3 justify-content-center">
             <div className="col-lg-8 col-sm-12">
-            <h4>Create Application</h4>
+            <h4>Initiate Booking</h4>
             </div>
         </div>
         <form onSubmit={submit}>
