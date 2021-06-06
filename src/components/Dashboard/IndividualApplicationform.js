@@ -193,7 +193,7 @@ function IndividualApplicationform() {
     const [bcv, setBcv] = useState("")
 
     const [phoneValidated, setPhoneValidated] = useState(false)
-    const [waValidated, setWaValidated] = useState(false)
+    const [waValidated, setWaValidated] = useState(true)
     const [emailValidated, setEmailValidated] = useState(false)
     const [aadharValidated, setAadharValidated] = useState(false)
     const [panValidated, setPanValidated] = useState(false)
