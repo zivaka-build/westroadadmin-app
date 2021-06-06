@@ -132,8 +132,9 @@ function IndividualLead() {
         
     }
 
-    const addComment = () => {
+    const addComment = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
+        e.preventDefault()
         axios
             .post(`${BASE_URL}/api/v1/lead/addCommentByLeadID`,{comment: comment, commentedBy: Cookies.get('FullName'),commentType:"User",leadID: leadID},{ headers : { 'Authorization' : Token }})
             .then(response => {
@@ -765,6 +766,7 @@ function IndividualLead() {
                     </Tab.Pane>
                     <Tab.Pane eventKey="fourth">
                     <div className="tab-card pb-4 container-fluid">
+                        <form onSubmit={addComment}>
                         <div className="row pt-4 justify-content-center">
                             <div className="col-8">
                             <input
@@ -773,16 +775,17 @@ function IndividualLead() {
                                 name="comment"
                                 id="outlined-basic"
                                 onChange={(e)=>setComment(e.target.value)}
-                        
+                                required
                             />    
                             </div>
                             <div className="col-8 text-right pt-2 px-2">
                             <button
-                            className="btn btn-secondary btn-user" onClick={addComment}>
+                            className="btn btn-secondary btn-user">
                             Add Comment
                             </button>
                             </div>
                         </div>
+                        </form>
                         <div className="row justify-content-center">
  
                         <div className="pt-3 col-lg-11" style={{ paddingTop: "10px" }}>
