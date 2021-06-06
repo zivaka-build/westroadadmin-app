@@ -29,6 +29,20 @@ function InitiateAllotmentForm(){
 
     tomorrow = yyyy + '-' + mm + '-' + dd;
 
+    var maxdate = new Date(today)
+    maxdate.setDate(maxdate.getDate() + 7)
+    var dd2 = maxdate.getDate()
+    var mm2 = maxdate.getMonth() + 1;
+    var yyyy2 = maxdate.getFullYear();
+    if(dd2 < 10){
+    dd2 = '0' + dd2
+    }
+    if(mm2 < 10){
+    mm2 = '0' + mm2
+    }
+
+    maxdate = yyyy2 + '-' + mm2 + '-' + dd2;
+
     const [name, setName ] = useState("");
     const [site, setSite ] = useState([]);
     const [phase, setPhase ] = useState([]);
@@ -365,6 +379,7 @@ function InitiateAllotmentForm(){
             class="form-control"
             name="adate"
             min={tomorrow}
+            max={maxdate}
             onChange={(e)=>setAppointmentDate(e.target.value)}
             required
             />
