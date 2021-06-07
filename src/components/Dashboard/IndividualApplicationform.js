@@ -118,6 +118,7 @@ function IndividualApplicationform() {
     const [vd, setVd] = useState("")
 
     const [bpm, setBpm] = useState(false)
+    const [bpms, setBpms] = useState("")
     const [paymentMode, setPaymentMode] = useState("")
     const [notFundedSelf, setNotFundedSelf] = useState()
     const [fundedBy, setFundedBy] = useState("")
@@ -882,6 +883,7 @@ const uploadSAS = (e) =>{
 
             if(response.data.bookingPaymentMode !== "Not Added") {
               setBpm(true)
+              setBpms(response.data.bookingPaymentMode)
             }
 
            
@@ -2492,7 +2494,7 @@ const uploadSAS = (e) =>{
                   <>
                   <div style={{display: 'flex'}}> 
                     <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft :</h4>
-                  <button className="btn btn-secondary btn-user" onClick={generateApfd}>Generate Application Form</button>
+                  <button className="btn btn-secondary btn-user" onClick={generateApfd} disabled={ status !== "Applicant Added" && bpms !== "Not Added" ? true : false}>Generate Application Form</button>
                   </div>
                   </>:
                   <>
