@@ -880,10 +880,11 @@ const uploadSAS = (e) =>{
               }
             }
 
-            if(response.data.bookingPaymentMode) {
+            if(response.data.bookingPaymentMode !== "Not Added") {
               setBpm(true)
             }
 
+           
 
           })
 
