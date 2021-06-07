@@ -378,7 +378,7 @@ function InitiateAllotmentForm(){
             type="date"
             class="form-control"
             name="adate"
-            min={tomorrow}
+            min={today}
             max={maxdate}
             onChange={(e)=>setAppointmentDate(e.target.value)}
             required
