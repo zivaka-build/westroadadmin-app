@@ -16,7 +16,7 @@ function InitiateAllotmentForm(){
     var today = new Date();
 
     var tomorrow = new Date(today)
-    tomorrow.setDate(tomorrow.getDate() + 1)
+    tomorrow.setDate(tomorrow.getDate() + 0)
     var dd = tomorrow.getDate();
     var mm = tomorrow.getMonth() + 1; //January is 0!
     var yyyy = tomorrow.getFullYear();
@@ -378,7 +378,7 @@ function InitiateAllotmentForm(){
             type="date"
             class="form-control"
             name="adate"
-            min={today}
+            min={tomorrow}
             max={maxdate}
             onChange={(e)=>setAppointmentDate(e.target.value)}
             required
