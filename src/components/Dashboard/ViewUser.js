@@ -51,9 +51,14 @@ const useStyles = makeStyles((theme) => ({
 
     const deactivate = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
-        axios.put(`${BASE_URL}/api/v1/user/deactivateUserByUserName/${username}`,{ headers : { 'Authorization' : Token }})
+        axios.put(`${BASE_URL}/api/v1/user/deactivateUserByUserName`,{userName: username},{ headers : { 'Authorization' : Token }})
         .then(response => {
-            console.log(response.data)
+            axios.get(`${BASE_URL}/api/v1/user/getListOfUsers`,{ headers : { 'Authorization' : Token }})
+            .then(response => {
+                console.log(response)
+                setUsers(response.data.users)
+            })
+            setOpen(false)
         })
     }
 
@@ -66,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
         })
 
     }, [])
-    
+
 
       return(
           <>
