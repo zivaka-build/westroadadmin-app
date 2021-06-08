@@ -69,13 +69,13 @@ function AddUnit() {
             </div>
         </div>
         <br />
-        <form>
+        <form onSubmit={addUnit}>
         <div className="row container-fluid justify-content-center">
         <div className="col-4">
         <Form.Group controlId="sitename">
             <Form.Label>Site Name</Form.Label>
-            <Form.Control  as="select" onChange={changeUnitName}>
-            <option>Select a Site Name</option> 
+            <Form.Control  as="select" onChange={changeUnitName} required>
+            <option value="">Select a Site Name</option> 
             {
                 site.map((s)=>(
                     <option value={s.siteId+" "+s.siteCode}>{s.siteName}</option>
@@ -89,8 +89,8 @@ function AddUnit() {
         <div className="col-4">
         <Form.Group controlId="unittype">
             <Form.Label>Unit Type Name</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setUtype(e.target.value)}>
-            <option>Select a Unit Type</option>   
+            <Form.Control  as="select" onChange={(e)=>setUtype(e.target.value)} required>
+            <option value="">Select a Unit Type</option>   
             <option value="A">Flat A</option>
             <option value="B">Flat B</option>
             <option value="C">Flat C</option>
@@ -111,8 +111,8 @@ function AddUnit() {
         <div className="col-4">
         <Form.Group controlId="unitphase">
             <Form.Label>Unit Phase</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setUphase(e.target.value)}>
-            <option>Select a Unit Phase</option>   
+            <Form.Control  as="select" onChange={(e)=>setUphase(e.target.value)} required>
+            <option value="">Select a Unit Phase</option>   
             <option value="PI">Phase 1</option>
             <option value="PII">Phase 2</option>
             </Form.Control>
@@ -125,6 +125,7 @@ function AddUnit() {
             class="form-control"
             name="unitfloor"
             id="unitfloor"
+            required
             onChange={(e)=>setUfloor(e.target.value)}
             />
         </div>
@@ -135,7 +136,7 @@ function AddUnit() {
 
         </div>
         <div className="col-4">
-            <button className="btn btn-secondary btn-user" onClick={addUnit}>Add Unit</button>
+            <button className="btn btn-secondary btn-user" type="submit">Add Unit</button>
                                         
         </div>
     </div>

@@ -27,6 +27,7 @@ import {AiOutlineSetting} from 'react-icons/ai'
 import {AiOutlineCalculator} from 'react-icons/ai'
 import {FaTools} from 'react-icons/fa'
 import {BsBellFill} from 'react-icons/bs'
+import {FaReceipt} from 'react-icons/fa'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -190,8 +191,8 @@ const drawer = (
                 <AccordionDetails>
                     <List>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/initiateallotment'>
-                    <ListItem button key={'Create Application'}>
-                    <h7>Create Application</h7>
+                    <ListItem button key={'Initiate Booking'}>
+                    <h7>Initiate Booking</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofapplicationform'>
@@ -295,7 +296,7 @@ const drawer = (
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit' onClick={()=>Cookies.set("ActiveCashKey", "first")}>
                     <ListItem button key={'Cash Book'}>
                     <h7>Cash Book</h7>
                     </ListItem>
@@ -421,6 +422,12 @@ const drawer = (
                     <h7>Loan Banks</h7>
                     </ListItem>
                     </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addpaymentterm'>
+                    <ListItem button key={'Add Payment Term'}>
+                    <h7>Add Payment Term</h7>
+                    </ListItem>
+                    </Link>
                     
                     </List>
                 
@@ -455,6 +462,7 @@ return (
           <Link to="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></Link>
           <Link to="/" className="icon-link"><BsBellFill/></Link>
           <Link to="/dashboard/tasklist" className="icon-link"><FaTools  onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
+          <Link to="/dashboard/voucher" className="icon-link"><FaReceipt/></Link>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
           ref={anchorRef}

@@ -80,12 +80,14 @@ const useStyles = makeStyles((theme) => ({
             title="Users"
             columns={
                 [
-                    { title: 'User Id', defaultSort: 'desc',field: 'userId'},
+                    { title: 'User Id', defaultSort: 'desc',field: 'userId', customSort: (a,b) => a.tableData.id < b.tableData.id ? -1 : 1},
                     { title: 'Full Name', field: 'userFullName' },
                     { title: 'Username', field: 'userName' },
                     { title: 'Mobile', field: 'userMobile'},
                     { title: 'Email', field: 'userEmail' },
-                    { title: "Active", render : (rowData) => rowData.isActive === true ? "Yes" : "No"}
+                    { title: "Role", field: "userRole"},
+                    { title: "Active", render : (rowData) => rowData.isActive === true ? "Yes" : "No"},
+                    
                 ]
             }
             options={{

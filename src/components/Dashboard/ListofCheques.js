@@ -445,21 +445,20 @@ function ListofCheque(){
                                <label>Cleared</label>
                                </div>
                                <div className="col-3">
+                                <input 
+                                type="radio"
+                                class="form-check-input"
+                                name="chequeCleared"
+                                id="yes"
+                                onClick={(e)=>setCleared(true)}
+                                />
+                                
                                 <label>
                                  Yes
-                               <input 
-                               type="radio"
-                               class="form-check-input"
-                               name="chequeCleared"
-                               id="yes"
-                               onClick={(e)=>setCleared(true)}
-                               />
                                </label>
                                </div>
                                &nbsp;&nbsp;
                               <div className="col-3">
-                              <label>
-                                No
                               <input 
                                type="radio"
                                class="form-check-input"
@@ -467,6 +466,9 @@ function ListofCheque(){
                                id="no"
                                onClick={(e)=>setCleared(false)}
                                />
+                               
+                              <label>
+                                No
                               </label>
                               </div>
                               </div>
