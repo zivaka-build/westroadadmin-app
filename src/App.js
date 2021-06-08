@@ -45,6 +45,7 @@ import ViewCashDepositPage from "./routes/ViewCashDepositPage"
 import IndividualApplicantPage from "./routes/IndividualApplicantPage"
 import ViewUserPage from "./routes/ViewUserPage"
 import VoucherPage from "./routes/VoucherPage"
+import AddPaymentTermPage from "./routes/AddPaymentTermPage"
 function App() {
   return (
     <div className="App">
@@ -92,6 +93,7 @@ function App() {
           <IndividualApplicantPage path="/individualapplicant/:applicantId" />
           <ViewUserPage path="/viewuser" />
           <VoucherPage path="/voucher" />
+          <AddPaymentTermPage path="/addpaymentterm" />
         </DefaultDashboard>
 
       </Router>
