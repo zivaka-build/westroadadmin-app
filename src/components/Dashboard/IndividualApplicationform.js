@@ -125,6 +125,7 @@ function IndividualApplicationform() {
     const [notFundedSelf, setNotFundedSelf] = useState()
     const [fundedBy, setFundedBy] = useState("")
     const [fundedPan, setFundedPan] = useState("")
+    const [fundedPanValidated, setFundedPanValidated] = useState(false)
 
     const [tdate, setTdate] = useState("")
     const [account, setAccount] = useState("")
@@ -301,6 +302,24 @@ function IndividualApplicationform() {
             message.classList.remove('d-none');
             message.classList.add('d-block');
             setPanValidated(false)
+        }
+    }
+
+    const changeFundedPan = (e) => {
+      var val = e.target.value
+      setFundedPan(e.target.value)
+      var regex = /^[A-Z0-9]{10}$/
+      var message = document.getElementById('fundedpanMessage');
+        if(regex.test(val)){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setFundedPanValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setFundedPanValidated(false)
         }
     }
 
@@ -571,7 +590,7 @@ const uploadSAS = (e) =>{
         }
       }
 
-      else if(notFundedSelf === true) {
+      else if(notFundedSelf === true && fundedPanValidated === true) {
         if(paymentMode === "Cheque" || paymentMode === "DD") {  
           axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
           { 
@@ -1850,8 +1869,11 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       required
-                      onChange={(e)=>setFundedPan(e.target.value)}
+                      onChange={changeFundedPan}
                       />
+                      <small id="fundedpanMessage" className="text-danger d-none">
+                        Must be 10 characters with capitals and numbers only
+                      </small>
                     </div>
                   </div>
                   
@@ -1994,8 +2016,11 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       required
-                      onChange={(e)=>setFundedPan(e.target.value)}
+                      onChange={changeFundedPan}
                       />
+                      <small id="fundedpanMessage" className="text-danger d-none">
+                              Must be 10 characters with capitals and numbers only
+                      </small>
                     </div>
                   </div>
                   
@@ -2122,8 +2147,11 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       required
-                      onChange={(e)=>setFundedPan(e.target.value)}
+                      onChange={changeFundedPan}
                       />
+                      <small id="fundedpanMessage" className="text-danger d-none">
+                         Must be 10 characters with capitals and numbers only
+                      </small>
                     </div>
                   </div>
                   
