@@ -642,6 +642,7 @@ const uploadSAS = (e) =>{
       
     }
 
+    
     const approve = (e) => {
       const Token = 'bearer' + " " + Cookies.get('Token')
       axios.put(`${BASE_URL}/api/v1/applicationform/bookingamountapproval`, 
@@ -886,14 +887,16 @@ const uploadSAS = (e) =>{
               }
             }
 
+            setBpms(response.data.bookingPaymentMode)
             if(response.data.bookingPaymentMode !== "Not Added") {
               setBpm(true)
-              setBpms(response.data.bookingPaymentMode)
             }
 
            
 
           })
+
+          
 
           axios.get(`${BASE_URL}/api/v1/applicant/getlistofapplicantsbyapplicationID/${applicationId}`,{headers:{Authorization:Token}})
               .then(response=>{
@@ -911,7 +914,7 @@ const uploadSAS = (e) =>{
             })
     },[])
     
-  
+    console.log(bpms)
 
     return (
         <div className="mt-2">
@@ -1470,7 +1473,7 @@ const uploadSAS = (e) =>{
                             <input
                             type="text"
                             class="form-control"
-                            onChange={a.nationality}
+                            value={a.nationality}
                             />
                           </div>
                       </div>
@@ -2543,7 +2546,7 @@ const uploadSAS = (e) =>{
                   <>
                   <div style={{display: 'flex'}}> 
                     <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft :</h4>
-                  <button className="btn btn-secondary btn-user" onClick={generateApfd} disabled={ status !== "Applicant Added" && bpms !== "Not Added" ? true : false}>Generate Application Form</button>
+                  <button className="btn btn-secondary btn-user" onClick={generateApfd} disabled={ status !== "Aplicant Added" && bpms !== "Not Added" ? false : true}>Generate Application Form</button>
                   </div>
                   </>:
                   <>
