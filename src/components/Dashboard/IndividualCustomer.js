@@ -12,7 +12,19 @@ import MaterialTable from "material-table";
 import { ContactMailTwoTone } from "@material-ui/icons"
 
 function IndividualCustomer(){
-    
+    const [customerId, setCustomerId] = useState("")
+    const [salutation, setSalutation] = useState("")
+    const [firstName, setFirstName] = useState("")
+    const [middleName, setMiddleName] = useState("")
+    const [lastName, setLastName] = useState("")
+    const [email, setEmail] = useState("")
+    const [mobile, setMobile] = useState("")
+    const [disp, setDisp] = useState("none")
+    const [siteId, setSiteId] = useState("")
+    const [unitName, setUnitName] = useState("")
+    const [paymentTerm, setPaymentTerm] = useState("")
+    const [demands, setDemands] = useState([])
+
     useEffect(() => {
        
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -20,9 +32,42 @@ function IndividualCustomer(){
         axios.post(`${BASE_URL}/api/v1/customer/getCustomerByCustomerId`,{customerId: Cookies.get('CustomerId')},{headers:{Authorization:Token}})
         .then(response=>{
             console.log(response)
+            setCustomerId(response.data.customer.customerId)
+            setSalutation(response.data.customer.salutation)
+            setFirstName(response.data.customer.custFirstName)
+            setMiddleName(response.data.customer.custMiddleName)
+            setLastName(response.data.customer.custLastName)
+            setEmail(response.data.customer.custRegEmail)
+            setMobile(response.data.customer.custRegMobile)
+            setSiteId(response.data.customer.siteId)
+            setUnitName(response.data.customer.unitName)
+            setPaymentTerm(response.data.customer.paymentTerms)
+            setDemands(response.data.customer.demandList)
         })
      
     },[])
+
+    const editCustomer = (e) => {
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        e.preventDefault()
+        axios.put(`${BASE_URL}/api/v1/customer/updateCustomerByCustomerId`,
+        {   
+            customerId: Cookies.get('CustomerId'),
+            salutation: salutation,
+            custFirstName: firstName,
+            custMiddleName: middleName,
+            custLastName: lastName,
+            custRegEmail: email,
+            custRegMobile: mobile,
+
+        },
+        {headers:{'Authorization':Token}})
+        .then(response => {
+            console.log(response)
+            setDisp("block")
+        })
+
+    }
 
     return(
         <>
@@ -55,15 +100,184 @@ function IndividualCustomer(){
     <Col sm={12}>
         <Tab.Content>
             <Tab.Pane eventKey="first">
+            <div className="tab-card py-3 px-3">
+            <div className="row justify-content-center">
+                <div className="col-lg-4 col-sm-12">
+                    <label>Customer Id</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="customerId"
+                    id="customerId"
+                    value={customerId}
+                    />
+                </div>
+            </div>
+            <br />
+            <div className="row justify-content-center">
+                <div className="col-lg-3 col-sm-12">
+                    <Form.Group controlId="depositType">
+                    <Form.Label>Salutation</Form.Label>
+                    <Form.Control  as="select" value={salutation} onChange={(e)=>setSalutation(e.target.value)}>
+                    <option>Select a Salutation</option>   
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Dr.">Dr.</option>
+                    </Form.Control>
+                    </Form.Group>
+                </div>
+                <div className="col-lg-3 col-sm-12">
+                    <label>First Name</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="firstName"
+                    id="firstName"
+                    value={firstName}
+                    onChange={(e)=>setFirstName(e.target.value)}
+                    />
+                </div>
+                <div className="col-lg-3 col-sm-12">
+                    <label>Middle Name</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="middleName"
+                    id="middleName"
+                    value={middleName}
+                    onChange={(e)=>setMiddleName(e.target.value)}
+                    />
+                </div>
+                <div className="col-lg-3 col-sm-12">
+                    <label>Last Name</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="lastName"
+                    id="lastName"
+                    value={lastName}
+                    onChange={(e)=>setLastName(e.target.value)}
+                    />
+                </div>
+            </div>
+            <br />
+            <div className="row justify-content-center">
+                <div className="col-lg-6 col-sm-12">
+                    <label>Customer Mobile</label>
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="mobile"
+                    id="mobile"
+                    value={mobile}
+                    onChange={(e)=>setMobile(e.target.value)}
+                    />
+                </div>
+                <div className="col-lg-6 col-sm-12">
+                    <label>Customer Email</label>
+                    <input
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    id="email"
+                    value={email}
+                    onChange={(e)=>setEmail(e.target.value)}
+                    />
+                </div>
+            </div>
+            <br />
+            <div className="text-center" style={{display : disp}}><em>All details saved succesfully!</em></div>
+            <div className="mt-2">
+                <div className="col-12 text-center">
+                <button className="btn btn-danger" onClick={editCustomer}>Save</button>
+                </div>
+            </div>
+            </div>
+
             </Tab.Pane>
             <Tab.Pane eventKey="second">
-            
+            <div>
+                <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                        <label>Site Id</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        name="siteId"
+                        id="siteId"
+                        value={siteId}
+                        />
+                    </div>
+                    <div className="col-lg-4 col-sm-12">
+                        <label>Unit Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        name="unitName"
+                        id="unitName"
+                        value={unitName}
+                        />
+                    </div>
+                </div>
+            </div>
             </Tab.Pane>
             <Tab.Pane eventKey="third">
-            
+            <div>
+            <MaterialTable
+
+            data={demands}
+            title="Demands"
+            columns={
+                [
+                    { title: 'Demand Id', field: 'demandId' },
+                    { title: 'Customer Id', field: 'customerId' },
+                    { title: 'Demand Generation Date', field: 'demandGenerationDate' },
+                    { title: 'Due Date', field: 'dueDate' },
+                    { title: 'Demand Type', field: 'demandType' },
+                    { title: 'Description', field: 'description' },
+                    { title: 'Amount', field: 'amount' },
+                    { title: 'Paid', field: 'isPaid' },
+                    { title: 'Payment Date', field: 'paymentDate' },
+                    { title: 'Credit Trans Id', field: 'creditTransId' },
+                    
+                    
+                    
+                ]
+            }
+            options={{
+                search: true,
+                actionsColumnIndex: -1,
+            }}
+
+            options={{
+
+                headerStyle: {
+                    backgroundColor: '#EE4B46',
+                    color: '#fff',
+                    paddingLeft: '11px'
+                
+                }
+            }}
+
+            ></MaterialTable>
+            </div>
             </Tab.Pane>
             <Tab.Pane eventKey="fourth">
-            
+            <div>
+                <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                        <label>Payment Term Id</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        name="paymentTerm"
+                        id="paymentTerm"
+                        value={paymentTerm}
+                        />
+                    </div>
+                </div>
+            </div>
             </Tab.Pane>
         </Tab.Content>
         </Col>

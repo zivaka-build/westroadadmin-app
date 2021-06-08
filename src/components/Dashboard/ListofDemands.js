@@ -2,7 +2,6 @@ import React,{useState,useEffect} from "react";
 import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
-import {GiGears} from 'react-icons/gi'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';

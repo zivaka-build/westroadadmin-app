@@ -186,7 +186,7 @@ function ListofCustomers(){
             }}
             actions={[
                 {
-                    icon: ()=> <Edit />,
+                    icon: 'remove_red_eye',
                     tooltip: 'Edit Customer',
                     onClick: (event, rowData) => {
                       Cookies.set('ActiveCustKey', 'first')
