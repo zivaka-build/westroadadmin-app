@@ -48,7 +48,7 @@ function ListofCustomers(){
        
         const Token = 'bearer' + " " + Cookies.get('Token')
         
-        axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{Authorization:Token}})
+        axios.get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{headers:{'Authorization':Token}})
         .then(response=>{
             setSites(response.data.siteMap)
         })
@@ -186,9 +186,12 @@ function ListofCustomers(){
             }}
             actions={[
                 {
-                    icon: ()=> <Edit />,
+                    icon: 'remove_red_eye',
                     tooltip: 'Edit Customer',
                     onClick: (event, rowData) => {
+                      Cookies.set('ActiveCustKey', 'first')
+                      Cookies.set('CustomerId', rowData.customerId)
+                      navigate("/dashboard/individualcustomer")
                     }
                 }
 

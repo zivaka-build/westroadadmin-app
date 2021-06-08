@@ -43,6 +43,7 @@ import AddCashPage from "./routes/AddCashPage"
 import AddTaskPage from "./routes/AddTaskPage"
 import ViewCashDepositPage from "./routes/ViewCashDepositPage"
 import IndividualApplicantPage from "./routes/IndividualApplicantPage"
+import IndividualCustomerPage from "./routes/IndividualCustomerPage"
 import ViewUserPage from "./routes/ViewUserPage"
 import VoucherPage from "./routes/VoucherPage"
 import AddPaymentTermPage from "./routes/AddPaymentTermPage"
@@ -91,6 +92,7 @@ function App() {
           <AddTaskPage path="/addtask" />
           <ViewCashDepositPage path="/listofcashdeposit" />
           <IndividualApplicantPage path="/individualapplicant/:applicantId" />
+          <IndividualCustomerPage path="/individualcustomer" />
           <ViewUserPage path="/viewuser" />
           <VoucherPage path="/voucher" />
           <AddPaymentTermPage path="/addpaymentterm" />

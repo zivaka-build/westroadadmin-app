@@ -70,6 +70,8 @@ function IndividualApplicationform() {
     const [middleName, setMiddleName] = useState("")
     const [lastName, setLastName] = useState("")
     const [salutation, setSalutation] = useState("")
+    const [religion, setReligion] = useState("")
+    const [nationality, setNationality] = useState("")
     const [fn, setFn] = useState("")
     const [sn, setSn] = useState("")
     const [oc, setOc] = useState("")
@@ -338,7 +340,9 @@ function IndividualApplicationform() {
             applicantAadhar: aa,
             applicantMobile: am,
             applicantWhatsapp: aw,
-            applicantEmail: ae
+            applicantEmail: ae,
+            religion: religion,
+            nationality: nationality
         },
         {headers:{'Authorization':Token}})
         .then(response => {
@@ -1129,6 +1133,31 @@ const uploadSAS = (e) =>{
                       </div>
                       <br />
                       <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Religion</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="religion"
+                            id="religion"
+                            required
+                            onChange={(e)=>setReligion(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Nationality</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="nationality"
+                            id="nationality"
+                            required
+                            onChange={(e)=>setNationality(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
                           <div className="col-4">
                             <label>Mobile</label>
                             <input
@@ -1423,6 +1452,25 @@ const uploadSAS = (e) =>{
                             type="text"
                             class="form-control"
                             value={a.fatherName}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Religion</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.religion}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Nationality</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            onChange={a.nationality}
                             />
                           </div>
                       </div>
