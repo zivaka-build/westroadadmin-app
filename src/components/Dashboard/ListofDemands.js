@@ -347,7 +347,7 @@ function ListofDemand(){
         <MaterialTable
 
             data={form}
-            title="Transaction List"
+            title="Demand List"
             columns={
                 [
                     { title: 'Demand Id', field: 'demandId' },

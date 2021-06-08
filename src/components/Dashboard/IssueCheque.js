@@ -60,7 +60,7 @@ function IssueCheque(){
             </div>
         </div>
         <br />
-        <form>
+        <form onSubmit={issueCheque}>
         <div className="row container-fluid justify-content-center">
         <div className="col-lg-4 col-sm-12">
             <label>Cheque No.</label>
@@ -69,6 +69,7 @@ function IssueCheque(){
             class="form-control"
             name="chequeNo"
             id="chequeNo"
+            required
             onChange={(e)=>setChequeNo(e.target.value)}
             />
         </div>
@@ -79,6 +80,7 @@ function IssueCheque(){
             class="form-control"
             name="bank"
             id="bank"
+            required
             onChange={(e)=>setChequeBank(e.target.value)}
             />
         </div>
@@ -92,6 +94,7 @@ function IssueCheque(){
             class="form-control"
             name="account"
             id="account"
+            required
             onChange={(e)=>setChequeAccount(e.target.value)}
             />
         </div>
@@ -102,6 +105,7 @@ function IssueCheque(){
             class="form-control"
             name="chequeDate"
             id="chequeDate"
+            required
             onChange={(e)=>setChequeDate(e.target.value)}
             />
         </div>
@@ -115,6 +119,7 @@ function IssueCheque(){
             class="form-control"
             name="amount"
             id="amount"
+            required
             onChange={(e)=>setChequeAmount(e.target.value)}
             />
         </div>
@@ -125,6 +130,7 @@ function IssueCheque(){
             class="form-control"
             name="issuedTo"
             id="issuedTo"
+            required
             onChange={(e)=>setIssuedTo(e.target.value)}
             />
         </div>
@@ -138,14 +144,15 @@ function IssueCheque(){
             class="form-control"
             name="issuedBy"
             id="issuedBy"
+            required
             onChange={(e)=>setIssuedBy(e.target.value)}
             />
         </div>
         <div className="col-lg-4 col-sm-12">
         <Form.Group controlId="paymentCategory">
             <Form.Label>Payment Category</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setPaymentCategory(e.target.value)}>
-            <option>Select a Payment Category</option>   
+            <Form.Control  as="select" onChange={(e)=>setPaymentCategory(e.target.value)} required>
+            <option value="">Select a Payment Category</option>   
             <option value="Vendor Payment">Vendor Payment</option>
             <option value="Contractor Payment">Contractor Payment</option>
             <option value="Others">Others</option>
@@ -159,7 +166,7 @@ function IssueCheque(){
             <button className="btn btn-secondary btn-user" type="reset"  style={{backgroundColor: "white", color: "black"}}>Reset</button>
         </div>
         <div className="col-4">
-            <button className="btn btn-secondary btn-user" onClick={issueCheque}>Issue Cheque</button>                         
+            <button className="btn btn-secondary btn-user" type="submit">Issue Cheque</button>                         
         </div>
     </div>
 

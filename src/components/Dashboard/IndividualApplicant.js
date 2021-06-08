@@ -13,6 +13,8 @@ function IndividualApplicant() {
     const [middleName, setMiddleName] = useState("")
     const [lastName, setLastName] = useState("")
     const [salutation, setSalutation] = useState("")
+    const [religion, setReligion] = useState("")
+    const [nationality, setNationality] = useState("")
     const [fn, setFn] = useState("")
     const [sn, setSn] = useState("")
     const [oc, setOc] = useState("")
@@ -73,7 +75,9 @@ function IndividualApplicant() {
             applicantAadhar: aa,
             applicantMobile: am,
             applicantWhatsapp: aw,
-            applicantEmail: ae
+            applicantEmail: ae,
+            religion: religion,
+            nationality: nationality
         },
         {headers:{'Authorization':Token}})
         .then(response => {
@@ -113,6 +117,8 @@ function IndividualApplicant() {
             setPc2(response.data.correspondentAddress.pinCode)
             setSt2(response.data.correspondentAddress.state)
             setApplicationId(response.data.applicationId)
+            setReligion(response.data.religion)
+            setNationality(response.data.nationality)
         })
     },[])
 
@@ -216,6 +222,29 @@ function IndividualApplicant() {
                             id="fname"
                             value={fn}
                             onChange={(e)=>setFn(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Religion</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="religion"
+                            id="religion"
+                            onChange={(e)=>setReligion(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Nationality</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="nationality"
+                            id="nationality"
+                            onChange={(e)=>setNationality(e.target.value)}
                             />
                           </div>
                       </div>

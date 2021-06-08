@@ -11,7 +11,38 @@ var arraySort = require('array-sort');
 
 
 function InitiateAllotmentForm(){
-    
+    var date = new Date();
+
+    var today = new Date();
+
+    var tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 0)
+    var dd = tomorrow.getDate();
+    var mm = tomorrow.getMonth() + 1; //January is 0!
+    var yyyy = tomorrow.getFullYear();
+    if (dd < 10) {
+    dd = '0' + dd
+    }
+    if (mm < 10) {
+    mm = '0' + mm
+    }
+
+    tomorrow = yyyy + '-' + mm + '-' + dd;
+
+    var maxdate = new Date(today)
+    maxdate.setDate(maxdate.getDate() + 7)
+    var dd2 = maxdate.getDate()
+    var mm2 = maxdate.getMonth() + 1;
+    var yyyy2 = maxdate.getFullYear();
+    if(dd2 < 10){
+    dd2 = '0' + dd2
+    }
+    if(mm2 < 10){
+    mm2 = '0' + mm2
+    }
+
+    maxdate = yyyy2 + '-' + mm2 + '-' + dd2;
+
     const [name, setName ] = useState("");
     const [site, setSite ] = useState([]);
     const [phase, setPhase ] = useState([]);
@@ -31,6 +62,7 @@ function InitiateAllotmentForm(){
     const [type, setType ] = useState("Hot");
     const [bankLoan, setBankLoan] = useState()
     const [unitName, setUnitName] = useState("")
+    const [appointmentDate, setAppointmentDate] = useState("")
     const [leads, setLeads] = useState([])
     const [paymentTerms, setPaymentTerms] = useState("")
     const [emailValidated, setEmailValidated] = useState(true)
@@ -164,6 +196,8 @@ function InitiateAllotmentForm(){
             registeredEmail: email,
             leadId: lead,
             paymentTerms: paymentTerms,
+            applicationCreateDate: date,
+            bookingAppointmentDate: appointmentDate,
         }
         ,
         {headers:{Authorization:Token}} )
@@ -173,7 +207,6 @@ function InitiateAllotmentForm(){
         navigate("/dashboard/listofapplicationform")
 
         }
-        
 
     }
 
@@ -204,7 +237,7 @@ function InitiateAllotmentForm(){
         </div>
         <div className="row pt-3 justify-content-center">
             <div className="col-lg-8 col-sm-12">
-            <h4>Create Application</h4>
+            <h4>Initiate Booking</h4>
             </div>
         </div>
         <form onSubmit={submit}>
@@ -303,12 +336,7 @@ function InitiateAllotmentForm(){
             </Form.Control>
             </Form.Group>
             </div>
-        </div>
-        <br />
-        
-        <div className="row justify-content-center">
-        
-        <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-4 col-sm-12">
             <label>Mobile Number</label>
             <input
             type="number"
@@ -324,9 +352,11 @@ function InitiateAllotmentForm(){
                
             </small>   
         </div>
+        </div>
+        <br />
         
-        
-        
+        <div className="row justify-content-center">
+    
         <div className="col-lg-4 col-sm-12">
             <label>Email</label>
             <input
@@ -341,6 +371,18 @@ function InitiateAllotmentForm(){
             <small id="emailMessage" className="text-danger d-none">
                Enter Valid Email
             </small>  
+        </div>
+        <div className="col-lg-4 col-sm-12">
+            <label>Appointment Date</label>
+            <input
+            type="date"
+            class="form-control"
+            name="adate"
+            min={tomorrow}
+            max={maxdate}
+            onChange={(e)=>setAppointmentDate(e.target.value)}
+            required
+            />
         </div>
         </div>
         <br />

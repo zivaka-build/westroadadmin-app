@@ -20,6 +20,7 @@ function AddCash() {
             .post(`${BASE_URL}/api/v1/finance/createcashpayment`,{depositAmount: amount*1, receivedDate : date, receivedBy : receivedBy, depositType : depositType},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
+                Cookies.set('ActiveCashKey','first')
                 navigate("/dashboard/listofcashdeposit")
             })
     } 
@@ -41,7 +42,7 @@ function AddCash() {
                 <h4>Cash Deposit</h4>
             </div>
         </div>
-        <form>
+        <form onSubmit={addCash}>
         <br />
         <div className="row justify-content-center">
             <div className="col-4">
@@ -51,6 +52,7 @@ function AddCash() {
                 class="form-control"
                 name="depositAmount"
                 id="depositAmount"
+                required
                 onChange={(e)=>setAmount(e.target.value)}
                 />
             </div>
@@ -61,6 +63,7 @@ function AddCash() {
                 class="form-control"
                 name="receivedDate"
                 id="receivedDate"
+                required
                 onChange={(e)=>setDate(e.target.value)}
                 />
             </div>
@@ -70,8 +73,8 @@ function AddCash() {
             <div className="col-4">
             <Form.Group controlId="depositType">
             <Form.Label>Deposit Type</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setDepositType(e.target.value)}>
-            <option>Select a Deposit type</option>   
+            <Form.Control  as="select" onChange={(e)=>setDepositType(e.target.value)} required>
+            <option value="">Select a Deposit type</option>   
             <option value="BookingAmount">Booking Amount</option>
             <option value="AdditionalBookingAmount">Additional Booking Amount</option>
             <option value="LegalCharges">Legal Charges</option>
@@ -86,6 +89,7 @@ function AddCash() {
                 class="form-control"
                 name="receivedBy"
                 id="receivedBy"
+                required
                 onChange={(e)=>setReceivedBy(e.target.value)}
                 />
             </div>
@@ -97,7 +101,7 @@ function AddCash() {
 
             </div>
             <div className="col-4">
-                <button className="btn btn-secondary btn-user" onClick={addCash}>Add</button>
+                <button className="btn btn-secondary btn-user" type="submit">Add</button>
                                             
             </div>
         </div>

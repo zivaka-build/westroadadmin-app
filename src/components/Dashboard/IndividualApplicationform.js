@@ -70,6 +70,8 @@ function IndividualApplicationform() {
     const [middleName, setMiddleName] = useState("")
     const [lastName, setLastName] = useState("")
     const [salutation, setSalutation] = useState("")
+    const [religion, setReligion] = useState("")
+    const [nationality, setNationality] = useState("")
     const [fn, setFn] = useState("")
     const [sn, setSn] = useState("")
     const [oc, setOc] = useState("")
@@ -118,6 +120,7 @@ function IndividualApplicationform() {
     const [vd, setVd] = useState("")
 
     const [bpm, setBpm] = useState(false)
+    const [bpms, setBpms] = useState("")
     const [paymentMode, setPaymentMode] = useState("")
     const [notFundedSelf, setNotFundedSelf] = useState()
     const [fundedBy, setFundedBy] = useState("")
@@ -188,6 +191,15 @@ function IndividualApplicationform() {
     const [csd, setCsd] = useState("")
     const [csib, setCsib] = useState("")
 
+    const [bpr, setBpr] = useState(false)
+    const [brn, setBrn] = useState("")
+    const [bcv, setBcv] = useState("")
+
+    const [phoneValidated, setPhoneValidated] = useState(false)
+    const [waValidated, setWaValidated] = useState(true)
+    const [emailValidated, setEmailValidated] = useState(false)
+    const [aadharValidated, setAadharValidated] = useState(false)
+    const [panValidated, setPanValidated] = useState(false)
 
 
 
@@ -200,12 +212,103 @@ function IndividualApplicationform() {
         }
     }
 
+    const changePhone = (e) => {
+      var val = e.target.value
+      setAm(e.target.value)
 
+      var message = document.getElementById('phnoMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setPhoneValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPhoneValidated(false)
+        }
 
+    }
+
+    const changeWhatsapp = (e) => {
+      var val = e.target.value
+      setAw(e.target.value)
+
+      var message = document.getElementById('waMessage');
+        if(val.length == 10){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setWaValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setWaValidated(false)
+        }
+    }
+
+    const changeEmail = (e) => {
+      var val = e.target.value
+      setAe(e.target.value)
+      var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+      var message = document.getElementById('emailMessage');
+        if(regex.test(val)){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setEmailValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setEmailValidated(false)
+        }
+    }
+
+    const changeAadhar = (e) => {
+      var val = e.target.value
+      setAa(e.target.value)
+      
+      var message = document.getElementById('aadharMessage');
+        if(val.length == 12){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setAadharValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setAadharValidated(false)
+        }
+    }
+
+    const changePan = (e) => {
+      var val = e.target.value
+      setAp(e.target.value)
+      var regex = /^[A-Z0-9]{10}$/
+      var message = document.getElementById('panMessage');
+        if(regex.test(val)){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setPanValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setPanValidated(false)
+        }
+    }
 
     const addApplicant = (e) => {
-        
+        e.preventDefault()
         const Token = 'bearer' + " " + Cookies.get('Token')
+        if(phoneValidated === true && waValidated ===true && emailValidated === true && aadharValidated === true && panValidated === true)
+        {
         axios.post(`${BASE_URL}/api/v1/applicant/createNewApplicant`,
         {
             firstName: firstName,
@@ -237,12 +340,15 @@ function IndividualApplicationform() {
             applicantAadhar: aa,
             applicantMobile: am,
             applicantWhatsapp: aw,
-            applicantEmail: ae
+            applicantEmail: ae,
+            religion: religion,
+            nationality: nationality
         },
         {headers:{'Authorization':Token}})
         .then(response => {
             window.location.reload()
         })
+      }
     }
     
     
@@ -387,6 +493,7 @@ const uploadSAS = (e) =>{
             console.log(response)
             window.location.reload()
         })
+        
     }
 
     const generateApfd = (e) =>{
@@ -400,6 +507,7 @@ const uploadSAS = (e) =>{
     }
 
     const submit = (e) => {
+      e.preventDefault()
       const Token = 'bearer' + " " + Cookies.get('Token')
       if( notFundedSelf === false) {
         if(paymentMode === "Cheque" || paymentMode === "DD") {  
@@ -581,9 +689,13 @@ const uploadSAS = (e) =>{
             setLeadid(response.data.leadId)
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
+            setBpr(response.data.bookingPaymentReciept)
             var pt = response.data.paymentTerms
 
-
+            if(response.data.bookingPaymentReceipt === true ){
+              setBrn(response.data.bookingPaymentRecieptNumber)
+              setBcv(response.data.bookingPaymentRecieptLink)
+            }
 
             if(response.data.applicationFormDraft === false){
               setDraft(false)
@@ -774,10 +886,12 @@ const uploadSAS = (e) =>{
               }
             }
 
-            if(response.data.bookingPaymentMode) {
+            if(response.data.bookingPaymentMode !== "Not Added") {
               setBpm(true)
+              setBpms(response.data.bookingPaymentMode)
             }
 
+           
 
           })
 
@@ -945,14 +1059,14 @@ const uploadSAS = (e) =>{
                     </div>
                 </div>
                 <div className="applicants" style={{display: disp}}>
-                    <form>
+                    <form onSubmit={addApplicant}>
                     <br />
                     <div className="row justify-content-center">
                     <div className="col-3">
                       <Form.Group controlId="salutation">
                         <Form.Label>Salutation</Form.Label>
-                        <Form.Control  as="select" onChange={(e)=>setSalutation(e.target.value)}>
-                        <option>Select a Salutation</option>   
+                        <Form.Control  as="select" onChange={(e)=>setSalutation(e.target.value)} required>
+                        <option value="">Select a Salutation</option>   
                         <option value="Mr.">Mr.</option>
                         <option value="Mrs.">Mrs.</option>
                         <option value="Ms.">Ms.</option>
@@ -967,6 +1081,7 @@ const uploadSAS = (e) =>{
                           class="form-control"
                           name="firstName"
                           id="firstName"
+                          required
                           onChange={(e)=>setFirstName(e.target.value)}
                           />
                       </div>
@@ -987,6 +1102,7 @@ const uploadSAS = (e) =>{
                           class="form-control"
                           name="lastName"
                           id="lastName"
+                          required
                           onChange={(e)=>setLastName(e.target.value)}
                           />
                       </div>
@@ -1010,7 +1126,33 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="fname"
                             id="fname"
+                            required
                             onChange={(e)=>setFn(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Religion</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="religion"
+                            id="religion"
+                            required
+                            onChange={(e)=>setReligion(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Nationality</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="nationality"
+                            id="nationality"
+                            required
+                            onChange={(e)=>setNationality(e.target.value)}
                             />
                           </div>
                       </div>
@@ -1023,8 +1165,12 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="mobile"
                             id="mobile"
-                            onChange={(e)=>setAm(e.target.value)}
+                            required
+                            onChange={changePhone}
                             />
+                            <small id="phnoMessage" className="text-danger d-none">
+                              Must be of 10 characters with numbers only
+                            </small>
                           </div>
                           <div className="col-4">
                             <label>Whatsapp</label>
@@ -1033,8 +1179,11 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="whatsapp"
                             id="whatsapp"
-                            onChange={(e)=>setAw(e.target.value)}
+                            onChange={changeWhatsapp}
                             />
+                            <small id="waMessage" className="text-danger d-none">
+                              Must be of 10 characters with numbers only
+                            </small>
                           </div>
                           <div className="col-4">
                             <label>Email</label>
@@ -1043,8 +1192,12 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="email"
                             id="email"
-                            onChange={(e)=>setAe(e.target.value)}
+                            required
+                            onChange={changeEmail}
                             />
+                            <small id="emailMessage" className="text-danger d-none">
+                              Please provide a valid email
+                            </small>
                           </div>
                       </div>
                       <br />
@@ -1056,6 +1209,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="oc"
                             id="oc"
+                            required
                             onChange={(e)=>setOc(e.target.value)}
                             />
                           </div>
@@ -1066,8 +1220,12 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="pan"
                             id="pan"
-                            onChange={(e)=>setAp(e.target.value)}
+                            required
+                            onChange={changePan}
                             />
+                            <small id="panMessage" className="text-danger d-none">
+                              Must be 10 characters with capitals and numbers only
+                            </small>
                           </div>
                           <div className="col-4">
                             <label>Aadhar</label>
@@ -1076,8 +1234,12 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="aa"
                             id="aa"
-                            onChange={(e)=>setAa(e.target.value)}
+                            required
+                            onChange={changeAadhar}
                             />
+                            <small id="aadharMessage" className="text-danger d-none">
+                              Must be 12 digits
+                            </small>
                           </div>
                       </div>
                       <br />
@@ -1095,6 +1257,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="fa1"
                             id="fa1"
+                            required
                             onChange={(e)=>setFa1(e.target.value)}
                             />
                           </div>
@@ -1105,6 +1268,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="lm1"
                             id="lm1"
+                            required
                             onChange={(e)=>setLm1(e.target.value)}
                             />
                           </div>
@@ -1118,6 +1282,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="ct1"
                             id="ct1"
+                            required
                             onChange={(e)=>setCt1(e.target.value)}
                             />
                           </div>
@@ -1128,6 +1293,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="pc1"
                             id="pc1"
+                            required
                             onChange={(e)=>setPc1(e.target.value)}
                             />
                           </div>
@@ -1138,6 +1304,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="st1"
                             id="st1"
+                            required
                             onChange={(e)=>setSt1(e.target.value)}
                             />
                           </div>
@@ -1206,7 +1373,7 @@ const uploadSAS = (e) =>{
                       </div>
                       <div className="mt-2">
                         <div className="col-12 text-center">
-                        <button className="btn btn-danger" onClick={addApplicant}>Add</button>
+                        <button className="btn btn-danger" type="submit">Add</button>
                         </div>
                       </div>
                     </form>                                            
@@ -1285,6 +1452,25 @@ const uploadSAS = (e) =>{
                             type="text"
                             class="form-control"
                             value={a.fatherName}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Religion</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.religion}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Nationality</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            onChange={a.nationality}
                             />
                           </div>
                       </div>
@@ -1545,12 +1731,14 @@ const uploadSAS = (e) =>{
                   { paymentMode === "Cheque" || paymentMode === "DD" ?
                   <>
                   <br />
+                  <form onSubmit={submit}>
                   <div className="row justify-content-center">
                     <div className="col-lg-4 col-sm-12">
                       <label>Cheque No.: </label>
                       <input
                       type="number"
                       class="form-control"
+                      required
                       onChange={(e)=>setChequeNo(e.target.value)}
                       />
                     </div>
@@ -1559,6 +1747,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setBank(e.target.value)}
                       />
                     </div>
@@ -1570,6 +1759,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="number"
                       class="form-control"
+                      required
                       onChange={(e)=>setAccount(e.target.value)}
                       />
                     </div>
@@ -1578,6 +1768,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="date"
                       class="form-control"
+                      required
                       onChange={(e)=>setTdate(e.target.value)}
                       />
                     </div>
@@ -1590,6 +1781,7 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       value={tamount}
+                      required
                       onChange={(e)=>setTamount(e.target.value)}
                       />
                     </div>
@@ -1598,6 +1790,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setIssuedBy(e.target.value)}
                       />
                     </div>
@@ -1614,6 +1807,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="cheque"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
                       <label class="form-check-label pl-5">
@@ -1625,6 +1819,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="dd"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
                       <label class="form-check-label pl-5">
@@ -1642,6 +1837,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedBy(e.target.value)}
                       />
                     </div>
@@ -1650,13 +1846,28 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedPan(e.target.value)}
                       />
                     </div>
                   </div>
                   
+                  
                   </> : null
                   }
+
+                <br />
+                  <div className="row justify-content-center">
+                  <div className="col-lg-2 col-sm-3">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    type="submit"
+                  >
+                    Add Payment
+                  </button>
+                </div>
+                </div>
+                  </form>
                   </>
                   : null
                   }
@@ -1664,12 +1875,14 @@ const uploadSAS = (e) =>{
                   paymentMode === "NEFT" || paymentMode === "RTGS" || paymentMode === "IMPS" ?
                   <>
                   <br />
+                  <form onSubmit={submit}>
                   <div className="row justify-content-center">
                     <div className="col-lg-4 col-sm-12">
                       <label>Transaction Date: </label>
                       <input
                       type="date"
                       class="form-control"
+                      required
                       onChange={(e)=>setTdate(e.target.value)}
                       />
                     </div>
@@ -1678,6 +1891,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setBank(e.target.value)}
                       />
                     </div>
@@ -1689,6 +1903,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="number"
                       class="form-control"
+                      required
                       onChange={(e)=>setAccount(e.target.value)}
                       />
                     </div>
@@ -1697,6 +1912,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setComments(e.target.value)}
                       />
                     </div>
@@ -1709,6 +1925,7 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       value={tamount}
+                      required
                       onChange={(e)=>setTamount(e.target.value)}
                       />
                     </div>
@@ -1717,6 +1934,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setIssuedBy(e.target.value)}
                       />
                     </div>
@@ -1733,6 +1951,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="cheque"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
                       <label class="form-check-label pl-5">
@@ -1744,6 +1963,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="dd"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
                       <label class="form-check-label pl-5">
@@ -1761,6 +1981,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedBy(e.target.value)}
                       />
                     </div>
@@ -1769,6 +1990,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedPan(e.target.value)}
                       />
                     </div>
@@ -1776,7 +1998,18 @@ const uploadSAS = (e) =>{
                   
                   </> : null
                   }
-                 
+                 <br />
+                  <div className="row justify-content-center">
+                  <div className="col-lg-2 col-sm-3">
+                  <button
+                    className="btn btn-secondary btn-user btn-block"
+                    type="submit"
+                  >
+                    Add Payment
+                  </button>
+                </div>
+                </div>
+                </form>
                   </> : null
                
                   }
@@ -1790,12 +2023,14 @@ const uploadSAS = (e) =>{
                   paymentMode === "Cash" ?
                 <>
                 <br />
+                  <form onSubmit={submit}>
                   <div className="row justify-content-center">
                     <div className="col-lg-4 col-sm-12">
                       <label>Received Date: </label>
                       <input
                       type="date"
                       class="form-control"
+                      required
                       onChange={(e)=>setTdate(e.target.value)}
                       />
                     </div>
@@ -1804,6 +2039,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setReceivedBy(e.target.value)}
                       />
                     </div>
@@ -1816,6 +2052,7 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       value={tamount}
+                      required
                       onChange={(e)=>setTamount(e.target.value)}
                       />
                     </div>
@@ -1824,6 +2061,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setIssuedBy(e.target.value)}
                       />
                     </div>
@@ -1840,6 +2078,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="cheque"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(false)}
                         />
                       <label class="form-check-label pl-5">
@@ -1852,6 +2091,7 @@ const uploadSAS = (e) =>{
                           className="form-check-input"
                           id="dd"
                           name="fund"
+                          required
                           onClick={(e)=>setNotFundedSelf(true)}
                         />
                       <label class="form-check-label pl-5">
@@ -1869,6 +2109,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedBy(e.target.value)}
                       />
                     </div>
@@ -1877,6 +2118,7 @@ const uploadSAS = (e) =>{
                       <input
                       type="text"
                       class="form-control"
+                      required
                       onChange={(e)=>setFundedPan(e.target.value)}
                       />
                     </div>
@@ -1884,23 +2126,20 @@ const uploadSAS = (e) =>{
                   
                   </> : null
                   }
-                </> : null}
-                  
-                  
-                { bpm === false ?
-                <>
-                <br />
+                   <br />
                   <div className="row justify-content-center">
                   <div className="col-lg-2 col-sm-3">
                   <button
                     className="btn btn-secondary btn-user btn-block"
-                   onClick={submit}
+                    type="submit"
                   >
                     Add Payment
                   </button>
                 </div>
                 </div>
+                </form>
                 </> : null}
+                  
                 
                 { 
                 neft === true ? 
@@ -2304,7 +2543,7 @@ const uploadSAS = (e) =>{
                   <>
                   <div style={{display: 'flex'}}> 
                     <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft :</h4>
-                  <button className="btn btn-secondary btn-user" onClick={generateApfd}>Generate Application Form</button>
+                  <button className="btn btn-secondary btn-user" onClick={generateApfd} disabled={ status !== "Applicant Added" && bpms !== "Not Added" ? true : false}>Generate Application Form</button>
                   </div>
                   </>:
                   <>
@@ -2397,6 +2636,21 @@ const uploadSAS = (e) =>{
                   </>
                 }
                   
+                </div>
+                </div>
+                <div className="row mb-3 mx-2">
+                <div className="col-12 tab-card pt-5 pb-5 text-center">
+                  {
+                    bpr === false ?
+                    <>
+                    <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Credit Voucher for Booking Payment</h4>
+                    </> : 
+                    <>
+                    <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Credit Voucher for Booking Payment</h4>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Receipt Number: </span>{brn}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Credit Voucher: </span><a href={bcv} target="_blank">Receipt Link</a></h6>
+                    </>
+                  }
                 </div>
                 </div>
 

@@ -73,6 +73,7 @@ function AddLoanBank() {
             <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
             </div>
         </div>
+        <form onSubmit={submit}>
         <div className="row mt-5 container-fluid justify-content-center">
             <div className="col-8">
             <h4>Add Loan Bank</h4>
@@ -87,6 +88,7 @@ function AddLoanBank() {
                 name="bankname"
                 id="bankname"
                 value={bname}
+                required
                 onChange={(e)=>setBname(e.target.value)}
             />
             </div>
@@ -98,6 +100,7 @@ function AddLoanBank() {
                 name="bankcode"
                 id="bankcode"
                 value={bcode}
+                required
                 onChange={(e)=>setBcode(e.target.value)}
             />
             </div>
@@ -111,6 +114,7 @@ function AddLoanBank() {
                 name="gi"
                 id="gi"
                 value={gi}
+                required
                 onChange={(e)=>setGi(e.target.value)}
             />
             </div>
@@ -122,6 +126,7 @@ function AddLoanBank() {
                 name="wi"
                 id="wi"
                 value={wi}
+                required
                 onChange={(e)=>setWi(e.target.value)}
             />
             </div>
@@ -133,6 +138,7 @@ function AddLoanBank() {
                 name="si"
                 id="si"
                 value={si}
+                required
                 onChange={(e)=>setSi(e.target.value)}
             />
             </div>
@@ -208,10 +214,11 @@ function AddLoanBank() {
 
         </div>
         <div className="col-4">
-            <button className="btn btn-secondary btn-user" onClick={submit}>Add</button>
+            <button className="btn btn-secondary btn-user" type="submit">Add</button>
                                         
         </div>
         </div>
+        </form>
        
         </>
     )

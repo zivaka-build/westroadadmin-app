@@ -30,7 +30,7 @@ function AddTdsRates() {
         <h4>Add TDS Rate</h4>
         </div>
     </div>
-    <form>
+    <form  onSubmit={submit}>
     <div className="mt-5 row container-fluid justify-content-center">
         <div className="col-4">
             <label>TDS Section</label>
@@ -39,6 +39,7 @@ function AddTdsRates() {
             class="form-control"
             name="tdssection"
             id="tdssection"
+            required
             onChange={(e)=>setTs(e.target.value)}
             />
         </div>
@@ -49,6 +50,7 @@ function AddTdsRates() {
             class="form-control"
             name="entitytype"
             id="entitytype"
+            required
             onChange={(e)=>setEt(e.target.value)}
             />
         </div>
@@ -61,6 +63,7 @@ function AddTdsRates() {
             class="form-control"
             name="description"
             id="description"
+            required
             onChange={(e)=>setDesc(e.target.value)}
             />
         </div>
@@ -71,6 +74,7 @@ function AddTdsRates() {
             class="form-control"
             name="taxslab"
             id="taxslab"
+            required
             onChange={(e)=>setTaxs(e.target.value)}
             />
         </div>
@@ -81,7 +85,7 @@ function AddTdsRates() {
 
         </div>
         <div className="col-4">
-            <button className="btn btn-secondary btn-user" onClick={submit}>Add TDS Rate</button>
+            <button className="btn btn-secondary btn-user" type="submit">Add TDS Rate</button>
                                     
         </div>
     </div>
