@@ -422,6 +422,12 @@ const drawer = (
                     <h7>Loan Banks</h7>
                     </ListItem>
                     </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addpaymentterm'>
+                    <ListItem button key={'Add Payment Term'}>
+                    <h7>Add Payment Term</h7>
+                    </ListItem>
+                    </Link>
                     
                     </List>
                 
