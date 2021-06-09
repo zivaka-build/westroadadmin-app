@@ -506,6 +506,7 @@ function IndividualSite() {
                             <th scope="col">Car Parking Type</th>
                             <th scope="col">Car Parking Type Code</th>
                             <th scope="col">Price</th>
+                            <th scope="col">Total Count</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -514,6 +515,7 @@ function IndividualSite() {
                                 <td>{p.type}</td>
                                 <td>{p.typeCode}</td>
                                 <td>{p.price}</td>
+                                <td>{p.totalCount}</td>
                                 </tr>
                             ))}
                             
