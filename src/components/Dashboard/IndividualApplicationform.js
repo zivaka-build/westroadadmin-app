@@ -70,6 +70,8 @@ function IndividualApplicationform() {
     const [middleName, setMiddleName] = useState("")
     const [lastName, setLastName] = useState("")
     const [salutation, setSalutation] = useState("")
+    const [religion, setReligion] = useState("")
+    const [nationality, setNationality] = useState("")
     const [fn, setFn] = useState("")
     const [sn, setSn] = useState("")
     const [oc, setOc] = useState("")
@@ -123,6 +125,7 @@ function IndividualApplicationform() {
     const [notFundedSelf, setNotFundedSelf] = useState()
     const [fundedBy, setFundedBy] = useState("")
     const [fundedPan, setFundedPan] = useState("")
+    const [fundedPanValidated, setFundedPanValidated] = useState(false)
 
     const [tdate, setTdate] = useState("")
     const [account, setAccount] = useState("")
@@ -198,6 +201,9 @@ function IndividualApplicationform() {
     const [emailValidated, setEmailValidated] = useState(false)
     const [aadharValidated, setAadharValidated] = useState(false)
     const [panValidated, setPanValidated] = useState(false)
+
+    const [cad, setCad] = useState(false)
+    const [cadLink, setCadLink] = useState("")
 
 
 
@@ -302,6 +308,24 @@ function IndividualApplicationform() {
         }
     }
 
+    const changeFundedPan = (e) => {
+      var val = e.target.value
+      setFundedPan(e.target.value)
+      var regex = /^[A-Z0-9]{10}$/
+      var message = document.getElementById('fundedpanMessage');
+        if(regex.test(val)){
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setFundedPanValidated(true) 
+        }
+        else{
+            
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setFundedPanValidated(false)
+        }
+    }
+
     const addApplicant = (e) => {
         e.preventDefault()
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -338,7 +362,9 @@ function IndividualApplicationform() {
             applicantAadhar: aa,
             applicantMobile: am,
             applicantWhatsapp: aw,
-            applicantEmail: ae
+            applicantEmail: ae,
+            religion: religion,
+            nationality: nationality
         },
         {headers:{'Authorization':Token}})
         .then(response => {
@@ -567,7 +593,7 @@ const uploadSAS = (e) =>{
         }
       }
 
-      else if(notFundedSelf === true) {
+      else if(notFundedSelf === true && fundedPanValidated === true) {
         if(paymentMode === "Cheque" || paymentMode === "DD") {  
           axios.put(`${BASE_URL}/api/v1/applicationform/addpaymentdetailstoappform`, 
           { 
@@ -638,6 +664,21 @@ const uploadSAS = (e) =>{
       
     }
 
+    const generateChequeReceipt = (e) => {
+      e.preventDefault()
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.post(`${BASE_URL}/api/v1/util/chequeReceipt`, 
+          { 
+            applicationId : applicationId,
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+    }
+
+    
     const approve = (e) => {
       const Token = 'bearer' + " " + Cookies.get('Token')
       axios.put(`${BASE_URL}/api/v1/applicationform/bookingamountapproval`, 
@@ -882,14 +923,25 @@ const uploadSAS = (e) =>{
               }
             }
 
+            setBpms(response.data.bookingPaymentMode)
             if(response.data.bookingPaymentMode !== "Not Added") {
               setBpm(true)
-              setBpms(response.data.bookingPaymentMode)
+            }
+
+            if(response.data.chequeAcknowledgementDoc === false) {
+              setCad(false)
+            }
+
+            else if(response.data.chequeAcknowledgementDoc === true){
+              setCad(true)
+              setCadLink(response.data.chequeAcknowledgementLink)
             }
 
            
 
           })
+
+          
 
           axios.get(`${BASE_URL}/api/v1/applicant/getlistofapplicantsbyapplicationID/${applicationId}`,{headers:{Authorization:Token}})
               .then(response=>{
@@ -907,7 +959,6 @@ const uploadSAS = (e) =>{
             })
     },[])
     
-  
 
     return (
         <div className="mt-2">
@@ -1124,6 +1175,31 @@ const uploadSAS = (e) =>{
                             id="fname"
                             required
                             onChange={(e)=>setFn(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Religion</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="religion"
+                            id="religion"
+                            required
+                            onChange={(e)=>setReligion(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Nationality</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="nationality"
+                            id="nationality"
+                            required
+                            onChange={(e)=>setNationality(e.target.value)}
                             />
                           </div>
                       </div>
@@ -1423,6 +1499,25 @@ const uploadSAS = (e) =>{
                             type="text"
                             class="form-control"
                             value={a.fatherName}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Religion</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.religion}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Nationality</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            value={a.nationality}
                             />
                           </div>
                       </div>
@@ -1799,8 +1894,11 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       required
-                      onChange={(e)=>setFundedPan(e.target.value)}
+                      onChange={changeFundedPan}
                       />
+                      <small id="fundedpanMessage" className="text-danger d-none">
+                        Must be 10 characters with capitals and numbers only
+                      </small>
                     </div>
                   </div>
                   
@@ -1943,8 +2041,11 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       required
-                      onChange={(e)=>setFundedPan(e.target.value)}
+                      onChange={changeFundedPan}
                       />
+                      <small id="fundedpanMessage" className="text-danger d-none">
+                              Must be 10 characters with capitals and numbers only
+                      </small>
                     </div>
                   </div>
                   
@@ -2071,8 +2172,11 @@ const uploadSAS = (e) =>{
                       type="text"
                       class="form-control"
                       required
-                      onChange={(e)=>setFundedPan(e.target.value)}
+                      onChange={changeFundedPan}
                       />
+                      <small id="fundedpanMessage" className="text-danger d-none">
+                         Must be 10 characters with capitals and numbers only
+                      </small>
                     </div>
                   </div>
                   
@@ -2224,6 +2328,25 @@ const uploadSAS = (e) =>{
                   />
                   </div>
                 </div>
+                { cad === false ?
+                <>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                    <button className="btn btn-secondary btn-user" onClick={generateChequeReceipt}>Generate Cheque Receipt Acknowledgement</button>
+                  </div>
+                </div>
+                </>
+                : 
+                <>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                    <h6><a href={cadLink} target="_blank">View Cheque Receipt Acknowledgement</a></h6>
+                  </div>
+                </div>
+                </>
+                }
                   </> 
                   : null
                 }
@@ -2460,6 +2583,7 @@ const uploadSAS = (e) =>{
                         <th scope="col">Sl. No.</th>
                         <th scope="col">Description</th>
                         <th scope="col">Percentage</th>
+                        <th scope="col">Completion Status</th>
                         
                         </tr>
                     </thead>
@@ -2469,7 +2593,7 @@ const uploadSAS = (e) =>{
                             <td>{p.serial}</td>
                             <td>{p.description}</td>
                             <td>{p.percentage}</td>
-                            
+                            <td>{p.completionStatus === true ? "Yes": "No"}</td>
                             </tr>
                         ))}
                         
@@ -2495,7 +2619,7 @@ const uploadSAS = (e) =>{
                   <>
                   <div style={{display: 'flex'}}> 
                     <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Application Form Draft :</h4>
-                  <button className="btn btn-secondary btn-user" onClick={generateApfd} disabled={ status !== "Applicant Added" && bpms !== "Not Added" ? true : false}>Generate Application Form</button>
+                  <button className="btn btn-secondary btn-user" onClick={generateApfd} disabled={ status !== "Aplicant Added" && bpms !== "Not Added" ? false : true}>Generate Application Form</button>
                   </div>
                   </>:
                   <>

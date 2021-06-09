@@ -1,4 +1,5 @@
 import React, {useState,useEffect} from "react"
+import { navigate} from "@reach/router"
 
 function Voucher() {
     return(
@@ -11,7 +12,7 @@ function Voucher() {
         <br />
         <div className="row tab-card py-5 justify-content-center">
             <div className="col-4 text-right">
-                <button className="btn btn-secondary btn-user">Create Credit Voucher</button>
+                <button className="btn btn-secondary btn-user" onClick={()=>navigate("/dashboard/addcreditvoucher")}>Create Credit Voucher</button>
             </div>
             &nbsp;&nbsp;
             <div className="col-4">

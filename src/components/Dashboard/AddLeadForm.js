@@ -252,6 +252,7 @@ function AddLeadForm(){
             <option>Website</option>
             <option>Facebook</option>
             <option>Referral</option>
+            <option>Walk In</option>
             </Form.Control>
             </Form.Group>
         </div>
@@ -303,7 +304,7 @@ function AddLeadForm(){
             class="form-control"
             name="details"
             id="outlined-basic"
-           onChange={(e)=>setSubType(e.target.value)}
+            onChange={(e)=>setSubType(e.target.value)}
             />
             <br />
            </div>
@@ -315,11 +316,12 @@ function AddLeadForm(){
         <div className="row justify-content-center">
         <div className="col-lg-4 col-sm-6">
         <Form.Group controlId="exampleForm.ControlSelect2">
-            <Form.Label>Lead Type</Form.Label>
+            <Form.Label>Lead Priority</Form.Label>
             <Form.Control onChange={(e)=>setType(e.target.value)} as="select">
             <option selected>Hot</option>
             <option>Normal</option>
             <option>Cold</option>
+            
         
             </Form.Control>
             </Form.Group>

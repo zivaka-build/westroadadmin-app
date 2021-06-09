@@ -37,6 +37,7 @@ function AddMember() {
   const [phoneValidated, setPhoneValidated] = useState(false)
   const [emailValidated, setEmailValidated] = useState(false)
   const [passwordValidated, setPasswordValidated] = useState(false)
+  const [userRole, setUserRole] = useState("")
 
   const addUser = (e) => {
     e.preventDefault();
@@ -49,6 +50,7 @@ function AddMember() {
         userMobile: mobilenumber,
         userEmail: email,
         isActive: true,
+        userRole: userRole,
       })
       .then((response) => {
         if(response.status === 200){
@@ -225,6 +227,23 @@ function AddMember() {
                 <small id="passwordMessage" className="text-danger d-none">
                 Must be same as password
                 </small>
+            </div>
+        </div>
+        <br />
+        <div className="row justify-content-center">
+            <div className="col-8">
+              <Form.Group controlId="role">
+              <Form.Label>Role</Form.Label>
+              <Form.Control  as="select"  onChange={(e)=>setUserRole(e.target.value)} required>
+                <option value="">Select a role</option>   
+                <option value="Director">Director</option>
+                <option value="Sales">Sales</option>
+                <option value="Finance">Finance</option>
+                <option value="Operations">Operations</option>
+                <option value="Engineering">Engineering</option>
+                <option value="ITAdmin">IT Admin</option>
+              </Form.Control>
+              </Form.Group>
             </div>
         </div>
         <br />
