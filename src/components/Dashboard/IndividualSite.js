@@ -45,6 +45,8 @@ function IndividualSite() {
     const [pt, setPt] = useState([])
     const [ptbol, setPtbol] = useState(false)
     const [termId, setTermId] = useState("")
+
+    const [disp, setDisp] = useState("none")
   
 
 
@@ -70,6 +72,33 @@ function IndividualSite() {
             setPtbol(true)
             setPterms(response.data.paymentTerms.termItems)
             })
+    }
+
+    const editSite = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.put(`${BASE_URL}/api/v1/site/updateSite/${siteID}`,
+        { 
+            siteName: sn,
+            siteCode: sc,
+            siteHIRANo: hr,
+            siteCompanyName: scn,
+            buildingPlanSanctionNo: bpsn,
+            siteDescription: desc,
+            siteAddress : {
+                fullAddress : adr,
+                landmark: lm,
+                pinCode: pc,
+                city: ct,
+                state: st,
+            },
+           
+        }
+        ,{headers:{Authorization:Token}})
+          .then(response => {
+            setDisp("block")
+            console.log(response)
+          })
     }
 
     useEffect(() => {
@@ -302,12 +331,12 @@ function IndividualSite() {
                         </div>
                     </div>
                     <br />
-                    
-                    <div className="row justify-content-center">
+                    <div className="text-center" style={{display : disp}}><em>All details saved succesfully!</em></div>
+                    <div className="row mt-2 justify-content-center">
     
                         <div className="col-12 text-center">
 
-                            <button className="btn btn-secondary btn-user">Save</button>
+                            <button className="btn btn-secondary btn-user" onClick={editSite}>Save</button>
                                                         
                         </div>
                     </div>
