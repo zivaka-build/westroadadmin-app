@@ -2573,6 +2573,7 @@ const uploadSAS = (e) =>{
                         <th scope="col">Sl. No.</th>
                         <th scope="col">Description</th>
                         <th scope="col">Percentage</th>
+                        <th scope="col">Completion Status</th>
                         
                         </tr>
                     </thead>
@@ -2582,7 +2583,7 @@ const uploadSAS = (e) =>{
                             <td>{p.serial}</td>
                             <td>{p.description}</td>
                             <td>{p.percentage}</td>
-                            
+                            <td>{p.completionStatus === true ? "Yes": "No"}</td>
                             </tr>
                         ))}
                         
