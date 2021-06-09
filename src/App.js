@@ -47,7 +47,9 @@ import IndividualCustomerPage from "./routes/IndividualCustomerPage"
 import ViewUserPage from "./routes/ViewUserPage"
 import VoucherPage from "./routes/VoucherPage"
 import AddPaymentTermPage from "./routes/AddPaymentTermPage"
+import AddHandoverListTypePage from "./routes/AddHandoverListTypePage"
 import AddCreditVoucherPage from "./routes/AddCreditVoucherPage"
+import ViewHandoverListTypePage from "./routes/ViewHandoverListTypePage"
 
 function App() {
   return (
@@ -98,7 +100,9 @@ function App() {
           <ViewUserPage path="/viewuser" />
           <VoucherPage path="/voucher" />
           <AddPaymentTermPage path="/addpaymentterm" />
+          <AddHandoverListTypePage path="/addhandoverlisttype" />
           <AddCreditVoucherPage path="/addcreditvoucher" />
+          <ViewHandoverListTypePage path="/viewhandoverlisttype" />
         </DefaultDashboard>
 
       </Router>

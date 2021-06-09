@@ -428,6 +428,12 @@ const drawer = (
                     <h7>Add Payment Term</h7>
                     </ListItem>
                     </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewhandoverlisttype'>
+                    <ListItem button key={'Handover List Type'}>
+                    <h7>Handover List Type</h7>
+                    </ListItem>
+                    </Link>
                     
                     </List>
                 
