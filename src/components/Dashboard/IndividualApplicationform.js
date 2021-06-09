@@ -202,6 +202,9 @@ function IndividualApplicationform() {
     const [aadharValidated, setAadharValidated] = useState(false)
     const [panValidated, setPanValidated] = useState(false)
 
+    const [cad, setCad] = useState(false)
+    const [cadLink, setCadLink] = useState("")
+
 
 
     const showApplicant = (e) => {
@@ -661,6 +664,19 @@ const uploadSAS = (e) =>{
       
     }
 
+    const generateChequeReceipt = (e) => {
+      e.preventDefault()
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.post(`${BASE_URL}/api/v1/util/chequeReceipt`, 
+          { 
+            applicationId : applicationId,
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+          })
+    }
+
     
     const approve = (e) => {
       const Token = 'bearer' + " " + Cookies.get('Token')
@@ -911,6 +927,15 @@ const uploadSAS = (e) =>{
               setBpm(true)
             }
 
+            if(response.data.chequeAcknowledgementDoc === false) {
+              setCad(false)
+            }
+
+            else if(response.data.chequeAcknowledgementDoc === true){
+              setCad(true)
+              setCadLink(response.data.chequeAcknowledgementLink)
+            }
+
            
 
           })
@@ -933,7 +958,6 @@ const uploadSAS = (e) =>{
             })
     },[])
     
-    console.log(bpms)
 
     return (
         <div className="mt-2">
@@ -2303,6 +2327,16 @@ const uploadSAS = (e) =>{
                   />
                   </div>
                 </div>
+                { cad === false ?
+                <>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                    <button className="btn btn-secondary btn-user" onClick={generateChequeReceipt}>Generate Cheque Receipt Acknowledgement</button>
+                  </div>
+                </div>
+                </>
+                : null}
                   </> 
                   : null
                 }
