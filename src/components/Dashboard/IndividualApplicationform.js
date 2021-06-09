@@ -674,6 +674,7 @@ const uploadSAS = (e) =>{
           {headers:{'Authorization':Token}})
           .then(response=>{
               console.log(response)
+              window.location.reload()
           })
     }
 
@@ -2336,7 +2337,16 @@ const uploadSAS = (e) =>{
                   </div>
                 </div>
                 </>
-                : null}
+                : 
+                <>
+                <br />
+                <div className="row justify-content-center">
+                  <div className="col-4">
+                    <h6><a href={cadLink} target="_blank">View Cheque Receipt Acknowledgement</a></h6>
+                  </div>
+                </div>
+                </>
+                }
                   </> 
                   : null
                 }
