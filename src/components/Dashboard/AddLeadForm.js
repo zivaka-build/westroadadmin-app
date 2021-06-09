@@ -320,6 +320,7 @@ function AddLeadForm(){
             <option selected>Hot</option>
             <option>Normal</option>
             <option>Cold</option>
+            <option>Walk In</option>
         
             </Form.Control>
             </Form.Group>
