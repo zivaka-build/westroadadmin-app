@@ -601,16 +601,20 @@ function IndividualSite() {
                         <table class="table">
                             <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
                                 <tr>
+                                <th scope="col">Sl. No.</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Percentage</th>
+                                <th scope="col">Completion Status</th>
                                 
                                 </tr>
                             </thead>
                             <tbody>
                                 {pterms.map((p)=>(
                                     <tr>
+                                    <td>{p.serial}</td>
                                     <td>{p.description}</td>
                                     <td>{p.percentage}</td>
+                                    <td>{p.completionStatus === true ? "Yes": "No"}</td>
                                     
                                     </tr>
                                 ))}
