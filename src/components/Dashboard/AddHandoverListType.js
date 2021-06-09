@@ -56,6 +56,7 @@ function AddHandoverListType(){
         .post(`${BASE_URL}/api/v1/handover/createHandOverListType`,{siteId: scode,bhk: bhk+"BHK",listItems : listItems},{ headers : { 'Authorization' : Token }})
         .then(response => { 
             console.log(response)
+            navigate("/dashboard/viewhandoverlisttype")
         })
     }
 
