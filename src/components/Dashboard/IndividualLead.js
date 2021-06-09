@@ -473,9 +473,10 @@ function IndividualLead() {
                                 <Form.Group controlId="exampleForm.ControlSelect2">
                                     <Form.Label>Lead Type</Form.Label>
                                     <Form.Control onChange={(e)=>setType(e.target.value)} value={type} as="select">
-                                    <option selected>Hot</option>
+                                    <option>Hot</option>
                                     <option>Normal</option>
                                     <option>Cold</option>
+                                    <option>Walk In</option>
                                 
                                     </Form.Control>
                                     </Form.Group>
