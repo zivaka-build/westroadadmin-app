@@ -456,7 +456,9 @@ return (
           </IconButton>
           <div className={classes.topwrap}>
           <Typography className="ilead-heading" variant="h5" >
-            <img className="logo" src={logo} alt="logo"/>
+            <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/home'>
+            <img className="logo" src={logo} alt="logo" />
+            </Link>
           </Typography>
           <div  style={{display: 'flex'}} >
           <Link to="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></Link>
