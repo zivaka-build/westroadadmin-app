@@ -407,6 +407,7 @@ function IndividualLead() {
                                     <option>Website</option>
                                     <option>Facebook</option>
                                     <option>Referral</option>
+                                    <option>Walk In</option>
                                     </Form.Control>
                                     </Form.Group>
                                 </div>
@@ -471,12 +472,11 @@ function IndividualLead() {
                                 <div className="row justify-content-center">
                                 <div className="col-4">
                                 <Form.Group controlId="exampleForm.ControlSelect2">
-                                    <Form.Label>Lead Type</Form.Label>
+                                    <Form.Label>Lead Priority</Form.Label>
                                     <Form.Control onChange={(e)=>setType(e.target.value)} value={type} as="select">
                                     <option>Hot</option>
                                     <option>Normal</option>
                                     <option>Cold</option>
-                                    <option>Walk In</option>
                                 
                                     </Form.Control>
                                     </Form.Group>
