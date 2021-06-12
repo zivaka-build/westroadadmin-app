@@ -242,6 +242,7 @@ function ListofApplicationForm(){
                   icon: 'remove_red_eye',
                   tooltip: 'View Unit',
                   onClick: (event, rowData) => {
+                    Cookies.set('ActiveUnitKey', 'first')
                     navigate(`/dashboard/individualunit/${rowData.unitName}`)
                  }
               }
