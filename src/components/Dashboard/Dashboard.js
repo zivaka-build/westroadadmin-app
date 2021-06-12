@@ -276,7 +276,7 @@ const drawer = (
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewcreditvouchers'>
                     <ListItem button key={'Credit Voucher'}>
                     <h7>Credit Voucher</h7>
                     </ListItem>

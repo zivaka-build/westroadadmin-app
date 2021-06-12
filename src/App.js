@@ -50,6 +50,7 @@ import AddPaymentTermPage from "./routes/AddPaymentTermPage"
 import AddHandoverListTypePage from "./routes/AddHandoverListTypePage"
 import AddCreditVoucherPage from "./routes/AddCreditVoucherPage"
 import ViewHandoverListTypePage from "./routes/ViewHandoverListTypePage"
+import ViewCreditVouchersPage from "./routes/ViewCreditVouchersPage"
 
 function App() {
   return (
@@ -103,6 +104,7 @@ function App() {
           <AddHandoverListTypePage path="/addhandoverlisttype" />
           <AddCreditVoucherPage path="/addcreditvoucher" />
           <ViewHandoverListTypePage path="/viewhandoverlisttype" />
+          <ViewCreditVouchersPage path="/viewcreditvouchers" />
         </DefaultDashboard>
 
       </Router>
