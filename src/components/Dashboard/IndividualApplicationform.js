@@ -143,6 +143,7 @@ function IndividualApplicationform() {
     const [fundedPan, setFundedPan] = useState("")
     const [fundedPanValidated, setFundedPanValidated] = useState(false)
     const [fundedByRelation, setFundedByRelation] = useState("")
+    const [fbr, setFbr] = useState("")
 
     const [tdate, setTdate] = useState("")
     const [account, setAccount] = useState("")
@@ -918,6 +919,7 @@ const uploadSAS = (e) =>{
               setFunded(true)
               setFb(response.data.fundedBy)
               setFbp(response.data.fundedByPAN)
+              setFbr(response.data.fundedByRelation)
             }
 
             else if(response.data.notFundedSelf === false){
@@ -2602,6 +2604,18 @@ const uploadSAS = (e) =>{
                   value={fbp}
                   />
                   </div>
+                </div>
+                <br />
+                  <div className="row justify-content-center">
+                  <div className="col-4">
+                  <label>Relationship</label>
+                  <input
+                  type="text"
+                  class="form-control"
+                  value={fbr}
+                  />
+                  </div>
+          
                 </div>
                   </>
                   : 
