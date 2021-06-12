@@ -10,6 +10,7 @@ function IndividualLoanBank() {
     const {bankCode} = useParams()
     const [bname, setBname] = useState("")
     const [bcode, setBcode] = useState("")
+    const [branch, setBranch] = useState("")
     const [gi, setGi] = useState("")
     const [wi, setWi] = useState("")
     const [si, setSi] = useState("")
@@ -68,6 +69,7 @@ console.log(agent)
             setWi(response.data.rateOfInterestWomen)
             setSi(response.data.rateOfInterestSenior)
             setAgent(response.data.agent)
+            setBranch(response.data.bankBranch)
         })
     }, [])
 
@@ -76,7 +78,7 @@ console.log(agent)
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
         axios
-            .put(`${BASE_URL}/api/v1/loan/updateLoanBank`,{bankCode: bcode, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
+            .put(`${BASE_URL}/api/v1/loan/updateLoanBank`,{bankCode: bcode, bankBranch : branch,bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
                 var saved = document.getElementById('saved')
@@ -118,6 +120,18 @@ console.log(agent)
                 id="bankcode"
                 value={bcode}
                 onChange={(e)=>setBcode(e.target.value)}
+            />
+            </div>
+            <div className="col-lg-4 col-sm-12">
+                <label>Branch Name</label>
+                <input
+                type="text"
+                class="form-control"
+                name="bankBranch"
+                id="bankBranch"
+                value={branch}
+                required
+                onChange={(e)=>setBranch(e.target.value)}
             />
             </div>
         </div>
