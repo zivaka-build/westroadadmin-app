@@ -67,6 +67,8 @@ function InitiateAllotmentForm(){
     const [paymentTerms, setPaymentTerms] = useState("")
     const [emailValidated, setEmailValidated] = useState(true)
     const [phoneValidated, setPhoneValidated] = useState(true)
+
+    
    
     const changeSite = (e) => {
         setSitename(e.target.value)
@@ -113,9 +115,9 @@ function InitiateAllotmentForm(){
     const handleCPChange = (index, event) => {
         const values = [...addCarParking];
         const str = event.target.value + " ";
-        values[index].parkingType = str.substring(str.split(' ')[2])
-        values[index].parkingTypeCode = str.substring(str.split(' ')[0])
-        values[index].carParkingPrice = str.substring(str.split(' ')[1])
+        values[index].parkingType = str.split(' ')[2]
+        values[index].parkingTypeCode = str.split(' ')[0]
+        values[index].carParkingPrice = str.split(' ')[1]
         setAddCarParking(values)
     }
 
