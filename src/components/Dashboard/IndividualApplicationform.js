@@ -142,6 +142,7 @@ function IndividualApplicationform() {
     const [fundedBy, setFundedBy] = useState("")
     const [fundedPan, setFundedPan] = useState("")
     const [fundedPanValidated, setFundedPanValidated] = useState(false)
+    const [fundedByRelation, setFundedByRelation] = useState("")
 
     const [tdate, setTdate] = useState("")
     const [account, setAccount] = useState("")
@@ -625,6 +626,7 @@ const uploadSAS = (e) =>{
             chequeDate: tdate,
             fundedBy: fundedBy,
             fundedByPAN: fundedPan,
+            fundedByRelation: fundedByRelation,
             transactionAmount: tamount
           },
           {headers:{'Authorization':Token}})
@@ -645,6 +647,7 @@ const uploadSAS = (e) =>{
             receivedDate: tdate,
             fundedBy: fundedBy,
             fundedByPAN: fundedPan,
+            fundedByRelation: fundedByRelation,
             transactionAmount: tamount
           },
           {headers:{'Authorization':Token}})
@@ -669,6 +672,7 @@ const uploadSAS = (e) =>{
             transDate: tdate,
             fundedBy: fundedBy,
             fundedByPAN: fundedPan,
+            fundedByRelation: fundedByRelation,
             transactionAmount: tamount
           },
           {headers:{'Authorization':Token}})
@@ -2033,7 +2037,18 @@ const uploadSAS = (e) =>{
                       </small>
                     </div>
                   </div>
-                  
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Relationship : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      required
+                      onChange={(e)=>setFundedByRelation(e.target.value)}
+                      />
+                    </div>
+                  </div>
                   
                   </> : null
                   }
@@ -2180,6 +2195,18 @@ const uploadSAS = (e) =>{
                       </small>
                     </div>
                   </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Relationship : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      required
+                      onChange={(e)=>setFundedByRelation(e.target.value)}
+                      />
+                    </div>
+                  </div>
                   
                   </> : null
                   }
@@ -2309,6 +2336,18 @@ const uploadSAS = (e) =>{
                       <small id="fundedpanMessage" className="text-danger d-none">
                          Must be 10 characters with capitals and numbers only
                       </small>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
+                      <label>Relationship : </label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      required
+                      onChange={(e)=>setFundedByRelation(e.target.value)}
+                      />
                     </div>
                   </div>
                   
