@@ -94,9 +94,6 @@ function ViewLoanBank(){
             console.log(response)
             setBanks(response.data.loan.reverse())
         })
-
-        
-
     }, [])
     return (
         <>
