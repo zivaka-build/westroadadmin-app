@@ -62,7 +62,13 @@ function ViewLoanBank(){
             setOpen(false)
             axios.get(`${BASE_URL}/api/v1/loan/getListOfLoanBank`,{ headers : { 'Authorization' : Token }})
             .then(response => {
-            setBanks(response.data.loan.reverse())
+            if(response.status === 200) {
+                setBanks(response.data.loan.reverse())
+            }
+            else if(response.status === 409) {
+                setBanks([])
+            }
+            
             })
         })
     }
@@ -109,7 +115,8 @@ function ViewLoanBank(){
             columns={
                 [
                     { title: 'Bank Name', field: 'bankName'},
-                    { title: 'Bank Code', field: 'bankCode' },
+                    { title: 'IFS Code', field: 'bankCode' },
+                    { title: 'Branch Name', field: 'bankBranch' },
                     { title: 'ROI', field: 'rateOfInterest' },
                     { title: 'ROI Women', field: 'rateOfInterestWomen'},
                     { title: 'ROI Senior Citizen', field: 'rateOfInterestSenior' },

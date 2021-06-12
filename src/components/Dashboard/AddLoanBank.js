@@ -13,6 +13,7 @@ function AddLoanBank() {
     const [gi, setGi] = useState("")
     const [wi, setWi] = useState("")
     const [si, setSi] = useState("")
+    const [branch, setBranch] = useState("")
     const [agent, setAgent] = useState([
         {name: "", contactNumber: "", whatsappNumber: "", emailId: ""}
     ])
@@ -58,7 +59,7 @@ function AddLoanBank() {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
         axios
-            .post(`${BASE_URL}/api/v1/loan/addLoanBank`,{bankCode: bcode, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
+            .post(`${BASE_URL}/api/v1/loan/addLoanBank`,{bankCode: bcode, bankBranch: branch, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
                 if(response.status == 200) {
@@ -75,7 +76,7 @@ function AddLoanBank() {
         </div>
         <form onSubmit={submit}>
         <div className="row mt-5 container-fluid justify-content-center">
-            <div className="col-8">
+            <div className="col-12">
             <h4>Add Loan Bank</h4>
             </div>
         </div>
@@ -93,7 +94,7 @@ function AddLoanBank() {
             />
             </div>
             <div className="col-lg-4 col-sm-12">
-                <label>Bank Code</label>
+                <label>IFS Code</label>
                 <input
                 type="text"
                 class="form-control"
@@ -102,6 +103,18 @@ function AddLoanBank() {
                 value={bcode}
                 required
                 onChange={(e)=>setBcode(e.target.value)}
+            />
+            </div>
+            <div className="col-lg-4 col-sm-12">
+                <label>Branch Name</label>
+                <input
+                type="text"
+                class="form-control"
+                name="bankBranch"
+                id="bankBranch"
+                value={branch}
+                required
+                onChange={(e)=>setBranch(e.target.value)}
             />
             </div>
         </div>
