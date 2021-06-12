@@ -112,11 +112,11 @@ function InitiateAllotmentForm(){
 
     const handleCPChange = (index, event) => {
         const values = [...addCarParking];
-        const str = event.target.value;
-        values[index].parkingType = str.substring(0, str.indexOf(' '))
-        values[index].parkingTypeCode = str.substring(str.indexOf(' ')+1,str.lastIndexOf(' '))
-        values[index].carParkingPrice = str.substring(str.lastIndexOf(' ')+1)
-        console.log(str)
+        const str = event.target.value + " ";
+        values[index].parkingType = str.substring(str.split(' ')[2])
+        values[index].parkingTypeCode = str.substring(str.split(' ')[0])
+        values[index].carParkingPrice = str.substring(str.split(' ')[1])
+        setAddCarParking(values)
     }
 
     const changeLead = (e) => {
@@ -304,7 +304,7 @@ function InitiateAllotmentForm(){
                         <option value="">Select a Car Parking Type</option>
                         { 
                         carParking.map((c)=>(
-                            <option value={c.type+" "+c.typeCode+" "+c.price}>{c.type}</option>
+                            <option value={c.typeCode+" "+c.price+" "+c.type}>{c.type}</option>
                         ))}
                         </Form.Control>
                         </Form.Group>
