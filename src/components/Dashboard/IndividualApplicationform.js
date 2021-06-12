@@ -223,6 +223,8 @@ function IndividualApplicationform() {
     const [saad, setSaad] = useState("")
     const [saads,setSaads] = useState("")
 
+    const [sameAddress, setSameAddress] = useState()
+
     const showApplicant = (e) => {
         if(disp === "none"){
             setDisp("block")
@@ -1375,6 +1377,40 @@ const uploadSAS = (e) =>{
                           </div>
                       </div>
                       <br />
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-12">
+                              <label>Correspondent Address is same as Primary Address :</label>
+
+                              <input
+                                type="radio"
+                                className="form-check-input"
+                                id="yes"
+                                name="sameAddress"
+                                required
+                                onClick={()=>{setSameAddress(true); setFa2(fa1);setLm2(lm1);setCt2(ct1); setPc2(pc1); setSt2(st1)}}
+                              />
+                            <label class="form-check-label pl-5">
+                              Yes
+                            </label>
+
+                            <input
+                                type="radio"
+                                className="form-check-input"
+                                id="no"
+                                name="sameAddress"
+                                required
+                                onClick={()=>{setSameAddress(false); setFa2("");setLm2("");setCt2(""); setPc2(""); setSt2("")}}
+                              />
+                            <label class="form-check-label pl-5">
+                              No
+                            </label>
+
+                          </div>
+                      </div>
+                      { sameAddress === true ? 
+                      <>
+                      <br />
                       <div className="row justify-content-center">
                           <div className="col-12">
                               <h4>Correspondent Address</h4>
@@ -1389,6 +1425,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="fa2"
                             id="fa2"
+                            value={fa2}
                             onChange={(e)=>setFa2(e.target.value)}
                             />
                           </div>
@@ -1399,6 +1436,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="lm2"
                             id="lm2"
+                            value={lm2}
                             onChange={(e)=>setLm2(e.target.value)}
                             />
                           </div>
@@ -1412,6 +1450,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="ct2"
                             id="ct2"
+                            value={ct2}
                             onChange={(e)=>setCt2(e.target.value)}
                             />
                           </div>
@@ -1422,6 +1461,7 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="pc2"
                             id="pc2"
+                            value={pc2}
                             onChange={(e)=>setPc2(e.target.value)}
                             />
                           </div>
@@ -1432,10 +1472,84 @@ const uploadSAS = (e) =>{
                             class="form-control"
                             name="st2"
                             id="st2"
+                            value={st2}
                             onChange={(e)=>setSt2(e.target.value)}
                             />
                           </div>
                       </div>
+                      </> : null}
+
+                      { sameAddress === false ? 
+                      <>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-12">
+                              <h4>Correspondent Address</h4>
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-6">
+                            <label>Full Address</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="fa2"
+                            id="fa2"
+                            value={fa2}
+                            onChange={(e)=>setFa2(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-6">
+                            <label>Landmark</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="lm2"
+                            id="lm2"
+                            value={lm2}
+                            onChange={(e)=>setLm2(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      <br />
+                      <div className="row justify-content-center">
+                          <div className="col-4">
+                            <label>City</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="ct2"
+                            id="ct2"
+                            value={ct2}
+                            onChange={(e)=>setCt2(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>Pincode</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="pc2"
+                            id="pc2"
+                            value={pc2}
+                            onChange={(e)=>setPc2(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-4">
+                            <label>State</label>
+                            <input
+                            type="text"
+                            class="form-control"
+                            name="st2"
+                            id="st2"
+                            value={st2}
+                            onChange={(e)=>setSt2(e.target.value)}
+                            />
+                          </div>
+                      </div>
+                      </> : null}
+                      
                       <div className="mt-2">
                         <div className="col-12 text-center">
                         <button className="btn btn-danger" type="submit">Add</button>
