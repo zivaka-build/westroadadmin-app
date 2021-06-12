@@ -14,6 +14,7 @@ function AddLoanBank() {
     const [wi, setWi] = useState("")
     const [si, setSi] = useState("")
     const [branch, setBranch] = useState("")
+    const [validated, setValidated] = useState(true)
     const [agent, setAgent] = useState([
         {name: "", contactNumber: "", whatsappNumber: "", emailId: ""}
     ])
@@ -54,10 +55,31 @@ function AddLoanBank() {
         window.location.reload()
     }
 
+    const changeBcode = (e) => {
+        var value = e.target.value
+        setBcode(e.target.value)
+        var regex = /^[A-Z0-9]{11}$/
+
+        var message = document.getElementById('bcodeMessage')
+        if( regex.test(value)){
+            
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setValidated(true)
+        }
+        else {
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setValidated(false)
+            
+        }
+
+    }
 
     const submit = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
+        if( validated === true) {
         axios
             .post(`${BASE_URL}/api/v1/loan/addLoanBank`,{bankCode: bcode, bankBranch: branch, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
             .then(response => {
@@ -66,6 +88,7 @@ function AddLoanBank() {
                     navigate("/dashboard/listofbanks")
                 }
             })
+        }
     }
     return(
         <>
@@ -102,8 +125,12 @@ function AddLoanBank() {
                 id="bankcode"
                 value={bcode}
                 required
-                onChange={(e)=>setBcode(e.target.value)}
+                onChange={changeBcode}
             />
+            <small id="bcodeMessage" className="text-danger d-none">
+                Must be of 11 digits with capital letters and numbers only
+                <br />
+            </small>  
             </div>
             <div className="col-lg-4 col-sm-12">
                 <label>Branch Name</label>

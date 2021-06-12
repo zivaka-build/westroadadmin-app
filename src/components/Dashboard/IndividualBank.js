@@ -10,6 +10,7 @@ function IndividualLoanBank() {
     const {bankCode} = useParams()
     const [bname, setBname] = useState("")
     const [bcode, setBcode] = useState("")
+    const [validated, setValidated] = useState(true)
     const [branch, setBranch] = useState("")
     const [gi, setGi] = useState("")
     const [wi, setWi] = useState("")
@@ -73,10 +74,32 @@ console.log(agent)
         })
     }, [])
 
+    const changeBcode = (e) => {
+        var value = e.target.value
+        setBcode(e.target.value)
+        var regex = /^[A-Z0-9]{11}$/
+
+        var message = document.getElementById('bcodeMessage')
+        if( regex.test(value)){
+            
+            message.classList.remove('d-block');
+            message.classList.add('d-none');
+            setValidated(true)
+        }
+        else {
+            message.classList.remove('d-none');
+            message.classList.add('d-block');
+            setValidated(false)
+            
+        }
+
+    }
+
 
     const submit = (e) => {
         const Token = 'bearer' + " " + Cookies.get('Token')
         e.preventDefault()
+        if(validated === true){
         axios
             .put(`${BASE_URL}/api/v1/loan/updateLoanBank`,{bankCode: bcode, bankBranch : branch,bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
             .then(response => {
@@ -84,7 +107,9 @@ console.log(agent)
                 var saved = document.getElementById('saved')
                 saved.classList.remove('d-none');
             })
+        }
     }
+    
     return(
         <>
         <div className="mt-3 row container-fluid justify-content-center px-2">
@@ -112,15 +137,19 @@ console.log(agent)
             />
             </div>
             <div className="col-lg-4 col-sm-12">
-                <label>Bank Code</label>
+                <label>IFS Code</label>
                 <input
                 type="text"
                 class="form-control"
                 name="bankcode"
                 id="bankcode"
                 value={bcode}
-                onChange={(e)=>setBcode(e.target.value)}
+                onChange={changeBcode}
             />
+             <small id="bcodeMessage" className="text-danger d-none">
+                Must be of 11 digits with capital letters and numbers only
+                <br />
+            </small> 
             </div>
             <div className="col-lg-4 col-sm-12">
                 <label>Branch Name</label>
@@ -133,6 +162,7 @@ console.log(agent)
                 required
                 onChange={(e)=>setBranch(e.target.value)}
             />
+            
             </div>
         </div>
         <div className="row mt-3 container-fluid justify-content-center">
