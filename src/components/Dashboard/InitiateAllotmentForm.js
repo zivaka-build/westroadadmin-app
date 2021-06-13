@@ -51,7 +51,7 @@ function InitiateAllotmentForm(){
     const [flatname, setFlatname ] = useState("");
     const [carParking, setCarParking] = useState([])
     const [addCarParking, setAddCarParking] = React.useState([
-         {parkingTypeCode: "", parkingType: "", carParkingPrice: "" },
+         {parkingTypeCode: "", parkingType: "", carParkingPrice: 0 },
       ]);
     const [email, setEmail ] = useState("");
     const [phno, setPhno ] = useState("");
@@ -68,7 +68,6 @@ function InitiateAllotmentForm(){
     const [emailValidated, setEmailValidated] = useState(true)
     const [phoneValidated, setPhoneValidated] = useState(true)
 
-    
    
     const changeSite = (e) => {
         setSitename(e.target.value)
@@ -101,7 +100,7 @@ function InitiateAllotmentForm(){
 
     const handleCP = (e) => {
         const values = [...addCarParking];
-        values.push({ parkingTypeCode: "", parkingType: "", carParkingPrice: "" })
+        values.push({ parkingTypeCode: "", parkingType: "", carParkingPrice: 0 })
         setAddCarParking(values)
        
     }
@@ -117,7 +116,7 @@ function InitiateAllotmentForm(){
         const str = event.target.value + " ";
         values[index].parkingType = str.split(' ')[2]
         values[index].parkingTypeCode = str.split(' ')[0]
-        values[index].carParkingPrice = str.split(' ')[1]
+        values[index].carParkingPrice = parseInt(str.split(' ')[1])
         setAddCarParking(values)
     }
 
