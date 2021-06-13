@@ -372,7 +372,7 @@ function IndividualLead() {
                                 <br />
                                 <div className="row justify-content-center">
                                 <div className="col-4">
-                                    <label>City</label>
+                                    <label>City/District</label>
                                     <input
                                     type="text"
                                     class="form-control"
