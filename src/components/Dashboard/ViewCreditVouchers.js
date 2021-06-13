@@ -16,8 +16,37 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { navigate } from "@reach/router";
 import {IoMdArrowBack} from 'react-icons/io'
 
+const useStyles = makeStyles((theme) => ({
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    paper: {
+      backgroundColor: theme.palette.background.paper,
+      border: '2px solid #000',
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(2, 4, 3),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
+  }));
+
+
 function ViewCreditVouchers(){
     const [cvs, setCvs] = useState([])
+    const [receiptNumber, setReceiptNumber] = useState("")
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     
     useEffect(() => {
        
@@ -29,6 +58,17 @@ function ViewCreditVouchers(){
           
         })
     },[])
+
+    const generate = (e) => {
+
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.post(`${BASE_URL}/api/v1/util/generateCreditVoucherCustomer`,{recieptNumber: receiptNumber},{headers:{Authorization:Token}})
+        .then(response => {
+          console.log(response)
+          setOpen(false)
+        })
+        
+    }
 
     return(
         <>
@@ -58,6 +98,18 @@ function ViewCreditVouchers(){
                 search: true,
                 actionsColumnIndex: -1,
             }}
+
+            actions={[
+                {
+                    icon: () => <GiGears />,
+                    tooltip: 'Generate Credit Voucher',
+                    onClick: (event, rowData) => {
+                       setReceiptNumber(rowData.recieptNumber)
+                       setOpen(true)
+                    },
+                }
+
+            ]}
             
             
             options={{
@@ -70,6 +122,36 @@ function ViewCreditVouchers(){
 
             
            ></MaterialTable>
+
+<Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+            <Fade in={open}>
+            <div className={classes.paper}>
+               
+                <h6>Are you sure you want to generate voucher ?</h6>
+                <br />
+                <div className="text-center">
+                <button className="btn btn-secondary btn-user" onClick={generate}>
+                Generate
+                </button>
+                &nbsp;&nbsp;
+                <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                Cancel
+                </button>
+                </div>
+            </div>
+            </Fade>
+        </Modal>
         </>
     )
 }
