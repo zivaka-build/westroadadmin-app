@@ -368,6 +368,32 @@ function IndividualUnit(){
                 </div>
                 </div>
                 <br />
+                <div className="row container-fluid justify-content-center">
+                
+                <div className="col-4">
+                <label>Super Built Up Area</label>
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="usbua"
+                    id="usbua"
+                    value={usbua}
+                // onChange={(e)=>setUsbua(e.target.value)}
+                    />
+                </div>
+                <div className="col-4">
+                    <label>PLC</label>
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="plc"
+                    id="plc"
+                    value={plc}
+                    //onChange={(e)=>setPlc(e.target.value)}
+                    />
+                 </div>
+                </div>
+                <br />
                 <div className="row container-fluid">
                     <div className="col-6 mt-auto">
                         <label>Override Base Sq. Feet Rate:</label>
