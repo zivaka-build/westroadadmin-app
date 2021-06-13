@@ -44,7 +44,8 @@ function IndividualUnit(){
             unitName: uname,
             overrideBaseSqft: obsqf,
             baseSqFtRate: bsqf*1,
-            overridePLC: oplc
+            overridePLC: oplc,
+            noOfFloor: ufloor
         }
         ,{ headers : { 'Authorization' : Token }})
         .then(response => { 
@@ -60,6 +61,7 @@ function IndividualUnit(){
             overrideBaseSqft: obsqf,
             overridePLC: oplc,
             newPLC: plc*1,
+            noOfFloor: ufloor
         }
         ,{ headers : { 'Authorization' : Token }})
         .then(response => { 
@@ -76,6 +78,7 @@ function IndividualUnit(){
             baseSqFtRate: bsqf*1,
             overridePLC: oplc,
             newPLC: plc*1,
+            noOfFloor: ufloor
         }
         ,{ headers : { 'Authorization' : Token }})
         .then(response => { 
@@ -366,6 +369,32 @@ function IndividualUnit(){
                 // onChange={(e)=>setUcsqf(e.target.value)}
                     />
                 </div>
+                </div>
+                <br />
+                <div className="row container-fluid justify-content-center">
+                
+                <div className="col-4">
+                <label>Super Built Up Area</label>
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="usbua"
+                    id="usbua"
+                    value={usbua}
+                // onChange={(e)=>setUsbua(e.target.value)}
+                    />
+                </div>
+                <div className="col-4">
+                    <label>PLC</label>
+                    <input
+                    type="number"
+                    class="form-control"
+                    name="plc"
+                    id="plc"
+                    value={plc}
+                    //onChange={(e)=>setPlc(e.target.value)}
+                    />
+                 </div>
                 </div>
                 <br />
                 <div className="row container-fluid">

@@ -219,7 +219,7 @@ function AddLeadForm(){
         <br />
         <div className="row justify-content-center">
         <div className="col-lg-4 col-sm-6">
-            <label>City</label>
+            <label>City/District</label>
             <input
             type="text"
             class="form-control"
