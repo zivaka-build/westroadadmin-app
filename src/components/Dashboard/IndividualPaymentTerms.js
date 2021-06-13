@@ -14,12 +14,21 @@ import Switch from '@material-ui/core/Switch';
 function IndividualPaymentTerms(){
     const {termId} = useParams()
     const [pterms, setPterms] = useState([])
+    const [siteId, setSiteId] = useState("")
+    const [serial, setSerial] = useState(0)
+    
 
     const [ bool, setBool] = useState(false)
     
     const handleChange = (event) => {
+        const Token = 'bearer' + " " + Cookies.get('Token')
         if(bool === false) {
             setBool(true)
+            axios.put(`${BASE_URL}/api/v1/paymentTerms/markPaymentMilestone`,{siteId: siteId, paymentTermsId: termId, serial: event.target.value*1, completionMarkedBy: Cookies.get('FullName')},{headers:{Authorization:Token}})
+            .then(response => {
+                console.log(response)
+        })
+
         }
         else if(bool === true){
             setBool(false)
@@ -27,6 +36,7 @@ function IndividualPaymentTerms(){
     };
 
     console.log(bool)
+    console.log(serial)
 
     useEffect(() => { 
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -34,6 +44,8 @@ function IndividualPaymentTerms(){
         .then(response => {
             console.log(response)
             setPterms(response.data.paymentTerms.termItems)
+            setSiteId(response.data.paymentTerms.siteId)
+        
         })
     }, [])
 
@@ -66,12 +78,7 @@ function IndividualPaymentTerms(){
                         <td>{p.completionStatus === true ? "Yes": "No"}</td>
                         <td>{p.milestoneCompletionDate !== null? p.milestoneCompletionDate.substring(8,10)+"-"+p.milestoneCompletionDate.substring(5,7)+"-"+p.milestoneCompletionDate.substring(0,4) : null}</td>
                         <td>{p.completionMarkedBy}</td>
-                        <td><Switch
-                            checked={p.completionStatus}
-                            onChange={handleChange}
-                            name="bool"
-                            inputProps={{ 'aria-label': 'secondary checkbox' }}
-                        /></td>
+                        <td><input type="checkbox" id={p.serial} checked={p.completionStatus === true ? true : null} disabled={p.completionStatus === true ? true : null} name={p.serial} value={p.serial} onChange={handleChange} /></td>
                         <td></td>
                         
                         </tr>

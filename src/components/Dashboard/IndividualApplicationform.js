@@ -826,7 +826,7 @@ const uploadSAS = (e) =>{
             setPal(true)
             setPals(false)
             for(var i=0;i<response.data.documents.length;i++){
-              if(response.data.documents[i].documentType === "ProvisionalAllotmentLetter"){
+              if(response.data.documents[i].documentType === "Provisional Allotment Letter"){
                 setPalname(response.data.documents[i].documentName)
                 setPaluploadedby(response.data.documents[i].uploadedBy)
                 setPaluploadeddate(response.data.documents[i].uploadedDate)
@@ -839,7 +839,7 @@ const uploadSAS = (e) =>{
               setPal(true)
               setPals(true)
               for(var i=0;i<response.data.documents.length;i++){
-                if(response.data.documents[i].documentType === "ProvisionalAllotmentLetter"){
+                if(response.data.documents[i].documentType === "Provisional Allotment Letter"){
                   setPalname(response.data.documents[i].documentName)
                   setPaluploadedby(response.data.documents[i].uploadedBy)
                   setPaluploadeddate(response.data.documents[i].uploadedDate)
