@@ -44,7 +44,8 @@ function IndividualUnit(){
             unitName: uname,
             overrideBaseSqft: obsqf,
             baseSqFtRate: bsqf*1,
-            overridePLC: oplc
+            overridePLC: oplc,
+            noOfFloor: ufloor
         }
         ,{ headers : { 'Authorization' : Token }})
         .then(response => { 
@@ -60,6 +61,7 @@ function IndividualUnit(){
             overrideBaseSqft: obsqf,
             overridePLC: oplc,
             newPLC: plc*1,
+            noOfFloor: ufloor
         }
         ,{ headers : { 'Authorization' : Token }})
         .then(response => { 
@@ -76,6 +78,7 @@ function IndividualUnit(){
             baseSqFtRate: bsqf*1,
             overridePLC: oplc,
             newPLC: plc*1,
+            noOfFloor: ufloor
         }
         ,{ headers : { 'Authorization' : Token }})
         .then(response => { 
