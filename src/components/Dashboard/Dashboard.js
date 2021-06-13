@@ -19,6 +19,7 @@ import { Link, navigate } from "@reach/router";
 import '../../assets/css/sidebar.css';
 import logo from '../../assets/img/appbar_logo.jpg'
 import sidebarbg from '../../assets/img/sidebar-bg.jpg'
+import {FaDraftingCompass} from 'react-icons/fa'
 import {BsBuilding} from 'react-icons/bs'
 import {BsPeople} from 'react-icons/bs'
 import {GiTakeMyMoney} from 'react-icons/gi'
@@ -28,6 +29,7 @@ import {AiOutlineCalculator} from 'react-icons/ai'
 import {FaTools} from 'react-icons/fa'
 import {BsBellFill} from 'react-icons/bs'
 import {FaReceipt} from 'react-icons/fa'
+import {GoTasklist} from 'react-icons/go'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -440,6 +442,34 @@ const drawer = (
                 </AccordionDetails>
             </Accordion>
         </List>
+
+        <List>
+        
+        <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                    <FaDraftingCompass className="sidebar-icons"/>
+                   <Typography variant="h7" className="sidebar-menu">
+                   Engineering
+          </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/paymentterms'>
+                    <ListItem button key={'Payment Terms'}>
+                    <h7>Payment Terms</h7>
+                    </ListItem>
+                    </Link>
+                    
+                    
+                    </List>
+                
+                </AccordionDetails>
+            </Accordion>
+        </List>
   </div>
 </>
   );
@@ -469,7 +499,7 @@ return (
           <div  style={{display: 'flex'}} >
           <Link to="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></Link>
           <Link to="/" className="icon-link"><BsBellFill/></Link>
-          <Link to="/dashboard/tasklist" className="icon-link"><FaTools  onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
+          <Link to="/dashboard/tasklist" className="icon-link"><GoTasklist onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
           <Link to="/dashboard/voucher" className="icon-link"><FaReceipt/></Link>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
