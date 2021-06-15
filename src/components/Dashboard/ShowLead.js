@@ -19,21 +19,17 @@ const ShowLead = () => {
           console.log(result.data);
           const arr = result.data
           const leads = arr.leads.map((lead)=>{
-            const {leadID,name,phone,creationdate,leadWeightage,leadStatus} = lead
+            const {leadID,name,phone,creationdate,leadWeightage,leadStatus, updatedAt} = lead
             const formattedDate = creationdate.substring(11,13)+":"+creationdate.substring(14,16)+", "+creationdate.substring(8,10)+"-"+creationdate.substring(5,7)+"-"+creationdate.substring(0,4)
-            
-    
-            
-            
-           
-            
+   
             return {
                 leadID,
                 name,
                 phone,
                 creationdate: formattedDate,
                 leadWeightage,
-                leadStatus
+                leadStatus,
+                updatedAt
                 
               };
         })
@@ -64,6 +60,7 @@ const ShowLead = () => {
                                 { title: 'Name', field: 'name' },
                                 { title: 'Phone No', field: 'phone' },
                                 { title: 'Created At', field: 'creationdate' },
+                                { title: 'Updated At', defaultSort : 'desc', render : (rowData) => rowData.updatedAt.substring(11,13)+":"+rowData.updatedAt.substring(14,16)+", "+rowData.updatedAt.substring(8,10)+"-"+rowData.updatedAt.substring(5,7)+"-"+rowData.updatedAt.substring(0,4), customSort: (a,b) => a.updatedAt < b.updatedAt ? -1 : 1 },
                                 { title: 'Lead Type', field: 'leadWeightage' },
                                 { title: 'Lead Status', field: 'leadStatus' },
                                 { title: 'Assigned To', field: 'assignedTo' },

@@ -58,14 +58,14 @@ function ListofCustomers(){
         axios.get(`${BASE_URL}/api/v1/customer/getlistofcustomers`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
-          setCust(response.data)
+          setCust(response.data.reverse())
         })
     }
     else if(active === "" && site !== ""){
         axios.get(`${BASE_URL}/api/v1/customer/getlistofcustomers?siteCode=${site}`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
-          setCust(response.data)
+          setCust(response.data.reverse())
         })
     }
 
@@ -73,7 +73,7 @@ function ListofCustomers(){
         axios.get(`${BASE_URL}/api/v1/customer/getlistofcustomers?isActive=${active}`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
-          setCust(response.data)
+          setCust(response.data.reverse())
         })
     }
 
@@ -81,7 +81,7 @@ function ListofCustomers(){
         axios.get(`${BASE_URL}/api/v1/customer/getlistofcustomers?siteCode=${site}&isActive=${active}`,{headers:{Authorization:Token}})
         .then(response => {
           console.log(response)
-          setCust(response.data)
+          setCust(response.data.reverse())
         })
     }
      
