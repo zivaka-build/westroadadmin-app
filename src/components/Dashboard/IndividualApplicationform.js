@@ -713,6 +713,22 @@ const uploadSAS = (e) =>{
           })
     }
 
+    const generateSalesAgreementDraft = (e) => {
+      e.preventDefault()
+      const Token = 'bearer' + " " + Cookies.get('Token')
+      axios.post(`${BASE_URL}/api/v1/util/generatesalesagreement`, 
+          { 
+            applicationId : applicationId,
+            salesAgreementAppointmentDate : saads
+          },
+          {headers:{'Authorization':Token}})
+          .then(response=>{
+              console.log(response)
+              window.location.reload()
+          })
+
+    }
+
     
     const approve = (e) => {
       const Token = 'bearer' + " " + Cookies.get('Token')
@@ -3134,7 +3150,27 @@ const uploadSAS = (e) =>{
                   </>
                   : 
                   <>
-                  <h4>Sales Agreement Draft not generated. Agreement Date is {saads.substring(8,10)+"-"+saads.substring(5,7)+"-"+saads.substring(0,4)}.</h4>
+                  <h4>Sales Agreement Draft not generated.</h4>
+                  <br />
+                  <div className="row justify-content-center">
+                  <div className="col-4">
+                  <form onSubmit={generateSalesAgreementDraft}>
+                  <label>Sales Agreement Draft Date</label>
+                  <input
+                  type="date"
+                  class="form-control"
+                  name="saads"
+                  value={saads.substring(0,4)+"-"+saads.substring(5,7)+"-"+saads.substring(8,10)}
+                  onChange={(e)=>setSaads(e.target.value)}
+                  required
+                  />
+                  <br />
+                  <button className="btn btn-secondary btn-user">Sales Agreement Appointment Date</button>
+                  </form>
+                  </div>
+                  </div>
+                
+                 
                   </>
                   }
                   
@@ -3145,6 +3181,24 @@ const uploadSAS = (e) =>{
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {saduploadedby}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{saduploadeddate.split(' ')[0] +' '+saduploadeddate.split(' ')[1]+' '+saduploadeddate.split(' ')[2]+', '+saduploadeddate.split(' ')[3]}</h6>
                     <h6><a href={sads3link} target="_blank">View Document</a></h6>
+                    <br />
+                    <div className="row justify-content-center">
+                    <div className="col-4">
+                    <form onSubmit={generateSalesAgreementDraft}>
+                    <label>Sales Agreement Draft Date</label>
+                    <input
+                    type="date"
+                    class="form-control"
+                    name="saads"
+                    value={saads.substring(0,4)+"-"+saads.substring(5,7)+"-"+saads.substring(8,10)}
+                    onChange={(e)=>setSaads(e.target.value)}
+                    required
+                    />
+                    <br />
+                    <button className="btn btn-secondary btn-user" type="submit">Sales Agreement Appointment Date</button>
+                    </form>
+                    </div>
+                    </div>
                   </>
                 }
                   

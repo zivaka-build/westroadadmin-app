@@ -247,9 +247,6 @@ function IndividualCustomer(){
                     { title: 'Description', field: 'description' },
                     { title: 'Amount', field: 'amount' },
                     { title: 'Paid', field: 'isPaid' },
-                    { title: 'Payment Date', field: 'paymentDate' },
-                    { title: 'Credit Trans Id', field: 'creditTransId' },
-                    
                     
                     
                 ]
