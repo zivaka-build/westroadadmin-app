@@ -724,6 +724,7 @@ const uploadSAS = (e) =>{
           {headers:{'Authorization':Token}})
           .then(response=>{
               console.log(response)
+              window.location.reload()
           })
 
     }
