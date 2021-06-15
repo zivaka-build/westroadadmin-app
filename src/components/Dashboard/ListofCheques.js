@@ -131,7 +131,7 @@ function ListofCheque(){
         .then(response => {
           console.log(response)
           if (response.status === 200){
-            setForm(response.data)
+            setForm(response.data.reverse())
           }
           
         })
@@ -145,7 +145,7 @@ function ListofCheque(){
         .then(response => {
           console.log(response)
           if (response.status === 200){
-            setForm(response.data)
+            setForm(response.data.reverse())
           }
           
         })
@@ -161,7 +161,7 @@ function ListofCheque(){
         .then(response => {
           console.log(response)
           if (response.status === 200){
-            setForm(response.data)
+            setForm(response.data.reverse())
           }
           
         })
@@ -175,7 +175,7 @@ function ListofCheque(){
         .then(response => {
           console.log(response)
           if (response.status === 200){
-            setForm(response.data)
+            setForm(response.data.reverse())
           }
           
         })
@@ -189,7 +189,7 @@ function ListofCheque(){
         .then(response => {
           console.log(response)
           if (response.status === 200){
-            setForm(response.data)
+            setForm(response.data.reverse())
           }
   
         })
@@ -203,7 +203,7 @@ function ListofCheque(){
         .then(response => {
           console.log(response)
           if (response.status === 200){
-            setForm(response.data)
+            setForm(response.data.reverse())
           }
         })
         .catch(error => {
@@ -226,7 +226,7 @@ function ListofCheque(){
                     { title: 'Cheque Number', field: 'chequeNo' },
                     { title: 'Cheque Bank Name', field: 'chequeBankName' },
                     { title: 'Cheque Account No.', field: 'chequeAccountNo' },
-                    { title: 'Cheque Date', defaultSort : 'desc', render : (rowData) => !rowData.chequeDate ?  "": rowData.chequeDate.substring(8,10)+"-"+rowData.chequeDate.substring(5,7)+"-"+rowData.chequeDate.substring(0,4), customSort: (a, b) => a.chequeDate < b.chequeDate ? -1 : 1 },
+                    { title: 'Cheque Date', render : (rowData) => !rowData.chequeDate ?  "": rowData.chequeDate.substring(8,10)+"-"+rowData.chequeDate.substring(5,7)+"-"+rowData.chequeDate.substring(0,4), customSort: (a, b) => a.chequeDate < b.chequeDate ? -1 : 1 },
                     { title: 'Cheque Amount', field: 'chequeAmount' },
                     { title: 'Issued To', field: 'issuedTo' },
                     { title: 'Issued By', field: 'issuedBy' },

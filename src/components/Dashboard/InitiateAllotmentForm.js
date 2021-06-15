@@ -58,6 +58,7 @@ function InitiateAllotmentForm(){
     const [leadId, setLeadId ] = useState([]);
     const [lead, setLead ] = useState("");
     const [sitename, setSitename ] = useState("");
+    const [siteid, setSiteid ] = useState("")
     const [phasename, setPhasename ] = useState("");
     const [type, setType ] = useState("Hot");
     const [bankLoan, setBankLoan] = useState()
@@ -70,10 +71,12 @@ function InitiateAllotmentForm(){
 
    
     const changeSite = (e) => {
-        setSitename(e.target.value)
+        var value = e.target.value
+        setSiteid(value.substring(0, value.indexOf(' ')))
+        setSitename(value.substring(value.indexOf(' ') + 1))
 
         const Token = 'bearer' + " " + Cookies.get('Token')
-        axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParkingTypes/${e.target.value}`,{headers:{Authorization:Token}})
+        axios.get(`${BASE_URL}/api/v1/parking/getListOfCarParkingTypes/${value.substring(0, value.indexOf(' '))}`,{headers:{Authorization:Token}})
         .then(response=>{ 
             setCarParking(response.data.carParkingType)
         })
@@ -85,13 +88,13 @@ function InitiateAllotmentForm(){
         var pn = e.target.value
 
         const Token = 'bearer' + " " + Cookies.get('Token')
-        axios.get(`${BASE_URL}/api/v1/unit/getlistofunit?unitSiteId=${sitename}&unitPhaseCode=${pn}&status=Available`,{headers:{Authorization:Token}})
+        axios.get(`${BASE_URL}/api/v1/unit/getlistofunit?unitSiteId=${siteid}&unitPhaseCode=${pn}&status=Available`,{headers:{Authorization:Token}})
         .then(response=>{
             console.log(response.data)
             setUnit(arraySort(response.data, "unitName"))
         })
 
-        axios.get(`${BASE_URL}/api/v1/paymentterms/getpaymenttermsid?siteId=${sitename}&phaseCode=${pn}`,{headers:{Authorization:Token}})
+        axios.get(`${BASE_URL}/api/v1/paymentterms/getpaymenttermsid?siteId=${siteid}&phaseCode=${pn}`,{headers:{Authorization:Token}})
         .then(response=>{
             console.log(response.data)
             setPaymentTerms(response.data[0].paymentTermsId)
@@ -188,7 +191,8 @@ function InitiateAllotmentForm(){
             const Token = 'bearer' + " " + Cookies.get('Token');
             axios.post(`${BASE_URL}/api/v1/applicationform/createapplicationform`, 
         { 
-            siteId: sitename,
+            siteId: siteid,
+            siteName: sitename,
             unitName: unitName,
             carParkings: addCarParking ,
             bookingBy: Cookies.get('FullName'),
@@ -250,7 +254,7 @@ function InitiateAllotmentForm(){
             <Form.Control required onChange={changeSite} as="select">
                 <option value="">Select a site</option>
                 {site.map((t)=>(
-                    <option value={t.SiteId}>{t.SiteName}</option>
+                    <option value={t.SiteId+" "+t.SiteName}>{t.SiteName}</option>
                 ))}
                
             

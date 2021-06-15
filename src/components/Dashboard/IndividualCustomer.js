@@ -163,7 +163,7 @@ function IndividualCustomer(){
             </div>
             <br />
             <div className="row justify-content-center">
-                <div className="col-lg-6 col-sm-12">
+                <div className="col-lg-4 col-sm-12">
                     <label>Customer Mobile</label>
                     <input
                     type="number"
@@ -174,7 +174,7 @@ function IndividualCustomer(){
                     onChange={(e)=>setMobile(e.target.value)}
                     />
                 </div>
-                <div className="col-lg-6 col-sm-12">
+                <div className="col-lg-4 col-sm-12">
                     <label>Customer Email</label>
                     <input
                     type="email"
@@ -185,6 +185,16 @@ function IndividualCustomer(){
                     onChange={(e)=>setEmail(e.target.value)}
                     />
                 </div>
+                <div className="col-lg-4 col-sm-12">
+                        <label>Payment Term Id</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        name="paymentTerm"
+                        id="paymentTerm"
+                        value={paymentTerm}
+                        />
+                    </div>
             </div>
             <br />
             <div className="text-center" style={{display : disp}}><em>All details saved succesfully!</em></div>
@@ -264,20 +274,7 @@ function IndividualCustomer(){
             </div>
             </Tab.Pane>
             <Tab.Pane eventKey="fourth">
-            <div>
-                <div className="row justify-content-center">
-                    <div className="col-lg-4 col-sm-12">
-                        <label>Payment Term Id</label>
-                        <input
-                        type="text"
-                        class="form-control"
-                        name="paymentTerm"
-                        id="paymentTerm"
-                        value={paymentTerm}
-                        />
-                    </div>
-                </div>
-            </div>
+            
             </Tab.Pane>
         </Tab.Content>
         </Col>
