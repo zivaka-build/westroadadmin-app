@@ -875,7 +875,7 @@ const uploadSAS = (e) =>{
         else if(response.data.salesAgreementDraft===true){
           setSad(true)
           for(var i=0;i<response.data.documents.length;i++){
-            if(response.data.documents[i].documentType === "SalesAgreementDraft"){
+            if(response.data.documents[i].documentType === "Sales Agreement Draft"){
               setSadname(response.data.documents[i].documentName)
               setSaduploadedby(response.data.documents[i].uploadedBy)
               setSaduploadeddate(response.data.documents[i].uploadedDate)
@@ -3112,7 +3112,7 @@ const uploadSAS = (e) =>{
                   <h4>Provisional Allotment Letter generated and sent to customer</h4>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{palname}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {paluploadedby}</h6>
-                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{paluploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{paluploadeddate.split(' ')[0] +' '+paluploadeddate.split(' ')[1]+' '+paluploadeddate.split(' ')[2]+', '+paluploadeddate.split(' ')[3]}</h6>
                     <h6><a href={pals3link} target="_blank">View Document</a></h6>
                   </>
                 }
@@ -3124,7 +3124,7 @@ const uploadSAS = (e) =>{
                 <div className="col-12 tab-card pt-5 pb-5 text-center">
                 
                 {
-                  sas===false?
+                  sad===false?
                   <>
                   <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4>
                     <br/>
@@ -3143,7 +3143,7 @@ const uploadSAS = (e) =>{
                   <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Sales Agreement Draft</h4><br/>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{sadname}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {saduploadedby}</h6>
-                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{saduploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
+                    <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{saduploadeddate.split(' ')[0] +' '+saduploadeddate.split(' ')[1]+' '+saduploadeddate.split(' ')[2]+', '+saduploadeddate.split(' ')[3]}</h6>
                     <h6><a href={sads3link} target="_blank">View Document</a></h6>
                   </>
                 }
