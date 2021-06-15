@@ -68,6 +68,7 @@ function InitiateAllotmentForm(){
     const [paymentTerms, setPaymentTerms] = useState("")
     const [emailValidated, setEmailValidated] = useState(true)
     const [phoneValidated, setPhoneValidated] = useState(true)
+    const [leadName, setLeadName] = useState("")
 
    
     const changeSite = (e) => {
@@ -131,6 +132,7 @@ function InitiateAllotmentForm(){
             console.log(response)
             setEmail(response.data.lead.email)
             setPhno(response.data.lead.phone)
+            setLeadName(response.data.lead.name)
         
         })
 
@@ -203,6 +205,7 @@ function InitiateAllotmentForm(){
             paymentTerms: paymentTerms,
             applicationCreateDate: date,
             bookingAppointmentDate: appointmentDate,
+            leadName: leadName
         }
         ,
         {headers:{Authorization:Token}} )
@@ -341,21 +344,16 @@ function InitiateAllotmentForm(){
             </Form.Control>
             </Form.Group>
             </div>
-            <div className="col-lg-4 col-sm-12">
-            <label>Mobile Number</label>
+            
+        <div className="col-lg-4 col-sm-12">
+            <label>Lead Name</label>
             <input
-            type="number"
+            type="text"
             class="form-control"
-            name="Number"
-            id="outlined-basic-phno"
-            value={phno}
-           onChange={PhNo}
-           required
+            name="leadName"
+            value={leadName}
+            required
             />
-            <small id="phnoMessage" className="text-danger d-none">
-                Must be of 10 characters with numbers only
-               
-            </small>   
         </div>
         </div>
         <br />
@@ -378,17 +376,37 @@ function InitiateAllotmentForm(){
             </small>  
         </div>
         <div className="col-lg-4 col-sm-12">
-            <label>Appointment Date</label>
+            <label>Mobile Number</label>
             <input
-            type="date"
+            type="number"
             class="form-control"
-            name="adate"
-            min={tomorrow}
-            max={maxdate}
-            onChange={(e)=>setAppointmentDate(e.target.value)}
-            required
+            name="Number"
+            id="outlined-basic-phno"
+            value={phno}
+           onChange={PhNo}
+           required
             />
+            <small id="phnoMessage" className="text-danger d-none">
+                Must be of 10 characters with numbers only
+               
+            </small>   
         </div>
+        
+        </div>
+        <br />
+        <div className="row justify-content-center">
+            <div className="col-lg-4 col-sm-12">
+                <label>Appointment Date</label>
+                <input
+                type="date"
+                class="form-control"
+                name="adate"
+                min={tomorrow}
+                max={maxdate}
+                onChange={(e)=>setAppointmentDate(e.target.value)}
+                required
+                />
+            </div>
         </div>
         <br />
         <div className="row justify-content-center">

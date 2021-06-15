@@ -81,6 +81,7 @@ function IndividualApplicationform() {
     const [termId, setTermId] = useState("")
     const [disp, setDisp] = useState("none")
     const [spinner, setSpinner] = useState("none")
+    const [leadName, setLeadName] = useState("")
 
     const [firstName, setFirstName] = useState("")
     const [middleName, setMiddleName] = useState("")
@@ -758,6 +759,7 @@ const uploadSAS = (e) =>{
             setStatus(response.data.status)
             setBookingBy(response.data.bookingBy)
             setLeadid(response.data.leadId)
+            setLeadName(response.data.leadName)
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
             setBpr(response.data.bookingPaymentReciept)
@@ -1100,15 +1102,26 @@ const uploadSAS = (e) =>{
                             </div>
                             <br />
                             <div className="row justify-content-center">
-                            <div className="col-8">
+                            <div className="col-4">
                                 <label>Lead ID</label>
                                 <input
                                 type="text"
                                 class="form-control"
-                                name="address"
+                                name="leadid"
                                 id="outlined-basic"
                                 onChange={(e)=>setLeadid(e.target.value)}
                                 value={leadid}
+                                />
+                            </div>
+                            <div className="col-4">
+                                <label>Lead Name</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                name="leadname"
+                                id="outlined-basic"
+                                onChange={(e)=>setLeadName(e.target.value)}
+                                value={leadName}
                                 />
                             </div>
                             </div>
