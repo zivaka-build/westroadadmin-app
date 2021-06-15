@@ -333,28 +333,35 @@ function InitiateAllotmentForm(){
         <div className="row justify-content-center">
             <div className="col-lg-4 col-sm-12">
             <Form.Group controlId="leadid">
-            <label>Lead ID</label>
+            <label>Lead</label>
             <Form.Control   as="select" onChange={changeLead}>
             <option value="">Select a Lead</option>
             {
                 leads.map((l)=>(
-                    <option value={l.leadID}>{l.leadID}</option>
+                    <option value={l.leadID}>{l.leadID+" : "+l.name}</option>
                 ))
             }
             </Form.Control>
             </Form.Group>
             </div>
-            
-        <div className="col-lg-4 col-sm-12">
-            <label>Lead Name</label>
+            <div className="col-lg-4 col-sm-12">
+            <label>Mobile Number</label>
             <input
-            type="text"
+            type="number"
             class="form-control"
-            name="leadName"
-            value={leadName}
-            required
+            name="Number"
+            id="outlined-basic-phno"
+            value={phno}
+           onChange={PhNo}
+           required
             />
-        </div>
+            <small id="phnoMessage" className="text-danger d-none">
+                Must be of 10 characters with numbers only
+               
+            </small>   
+            </div>
+            
+        
         </div>
         <br />
         
@@ -376,26 +383,6 @@ function InitiateAllotmentForm(){
             </small>  
         </div>
         <div className="col-lg-4 col-sm-12">
-            <label>Mobile Number</label>
-            <input
-            type="number"
-            class="form-control"
-            name="Number"
-            id="outlined-basic-phno"
-            value={phno}
-           onChange={PhNo}
-           required
-            />
-            <small id="phnoMessage" className="text-danger d-none">
-                Must be of 10 characters with numbers only
-               
-            </small>   
-        </div>
-        
-        </div>
-        <br />
-        <div className="row justify-content-center">
-            <div className="col-lg-4 col-sm-12">
                 <label>Appointment Date</label>
                 <input
                 type="date"
@@ -407,7 +394,10 @@ function InitiateAllotmentForm(){
                 required
                 />
             </div>
+       
+        
         </div>
+
         <br />
         <div className="row justify-content-center">
             
