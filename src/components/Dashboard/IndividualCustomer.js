@@ -241,9 +241,8 @@ function IndividualCustomer(){
             columns={
                 [
                     { title: 'Demand Id', field: 'demandId' },
-                    { title: 'Customer Id', field: 'customerId' },
                     { title: 'Demand Generation Date', field: 'demandGenerationDate' },
-                    { title: 'Due Date', field: 'dueDate' },
+                    { title: 'Due Date', render : (rowData) => !rowData.dueDate ?  "": rowData.dueDate.substring(8,10)+"-"+rowData.dueDate.substring(5,7)+"-"+rowData.dueDate.substring(0,4), customSort: (a, b) => a.dueDate < b.dueDate ? -1 : 1 },
                     { title: 'Demand Type', field: 'demandType' },
                     { title: 'Description', field: 'description' },
                     { title: 'Amount', field: 'amount' },

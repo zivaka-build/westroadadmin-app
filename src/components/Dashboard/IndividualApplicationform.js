@@ -227,6 +227,17 @@ function IndividualApplicationform() {
 
     const [sameAddress, setSameAddress] = useState()
 
+    const [ugp, setUgp] = useState("")
+    const [uga, setUga] = useState("")
+    const [utp, setUtp] = useState("")
+
+    const [agp, setAgp] = useState("")
+    const [aga, setAga] = useState("")
+    const [atp, setAtp] = useState("")
+
+    const [cpcost, setCpcost] = useState([])
+    const [ocharges, setOcharges] = useState([])
+
     const showApplicant = (e) => {
         if(disp === "none"){
             setDisp("block")
@@ -750,9 +761,17 @@ const uploadSAS = (e) =>{
             setSiteid(response.data.siteId)
             setIsBankLoan(response.data.isBankLoan)
             setBpr(response.data.bookingPaymentReciept)
+            setUgp(response.data.unitGrossPrice)
+            setUga(response.data.unitGSTAmount)
+            setUtp(response.data.unitTotalPrice)
+            setAgp(response.data.applicationGrossPrice)
+            setAga(response.data.applicationGSTAmount)
+            setAtp(response.data.applicationTotalPrice)
+            setCpcost(response.data.carParkingCost)
+            setOcharges(response.data.otherCharges)
             var pt = response.data.paymentTerms
 
-            if(response.data.bookingPaymentReceipt === true ){
+            if(response.data.bookingPaymentReciept === true ){
               setBrn(response.data.bookingPaymentRecieptNumber)
               setBcv(response.data.bookingPaymentRecieptLink)
             }
@@ -1005,13 +1024,16 @@ const uploadSAS = (e) =>{
                 <Nav.Link className="tabs" eventKey="second">Applicants</Nav.Link>
                 </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'third')}}>
-                <Nav.Link className="tabs" eventKey="third">Booking Payment</Nav.Link>
+                <Nav.Link className="tabs" eventKey="third">Considerations</Nav.Link>
                 </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fourth')}}>
-                <Nav.Link className="tabs" eventKey="fourth">Payment Terms</Nav.Link>
+                <Nav.Link className="tabs" eventKey="fourth">Booking Payment</Nav.Link>
                 </Nav.Item>
                 <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'fifth')}}>
-                <Nav.Link className="tabs" eventKey="fifth">Documents</Nav.Link>
+                <Nav.Link className="tabs" eventKey="fifth">Payment Terms</Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={()=>{Cookies.set('ActiveKey', 'sixth')}}>
+                <Nav.Link className="tabs" eventKey="sixth">Documents</Nav.Link>
                 </Nav.Item>
             </Nav>
             </center>
@@ -1829,6 +1851,129 @@ const uploadSAS = (e) =>{
             </Tab.Content>
             <Tab.Content>
                 <Tab.Pane eventKey="third">
+                    <div className="tab-card py-5 px-3">
+                    <br />
+                    <div className="row justify-content-center">
+                        <div className="col-lg-4 col-sm-12">
+                            <label>Unit Gross Price</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="ugp"
+                            id="ugp"
+                            value={ugp}
+                            />
+                        </div>
+                        <div className="col-lg-4 col-sm-12">
+                            <label>Unit GST Amount</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="uga"
+                            id="uga"
+                            value={uga}
+                            />
+                        </div>
+                        <div className="col-lg-4 col-sm-12">
+                            <label>Unit Total Price</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="utp"
+                            id="utp"
+                            value={utp}
+                            />
+                        </div>
+                    </div>
+                    <br />
+                    <div className="mt-2 container-fluid justify-content-center">
+                    <h4>Car Parking Cost</h4>
+                    <br />
+                    <table class="table">
+                        <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
+                            <tr>
+                            <th scope="col">Car Parking Price</th>
+                            <th scope="col">Car Parking GST</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cpcost.map((p)=>(
+                                <tr>
+                                <td>{p.carParkingPrice}</td>
+                                <td>{p.carParkingGST}</td>
+                               
+                                </tr>
+                            ))}
+                            
+                        </tbody>
+                    </table>
+                    </div>
+                    <br />
+                    <div className="mt-2 container-fluid justify-content-center">
+                    <h4>Other Charges</h4>
+                    <br />
+                    <table class="table">
+                        <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
+                            <tr>
+                            <th scope="col">Charge Name</th>
+                            <th scope="col">Charge Gross Amount</th>
+                            <th scope="col">Charge GST</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {ocharges.map((p)=>(
+                                <tr>
+                                <td>{p.chargeName}</td>
+                                <td>{p.chargeGrossAmount}</td>
+                                <td>{p.chargeGST}</td> 
+                               
+                                </tr>
+                            ))}
+                            
+                        </tbody>
+                    </table>
+                    </div>
+                    <br />
+                    <div className="row justify-content-center">
+                        <div className="col-lg-4 col-sm-12">
+                            <label>Application Gross Price</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="agp"
+                            id="agp"
+                            value={agp}
+                            />
+                        </div>
+                        <div className="col-lg-4 col-sm-12">
+                            <label>Application GST Amount</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="aga"
+                            id="aga"
+                            value={aga}
+                            />
+                        </div>
+                        <div className="col-lg-4 col-sm-12">
+                            <label>Application Total Price</label>
+                            <input
+                            type="number"
+                            class="form-control"
+                            name="atp"
+                            id="atp"
+                            value={atp}
+                            />
+                        </div>
+                    </div>
+                      
+                    </div>
+                </Tab.Pane>
+            </Tab.Content>
+            <Tab.Content>
+                <Tab.Pane eventKey="fourth">
                   { 
                   bpm === false ?
                   <>
@@ -2755,7 +2900,7 @@ const uploadSAS = (e) =>{
                 </Tab.Pane>
             </Tab.Content>
             <Tab.Content>
-            <Tab.Pane eventKey="fourth">
+            <Tab.Pane eventKey="fifth">
                { pterms.length !== 0 ?
                <>
                <div className="mt-2 row justify-content-center">
@@ -2793,7 +2938,7 @@ const uploadSAS = (e) =>{
                 </Tab.Pane>
             </Tab.Content>
             <Tab.Content>
-                <Tab.Pane eventKey="fifth">
+                <Tab.Pane eventKey="sixth">
                 <div className="row justify-content-center mb-3 mx-2">
                 <div className="col-12  tab-card pt-5 pb-5 text-center">
                 {/* <input className="form-control-file" type="file" id="myfile" name="myfile" accept="application/pdf" onChange={handleUpload} style={{backgroundColor : 'white', color : 'black'}}/>
@@ -2927,7 +3072,7 @@ const uploadSAS = (e) =>{
                   pals===false?
                   pal===false?
                   <>
-                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter Draft</h4>
                     <br/>
                     <h4>Provisional Allotment Letter not generated as payment not validated</h4>
                   {/* <div style={{display: 'flex'}}> 
@@ -2939,8 +3084,8 @@ const uploadSAS = (e) =>{
                   </>:
                   <>
                   
-                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4><br/>
-                  <h4> Provisional Allotment Letter generated but not approved </h4>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter Draft</h4><br/>
+                  <h4> Provisional Allotment Letter generated</h4>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{palname}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {paluploadedby}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded Date: </span>{paluploadeddate.split(' ')[0] +' '+duploadedat.split(' ')[1]+' '+duploadedat.split(' ')[2]+', '+duploadedat.split(' ')[3]}</h6>
@@ -2950,7 +3095,7 @@ const uploadSAS = (e) =>{
                   </>: 
                   <>
                  
-                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter</h4><br/>
+                  <h4 style={{paddingRight:'10px', marginRight:'5px', fontSize:'22px', paddingTop:'5px', paddingLeft:'10px'}}>Provisional Allotment Letter Draft</h4><br/>
                   <h4>Provisional Allotment Letter generated and sent to customer</h4>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Document Name: </span>{palname}</h6>
                     <h6><span style={{fontWeight:'bold', fontSize:'18px'}}>Uploaded By</span>: {paluploadedby}</h6>
