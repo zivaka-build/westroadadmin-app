@@ -51,6 +51,12 @@ function IndividualSite() {
         setOpen1(false);
     };
 
+    const [open2, setOpen2] = React.useState(false);
+
+    const handleClose2 = () => {
+        setOpen2(false);
+    };
+
 
     const {siteID} = useParams()
     const [leads, setLeads] = useState([]);
@@ -100,6 +106,24 @@ function IndividualSite() {
     const [pn, setPn] = useState("")
 
     const [dvpc, setDvpc] = useState("")
+
+    const [cptype, setCptype] = useState("")
+    const [cptypecode, setCptypecode] = useState("")
+    const [cpprice, setCpprice] = useState(0)
+    const [cptotal, setCptotal] = useState(0)
+
+    const updateCarParking = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.put(`${BASE_URL}/api/v1/site/updateCarParkingType`,{siteId : siteID, typeCode : cptypecode, type : cptype, totalCount : cptotal, price: cpprice},{headers:{Authorization:Token}})
+        .then(response => {
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setParking(response.data.site.carParkingType)
+                    setOpen2(false)
+                })
+            })
+    }
   
 
 
@@ -507,6 +531,7 @@ function IndividualSite() {
                             <th scope="col">Car Parking Type Code</th>
                             <th scope="col">Price</th>
                             <th scope="col">Total Count</th>
+                            <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -516,11 +541,87 @@ function IndividualSite() {
                                 <td>{p.typeCode}</td>
                                 <td>{p.price}</td>
                                 <td>{p.totalCount}</td>
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setCptype(p.type); setCptypecode(p.typeCode); setCpprice(p.price); setCptotal(p.totalCount); setOpen2(true)}}>Edit</button></td>
                                 </tr>
                             ))}
                             
                         </tbody>
                     </table>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open2}
+                        onClose={handleClose2}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open2}>
+                            <div className={classes.paper}>
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-6">
+                                    <label>Car Parking Type</label>
+                                    <input
+                                    type="text"
+                                    class="form-control"
+                                    name="cptype"
+                                    id="cptype"
+                                    value={cptype}
+                                    onChange={(e)=>setCptype(e.target.value)}
+                                    />
+                                </div>
+                                <div className="col-6">
+                                    <label>Car Parking Type Code</label>
+                                    <input
+                                    type="text"
+                                    class="form-control"
+                                    name="cptypecode"
+                                    id="cptypecode"
+                                    value={cptypecode}
+                                    onChange={(e)=>setCptypecode(e.target.value)}
+                                    />
+                                
+                                </div>
+                            </div>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-6">
+                                    <label>Car Parking Price</label>
+                                    <input
+                                    type="number"
+                                    class="form-control"
+                                    name="cpprice"
+                                    id="cpprice"
+                                    value={cpprice}
+                                    onChange={(e)=>setCpprice(e.target.value)}
+                                    />
+                                </div>
+                                <div className="col-6">
+                                    <label>Total</label>
+                                    <input
+                                    type="number"
+                                    class="form-control"
+                                    name="cptotal"
+                                    id="cptotal"
+                                    value={cptotal}
+                                    onChange={(e)=>setCptotal(e.target.value)}
+                                    />
+                                
+                                </div>
+                            </div>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                            <div className="col-6 text-center">
+                                <button className="btn btn-secondary btn-user" onClick={updateCarParking}>Save</button>           
+                            </div>
+                            </div>
+                            </div>
+                            
+                            </Fade>
+                        </Modal>
                     </div>
                     <br />
                     <div className="mt-2 container-fluid justify-content-center">
@@ -568,6 +669,7 @@ function IndividualSite() {
                                 <td>{l.bhk}</td>
                                 <td>{l.amount}</td>
                                 <td>{l.gst}</td>
+
                                 </tr>
                             ))}
                             
@@ -607,7 +709,6 @@ function IndividualSite() {
                                 <th scope="col">Description</th>
                                 <th scope="col">Percentage</th>
                                 <th scope="col">Completion Status</th>
-                                
                                 </tr>
                             </thead>
                             <tbody>
@@ -624,6 +725,7 @@ function IndividualSite() {
                             </tbody>
                         </table>
                         </div>
+                        
                     </div>
                     </>
                     }
