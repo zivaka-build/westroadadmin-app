@@ -64,6 +64,12 @@ function IndividualSite() {
         setOpen3(false);
     };
 
+    const [open4, setOpen4] = React.useState(false);
+
+    const handleClose4 = () => {
+        setOpen4(false);
+    };
+
 
     const {siteID} = useParams()
     const [leads, setLeads] = useState([]);
@@ -125,6 +131,11 @@ function IndividualSite() {
     const [ocps, setOcps] = useState()
     const [ocf, setOcf] = useState()
 
+    const [lcdesc, setLcdesc] = useState("")
+    const [lcbhk, setLcbhk] = useState("")
+    const [lcamount, setLcamount] = useState(0)
+    const [lcgst, setLcgst] = useState(0)
+
     const updateCarParking = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
@@ -147,6 +158,19 @@ function IndividualSite() {
                 .then(response => { 
                     setCharges(response.data.site.otherCharges)
                     setOpen3(false)
+                })
+            })
+    }
+
+    const updateLegalCharges = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.put(`${BASE_URL}/api/v1/site/updateLegalCharges`,{siteId : siteID, bhk : lcbhk, gst : lcgst*1, amount : lcamount*1, description: lcdesc},{headers:{Authorization:Token}})
+        .then(response => {
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setLcharges(response.data.site.legalCharges)
+                    setOpen4(false)
                 })
             })
     }
@@ -780,6 +804,7 @@ function IndividualSite() {
                             <th scope="col">BHK</th>
                             <th scope="col">Amount</th>
                             <th scope="col">GST</th>
+                            <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -789,12 +814,92 @@ function IndividualSite() {
                                 <td>{l.bhk}</td>
                                 <td>{l.amount}</td>
                                 <td>{l.gst}</td>
-
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setLcdesc(l.description); setLcbhk(l.bhk); setLcamount(l.amount); setLcgst(l.gst); setOpen4(true)}}>Edit</button></td>
                                 </tr>
                             ))}
                             
                         </tbody>
                     </table>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open4}
+                        onClose={handleClose4}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open4}>
+                            <div className={classes.paper}>
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-12">
+                                    <label>Description</label>
+                                    <input
+                                    type="text"
+                                    class="form-control"
+                                    name="lcdesc"
+                                    id="lcdesc"
+                                    value={lcdesc}
+                                    onChange={(e)=>setLcdesc(e.target.value)}
+                                    />
+                                </div>
+                                
+                            </div>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-6">
+                                    <label>BHK</label>
+                                    <input
+                                    type="text"
+                                    class="form-control"
+                                    name="lcbhk"
+                                    id="lcbhk"
+                                    value={lcbhk}
+                                    onChange={(e)=>setLcbhk(e.target.value)}
+                                    />
+                                
+                                </div>
+                                <div className="col-6">
+                                    <label>Amount</label>
+                                    <input
+                                    type="number"
+                                    class="form-control"
+                                    name="lcamount"
+                                    id="lcamount"
+                                    value={lcamount}
+                                    onChange={(e)=>setLcamount(e.target.value)}
+                                    />
+                                </div>
+                                
+                            </div>
+                            <br />
+                            <div className="row justify-content-center">
+                                <div className="col-6">
+                                    <label>GST</label>
+                                    <input
+                                    type="number"
+                                    class="form-control"
+                                    name="lcgst"
+                                    id="lcgst"
+                                    value={lcgst}
+                                    onChange={(e)=>setLcgst(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                            <div className="col-6 text-center">
+                                <button className="btn btn-secondary btn-user" onClick={updateLegalCharges}>Save</button>           
+                            </div>
+                            </div>
+                            </div>
+                            
+                            </Fade>
+                        </Modal>
                     </div>
                     </Tab.Pane>
                     <Tab.Pane eventKey="third">
