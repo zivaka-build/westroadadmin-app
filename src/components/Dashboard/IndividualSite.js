@@ -15,6 +15,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import { TrendingUpTwoTone } from "@material-ui/icons"
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -55,6 +56,12 @@ function IndividualSite() {
 
     const handleClose2 = () => {
         setOpen2(false);
+    };
+
+    const [open3, setOpen3] = React.useState(false);
+
+    const handleClose3 = () => {
+        setOpen3(false);
     };
 
 
@@ -112,6 +119,12 @@ function IndividualSite() {
     const [cpprice, setCpprice] = useState(0)
     const [cptotal, setCptotal] = useState(0)
 
+    const [ocname, setOcname] = useState("")
+    const [ocamount, setOcamount] = useState(0)
+    const [ocgst, setOcgst] = useState(0)
+    const [ocps, setOcps] = useState()
+    const [ocf, setOcf] = useState()
+
     const updateCarParking = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
@@ -121,6 +134,19 @@ function IndividualSite() {
                 .then(response => { 
                     setParking(response.data.site.carParkingType)
                     setOpen2(false)
+                })
+            })
+    }
+
+    const updateOtherCharges = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.put(`${BASE_URL}/api/v1/site/updateOtherCharges`,{siteId : siteID, otherChargesName : ocname, amount : ocamount, gst : ocgst, fixed: ocf, perSqFt : ocps},{headers:{Authorization:Token}})
+        .then(response => {
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setCharges(response.data.site.otherCharges)
+                    setOpen3(false)
                 })
             })
     }
@@ -634,6 +660,7 @@ function IndividualSite() {
                             <th scope="col">Amount</th>
                             <th scope="col">GST</th>
                             <th scope="col">Charge Type</th>
+                            <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -643,11 +670,104 @@ function IndividualSite() {
                             <td>{c.amount}</td>
                             <td>{c.gst}</td>
                             <td>{ c.perSqFt === true ? "Per Sq. Feet": "Fixed" }</td>
+                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button></td>
                             </tr>
                             ))}
                             
                         </tbody>
                     </table>
+                    <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open3}
+                        onClose={handleClose3}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open3}>
+                            <div className={classes.paper}>
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-12">
+                                    <label>Charge Name</label>
+                                    <input
+                                    type="text"
+                                    class="form-control"
+                                    name="ocname"
+                                    id="ocname"
+                                    value={ocname}
+                                    onChange={(e)=>setOcname(e.target.value)}
+                                    />
+                                </div>
+                                
+                            </div>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-6">
+                                    <label>Amount</label>
+                                    <input
+                                    type="text"
+                                    class="form-control"
+                                    name="ocamount"
+                                    id="ocamount"
+                                    value={ocamount}
+                                    onChange={(e)=>setOcamount(e.target.value)}
+                                    />
+                                
+                                </div>
+                                <div className="col-6">
+                                    <label>GST</label>
+                                    <input
+                                    type="number"
+                                    class="form-control"
+                                    name="ocgst"
+                                    id="ocgst"
+                                    value={ocgst}
+                                    onChange={(e)=>setOcgst(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                                <div className="col-12 control">
+                                <label class="text-align left">Charge Type : </label>
+                                <input
+                                    type="radio"
+                                    className="form-check-input"
+                                    name="octype"
+                                    checked={ocps === true ? true : null}
+                                    onChange={(e)=>{setOcps(true); setOcf(false)}}
+                                    />
+                                <label class="form-check-label pl-5">
+                                    Per Sq. Feet
+                                </label>
+                                
+                                <input
+                                    type="radio"
+                                    className="form-check-input"
+                                    name="octype"
+                                    checked={ocf === true ? true : null}
+                                    onChange={(e)=>{setOcf(true); setOcps(false)}}
+                                    />
+                                <label class="form-check-label pl-5">
+                                    Fixed
+                                </label>
+
+                                </div>
+                            </div>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                            <div className="col-6 text-center">
+                                <button className="btn btn-secondary btn-user" onClick={updateOtherCharges}>Save</button>           
+                            </div>
+                            </div>
+                            </div>
+                            
+                            </Fade>
+                        </Modal>
                     </div>
                     <br />
                     <div className="mt-2 container-fluid justify-content-center">

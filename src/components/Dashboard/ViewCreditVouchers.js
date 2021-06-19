@@ -80,7 +80,7 @@ function ViewCreditVouchers(){
         <br />
           <MaterialTable
             data={cvs}
-            title="Credit Vouchers"
+            title="Money Receipt"
             columns={
                 [
                     { title: 'Receipt Number', field: 'recieptNumber'},
