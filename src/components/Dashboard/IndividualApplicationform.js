@@ -150,7 +150,7 @@ function IndividualApplicationform() {
     const [account, setAccount] = useState("")
     const [bank, setBank] = useState("")
     const [issuedBy, setIssuedBy] = useState("")
-    const [tamount, setTamount] = useState(100000)
+    const [tamount, setTamount] = useState(101000)
     const [chequeNo, setChequeNo] = useState("")
     const [comments, setComments] = useState("")
     const [receivedBy, setReceivedBy] = useState("")
