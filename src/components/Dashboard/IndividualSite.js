@@ -98,6 +98,7 @@ function IndividualSite() {
     const [parking, setParking] = useState([])
     const [charges, setCharges] = useState([])
     const [lcharges, setLcharges] = useState([])
+    const [lclength, setLclength] = useState(0)
     const [pterms, setPterms] = useState([])
     const [pt, setPt] = useState([])
     const [ptbol, setPtbol] = useState(false)
@@ -125,6 +126,7 @@ function IndividualSite() {
     const [cptypecode, setCptypecode] = useState("")
     const [cpprice, setCpprice] = useState(0)
     const [cptotal, setCptotal] = useState(0)
+    const [addCarParking, setAddCarParking] = useState(0)
 
     const [oldocname, setOldocname] = useState("")
     const [ocname, setOcname] = useState("")
@@ -132,6 +134,7 @@ function IndividualSite() {
     const [ocgst, setOcgst] = useState(0)
     const [ocps, setOcps] = useState()
     const [ocf, setOcf] = useState()
+    const [addOtherCharges, setAddOtherCharges] = useState(0)
 
     const [lcserial, setLcserial] = useState("")
     const [oldbhk, setOldbhk] = useState("")
@@ -139,10 +142,12 @@ function IndividualSite() {
     const [lcbhk, setLcbhk] = useState("")
     const [lcamount, setLcamount] = useState(0)
     const [lcgst, setLcgst] = useState(0)
+    const [addLegalCharges, setAddLegalCharges] = useState(0)
 
     const updateCarParking = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
+        if(addCarParking === 0) {
         axios.put(`${BASE_URL}/api/v1/site/updateCarParkingType`,{siteId : siteID, typeCode : oldcptype, newtypeCode: cptypecode,type : cptype, totalCount : cptotal, price: cpprice*1},{headers:{Authorization:Token}})
         .then(response => {
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
@@ -151,12 +156,25 @@ function IndividualSite() {
                     setOpen2(false)
                 })
             })
+        }
+        else if(addCarParking === 1){
+        axios.post(`${BASE_URL}/api/v1/site/addCarparkingTypes`,{siteId : siteID, typeCode : cptypecode, type : cptype, totalCount : cptotal, price: cpprice*1},{headers:{Authorization:Token}})
+        .then(response => {
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setParking(response.data.site.carParkingType)
+                    setAddCarParking(0)
+                    setOpen2(false)
+                })
+            })
+        }
     }
 
     const updateOtherCharges = (e) => {
         e.preventDefault()
+        if(addOtherCharges === 0){
         const Token = "bearer" + " " + Cookies.get("Token");
-        axios.put(`${BASE_URL}/api/v1/site/updateOtherCharges`,{siteId : siteID, otherChargesName : oldocname, newotherChargesName: ocname,amount : ocamount, gst : ocgst, fixed: ocf, perSqFt : ocps},{headers:{Authorization:Token}})
+        axios.put(`${BASE_URL}/api/v1/site/updateOtherCharges`,{siteId : siteID, otherChargesName : oldocname, newotherChargesName: ocname,amount : ocamount*1, gst : ocgst*1, fixed: ocf, perSqFt : ocps},{headers:{Authorization:Token}})
         .then(response => {
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
                 .then(response => { 
@@ -164,11 +182,25 @@ function IndividualSite() {
                     setOpen3(false)
                 })
             })
+        }
+        else if(addOtherCharges === 1){
+            const Token = "bearer" + " " + Cookies.get("Token");
+            axios.post(`${BASE_URL}/api/v1/site/addOtherCharges`,{siteId : siteID, name: ocname,amount : ocamount*1, gst : ocgst*1, fixed: ocf, perSqFt : ocps},{headers:{Authorization:Token}})
+            .then(response => {
+                axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                    .then(response => { 
+                        setCharges(response.data.site.otherCharges)
+                        setOpen3(false)
+                        setAddOtherCharges(0)
+                    })
+                })
+            }
     }
 
     const updateLegalCharges = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
+        if(addLegalCharges === 0){
         axios.put(`${BASE_URL}/api/v1/site/updateLegalCharges`,{siteId : siteID, serial: lcserial, newserial: lcserial, bhk: oldbhk, newbhk : lcbhk, gst : lcgst*1, amount : lcamount*1, description: lcdesc},{headers:{Authorization:Token}})
         .then(response => {
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
@@ -177,6 +209,19 @@ function IndividualSite() {
                     setOpen4(false)
                 })
             })
+        }
+        else if(addLegalCharges === 1){
+            axios.post(`${BASE_URL}/api/v1/site/addLegalCharges`,{siteId : siteID, serial: lcserial, bhk: lcbhk, gst : lcgst*1, amount : lcamount*1, description: lcdesc},{headers:{Authorization:Token}})
+            .then(response => {
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setLcharges(response.data.site.legalCharges)
+                    setOpen4(false)
+                    setLclength(response.data.site.legalCharges.length)
+                })
+            })
+
+        }
     }
   
 
@@ -318,6 +363,7 @@ function IndividualSite() {
             setParking(response.data.site.carParkingType)
             setCharges(response.data.site.otherCharges)
             setLcharges(response.data.site.legalCharges)
+            setLclength(response.data.site.legalCharges.length)
             setPt(response.data.site.paymentTerms)
             setPhase(response.data.site.phases)
             
@@ -576,7 +622,7 @@ function IndividualSite() {
                     </div>
                     <br />
                     <div className="mt-2 container-fluid justify-content-center">
-                    <h4>Car Parking</h4>
+                    <h4>Car Parking<button className="btn btn-secondary btn-user float-right" onClick={()=> {setAddCarParking(1);setCptype(""); setCptypecode(""); setCpprice(""); setCptotal(""); setOpen2(true)}}>Add</button></h4>
                     <br />
                     <table class="table">
                         <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
@@ -595,7 +641,7 @@ function IndividualSite() {
                                 <td>{p.typeCode}</td>
                                 <td>{p.price}</td>
                                 <td>{p.totalCount}</td>
-                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setOldcptype(p.typeCode);setCptype(p.type); setCptypecode(p.typeCode); setCpprice(p.price); setCptotal(p.totalCount); setOpen2(true)}}>Edit</button></td>
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddCarParking(0);setOldcptype(p.typeCode);setCptype(p.type); setCptypecode(p.typeCode); setCpprice(p.price); setCptotal(p.totalCount); setOpen2(true)}}>Edit</button></td>
                                 </tr>
                             ))}
                             
@@ -679,7 +725,9 @@ function IndividualSite() {
                     </div>
                     <br />
                     <div className="mt-2 container-fluid justify-content-center">
-                    <h4>Other Charges</h4>
+                    
+                    <h4>Other Charges <button className="btn btn-secondary btn-user float-right" onClick={() => {setAddOtherCharges(1); setOcname(""); setOcamount(""); setOcgst(); setOcps(false); setOcf(false) ;setOpen3(true)}}>Add</button></h4>
+                  
                     <br />
                     <table class="table">
                         <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
@@ -698,7 +746,7 @@ function IndividualSite() {
                             <td>{c.amount}</td>
                             <td>{c.gst}</td>
                             <td>{ c.perSqFt === true ? "Per Sq. Feet": "Fixed" }</td>
-                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setOldocname(c.name); setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button></td>
+                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddOtherCharges(0); setOldocname(c.name); setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button></td>
                             </tr>
                             ))}
                             
@@ -799,7 +847,7 @@ function IndividualSite() {
                     </div>
                     <br />
                     <div className="mt-2 container-fluid justify-content-center">
-                    <h4>Legal Charges</h4>
+                    <h4>Legal Charges<button className="btn btn-secondary btn-user float-right" onClick={()=> {setAddLegalCharges(1); setLcserial(lclength + 1); setLcdesc(""); setLcbhk(""); setLcamount(""); setLcgst(""); setOpen4(true)}}>Add</button></h4>
                     <br />
                     <table class="table">
                         <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
@@ -818,7 +866,7 @@ function IndividualSite() {
                                 <td>{l.bhk}</td>
                                 <td>{l.amount}</td>
                                 <td>{l.gst}</td>
-                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setLcserial(l.serial); setOldbhk(l.bhk); setLcdesc(l.description); setLcbhk(l.bhk); setLcamount(l.amount); setLcgst(l.gst); setOpen4(true)}}>Edit</button></td>
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddLegalCharges(0); setLcserial(l.serial); setOldbhk(l.bhk); setLcdesc(l.description); setLcbhk(l.bhk); setLcamount(l.amount); setLcgst(l.gst); setOpen4(true)}}>Edit</button></td>
                                 </tr>
                             ))}
                             
