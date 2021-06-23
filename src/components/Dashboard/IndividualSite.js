@@ -120,17 +120,21 @@ function IndividualSite() {
 
     const [dvpc, setDvpc] = useState("")
 
+    const [oldcptype, setOldcptype] = useState("")
     const [cptype, setCptype] = useState("")
     const [cptypecode, setCptypecode] = useState("")
     const [cpprice, setCpprice] = useState(0)
     const [cptotal, setCptotal] = useState(0)
 
+    const [oldocname, setOldocname] = useState("")
     const [ocname, setOcname] = useState("")
     const [ocamount, setOcamount] = useState(0)
     const [ocgst, setOcgst] = useState(0)
     const [ocps, setOcps] = useState()
     const [ocf, setOcf] = useState()
 
+    const [lcserial, setLcserial] = useState("")
+    const [oldbhk, setOldbhk] = useState("")
     const [lcdesc, setLcdesc] = useState("")
     const [lcbhk, setLcbhk] = useState("")
     const [lcamount, setLcamount] = useState(0)
@@ -139,7 +143,7 @@ function IndividualSite() {
     const updateCarParking = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
-        axios.put(`${BASE_URL}/api/v1/site/updateCarParkingType`,{siteId : siteID, typeCode : cptypecode, type : cptype, totalCount : cptotal, price: cpprice},{headers:{Authorization:Token}})
+        axios.put(`${BASE_URL}/api/v1/site/updateCarParkingType`,{siteId : siteID, typeCode : oldcptype, newtypeCode: cptypecode,type : cptype, totalCount : cptotal, price: cpprice*1},{headers:{Authorization:Token}})
         .then(response => {
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
                 .then(response => { 
@@ -152,7 +156,7 @@ function IndividualSite() {
     const updateOtherCharges = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
-        axios.put(`${BASE_URL}/api/v1/site/updateOtherCharges`,{siteId : siteID, otherChargesName : ocname, amount : ocamount, gst : ocgst, fixed: ocf, perSqFt : ocps},{headers:{Authorization:Token}})
+        axios.put(`${BASE_URL}/api/v1/site/updateOtherCharges`,{siteId : siteID, otherChargesName : oldocname, newotherChargesName: ocname,amount : ocamount, gst : ocgst, fixed: ocf, perSqFt : ocps},{headers:{Authorization:Token}})
         .then(response => {
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
                 .then(response => { 
@@ -165,7 +169,7 @@ function IndividualSite() {
     const updateLegalCharges = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
-        axios.put(`${BASE_URL}/api/v1/site/updateLegalCharges`,{siteId : siteID, bhk : lcbhk, gst : lcgst*1, amount : lcamount*1, description: lcdesc},{headers:{Authorization:Token}})
+        axios.put(`${BASE_URL}/api/v1/site/updateLegalCharges`,{siteId : siteID, serial: lcserial, newserial: lcserial, bhk: oldbhk, newbhk : lcbhk, gst : lcgst*1, amount : lcamount*1, description: lcdesc},{headers:{Authorization:Token}})
         .then(response => {
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
                 .then(response => { 
@@ -591,7 +595,7 @@ function IndividualSite() {
                                 <td>{p.typeCode}</td>
                                 <td>{p.price}</td>
                                 <td>{p.totalCount}</td>
-                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setCptype(p.type); setCptypecode(p.typeCode); setCpprice(p.price); setCptotal(p.totalCount); setOpen2(true)}}>Edit</button></td>
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setOldcptype(p.typeCode);setCptype(p.type); setCptypecode(p.typeCode); setCpprice(p.price); setCptotal(p.totalCount); setOpen2(true)}}>Edit</button></td>
                                 </tr>
                             ))}
                             
@@ -694,7 +698,7 @@ function IndividualSite() {
                             <td>{c.amount}</td>
                             <td>{c.gst}</td>
                             <td>{ c.perSqFt === true ? "Per Sq. Feet": "Fixed" }</td>
-                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button></td>
+                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setOldocname(c.name); setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button></td>
                             </tr>
                             ))}
                             
@@ -814,7 +818,7 @@ function IndividualSite() {
                                 <td>{l.bhk}</td>
                                 <td>{l.amount}</td>
                                 <td>{l.gst}</td>
-                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setLcdesc(l.description); setLcbhk(l.bhk); setLcamount(l.amount); setLcgst(l.gst); setOpen4(true)}}>Edit</button></td>
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setLcserial(l.serial); setOldbhk(l.bhk); setLcdesc(l.description); setLcbhk(l.bhk); setLcamount(l.amount); setLcgst(l.gst); setOpen4(true)}}>Edit</button></td>
                                 </tr>
                             ))}
                             
