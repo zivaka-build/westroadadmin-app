@@ -30,6 +30,12 @@ function AddLeadForm(){
         { siteID:"",siteName: ""}
     ])
 
+    const [brokerName, setBrokerName] = useState("")
+    const [brokerCompany, setBrokerCompany] = useState("")
+    const [brokerPan, setBrokerPan] = useState("")
+    const [brokerAddress, setBrokerAddress] = useState("")
+    const [brokerRera, setBrokerRera] = useState("")
+
     const addSite = (index, event) => {
         const values = [...site];
         values.push({ siteID:"", siteName: "" })
@@ -49,6 +55,22 @@ function AddLeadForm(){
         values.pop()
         setSite(values)
     }
+
+    const changeBrokerPan = (e) => {
+        var val = e.target.value
+        setBrokerPan(e.target.value)
+        var regex = /^[A-Z0-9]{10}$/
+        var message = document.getElementById('panMessage');
+          if(regex.test(val)){
+              message.classList.remove('d-block');
+              message.classList.add('d-none');
+          }
+          else{
+              
+              message.classList.remove('d-none');
+              message.classList.add('d-block');
+          }
+      }
     
 
     const submit = (e) => {
@@ -70,6 +92,13 @@ function AddLeadForm(){
             site: site,
             leadBudget: budget,
             leadReq: requirement,
+            broker: {
+                brokerName : brokerName,
+                brokerCompany : brokerCompany,
+                brokerPAN : brokerPan,
+                brokerAddress : brokerAddress,
+                brokerRERA : brokerRera
+            }
           },
           { headers : { 'Authorization' : Token }})
           .then((response) => {
@@ -346,6 +375,76 @@ function AddLeadForm(){
            </> : null
         }
         </div>
+
+        {
+            source === "Real Estate Broker" ?
+            <>
+            <div className="row justify-content-center">
+                <div className="col-lg-4 col-sm-6">
+                    <label>Broker Name</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="BrokerName"
+                    id="outlined-basic"
+                    onChange={(e)=>setBrokerName(e.target.value)}
+                    />
+                </div>
+                <div className="col-lg-4 col-sm-6">
+                <label>Broker Company</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="BrokerCompany"
+                    id="outlined-basic"
+                    onChange={(e)=>setBrokerCompany(e.target.value)}
+                    />
+                </div>
+                
+            </div>
+            <br />
+            <div className="row justify-content-center">
+                <div className="col-lg-4 col-sm-6">
+                    <label>Broker PAN</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="BrokerPan"
+                    id="outlined-basic"
+                    onChange={changeBrokerPan}
+                    />
+                     <small id="panMessage" className="text-danger d-none">
+                        Must be 10 characters with capitals and numbers only
+                    </small>
+                </div>
+                <div className="col-lg-4 col-sm-6">
+                <label>Broker RERA</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="BrokerRera"
+                    id="outlined-basic"
+                    onChange={(e)=>setBrokerRera(e.target.value)}
+                    />
+                </div>
+                
+            </div>
+            <br />
+            <div className="row justify-content-center">
+                <div className="col-lg-8 col-sm-12">
+                    <label>Broker Address</label>
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="BrokerAddress"
+                    id="outlined-basic"
+                    onChange={(e)=>setBrokerAddress(e.target.value)}
+                    />
+                </div>
+            </div>
+            <br />
+            </> : null
+        }
 
         <div className="row justify-content-center">
         <div className="col-lg-8 col-sm-12">

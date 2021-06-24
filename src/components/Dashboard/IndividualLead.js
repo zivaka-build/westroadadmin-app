@@ -86,6 +86,12 @@ function IndividualLead() {
     const [ rdate, setRdate] = useState("")
     const [phoneValidated, setPhoneValidated] = useState(true)
 
+    const [brokerName, setBrokerName] = useState("")
+    const [brokerCompany, setBrokerCompany] = useState("")
+    const [brokerPan, setBrokerPan] = useState("")
+    const [brokerAddress, setBrokerAddress] = useState("")
+    const [brokerRera, setBrokerRera] = useState("")
+
 
     const toggleDiv = () => {
         if(toggle === 0) {
@@ -226,6 +232,11 @@ function IndividualLead() {
                 setRequirement(response.data.lead.leadReq)
                 setBudget(response.data.lead.leadBudget)
                 setSite(response.data.lead.site)
+                setBrokerName(response.data.lead.broker.brokerName)
+                setBrokerCompany(response.data.lead.broker.brokerCompany)
+                setBrokerAddress(response.data.lead.broker.brokerAddress)
+                setBrokerPan(response.data.lead.broker.brokerPAN)
+                setBrokerRera(response.data.lead.broker.brokerRERA)
 
                 if(response.data.lead.site.length === 1){
                     setSite1name(response.data.lead.site[0].siteName)
@@ -422,6 +433,7 @@ function IndividualLead() {
                                     <option>Facebook</option>
                                     <option>Referral</option>
                                     <option>Walk In</option>
+                                    <option>Real Estate Broker</option>
                                     </Form.Control>
                                     </Form.Group>
                                 </div>
@@ -482,6 +494,77 @@ function IndividualLead() {
                                 </> : null
                                 }
                                 </div>
+                                {
+                                    source === "Real Estate Broker" ?
+                                    <>
+                                    <div className="row justify-content-center">
+                                        <div className="col-lg-4 col-sm-6">
+                                            <label>Broker Name</label>
+                                            <input
+                                            type="text"
+                                            class="form-control"
+                                            name="BrokerName"
+                                            id="outlined-basic"
+                                            value={brokerName}
+                                            onChange={(e)=>setBrokerName(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-lg-4 col-sm-6">
+                                        <label>Broker Company</label>
+                                            <input
+                                            type="text"
+                                            class="form-control"
+                                            name="BrokerCompany"
+                                            id="outlined-basic"
+                                            value={brokerCompany}
+                                            onChange={(e)=>setBrokerCompany(e.target.value)}
+                                            />
+                                        </div>
+                                        
+                                    </div>
+                                    <br />
+                                    <div className="row justify-content-center">
+                                        <div className="col-lg-4 col-sm-6">
+                                            <label>Broker PAN</label>
+                                            <input
+                                            type="text"
+                                            class="form-control"
+                                            name="BrokerPan"
+                                            id="outlined-basic"
+                                            value={brokerPan}
+                                            onChange={(e)=>setBrokerPan(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="col-lg-4 col-sm-6">
+                                        <label>Broker RERA</label>
+                                            <input
+                                            type="text"
+                                            class="form-control"
+                                            name="BrokerRera"
+                                            id="outlined-basic"
+                                            value={brokerRera}
+                                            onChange={(e)=>setBrokerRera(e.target.value)}
+                                            />
+                                        </div>
+                                        
+                                    </div>
+                                    <br />
+                                    <div className="row justify-content-center">
+                                        <div className="col-lg-8 col-sm-12">
+                                            <label>Broker Address</label>
+                                            <input
+                                            type="text"
+                                            class="form-control"
+                                            name="BrokerAddress"
+                                            id="outlined-basic"
+                                            value={brokerAddress}
+                                            onChange={(e)=>setBrokerAddress(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <br />
+                                    </> : null
+                                }
                                 
                                 <div className="row justify-content-center">
                                 <div className="col-4">
