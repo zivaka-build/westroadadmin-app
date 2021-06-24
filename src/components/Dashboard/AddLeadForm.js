@@ -1,5 +1,5 @@
 import { Form} from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { navigate } from "@reach/router";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -25,6 +25,30 @@ function AddLeadForm(){
     const [emailValidated, setEmailValidated] = useState(true)
     const [phoneValidated, setPhoneValidated] = useState(true)
     const [wpValidated, setWpValidated] = useState(true)
+    const [sites, setSites] = useState([])
+    const [site, setSite] = useState([
+        { siteID:"",siteName: ""}
+    ])
+
+    const addSite = (index, event) => {
+        const values = [...site];
+        values.push({ siteID:"", siteName: "" })
+        setSite(values)
+    }
+
+    const handleSiteChange = (index, event) => {
+        const values = [...site];
+        const str = event.target.value + " ";
+        values[index].siteID = str.split(' ')[0]
+        values[index].siteName = str.substring(str.indexOf(' ')+1, str.lastIndexOf(' '))
+        setSite(values)
+    }
+
+    const deleteSite = (index, event) => {
+        const values = [...site];
+        values.pop()
+        setSite(values)
+    }
     
 
     const submit = (e) => {
@@ -43,7 +67,7 @@ function AddLeadForm(){
             leadSource: source,
             subType: subType,
             leadWeightage: type,
-            siteName: siteName,
+            site: site,
             leadBudget: budget,
             leadReq: requirement,
           },
@@ -131,6 +155,15 @@ function AddLeadForm(){
         }
 
     }
+
+    useEffect(() => { 
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios
+            .get(`${BASE_URL}/api/v1/site/getAllSiteNames`,{ headers : { 'Authorization' : Token }})
+            .then(response => {
+                setSites(response.data.siteMap)
+            })
+    }, [])
     
     
 
@@ -313,6 +346,34 @@ function AddLeadForm(){
            </> : null
         }
         </div>
+
+        <div className="row justify-content-center">
+        <div className="col-lg-8 col-sm-12">
+        { site.map((s, index) =>{
+            return(
+                <div className="row d-flex">
+                    <div className="col-6">
+                        <Form.Group controlId="sites">
+                        <Form.Label>Site</Form.Label>
+                        <Form.Control  required onChange={(event) => handleSiteChange(index, event)} as="select">
+                        <option value="">Select a site</option>
+                        {sites.map((s)=>(
+                            <option value={s.SiteId+" "+s.SiteName}>{s.SiteName}</option>
+                        ))}
+                        </Form.Control>
+                        </Form.Group>
+                    </div>
+                    <div className="col-6">
+                    <button className="add-btn mt-4 mr-4" onClick={()=>addSite()} style={{display : index === 1 ? "none": "inline-block"}}>Add Row</button>
+                            
+                    <button className="add-btn mt-4" onClick={()=>deleteSite()} style={{display : index === 0 ? "none": "inline-block"}}>Delete</button>
+                    </div>
+                </div>
+            )
+        })
+        }
+        </div>
+        </div>
         
         <div className="row justify-content-center">
         <div className="col-lg-4 col-sm-6">
@@ -326,16 +387,6 @@ function AddLeadForm(){
         
             </Form.Control>
             </Form.Group>
-        </div>
-        <div className="col-lg-4 col-sm-6">
-        <label>Site Name</label>
-            <input
-            type="text"
-            class="form-control"
-            name="sitename"
-            id="outlined-basic"
-            onChange={(e)=>setSiteName(e.target.value)}
-            />
         </div>
         </div>
         <br />

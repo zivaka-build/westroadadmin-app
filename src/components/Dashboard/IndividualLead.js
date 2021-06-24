@@ -66,6 +66,10 @@ function IndividualLead() {
     const [users, setUsers] = useState([])
     const [comment, setComment] = useState("")
     const [toggle, setToggle] = useState(0)
+    const [site, setSite] = useState([])
+
+    const [site1name, setSite1name] = useState("")
+    const [site2name, setSite2name] = useState("")
 
     const [contactPerson, setContactPerson] = useState("")
     const [contactPersonNo, setContactPersonNo] = useState("")
@@ -221,6 +225,16 @@ function IndividualLead() {
                 setType(response.data.lead.leadWeightage)
                 setRequirement(response.data.lead.leadReq)
                 setBudget(response.data.lead.leadBudget)
+                setSite(response.data.lead.site)
+
+                if(response.data.lead.site.length === 1){
+                    setSite1name(response.data.lead.site[0].siteName)
+                }
+
+                else if(response.data.lead.site.length === 2){
+                    setSite1name(response.data.lead.site[0].siteName)
+                    setSite2name(response.data.lead.site[1].siteName)
+                }
 
                 
                 const comments = response.data.lead.comments.map((cmt)=>{
@@ -489,7 +503,7 @@ function IndividualLead() {
                                     name="sitename"
                                     id="outlined-basic"
                                     onChange={(e)=>setSiteName(e.target.value)}
-                                    value={siteName}
+                                    value={site.length === 1 ? site1name : site1name+", "+site2name}
                                     />
                                 </div>
                                 </div>
