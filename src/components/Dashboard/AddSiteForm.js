@@ -31,7 +31,7 @@ function AddMember() {
   ]);
 
   const [addCarParking, setAddCarParking] = React.useState([
-    {type: "", typeCode: "", price: ""}
+    {type: "", typeCode: "", price: "", totalCount: ""}
   ])
 
   const [addLegalCharges, setAddLegalCharges] = React.useState([
@@ -92,7 +92,7 @@ function AddMember() {
 
   const handleAddCarParking = () => {
     const values = [...addCarParking];
-    values.push({ type: "", typeCode: "" , price: ""});
+    values.push({ type: "", typeCode: "" , price: "", totalCount: ""});
     setAddCarParking(values);
   };
 
@@ -130,6 +130,9 @@ function AddMember() {
     }
     else if(event.target.name === "price"){
       values[index].price = parseInt(event.target.value);
+    }
+    else {
+      values[index].totalCount = parseInt(event.target.value);
     }
    
     setAddCarParking(values);
@@ -263,13 +266,13 @@ function AddMember() {
               phases: addPhase,
               carParkingType: addCarParking,
               otherCharges: othercharges,
-              LegalCharges: addLegalCharges
+              legalCharges: addLegalCharges
             },
             { headers : { 'Authorization' : Token }},
             
             )
             .then((response) => {
-                navigate("dashboard/managesite")
+                navigate("/dashboard/managesite")
             })
             .catch(err=>{
                 console.log(err)
@@ -543,6 +546,18 @@ function AddMember() {
                           name="price"
                           id="outlined-basic"
                           value={addCarParking.price}
+                          onChange={(event) => handleCarParkingChange(index, event)}
+                        />
+                      </div>
+
+                      <div className="col-2">
+                        <label>Total Count</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="totalCount"
+                          id="outlined-basic"
+                          value={addCarParking.totalCount}
                           onChange={(event) => handleCarParkingChange(index, event)}
                         />
                       </div>

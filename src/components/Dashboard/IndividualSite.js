@@ -714,10 +714,14 @@ function IndividualSite() {
                             </div>
                             <br />
                             <div className="row container-fluid justify-content-center">
-                            <div className="col-6 text-center">
+                            <div className="col-6 text-right">
                                 <button className="btn btn-secondary btn-user" onClick={updateCarParking}>Save</button>           
                             </div>
+                            <div className="col-6 text-left">
+                                <button className="btn btn-secondary btn-user" onClick={handleClose2} style={{backgroundColor: "white", color: "black"}}>Close</button>
                             </div>
+                            </div>
+                            
                             </div>
                             
                             </Fade>
@@ -836,8 +840,11 @@ function IndividualSite() {
                             </div>
                             <br />
                             <div className="row container-fluid justify-content-center">
-                            <div className="col-6 text-center">
+                            <div className="col-6 text-right">
                                 <button className="btn btn-secondary btn-user" onClick={updateOtherCharges}>Save</button>           
+                            </div>
+                            <div className="col-6 text-left">
+                                <button className="btn btn-secondary btn-user" onClick={handleClose3} style={{backgroundColor: "white", color: "black"}}>Close</button>
                             </div>
                             </div>
                             </div>
@@ -944,8 +951,11 @@ function IndividualSite() {
                             <br />
                             <br />
                             <div className="row container-fluid justify-content-center">
-                            <div className="col-6 text-center">
+                            <div className="col-6 text-right">
                                 <button className="btn btn-secondary btn-user" onClick={updateLegalCharges}>Save</button>           
+                            </div>
+                            <div className="col-6 text-left">
+                                <button className="btn btn-secondary btn-user" onClick={handleClose4} style={{backgroundColor: "white", color: "black"}}>Close</button>
                             </div>
                             </div>
                             </div>
