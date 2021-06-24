@@ -4,12 +4,11 @@ import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Form } from "react-bootstrap";
-import { useParams } from "@reach/router"
+import { useParams, navigate } from "@reach/router"
 import { BASE_URL } from "../../config/url";
 import axios from "axios";
 import Cookies from "js-cookie";
 import MaterialTable from "material-table";
-import { ContactMailTwoTone } from "@material-ui/icons"
 
 function IndividualCustomer(){
     const [customerId, setCustomerId] = useState("")
@@ -266,6 +265,17 @@ function IndividualCustomer(){
                 }
             }}
 
+            actions={[
+                {
+                    icon: 'remove_red_eye',
+                    tooltip: 'View Demand',
+                    onClick: (event, rowData) => {
+                    navigate(`/dashboard/individualdemand/${rowData.demandId}`);
+                    Cookies.set('ActiveDemandKey', 'first')
+                    }
+                }
+
+            ]}
             ></MaterialTable>
             </div>
             </Tab.Pane>

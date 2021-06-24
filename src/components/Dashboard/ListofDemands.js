@@ -3,16 +3,12 @@ import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import { Form} from "react-bootstrap";
+import { navigate } from "@reach/router"
 import MaterialTable, { MTableToolbar } from "material-table";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
-import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -454,6 +450,18 @@ function ListofDemand(){
                 
                 }
             }}
+
+            actions={[
+              {
+                  icon: 'remove_red_eye',
+                  tooltip: 'View Demand',
+                  onClick: (event, rowData) => {
+                  navigate(`/dashboard/individualdemand/${rowData.demandId}`);
+                  Cookies.set('ActiveDemandKey', 'first')
+                  }
+              }
+
+          ]}
             
            ></MaterialTable>
             
