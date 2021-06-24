@@ -117,6 +117,7 @@ function ViewLoanBank(){
                     { title: 'ROI', field: 'rateOfInterest' },
                     { title: 'ROI Women', field: 'rateOfInterestWomen'},
                     { title: 'ROI Senior Citizen', field: 'rateOfInterestSenior' },
+                    { title: 'Updated At', defaultSort: 'desc', render : (rowData) => !rowData.updatedAt ?  "": rowData.updatedAt.substring(8,10)+"-"+rowData.updatedAt.substring(5,7)+"-"+rowData.updatedAt.substring(0,4), customSort: (a, b) => a.updatedAt < b.updatedAt ? -1 : 1 },
                     
                 ]
             }
