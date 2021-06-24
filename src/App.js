@@ -53,6 +53,7 @@ import ViewHandoverListTypePage from "./routes/ViewHandoverListTypePage"
 import ViewCreditVouchersPage from "./routes/ViewCreditVouchersPage"
 import ViewPaymentTermsPage from "./routes/ViewPaymentTermsPage";
 import IndividualPaymentTermsPage from "./routes/IndividualPaymentTermsPage"
+import IndividualDemandPage from "./routes/IndividualDemandPage"
 
 function App() {
   return (
@@ -109,6 +110,7 @@ function App() {
           <ViewCreditVouchersPage path="/viewcreditvouchers" />
           <ViewPaymentTermsPage path="/paymentterms" />
           <IndividualPaymentTermsPage path="/individualpaymentterm/:termId" />
+          <IndividualDemandPage path="/individualdemand/:demandId" />
         </DefaultDashboard>
 
       </Router>
