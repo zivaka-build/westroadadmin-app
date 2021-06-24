@@ -77,6 +77,7 @@ function AddCash() {
             <option value="">Select a Deposit type</option>   
             <option value="BookingAmount">Booking Amount</option>
             <option value="AdditionalBookingAmount">Additional Booking Amount</option>
+            <option value="PenaltyInterest">Penalty Interest</option>
             <option value="LegalCharges">Legal Charges</option>
             <option value="Others">Others</option>
             </Form.Control>
