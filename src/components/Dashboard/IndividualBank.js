@@ -18,6 +18,7 @@ function IndividualLoanBank() {
     const [agent, setAgent] = useState([
         {name: "", contactNumber: "", whatsappNumber: "", emailId: ""}
     ])
+    const [updatedAt, setUpdatedAt] = useState("")
 
 console.log(agent)
 
@@ -71,6 +72,9 @@ console.log(agent)
             setSi(response.data.rateOfInterestSenior)
             setAgent(response.data.agent)
             setBranch(response.data.bankBranch)
+            if(response.data.updatedAt){
+            setUpdatedAt(response.data.updatedAt)
+            }
         })
     }, [])
 
@@ -200,6 +204,18 @@ console.log(agent)
             />
             </div>
 
+        </div>
+        <div className="row mt-3 container-fluid justify-content-center">
+            <div className="col-lg-4 col-sm-12">
+                <label>Updated At</label>
+                <input
+                type="text"
+                class="form-control"
+                name="updatedAt"
+                id="updatedAt"
+                value={updatedAt === "" ? "" : updatedAt.substring(8,10)+"-"+updatedAt.substring(5,7)+"-"+updatedAt.substring(0,4)}
+            />
+            </div>
         </div>
         </div>
         <br />
