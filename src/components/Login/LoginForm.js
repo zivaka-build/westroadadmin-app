@@ -64,7 +64,7 @@ function LoginForm() {
       
       if(response.data.otpValidated === true)
       {
-        Cookies.set('Token', response.data.token)
+        Cookies.set('Token', response.data.token, { expires : 0.042})
         Cookies.set('FullName', response.data.userFullName)
         Cookies.set('UserName', response.data.userName)
         setOtpValidated(true)

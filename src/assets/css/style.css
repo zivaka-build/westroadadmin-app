@@ -11392,3 +11392,8 @@ input {
 .MuiTypography-h6 {
   padding-left: 10px !important;
 }
+
+.loginfirst-card {
+  background: #FFFFFF;
+  border-radius: 39px;
+}
