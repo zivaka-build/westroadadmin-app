@@ -37,9 +37,6 @@ function LoginForm() {
 
   }
 
-  
-
-  
   const getOTPapi = () =>{
     axios.post(`${BASE_URL}/api/v1/auth/sendOTP`,{userName:userName})
     .then((response) =>{
