@@ -23,6 +23,9 @@ function IndividualCustomer(){
     const [unitName, setUnitName] = useState("")
     const [paymentTerm, setPaymentTerm] = useState("")
     const [demands, setDemands] = useState([])
+    const [sitename, setSitename] = useState("")
+    const [phase, setPhase] = useState("")
+    const [carParkings, setCarParkings] = useState([])
 
     useEffect(() => {
        
@@ -42,6 +45,15 @@ function IndividualCustomer(){
             setUnitName(response.data.customer.unitName)
             setPaymentTerm(response.data.customer.paymentTerms)
             setDemands(response.data.customer.demandList)
+            setSitename(response.data.customer.siteName)
+            setCarParkings(response.data.customer.carParkings[0])
+
+            axios.get(`${BASE_URL}/api/v1/unit/getunitbyunitname/${response.data.customer.unitName}`,{headers:{Authorization:Token}})
+            .then(response => {
+                console.log(response)
+                setPhase(response.data.unitPhaseName)
+            })
+
         })
      
     },[])
@@ -219,6 +231,19 @@ function IndividualCustomer(){
                         />
                     </div>
                     <div className="col-lg-4 col-sm-12">
+                        <label>Site Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        name="sitename"
+                        id="sitename"
+                        value={sitename}
+                        />
+                    </div>
+                </div>
+                <br />
+                <div className="row justify-content-center">
+                    <div className="col-lg-4 col-sm-12">
                         <label>Unit Name</label>
                         <input
                         type="text"
@@ -228,7 +253,41 @@ function IndividualCustomer(){
                         value={unitName}
                         />
                     </div>
+                    <div className="col-lg-4 col-sm-12">
+                        <label>Phase Name</label>
+                        <input
+                        type="text"
+                        class="form-control"
+                        name="phase"
+                        id="phase"
+                        value={phase}
+                        />
+                    </div>
                 </div>
+                <br />
+                    <div className="mt-2 container-fluid justify-content-center">
+                    <h4>Car Parkings</h4>
+                    <br />
+                    <table class="table">
+                        <thead style={{backgroundColor : "#EE4B46", color : "#fff"}}>
+                            <tr>
+                            <th scope="col">Car Parking Type</th>
+                            <th scope="col">Car Parking Type Code</th>
+                            <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {carParkings.map((p)=>(
+                                <tr>
+                                <td>{p.parkingType}</td>
+                                <td>{p.parkingTypeCode}</td>
+                                <td>{p.carParkingPrice}</td>
+                                </tr>
+                            ))}
+                            
+                        </tbody>
+                    </table>
+                    </div>
             </div>
             </Tab.Pane>
             <Tab.Pane eventKey="third">
