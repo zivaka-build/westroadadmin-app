@@ -26,6 +26,7 @@ import {GiTakeMyMoney} from 'react-icons/gi'
 import {BsFillPieChartFill} from 'react-icons/bs'
 import {AiOutlineSetting} from 'react-icons/ai'
 import {AiOutlineCalculator} from 'react-icons/ai'
+import {RiCoupon2Fill} from 'react-icons/ri'
 import {FaTools} from 'react-icons/fa'
 import {BsBellFill} from 'react-icons/bs'
 import {FaReceipt} from 'react-icons/fa'
@@ -500,6 +501,7 @@ return (
           <Link to="/" className="icon-link"><BsBellFill/></Link>
           <Link to="/dashboard/tasklist" className="icon-link"><GoTasklist onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
           <Link to="/dashboard/voucher" className="icon-link"><FaReceipt/></Link>
+          <Link to="/dashboard/cashbackpage" className="icon-link"><RiCoupon2Fill /></Link>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
           ref={anchorRef}
