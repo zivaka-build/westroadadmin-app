@@ -57,6 +57,7 @@ import IndividualDemandPage from "./routes/IndividualDemandPage"
 import LoginFirstPage from "./routes/LoginFirstPage"
 import ListOfCashbacksPage from "./routes/ListOfCashbacksPage";
 import CashbackPage from "./routes/CashbackPage"
+import AddCashbackPage from "./routes/AddCashbackPage"
 
 function App() {
   return (
@@ -116,6 +117,7 @@ function App() {
           <IndividualDemandPage path="/individualdemand/:demandId" />
           <ListOfCashbacksPage path="/cashback" />
           <CashbackPage path="/cashbackpage" />
+          <AddCashbackPage path="/addcashback" />
         </DefaultDashboard>
         <LoginFirstPage path="/loginfirst" />
 
