@@ -12,7 +12,7 @@ function Cashback() {
         <br />
         <div className="row tab-card py-5 justify-content-center">
             <div className="col-4 text-right">
-                <button className="btn btn-secondary btn-user" onClick={()=>navigate("/dashboard/addcreditvoucher")}>Create Cashback Coupon</button>
+                <button className="btn btn-secondary btn-user" onClick={()=>navigate("/dashboard/addcashback")}>Create Cashback Coupon</button>
             </div>
             &nbsp;&nbsp;
             <div className="col-4">
