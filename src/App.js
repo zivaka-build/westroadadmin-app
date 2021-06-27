@@ -55,6 +55,7 @@ import ViewPaymentTermsPage from "./routes/ViewPaymentTermsPage";
 import IndividualPaymentTermsPage from "./routes/IndividualPaymentTermsPage"
 import IndividualDemandPage from "./routes/IndividualDemandPage"
 import LoginFirstPage from "./routes/LoginFirstPage"
+import ListOfCashbacksPage from "./routes/ListOfCashbacksPage";
 
 function App() {
   return (
@@ -112,6 +113,7 @@ function App() {
           <ViewPaymentTermsPage path="/paymentterms" />
           <IndividualPaymentTermsPage path="/individualpaymentterm/:termId" />
           <IndividualDemandPage path="/individualdemand/:demandId" />
+          <ListOfCashbacksPage path="/cashback" />
         </DefaultDashboard>
         <LoginFirstPage path="/loginfirst" />
 
