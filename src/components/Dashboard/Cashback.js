@@ -16,7 +16,7 @@ function Cashback() {
             </div>
             &nbsp;&nbsp;
             <div className="col-4">
-                <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} >Encash Cashback Coupon</button>
+                <button className="btn btn-secondary btn-user" style={{backgroundColor: "white", color: "black"}} onClick={()=>navigate("/dashboard/encashcashback")}>Encash Cashback Coupon</button>
             </div>
         </div>
         </>
