@@ -34,8 +34,8 @@ function AddCreditVoucher() {
             }
             else if(response.status !== 200){
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
+                    icon: 'error',
+                    title: 'Error',
                     showClass: {
                       popup: 'animate__animated animate__fadeInDown'
                     },
@@ -75,7 +75,7 @@ function AddCreditVoucher() {
             <div className="col-lg-4 col-sm-12">
                 <Form.Group controlId="customerId">
                 <Form.Label>Customer ID</Form.Label>
-                <Form.Control  as="select" onChange={(e)=>setCustomerId(e.target.value)} required>
+                <Form.Control  as="select" onChange={(e)=>setCustomerId(e.target.value)} value={customerId} required>
                 <option value="">Select a Customer Id</option>  
                 {customers.map((c)=>(
                 <option value={c.customerId}>{c.customerId}</option>
@@ -86,7 +86,7 @@ function AddCreditVoucher() {
             <div className="col-lg-4 col-sm-12">
             <Form.Group controlId="amount">
                 <Form.Label>Amount</Form.Label>
-                <Form.Control  as="select" onChange={(e)=>setAmount(e.target.value)} required>
+                <Form.Control  as="select" onChange={(e)=>setAmount(e.target.value)} value={amount} required>
                 <option value="">Select a amount</option>
                 <option value="500">500</option>  
                 <option value="1000">1000</option>
