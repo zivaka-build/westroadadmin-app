@@ -59,6 +59,7 @@ import ListOfCashbacksPage from "./routes/ListOfCashbacksPage";
 import CashbackPage from "./routes/CashbackPage"
 import AddCashbackPage from "./routes/AddCashbackPage"
 import EncashCashbackPage from "./routes/EncashCashbackPage"
+import ListOfSalesComissionPage from "./routes/ListOfSalesComissionPage"
 
 function App() {
   return (
@@ -120,6 +121,7 @@ function App() {
           <CashbackPage path="/cashbackpage" />
           <AddCashbackPage path="/addcashback" />
           <EncashCashbackPage path="/encashcashback" />
+          <ListOfSalesComissionPage path="/viewsalescomission" />
         </DefaultDashboard>
         <LoginFirstPage path="/loginfirst" />
 
