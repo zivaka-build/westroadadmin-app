@@ -47,6 +47,16 @@ function ListOfSalesComission(){
 
     const [sales, setSales] = useState([])
 
+    const [incentiveId, setIncentiveId] = useState("")
+    const [brokerCompany, setBrokerCompany] = useState("")
+    const [brokerName, setBrokerName] = useState("")
+    const [brokerRERA, setBrokerRERA] = useState("")
+    const [brokerPAN, setBrokerPAN] = useState("")
+    const [brokerAddress, setBrokerAddress] = useState("")
+    const [amount, setAmount] = useState("")
+    const [paid, setPaid] = useState(false)
+    const [sts, setSts] = useState(false)
+
     useEffect(() => { 
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.get(`${BASE_URL}/api/v1/salesCommission/getListOfSalesCommissions`,{ headers : { 'Authorization' : Token }})
@@ -56,6 +66,31 @@ function ListOfSalesComission(){
         })
 
     }, [])
+
+    const save = (e) => {
+        e.preventDefault()
+        const Token = 'bearer' + " " + Cookies.get('Token')
+        axios.put(`${BASE_URL}/api/v1/salesCommission/updateSalesCommision`,
+        {
+            incentiveId: incentiveId,
+            brokerCompany: brokerCompany,
+            brokerName: brokerName,
+            brokerPAN: brokerPAN,
+            brokerRERA: brokerRERA,
+            brokerAddress: brokerAddress,
+            paymentAmount: amount,
+            isPaid: paid,
+            settledToSalary: sts,
+        },
+        { headers : { 'Authorization' : Token }})
+        .then(response => {
+            axios.get(`${BASE_URL}/api/v1/salesCommission/getListOfSalesCommissions`,{ headers : { 'Authorization' : Token }})
+            .then(response => {
+            setSales(response.data.salesIncentive)
+            setOpen(false)
+        })
+        })
+    }
 
     return(
         <>
@@ -101,13 +136,149 @@ function ListOfSalesComission(){
                     icon: 'remove_red_eye',
                     tooltip: 'Edit Sales Comission',
                     onClick: (event, rowData) => {
-                       
+                       setIncentiveId(rowData.incentiveId);
+                       setBrokerCompany(rowData.brokerCompany);
+                       setBrokerName(rowData.brokerName);
+                       setBrokerRERA(rowData.brokerRERA);
+                       setBrokerPAN(rowData.brokerPAN);
+                       setBrokerAddress(rowData.brokerAddress);
+                       setAmount(rowData.paymentAmount);
+                       setPaid(rowData.isPaid)
+                       setSts(rowData.settledToSalary)
+                       setOpen(true)
                     },
                 }
 
             ]}
             
            ></MaterialTable>
+           <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open}
+                        onClose={handleClose}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open}>
+                            <div className={classes.paper}>
+                            <div className="row justify-content-center">
+                                  <div className="col-6">
+                                    <label>Incentive ID</label>
+                                    <input 
+                                    type="text"
+                                    class="form-control"
+                                    name="incentiveId"
+                                    value={incentiveId}
+                                    />
+                                  </div>
+                                  <div className="col-6">
+                                    <label>Amount</label>
+                                    <input 
+                                    type="number"
+                                    class="form-control"
+                                    name="amount"
+                                    value={amount}
+                                    onChange={(e)=>setAmount(e.target.value)}
+                                    />
+                                  </div>
+                              </div>
+                              <div className="row mt-2 justify-content-center">
+                                  <div className="col-6">
+                                    <label>Broker Name</label>
+                                    <input 
+                                    type="text"
+                                    class="form-control"
+                                    name="brokerName"
+                                    value={brokerName}
+                                    onChange={(e)=>setBrokerName(e.target.value)}
+                                    />
+                                  </div>
+                                  <div className="col-6">
+                                    <label>Broker Company</label>
+                                    <input 
+                                    type="text"
+                                    class="form-control"
+                                    name="brokerCompany"
+                                    value={brokerCompany}
+                                    onChange={(e)=>setBrokerCompany(e.target.value)}
+                                    />
+                                  </div>
+                              </div>
+                              <div className="row mt-2 justify-content-center">
+                                  <div className="col-6">
+                                    <label>Broker PAN</label>
+                                    <input 
+                                    type="text"
+                                    class="form-control"
+                                    name="brokerPAN"
+                                    value={brokerPAN}
+                                    onChange={(e)=>setBrokerPAN(e.target.value)}
+                                    />
+                                  </div>
+                                  <div className="col-6">
+                                    <label>Broker RERA</label>
+                                    <input 
+                                    type="text"
+                                    class="form-control"
+                                    name="brokerRERA"
+                                    value={brokerRERA}
+                                    onChange={(e)=>setBrokerRERA(e.target.value)}
+                                    />
+                                  </div>
+                              </div>
+                              <div className="row mt-2 justify-content-center">
+                                  <div className="col-12">
+                                    <label>Broker Address</label>
+                                    <input 
+                                    type="text"
+                                    class="form-control"
+                                    name="brokerAddress"
+                                    value={brokerAddress}
+                                    onChange={(e)=>setBrokerAddress(e.target.value)}
+                                    />
+                                  </div>
+                              </div>
+                              <div className="row mt-2 justify-content-center">
+                                  <div className="col-6">
+                                  <Form.Group controlId="paid">
+                                    <Form.Label>Paid</Form.Label>
+                                    <Form.Control  as="select" value={paid} onChange={(e)=> setPaid(e.target.value)}>
+                                    <option>Select an option</option>
+                                    <option value={true}>Yes</option>    
+                                    <option value={false}>No</option> 
+                                    </Form.Control>
+                                  </Form.Group>
+                                  </div>
+                                  <div className="col-6">
+                                  <Form.Group controlId="sts" >
+                                    <Form.Label>Settled To Salary</Form.Label>
+                                    <Form.Control  as="select" value={sts} onChange={(e)=> setSts(e.target.value)}>
+                                    <option>Select an option</option>
+                                    <option value={true}>Yes</option>    
+                                    <option value={false}>No</option> 
+                                    </Form.Control>
+                                  </Form.Group>
+                                  </div>
+                              </div>
+                              <br />
+                              <div className="text-center">
+                              <button className="btn btn-secondary btn-user" onClick={save}>
+                              Save
+                              </button>
+                              &nbsp;&nbsp;
+                              <button className="btn btn-secondary btn-user" onClick={handleClose} style={{backgroundColor : "white", color : "black"}}>
+                              Cancel
+                              </button>
+                              </div>
+                            </div>
+                            
+                            </Fade>
+                    </Modal>
         </>
     )
 }
