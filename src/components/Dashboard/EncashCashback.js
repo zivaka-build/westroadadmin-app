@@ -16,16 +16,6 @@ function EncashCashback() {
     const [coupons, setCoupons] = useState([])
     const [coupon, setCoupon] = useState("")
 
-    console.log(customerId)
-    console.log(couponSecret)
-    
-    const changeCoupon = (e) => {
-        const value = e.target.value+" ";
-        setCoupon(e.target.value)
-        setCustomerId(value.split(' ')[0])
-        setCouponSecret(value.split(' ')[1])
-    }
-     
     const submit = (e) => {
         e.preventDefault()
         const Token = 'bearer' + " " + Cookies.get('Token')
@@ -110,13 +100,25 @@ function EncashCashback() {
             <div className="col-lg-4 col-sm-12">
                 <Form.Group controlId="couponId">
                 <Form.Label>Coupon ID</Form.Label>
-                <Form.Control  as="select" onChange={changeCoupon} value={coupon} required>
-                <option value="">Select a Coupon Id</option>  
-                {coupons.map((c)=>(
-                <option value={c.customerId+" "+c.couponSecret}>{c.couponId}</option>
+                <Form.Control  as="select" onChange={(e)=>setCustomerId(e.target.value)} value={customerId} required>
+                <option value="">Select a Customer Id</option>  
+                {customers.map((c)=>(
+                <option value={c.customerId}>{c.customerId}</option>
                 ))}
                 </Form.Control>
                 </Form.Group>
+            </div>
+            <div className="col-lg-4 col-sm-12">
+                <label>Coupon Secret</label>
+                <input
+                type="text"
+                class="form-control"
+                name="couponSecret"
+                id="couponSecret"
+                required
+                value={couponSecret}
+                onChange={(e)=>setCouponSecret(e.target.value)}
+                />
             </div>
         </div>
         <div className="row mt-4 justify-content-center">
