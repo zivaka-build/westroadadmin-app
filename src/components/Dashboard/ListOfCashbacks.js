@@ -101,10 +101,13 @@ function ListOfCashbacks(){
                     { title: 'Coupon ID', field: 'couponId' },
                     { title: 'Amount', field: 'amount'},
                     { title: 'Customer ID', field: 'customerId' },
-                    { title: 'Coupon Secret', field: 'couponSecret' },
                     { title: 'Created At', render: (rowData) => !rowData.createdAt ? "" : rowData.createdAt.substring(8,10)+"-"+rowData.createdAt.substring(5,7)+"-"+rowData.createdAt.substring(0,4), customSort: (a, b) => a.createdAt < b.createdAt ? -1 : 1 },
-                    //{ title: 'Application ID', field: 'applicationId' },
-                    { title: 'Valid', render: (rowData) => rowData.couponValid === true ? "Yes" : "No" },
+                    { title: 'Updated At', defaultSort: 'desc', render: (rowData) => !rowData.updatedAt ? "" : rowData.updatedAt.substring(8,10)+"-"+rowData.updatedAt.substring(5,7)+"-"+rowData.updatedAt.substring(0,4), customSort: (a, b) => a.updatedAt < b.updatedAt ? -1 : 1 },
+                    { title: 'Encashed', render: (rowData) => rowData.couponValid === true ? "Yes" : "No" },
+                    { title: 'Encashed By', field:'encashedBy' },
+                    { title: 'Description', field: 'encashedDescription' },
+                    { title: 'Encash Date ', render: (rowData) => !rowData.encashedDate ? "" : rowData.encashedDate.substring(8,10)+"-"+rowData.encashedDate.substring(5,7)+"-"+rowData.encashedDate.substring(0,4), customSort: (a, b) => a.encashedDate < b.encashedDate ? -1 : 1 },
+                    
                   
                     
                     
@@ -122,7 +125,7 @@ function ListOfCashbacks(){
                     <MTableToolbar {...props} />
 
                     <FormControl className={classes.formControl} style={{marginTop: "-65px"}}>
-                    <InputLabel id="demo-simple-select-helper-label">Valid</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label">Encashed</InputLabel>
                       <Select
                         value={valid}
                         onChange={(e)=>setValid(e.target.value)}
@@ -130,7 +133,7 @@ function ListOfCashbacks(){
                         inputProps={{ "aria-label": "Without label" }}
                       >
                         <MenuItem value="" disabled>
-                        Valid
+                        Encashed
                         </MenuItem>
                         <MenuItem value={true} >
                         Yes
@@ -148,7 +151,6 @@ function ListOfCashbacks(){
                         onChange={(e)=>setCustomer(e.target.value)}
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
-                        
                       >
                         <MenuItem value="all" disabled>
                          Customer
@@ -183,16 +185,7 @@ function ListOfCashbacks(){
                 
                 }
             }}
-            actions={[
-                {
-                    icon: 'remove_red_eye',
-                    tooltip: 'Open Coupon',
-                    onClick: (event, rowData) => {
-                      navigate(rowData.couponS3Link)
-                    }
-                }
-
-            ]}
+           
             
            ></MaterialTable>
             
