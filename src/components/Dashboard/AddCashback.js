@@ -6,29 +6,31 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Swal from 'sweetalert2';
 import {IoMdArrowBack} from 'react-icons/io'
+import {AiOutlineDownload} from 'react-icons/ai'
+
 
 function AddCreditVoucher() {
     const [customers, setCustomers] = useState([])
     const [customerId, setCustomerId] = useState("")
     const [amount, setAmount] = useState("")
-     
+
+    const [disp, setDisp] = useState("none")
+    const [resultAmount, setResultAmount] = useState("")
+    const [resultCustomerId, setResultCustomerId] = useState("")
+    const [resultCouponId, setResultCouponId] = useState("")
+    const [resultLink, setResultLink] = useState("")
+    
     const submit = (e) => {
         e.preventDefault()
         const Token = 'bearer' + " " + Cookies.get('Token')
         axios.post(`${BASE_URL}/api/v1/cashback/createcashbackcoupon`,{customerId : customerId, amount : amount*1},{ headers : { 'Authorization' : Token }})
         .then(response =>{
             if(response.status === 200){
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    showClass: {
-                      popup: 'animate__animated animate__fadeInDown'
-                    },
-                    hideClass: {
-                      popup: 'animate__animated animate__fadeOutUp'
-                    },
-                    text: response.data.message
-                  })
+                setResultAmount(response.data.amount)
+                setResultCustomerId(response.data.customerId)
+                setResultCouponId(response.data.couponId)
+                setResultLink(response.data.couponS3Link)
+                setDisp("block")
                 setCustomerId("")
                 setAmount("")
             }
@@ -88,7 +90,7 @@ function AddCreditVoucher() {
                 <Form.Label>Amount</Form.Label>
                 <Form.Control  as="select" onChange={(e)=>setAmount(e.target.value)} value={amount} required>
                 <option value="">Select a amount</option>
-                <option value="500">500</option>  
+                <option value="5000">5000</option>  
                 <option value="1000">1000</option>
                 
                 </Form.Control>
@@ -105,7 +107,19 @@ function AddCreditVoucher() {
             </div>
         </div>
         </form>
-        
+        <br />
+
+        <div className="row mt-4" style={{display : disp}}>
+            <center>
+            <div className="col-6">
+            <h6>Coupon ID : {resultCouponId}</h6>
+            <h6>Customer ID : {resultCustomerId}</h6>
+            <h6>Amount : {resultAmount}</h6>
+            <a href={resultLink} target="_blank" rel="noopener noreferrer"><button className="btn btn-light" style={{backgroundColor : "white"}} >Download Coupon<AiOutlineDownload ></AiOutlineDownload></button></a>
+            </div>
+            </center>
+        </div>
+
         </>
     )
 }
