@@ -70,6 +70,18 @@ function IndividualSite() {
         setOpen4(false);
     };
 
+    const [open5, setOpen5] = React.useState(false);
+
+    const handleClose5 = () => {
+        setOpen5(false);
+    };
+
+    const [open6, setOpen6] = React.useState(false);
+
+    const handleClose6 = () => {
+        setOpen6(false);
+    };
+
 
     const {siteID} = useParams()
     const [leads, setLeads] = useState([]);
@@ -145,6 +157,9 @@ function IndividualSite() {
     const [lcgst, setLcgst] = useState(0)
     const [addLegalCharges, setAddLegalCharges] = useState(0)
 
+    const [deleteCPCode, setDeleteCPCode] = useState("")
+    const [deleteOCName, setDeleteOCName] = useState("")
+
     const updateCarParking = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
@@ -169,6 +184,20 @@ function IndividualSite() {
                 })
             })
         }
+    }
+
+    const deleteCarParking = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.delete(`${BASE_URL}/api/v1/site/deleteCarParkingTypeByParkingCode`,{siteId : siteID, typeCode : deleteCPCode},{headers:{Authorization:Token}})
+        .then(response =>{
+            console.log(response)
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setParking(response.data.site.carParkingType)
+                    setOpen5(false)
+                })
+        })
     }
 
     const updateOtherCharges = (e) => {
@@ -196,6 +225,20 @@ function IndividualSite() {
                     })
                 })
             }
+    }
+
+    const deleteOtherCharge = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.delete(`${BASE_URL}/api/v1/site/deleteOtherCharges`,{siteId : siteID, otherChargesName : deleteOCName},{headers:{Authorization:Token}})
+        .then(response =>{
+            console.log(response)
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setCharges(response.data.site.otherCharges)
+                    setOpen6(false)
+                })
+        })
     }
 
     const updateLegalCharges = (e) => {
@@ -670,7 +713,7 @@ function IndividualSite() {
                                 <td>{p.typeCode}</td>
                                 <td>{p.price}</td>
                                 <td>{p.totalCount}</td>
-                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddCarParking(0);setOldcptype(p.typeCode);setCptype(p.type); setCptypecode(p.typeCode); setCpprice(p.price); setCptotal(p.totalCount); setOpen2(true)}}>Edit</button></td>
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddCarParking(0);setOldcptype(p.typeCode);setCptype(p.type); setCptypecode(p.typeCode); setCpprice(p.price); setCptotal(p.totalCount); setOpen2(true)}}>Edit</button>&nbsp;&nbsp;<button className="btn btn-secondary btn-user" style={{backgroundColor : "white", color: "black"}} onClick={()=>{setDeleteCPCode(p.typeCode);setOpen5(true);}}>Delete</button></td>
                                 </tr>
                             ))}
                             
@@ -761,6 +804,36 @@ function IndividualSite() {
                             
                             </Fade>
                         </Modal>
+                        <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open5}
+                        onClose={handleClose5}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open5}>
+                            <div className={classes.paper}>
+                            <h6>Are you sure you want to delete this ?</h6>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                            <div className="col-6 text-right">
+                                <button className="btn btn-secondary btn-user" onClick={deleteCarParking}>Yes</button>           
+                            </div>
+                            <div className="col-6 text-left">
+                                <button className="btn btn-secondary btn-user" onClick={handleClose5} style={{backgroundColor: "white", color: "black"}}>No</button>
+                            </div>
+                            </div>
+                            
+                            
+                            </div>
+                            
+                            </Fade>
+                        </Modal>
                     </div>
                     <br />
                     <div className="mt-2 container-fluid justify-content-center">
@@ -785,7 +858,7 @@ function IndividualSite() {
                             <td>{c.amount}</td>
                             <td>{c.gst}</td>
                             <td>{ c.perSqFt === true ? "Per Sq. Feet": "Fixed" }</td>
-                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddOtherCharges(0); setOldocname(c.name); setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button></td>
+                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddOtherCharges(0); setOldocname(c.name); setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button>&nbsp;&nbsp;<button className="btn btn-secondary btn-user" style={{backgroundColor : "white", color: "black"}} onClick={()=>{setDeleteOCName(c.name);setOpen6(true);}}>Delete</button></td>
                             </tr>
                             ))}
                             
@@ -889,6 +962,34 @@ function IndividualSite() {
                             </div>
                             </div>
                             </form>
+                            </div>
+                            
+                            </Fade>
+                        </Modal>
+                        <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open6}
+                        onClose={handleClose6}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open6}>
+                            <div className={classes.paper}>
+                            <h6>Are you sure you want to delete this ?</h6>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                            <div className="col-6 text-right">
+                                <button className="btn btn-secondary btn-user" onClick={deleteOtherCharge}>Yes</button>           
+                            </div>
+                            <div className="col-6 text-left">
+                                <button className="btn btn-secondary btn-user" onClick={handleClose6} style={{backgroundColor: "white", color: "black"}}>No</button>
+                            </div>
+                            </div>
                             </div>
                             
                             </Fade>
