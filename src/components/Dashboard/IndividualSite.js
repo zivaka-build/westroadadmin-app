@@ -690,6 +690,7 @@ function IndividualSite() {
                         >
                             <Fade in={open2}>
                             <div className={classes.paper}>
+                            <form onSubmit={updateCarParking}>
                             <div className="row container-fluid justify-content-center">
                                 <div className="col-6">
                                     <label>Car Parking Type</label>
@@ -700,6 +701,7 @@ function IndividualSite() {
                                     id="cptype"
                                     value={cptype}
                                     onChange={(e)=>setCptype(e.target.value)}
+                                    required
                                     />
                                 </div>
                                 <div className="col-6">
@@ -711,6 +713,7 @@ function IndividualSite() {
                                     id="cptypecode"
                                     value={cptypecode}
                                     onChange={(e)=>setCptypecode(e.target.value)}
+                                    required
                                     />
                                 
                                 </div>
@@ -726,6 +729,7 @@ function IndividualSite() {
                                     id="cpprice"
                                     value={cpprice}
                                     onChange={(e)=>setCpprice(e.target.value)}
+                                    required
                                     />
                                 </div>
                                 <div className="col-6">
@@ -737,6 +741,7 @@ function IndividualSite() {
                                     id="cptotal"
                                     value={cptotal}
                                     onChange={(e)=>setCptotal(e.target.value)}
+                                    required
                                     />
                                 
                                 </div>
@@ -744,12 +749,13 @@ function IndividualSite() {
                             <br />
                             <div className="row container-fluid justify-content-center">
                             <div className="col-6 text-right">
-                                <button className="btn btn-secondary btn-user" onClick={updateCarParking}>Save</button>           
+                                <button className="btn btn-secondary btn-user" type="submit">Save</button>           
                             </div>
                             <div className="col-6 text-left">
                                 <button className="btn btn-secondary btn-user" onClick={handleClose2} style={{backgroundColor: "white", color: "black"}}>Close</button>
                             </div>
                             </div>
+                            </form>
                             
                             </div>
                             
@@ -799,6 +805,7 @@ function IndividualSite() {
                         >
                             <Fade in={open3}>
                             <div className={classes.paper}>
+                            <form onSubmit={updateOtherCharges}>
                             <div className="row container-fluid justify-content-center">
                                 <div className="col-12">
                                     <label>Charge Name</label>
@@ -809,6 +816,7 @@ function IndividualSite() {
                                     id="ocname"
                                     value={ocname}
                                     onChange={(e)=>setOcname(e.target.value)}
+                                    required
                                     />
                                 </div>
                                 
@@ -824,6 +832,7 @@ function IndividualSite() {
                                     id="ocamount"
                                     value={ocamount}
                                     onChange={(e)=>setOcamount(e.target.value)}
+                                    required
                                     />
                                 
                                 </div>
@@ -836,6 +845,7 @@ function IndividualSite() {
                                     id="ocgst"
                                     value={ocgst}
                                     onChange={(e)=>setOcgst(e.target.value)}
+                                    required
                                     />
                                 </div>
                             </div>
@@ -849,6 +859,7 @@ function IndividualSite() {
                                     name="octype"
                                     checked={ocps === true ? true : null}
                                     onChange={(e)=>{setOcps(true); setOcf(false)}}
+                                    required
                                     />
                                 <label class="form-check-label pl-5">
                                     Per Sq. Feet
@@ -860,6 +871,7 @@ function IndividualSite() {
                                     name="octype"
                                     checked={ocf === true ? true : null}
                                     onChange={(e)=>{setOcf(true); setOcps(false)}}
+                                    required
                                     />
                                 <label class="form-check-label pl-5">
                                     Fixed
@@ -870,12 +882,13 @@ function IndividualSite() {
                             <br />
                             <div className="row container-fluid justify-content-center">
                             <div className="col-6 text-right">
-                                <button className="btn btn-secondary btn-user" onClick={updateOtherCharges}>Save</button>           
+                                <button className="btn btn-secondary btn-user" type="submit">Save</button>           
                             </div>
                             <div className="col-6 text-left">
                                 <button className="btn btn-secondary btn-user" onClick={handleClose3} style={{backgroundColor: "white", color: "black"}}>Close</button>
                             </div>
                             </div>
+                            </form>
                             </div>
                             
                             </Fade>
@@ -922,6 +935,7 @@ function IndividualSite() {
                         >
                             <Fade in={open4}>
                             <div className={classes.paper}>
+                            <form onSubmit={updateLegalCharges}>
                             <div className="row container-fluid justify-content-center">
                                 <div className="col-12">
                                     <label>Description</label>
@@ -932,6 +946,7 @@ function IndividualSite() {
                                     id="lcdesc"
                                     value={lcdesc}
                                     onChange={(e)=>setLcdesc(e.target.value)}
+                                    required
                                     />
                                 </div>
                                 
@@ -947,6 +962,7 @@ function IndividualSite() {
                                     id="lcbhk"
                                     value={lcbhk}
                                     onChange={(e)=>setLcbhk(e.target.value)}
+                                    required
                                     />
                                 
                                 </div>
@@ -959,6 +975,7 @@ function IndividualSite() {
                                     id="lcamount"
                                     value={lcamount}
                                     onChange={(e)=>setLcamount(e.target.value)}
+                                    required
                                     />
                                 </div>
                                 
@@ -974,6 +991,7 @@ function IndividualSite() {
                                     id="lcgst"
                                     value={lcgst}
                                     onChange={(e)=>setLcgst(e.target.value)}
+                                    required
                                     />
                                 </div>
                             </div>
@@ -981,12 +999,13 @@ function IndividualSite() {
                             <br />
                             <div className="row container-fluid justify-content-center">
                             <div className="col-6 text-right">
-                                <button className="btn btn-secondary btn-user" onClick={updateLegalCharges}>Save</button>           
+                                <button className="btn btn-secondary btn-user" type="submit">Save</button>           
                             </div>
                             <div className="col-6 text-left">
                                 <button className="btn btn-secondary btn-user" onClick={handleClose4} style={{backgroundColor: "white", color: "black"}}>Close</button>
                             </div>
                             </div>
+                            </form>
                             </div>
                             
                             </Fade>
