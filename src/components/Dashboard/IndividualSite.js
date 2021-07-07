@@ -105,6 +105,7 @@ function IndividualSite() {
     const [termId, setTermId] = useState("")
 
     const [disp, setDisp] = useState("none")
+    const [disp1, setDisp1] = useState("none")
 
     const [phase, setPhase ] = useState([])
 
@@ -279,6 +280,24 @@ function IndividualSite() {
         ,{headers:{Authorization:Token}})
           .then(response => {
             setDisp("block")
+            console.log(response)
+          })
+    }
+
+    const editSite1 = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.put(`${BASE_URL}/api/v1/site/updateSite/${siteID}`,
+        { 
+            floorEscalationCharge: fec,
+            builtUpAreaFactor: buaf,
+            superBuiltUpAreaFactor: sbuaf,
+            unitGSTPercentage: ugp
+           
+        }
+        ,{headers:{Authorization:Token}})
+          .then(response => {
+            setDisp1("block")
             console.log(response)
           })
     }
@@ -618,6 +637,16 @@ function IndividualSite() {
                             value={ugp}
                             onChange={(e)=>setUgp(e.target.value)}
                             />
+                        </div>
+                    </div>
+                    <br />
+                    <div className="text-center" style={{display : disp1}}><em>All details saved succesfully!</em></div>
+                    <div className="row mt-2 justify-content-center">
+    
+                        <div className="col-12 text-center">
+
+                            <button className="btn btn-secondary btn-user" onClick={editSite1}>Save</button>
+                                                        
                         </div>
                     </div>
                     <br />
