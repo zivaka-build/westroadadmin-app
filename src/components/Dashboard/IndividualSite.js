@@ -158,7 +158,7 @@ function IndividualSite() {
     const [addLegalCharges, setAddLegalCharges] = useState(0)
 
     const [deleteCPCode, setDeleteCPCode] = useState("")
-    const [deleteOCName, setDeleteOCName] = useState("")
+    const [deleteId, setDeleteId] = useState("")
 
     const updateCarParking = (e) => {
         e.preventDefault()
@@ -189,7 +189,7 @@ function IndividualSite() {
     const deleteCarParking = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
-        axios.delete(`${BASE_URL}/api/v1/site/deleteCarParkingTypeByParkingCode`,{siteId : siteID, typeCode : deleteCPCode},{headers:{Authorization:Token}})
+        axios.delete(`${BASE_URL}/api/v1/site/deleteCarParkingTypeByParkingCode?siteId=${siteID}&typeCode=${deleteCPCode}`,{headers:{Authorization:Token}})
         .then(response =>{
             console.log(response)
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
@@ -230,7 +230,7 @@ function IndividualSite() {
     const deleteOtherCharge = (e) => {
         e.preventDefault()
         const Token = "bearer" + " " + Cookies.get("Token");
-        axios.delete(`${BASE_URL}/api/v1/site/deleteOtherCharges`,{siteId : siteID, otherChargesName : deleteOCName},{headers:{Authorization:Token}})
+        axios.delete(`${BASE_URL}/api/v1/site/deleteOtherCharges?siteId=${siteID}&id=${deleteId}`,{headers:{Authorization:Token}})
         .then(response =>{
             console.log(response)
             axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
@@ -858,7 +858,7 @@ function IndividualSite() {
                             <td>{c.amount}</td>
                             <td>{c.gst}</td>
                             <td>{ c.perSqFt === true ? "Per Sq. Feet": "Fixed" }</td>
-                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddOtherCharges(0); setOldocname(c.name); setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button>&nbsp;&nbsp;<button className="btn btn-secondary btn-user" style={{backgroundColor : "white", color: "black"}} onClick={()=>{setDeleteOCName(c.name);setOpen6(true);}}>Delete</button></td>
+                            <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddOtherCharges(0); setOldocname(c.name); setOcname(c.name); setOcamount(c.amount); setOcgst(c.gst); if(c.perSqFt === true) { setOcps(true); setOcf(false)} else if(c.perSqFt === false){ setOcps(false); setOcf(true)} ;setOpen3(true)}}>Edit</button>&nbsp;&nbsp;<button className="btn btn-secondary btn-user" style={{backgroundColor : "white", color: "black"}} onClick={()=>{setDeleteId(c._id);setOpen6(true);}}>Delete</button></td>
                             </tr>
                             ))}
                             
