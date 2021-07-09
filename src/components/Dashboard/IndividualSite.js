@@ -82,6 +82,12 @@ function IndividualSite() {
         setOpen6(false);
     };
 
+    const [open7, setOpen7] = React.useState(false);
+
+    const handleClose7 = () => {
+        setOpen7(false);
+    };
+
 
     const {siteID} = useParams()
     const [leads, setLeads] = useState([]);
@@ -159,6 +165,7 @@ function IndividualSite() {
 
     const [deleteCPCode, setDeleteCPCode] = useState("")
     const [deleteId, setDeleteId] = useState("")
+    const [deleteLid, setDeleteLid] = useState("")
 
     const updateCarParking = (e) => {
         e.preventDefault()
@@ -266,6 +273,20 @@ function IndividualSite() {
             })
 
         }
+    }
+
+    const deleteLegalCharge = (e) => {
+        e.preventDefault()
+        const Token = "bearer" + " " + Cookies.get("Token");
+        axios.delete(`${BASE_URL}/api/v1/site/deleteLegalCharges?siteId=${siteID}&id=${deleteLid}`,{headers:{Authorization:Token}})
+        .then(response =>{
+            console.log(response)
+            axios.get(`${BASE_URL}/api/v1/site/getSiteBySiteId/${siteID}`,{headers:{Authorization:Token}})
+                .then(response => { 
+                    setLcharges(response.data.site.legalCharges)
+                    setOpen7(false)
+                })
+        })
     }
   
 
@@ -1016,7 +1037,7 @@ function IndividualSite() {
                                 <td>{l.bhk}</td>
                                 <td>{l.amount}</td>
                                 <td>{l.gst}</td>
-                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddLegalCharges(0); setLcserial(l.serial); setOldbhk(l.bhk); setLcdesc(l.description); setLcbhk(l.bhk); setLcamount(l.amount); setLcgst(l.gst); setOpen4(true)}}>Edit</button></td>
+                                <td><button className="btn btn-secondary btn-user" onClick={()=> {setAddLegalCharges(0); setLcserial(l.serial); setOldbhk(l.bhk); setLcdesc(l.description); setLcbhk(l.bhk); setLcamount(l.amount); setLcgst(l.gst); setOpen4(true)}}>Edit</button>&nbsp;&nbsp;<button className="btn btn-secondary btn-user" style={{backgroundColor : "white", color: "black"}} onClick={()=>{setDeleteLid(l._id);setOpen7(true);}}>Delete</button></td>
                                 </tr>
                             ))}
                             
@@ -1107,6 +1128,34 @@ function IndividualSite() {
                             </div>
                             </div>
                             </form>
+                            </div>
+                            
+                            </Fade>
+                        </Modal>
+                        <Modal
+                        aria-labelledby="transition-modal-title"
+                        aria-describedby="transition-modal-description"
+                        className={classes.modal}
+                        open={open7}
+                        onClose={handleClose7}
+                        closeAfterTransition
+                        BackdropComponent={Backdrop}
+                        BackdropProps={{
+                        timeout: 500,
+                        }}
+                        >
+                            <Fade in={open7}>
+                            <div className={classes.paper}>
+                            <h6>Are you sure you want to delete this ?</h6>
+                            <br />
+                            <div className="row container-fluid justify-content-center">
+                            <div className="col-6 text-right">
+                                <button className="btn btn-secondary btn-user" onClick={deleteLegalCharge}>Yes</button>           
+                            </div>
+                            <div className="col-6 text-left">
+                                <button className="btn btn-secondary btn-user" onClick={handleClose7} style={{backgroundColor: "white", color: "black"}}>No</button>
+                            </div>
+                            </div>
                             </div>
                             
                             </Fade>
