@@ -15,6 +15,7 @@ function AddLoanBank() {
     const [si, setSi] = useState("")
     const [branch, setBranch] = useState("")
     const [validated, setValidated] = useState(true)
+    const [disp, setDisp] = useState("none")
     const [agent, setAgent] = useState([
         {name: "", contactNumber: "", whatsappNumber: "", emailId: ""}
     ])
@@ -56,6 +57,7 @@ function AddLoanBank() {
     }
 
     const changeBcode = (e) => {
+        setDisp('none')
         var value = e.target.value
         setBcode(e.target.value)
         var regex = /^[A-Z0-9]{11}$/
@@ -84,9 +86,21 @@ function AddLoanBank() {
             .post(`${BASE_URL}/api/v1/loan/addLoanBank`,{bankCode: bcode, bankBranch: branch, bankName: bname, rateOfInterest: gi, rateOfInterestWomen: wi, rateOfInterestSenior: si, agent: agent},{ headers : { 'Authorization' : Token }})
             .then(response => {
                 console.log(response)
-                if(response.status == 200) {
+
+                if(response.data.branchExists===true){
+                    setDisp("block")
+                    
+
+                }
+                if(response.data.branchExists===false){
+                    setDisp("none")
                     navigate("/dashboard/listofbanks")
                 }
+                
+                
+                // if(response.status == 200) {
+                //     navigate("/dashboard/listofbanks")
+                // }
             })
         }
     }
@@ -113,7 +127,9 @@ function AddLoanBank() {
                 id="bankname"
                 value={bname}
                 required
-                onChange={(e)=>setBname(e.target.value)}
+                onChange={(e)=>{setBname(e.target.value)
+                    setDisp('none')
+                }}
             />
             </div>
             <div className="col-lg-4 col-sm-12">
@@ -155,7 +171,9 @@ function AddLoanBank() {
                 id="gi"
                 value={gi}
                 required
-                onChange={(e)=>setGi(e.target.value)}
+                onChange={(e)=>{
+                    setGi(e.target.value)
+                }}
             />
             </div>
             <div className="col-lg-4 col-sm-12">
@@ -249,10 +267,12 @@ function AddLoanBank() {
         </div>
         </div>
         <div className="row mt-4 container-fluid justify-content-center">
+        <div className="text-center" style={{display : disp}}><em>IFSC Code already exists</em></div>
         <div className="col-4 text-right">
             <button className="btn btn-secondary btn-user" type="reset" onClick={reset}style={{backgroundColor: "white", color: "black"}}>Reset</button>
 
         </div>
+        
         <div className="col-4">
             <button className="btn btn-secondary btn-user" type="submit">Add</button>
                                         
