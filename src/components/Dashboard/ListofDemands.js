@@ -2,31 +2,15 @@ import React,{useState,useEffect} from "react";
 import axios from "axios";
 import { BASE_URL } from "./../../config/url";
 import Cookies from 'js-cookie';
-import {GiGears} from 'react-icons/gi'
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import { Form} from "react-bootstrap";
+import { navigate } from "@reach/router"
 import MaterialTable, { MTableToolbar } from "material-table";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
-import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
 
 const useStyles = makeStyles((theme) => ({
-    modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
-    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
@@ -90,7 +74,62 @@ function ListofDemand(){
             setForm([])
           }
           else{
-            setForm(response.data)
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
           }
         })
      
@@ -103,7 +142,62 @@ function ListofDemand(){
             setForm([])
           }
           else{
-            setForm(response.data)
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
           }
         })
         }
@@ -114,7 +208,62 @@ function ListofDemand(){
             setForm([])
           }
           else{
-            setForm(response.data)
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
           }
         })
         }
@@ -125,7 +274,62 @@ function ListofDemand(){
             setForm([])
           }
           else{
-            setForm(response.data)
+            var data = response.data
+            const demands = data.map((t)=>{
+              const {demandId, customerId, demandGenerationDate, dueDate, demandType, description, amount, isPaid, paymentDate, creditTransId} = t
+              const formattedDate1 = demandGenerationDate.substring(8,10)+"-"+demandGenerationDate.substring(5,7)+"-"+demandGenerationDate.substring(0,4)
+              const formattedDate2 = dueDate.substring(8,10)+"-"+dueDate.substring(5,7)+"-"+dueDate.substring(0,4)
+              var formattedDate3 = ""
+              if(!paymentDate){
+                formattedDate3 = ""
+              }    
+              else if(paymentDate){
+                formattedDate3 = paymentDate.substring(8,10)+"-"+paymentDate.substring(5,7)+"-"+paymentDate.substring(0,4)
+              }     
+              
+              var dt = ""
+              if(demandType === "BasicConstructionCharge"){
+                dt= "Basic Construction Charge"
+              }
+
+              else if(demandType === "LatePaymentFee"){
+                dt= "Late Payment Fee"
+              }
+
+              else if(demandType === "LegalCharge") {
+                dt= "Legal Charge"
+              }
+
+              else if(demandType === "SaleAgreement"){
+                dt= "Sale Agreement"
+              }
+
+              else if(demandType === "BCCFirstDemand") {
+                dt = "BCC First Demand"
+              }
+
+              var pd = ""
+              if(isPaid === true) {
+                pd = "Yes"
+              }
+              
+              else if(isPaid === false) {
+                pd="No"
+              }
+              return {
+                demandId, 
+                customerId, 
+                demandGenerationDate : formattedDate1, 
+                dueDate: formattedDate2, 
+                demandType: dt, 
+                description, 
+                amount, 
+                isPaid : pd, 
+                paymentDate: formattedDate3,
+                creditTransId
+                };
+            })  
+            setForm(demands)
           }
           
           
@@ -135,11 +339,11 @@ function ListofDemand(){
     },[dt,paid])
 
     return(
-        <div className="row container-fluid px-0">
-        <div className="col-12 mt-4">
+        <div className="mt-3">
         <MaterialTable
+
             data={form}
-            title="Transaction List"
+            title="Demand List"
             columns={
                 [
                     { title: 'Demand Id', field: 'demandId' },
@@ -149,7 +353,7 @@ function ListofDemand(){
                     { title: 'Demand Type', field: 'demandType' },
                     { title: 'Description', field: 'description' },
                     { title: 'Amount', field: 'amount' },
-                    { title: 'Is Paid', field: 'isPaid' },
+                    { title: 'Paid', field: 'isPaid' },
                     { title: 'Payment Date', field: 'paymentDate' },
                     { title: 'Credit Trans Id', field: 'creditTransId' },
                     
@@ -246,10 +450,21 @@ function ListofDemand(){
                 
                 }
             }}
+
+            actions={[
+              {
+                  icon: 'remove_red_eye',
+                  tooltip: 'View Demand',
+                  onClick: (event, rowData) => {
+                  navigate(`/dashboard/individualdemand/${rowData.demandId}`);
+                  Cookies.set('ActiveDemandKey', 'first')
+                  }
+              }
+
+          ]}
             
            ></MaterialTable>
             
-        </div>
         </div>
     );
 

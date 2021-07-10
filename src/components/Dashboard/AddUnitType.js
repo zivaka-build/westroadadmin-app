@@ -83,11 +83,12 @@ function AddUnitType() {
             </div>
         </div>
         <br />
-        <form>
+        <form onSubmit={addUnitType}>
         <div className="row container-fluid justify-content-center">
             <div className="col-4">
                 <label>Unit Name</label>
                 <input
+                required
                 type="text"
                 class="form-control"
                 name="unitname"
@@ -98,10 +99,10 @@ function AddUnitType() {
             <div className="col-4">
             <Form.Group controlId="bhk">
                 <Form.Label>BHK</Form.Label>
-                <Form.Control  as="select" onChange={(e)=>setBhk(e.target.value)}>
-                <option>Select a BHK</option>   
-                <option value="1BHK">1BHK</option>
-                <option value="2BHK">2BHK</option>
+                <Form.Control required  as="select" onChange={(e)=>setBhk(e.target.value)}>
+                <option value="">Select a BHK</option>   
+                <option value="1BHK">1BHK</option> 
+                <option value="2BHK">2BHK </option>
                 <option value="3BHK">3BHK</option>
                 </Form.Control>
             </Form.Group>
@@ -112,6 +113,7 @@ function AddUnitType() {
             <div className="col-4">
                 <label>Carpet Area</label>
                 <input
+                required
                 type="number"
                 class="form-control"
                 name="carpetarea"
@@ -122,6 +124,7 @@ function AddUnitType() {
             <div className="col-4">
                 <label>Balcony Area</label>
                 <input
+                required
                 type="number"
                 class="form-control"
                 name="balconyarea"
@@ -135,6 +138,7 @@ function AddUnitType() {
             <div className="col-4">
                 <label>Built Up Area</label>
                 <input
+                required
                 type="number"
                 class="form-control"
                 name="builtuparea"
@@ -145,6 +149,7 @@ function AddUnitType() {
             <div className="col-4">
                 <label>Super Built Up Area</label>
                 <input
+                required
                 type="number"
                 class="form-control"
                 name="sbuarea"
@@ -158,6 +163,7 @@ function AddUnitType() {
             <div className="col-4">
                 <label>Preferred Location Charge</label>
                 <input
+                required
                 type="number"
                 class="form-control"
                 name="plc"
@@ -168,6 +174,7 @@ function AddUnitType() {
             <div className="col-4">
                 <label>Base Sq. Ft. Rate</label>
                 <input
+                required
                 type="number"
                 class="form-control"
                 name="rate"
@@ -181,8 +188,8 @@ function AddUnitType() {
             <div className="col-4">
             <Form.Group controlId="phasename">
                 <Form.Label>Phase Name</Form.Label>
-                <Form.Control  as="select" onChange={changePhase}>
-                <option>Select a Phase Name</option>   
+                <Form.Control required  as="select" onChange={changePhase}>
+                <option value="">Select a Phase Name</option>   
                 { 
                     phase.map((p)=>(
                         <option value={p.phaseCode+" "+p.phaseName}>{p.phaseName}</option>
@@ -198,7 +205,7 @@ function AddUnitType() {
 
             </div>
             <div className="col-4">
-                <button className="btn btn-secondary btn-user" onClick={addUnitType}>Add Unit</button>
+                <button type="submit" className="btn btn-secondary btn-user" >Add Unit</button>
                                             
             </div>
         </div>

@@ -33,6 +33,34 @@ import ListofCheque from "./components/Dashboard/ListofCheques";
 import InitiateAllotmentForm from "./components/Dashboard/InitiateAllotmentForm";
 import AddLoanBankPage from "./routes/AddLoanBankPage"
 import ViewLoanBankPage from "./routes/ViewLoanBankPage"
+import CustomerPage from "./routes/CustomerPage"
+import IndividualBankPage from "./routes/IndividualBankPage"
+import HomepagePage from "./routes/HomepagePage"
+import IndividualUnitPage from "./routes/IndividualUnitPage"
+import IssueChequePage from "./routes/IssueChequePage"
+import TaskListPage from "./routes/TaskListPage"
+import AddCashPage from "./routes/AddCashPage"
+import AddTaskPage from "./routes/AddTaskPage"
+import ViewCashDepositPage from "./routes/ViewCashDepositPage"
+import IndividualApplicantPage from "./routes/IndividualApplicantPage"
+import IndividualCustomerPage from "./routes/IndividualCustomerPage"
+import ViewUserPage from "./routes/ViewUserPage"
+import VoucherPage from "./routes/VoucherPage"
+import AddPaymentTermPage from "./routes/AddPaymentTermPage"
+import AddHandoverListTypePage from "./routes/AddHandoverListTypePage"
+import AddCreditVoucherPage from "./routes/AddCreditVoucherPage"
+import ViewHandoverListTypePage from "./routes/ViewHandoverListTypePage"
+import ViewCreditVouchersPage from "./routes/ViewCreditVouchersPage"
+import ViewPaymentTermsPage from "./routes/ViewPaymentTermsPage";
+import IndividualPaymentTermsPage from "./routes/IndividualPaymentTermsPage"
+import IndividualDemandPage from "./routes/IndividualDemandPage"
+import LoginFirstPage from "./routes/LoginFirstPage"
+import ListOfCashbacksPage from "./routes/ListOfCashbacksPage";
+import CashbackPage from "./routes/CashbackPage"
+import AddCashbackPage from "./routes/AddCashbackPage"
+import EncashCashbackPage from "./routes/EncashCashbackPage"
+import ListOfSalesComissionPage from "./routes/ListOfSalesComissionPage"
+
 function App() {
   return (
     <div className="App">
@@ -68,7 +96,34 @@ function App() {
           <AddUnitTypePage path="/addunittype/:siteID" />
           <AddLoanBankPage path="/addloanbank" />
           <ViewLoanBankPage path="/listofbanks" />
+          <CustomerPage path="/viewcustomers" />
+          <IndividualBankPage path="/individualbank/:bankCode" />
+          <HomepagePage path="/home" />
+          <IndividualUnitPage path="/individualunit/:unitName" />
+          <IssueChequePage path="/issuecheque" />
+          <TaskListPage path="/tasklist" />
+          <AddCashPage path="/addcash" />
+          <AddTaskPage path="/addtask" />
+          <ViewCashDepositPage path="/listofcashdeposit" />
+          <IndividualApplicantPage path="/individualapplicant/:applicantId" />
+          <IndividualCustomerPage path="/individualcustomer" />
+          <ViewUserPage path="/viewuser" />
+          <VoucherPage path="/voucher" />
+          <AddPaymentTermPage path="/addpaymentterm" />
+          <AddHandoverListTypePage path="/addhandoverlisttype" />
+          <AddCreditVoucherPage path="/addcreditvoucher" />
+          <ViewHandoverListTypePage path="/viewhandoverlisttype" />
+          <ViewCreditVouchersPage path="/viewcreditvouchers" />
+          <ViewPaymentTermsPage path="/paymentterms" />
+          <IndividualPaymentTermsPage path="/individualpaymentterm/:termId" />
+          <IndividualDemandPage path="/individualdemand/:demandId" />
+          <ListOfCashbacksPage path="/cashback" />
+          <CashbackPage path="/cashbackpage" />
+          <AddCashbackPage path="/addcashback" />
+          <EncashCashbackPage path="/encashcashback" />
+          <ListOfSalesComissionPage path="/viewsalescomission" />
         </DefaultDashboard>
+        <LoginFirstPage path="/loginfirst" />
 
       </Router>
     </div>

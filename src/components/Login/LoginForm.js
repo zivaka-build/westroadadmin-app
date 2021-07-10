@@ -20,170 +20,65 @@ function LoginForm() {
   const [email, setemail] = useState('')
   const [password, setPassword] = useState('')
   const [userName, setuserName] = useState('')
+  const [otp, setOtp] = useState('')
+  const [error, setError] = useState('')
+  const [errorbol, setErrorbol] = useState(false)
+  const [otpValidated, setOtpValidated] = useState(false)
+  
+  const [getOTP, setGetOTP] = useState(false)
 
   const changeUser = (e) => {
     setuserName(e.target.value)
 
   }
 
-  const changePassword = (e) => {
-    setPassword(e.target.value)
+  const changeOtp = (e) => {
+    setOtp(e.target.value)
+
   }
 
-  const changemail = (e) => {
-    setemail(e.target.value)
-  }
-
-  const forgotPassword = (e) => {
-    var login = document.querySelector("#login");
-    login.style.display = "none";
-
-    var forgotpassword = document.querySelector("#forgotpassword");
-    forgotpassword.style.display = "block";
-  }
-
-  const back = () => {
-    var login = document.querySelector("#login");
-    login.style.display = "block";
-
-    var forgotpassword = document.querySelector("#forgotpassword");
-    forgotpassword.style.display = "none";
-  }
-
-  const resetLink = (e) => {
-    e.preventDefault()
-
-    const user = {
-      email: email
-    }
-    if (email == '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ooops',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        text: 'email cannot be left empty!'
-      })
-    }
-    else {
-      const data = {
-        email: email,
+  const getOTPapi = () =>{
+    axios.post(`${BASE_URL}/api/v1/auth/sendOTP`,{userName:userName})
+    .then((response) =>{
+      
+      if(response.data.otpSent===true){
+        setGetOTP(true)
+        setErrorbol(false)
       }
-
-      axios.post(`${BASE_URL}` + '', qs.stringify(data))
-        .then((response) => {
-          console.log(response)
-          var message = document.querySelector("#message");
-          message.style.display = "block";
-
-          var error = document.querySelector("#error");
-          error.style.display = "none";
-        })
-        .catch((error) => {
-          console.log(error);
-
-        })
-    }
-  }
-
-
-  const submitHandler = (e) => {
-
-    e.preventDefault()
-
-    if (userName === '' || password === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ooops',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        text: 'username and password cannot be left empty!'
-      })
-    }
-    else if(userName === 'Customer' && password === '1234') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Ooops',
-        showClass: {
-          popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-          popup: 'animate__animated animate__fadeOutUp'
-        },
-        text: 'This username cannot be used'
-      })
-    }
-    else {
-      const data = {
-        userName: userName,
-        password: password,
+      else if(response.data.otpSent===false){
+        setError(response.data.message)
+        setGetOTP(false)
+        setErrorbol(true)
+        
       }
-      axios
-        .post(`${BASE_URL}` + '/api/v1/auth/authenticateUser', qs.stringify(data))
-        .then((response) => {
-          console.log(response);
-          if (response.status == 200) {
-            Cookies.set('Token', response.data.message)
-            Cookies.set('FullName', response.data.fullName)
-            Cookies.set('userId', response.data.userId)
-
-            Cookies.set('Role', response.data.role)
-            navigate("/dashboard/addmember")
-            Swal.fire({
-              icon: 'success',
-              title: 'Success!',
-              showClass: {
-                popup: 'animate__animated animate__fadeInDown'
-              },
-              hideClass: {
-                popup: 'animate__animated animate__fadeOutUp'
-              },
-              text: 'Login successful'
-            })
-          }
-          else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Ooops',
-              showClass: {
-                popup: 'animate__animated animate__fadeInDown'
-              },
-              hideClass: {
-                popup: 'animate__animated animate__fadeOutUp'
-              },
-              text: 'Invalid username or password'
-            })
-          }
-
-        })
-        .catch((error) => {
-          console.log(error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Ooops',
-            showClass: {
-              popup: 'animate__animated animate__fadeInDown'
-            },
-            hideClass: {
-              popup: 'animate__animated animate__fadeOutUp'
-            },
-            text: error.message
-          })
-        }
-
-        )
-
-    }
-
+    })
   }
+
+  const validateOTP = (e) => {
+    e.preventDefault()
+    axios.post(`${BASE_URL}/api/v1/auth/validateotp`,{userName:userName,OTP:otp*1})
+    .then((response) =>{
+      
+      if(response.data.otpValidated === true)
+      {
+        Cookies.set('Token', response.data.token, { expires : 0.042})
+        Cookies.set('FullName', response.data.userFullName)
+        Cookies.set('UserName', response.data.userName)
+        setOtpValidated(true)
+        navigate("/dashboard/home")
+
+      }
+      else if(response.data.otpValidated === false){
+        setOtpValidated(false)
+        setError(response.data.message)
+        setErrorbol(true)
+      }
+     
+    })
+  }
+  
+
+  
 
 
   return (
@@ -195,28 +90,45 @@ function LoginForm() {
                     <div className="col-lg-12" style={{display:"block"}}>
                     <img src={westroad} alt="westroad" className="westroad-img"/>
 
-                    <Form className="user" onSubmit={submitHandler}>
-                          <div className="form-group">
+                   
+                          <div className="form-group" style={{display:getOTP===true?"none":"block", marginTop:'40px'}}>
                             <Input type="text" className="form-control form-control-user form-input-styling" id="username" value={userName} name="username" onChange={changeUser} placeholder="Username"/>
                           </div>
-                          
-                          <div className="form-group">
-                            <Input type="password" className="form-control form-control-user form-input-styling" id="password" value={password} name="password" onChange={changePassword} placeholder="Password (6+ characters)" />
+
+                          <div className="form-group" style={{display:getOTP===true?"block":"none", marginTop:'40px'}}>
+                            <Input type="number" className="form-control form-control-user form-input-styling" id="otp" value={otp} name="Enter OTP" onChange={changeOtp} placeholder="Enter OTP"/>
                           </div>
+
+                          { 
+                           errorbol===true?
+                           <>
+                           <p className="text-center" style={{color : "red",size:"15px"}}><em>{error}</em></p>
+                           </>:
+                           null
+                          }
+                            
+
                           
-                          <div className="frgt" >
-                          <a className="small" onClick={forgotPassword}>Forgot Your Password?</a>
-                          </div>
-                            <div style={{display:'flex'}}> 
-                          <button type="submit" href="" className="btn btn-primary btn-user btn-block button-styling" style={{
+                        
+                            <div style={{display:getOTP===false?"block":"none", marginTop: '60px'}}> 
+                          <button type="submit" href="" onClick={getOTPapi} className="btn btn-primary btn-user btn-block button-styling" style={{
                             background: "#ee4b46",
                             textAlign:"center"
                           }} >
-                                                              Login
+                                                              Get OTP
                         </button>
                         </div>
 
-                        </Form>
+                        <div style={{display:getOTP===true?"block":"none", marginTop: '60px'}}> 
+                          <button type="submit" href="" onClick={validateOTP} className="btn btn-primary btn-user btn-block button-styling" style={{
+                            background: "#ee4b46",
+                            textAlign:"center"
+                          }} >
+                                                              Validate OTP
+                        </button>
+                        </div>
+
+                    
 
                     </div>
                 </div>
@@ -224,40 +136,7 @@ function LoginForm() {
         </div>
 
       
-                    <div className="col-lg-12" id="forgotpassword" name="forgotpassword" style={{ display: "none", }}>
-                      <div className="p-5">
-                        <img src={WestRoad} style={{ height: '160px', marginLeft: '27%' }} />
-
-                        <div className="text-center">
-                          <h1 className="h4 text-gray-900 mb-4">Forgot Password</h1>
-                        </div>
-                        <form className="reset user" name="reset" id="reset" onSubmit={resetLink}>
-                          <div className="form-group">
-                            <input type="text" className="form-control form-control-user" type="email" id="email" name="email" value={email} onChange={changemail} placeholder="Please Enter Registered email" />
-                          </div>
-
-
-                          <small name="message" id="message" style={{ display: 'none' }}>
-                            <em>Reset link sent to your mail. Please check!</em>
-                          </small>
-                          <small name="error" id="error" style={{ display: 'none', color: 'red' }}>
-                            <em>Please enter your email!</em>
-                          </small>
-                          <br />
-
-                          <button type="submit" href="" className="btn btn-primary btn-user btn-block">
-                            Send Reset Link
-                        </button>
-                          <button className="btn btn-secondary btn-user btn-block" onClick={back}>
-                            Back To Login
-                        </button>
-
-
-                        </form>
-
-
-                      </div>
-                    </div>
+               
                   
                
     </>

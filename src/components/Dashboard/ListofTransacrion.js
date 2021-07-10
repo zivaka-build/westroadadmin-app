@@ -14,6 +14,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
 import {ReactComponent as Edit} from "./../../assets/icons/Vector.svg"
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -53,6 +54,7 @@ function ListofTransaction(){
     };
 
     const [ form, setForm ] = useState([])
+    const [ form1, setForm1 ] = useState([])
     
     const [ view, setView ] = useState("")
     const [ unitName, setUnitName] = useState("")
@@ -64,14 +66,145 @@ function ListofTransaction(){
     const [ tt, setTt] = useState("")
     const [ stat, setStat] = useState([])
     const [ ptca, setPtca] = useState([])
+    const [from, setFrom] = useState("")
+    const [to,setTo] = useState("")
     
-   
+    const [fromval, setFromval] = useState("")
+    const [toval,setToval] = useState("")
 
     const reset = (e) => {
         setTc("");
         setTt("");
+        setToval("")
+        setFromval("")
+        setForm(form1)
         
-        
+    }
+
+    const changeFrom = (e) => {
+      var date = e.target.value
+      var month = date.substring(5,7)
+      setFromval(e.target.value)
+
+      if(month === "01"){
+        setFrom(date.substring(8)+"-"+"jan"+"-"+date.substring(0,4))
+  
+      }
+      else if(month === "02"){
+        setFrom(date.substring(8)+"-"+"feb"+"-"+date.substring(0,4))
+  
+      }
+      else if(month === "03"){
+        setFrom(date.substring(8)+"-"+"mar"+"-"+date.substring(0,4))
+  
+      }
+      else if(month === "04"){
+        setFrom(date.substring(8)+"-"+"apr"+"-"+date.substring(0,4))
+  
+      }
+      
+      else if(month === "05"){
+        setFrom(date.substring(8)+"-"+"may"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "06"){
+        setFrom(date.substring(8)+"-"+"jun"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "07"){
+        setFrom(date.substring(8)+"-"+"jul"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "08"){
+        setFrom(date.substring(8)+"-"+"aug"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "09"){
+        setFrom(date.substring(8)+"-"+"sep"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "10"){
+        setFrom(date.substring(8)+"-"+"oct"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "11"){
+        setFrom(date.substring(8)+"-"+"nov"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "12"){
+        setFrom(date.substring(8)+"-"+"dec"+"-"+date.substring(0,4))
+  
+      }
+    }
+
+    const changeTo = (e) => {
+      var date = e.target.value
+      var month = date.substring(5,7)
+      setToval(e.target.value)
+
+      if(month === "01"){
+        setTo(date.substring(8)+"-"+"jan"+"-"+date.substring(0,4))
+  
+      }
+      else if(month === "02"){
+        setTo(date.substring(8)+"-"+"feb"+"-"+date.substring(0,4))
+  
+      }
+      else if(month === "03"){
+        setTo(date.substring(8)+"-"+"mar"+"-"+date.substring(0,4))
+  
+      }
+      else if(month === "04"){
+        setTo(date.substring(8)+"-"+"apr"+"-"+date.substring(0,4))
+  
+      }
+      
+      else if(month === "05"){
+        setTo(date.substring(8)+"-"+"may"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "06"){
+        setTo(date.substring(8)+"-"+"jun"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "07"){
+        setTo(date.substring(8)+"-"+"jul"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "08"){
+        setTo(date.substring(8)+"-"+"aug"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "09"){
+        setTo(date.substring(8)+"-"+"sep"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "10"){
+        setTo(date.substring(8)+"-"+"oct"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "11"){
+        setTo(date.substring(8)+"-"+"nov"+"-"+date.substring(0,4))
+  
+      }
+
+      else if(month === "12"){
+        setTo(date.substring(8)+"-"+"dec"+"-"+date.substring(0,4))
+  
+      }
     }
 
 
@@ -82,24 +215,55 @@ function ListofTransaction(){
        
         const Token = 'bearer' + " " + Cookies.get('Token')
         
-       if(tt===""&& tc===""){
+       if(tt===""&& tc==="" && from ==="" && to===""){
         axios.post(`${BASE_URL}/api/v1/transaction/getAllTransaction`,{headers:{Authorization:Token}})
         .then(response => {
           
           setForm(response.data)
+          setForm1(response.data)
         })
        }
-       else if(tt !==""){
+       else if(tt !=="" && tc==="" && from ==="" && to===""){
         axios.post(`${BASE_URL}/api/v1/transaction/getAllTransaction?transactionType=${tt}`,{headers:{Authorization:Token}})
           .then(response => {
             console.log(response)
             setForm(response.data)
           })
        }
-       else if(tt !=="" && tc !==""){
+       else if(tt ==="" && tc!=="" && from ==="" && to===""){
+        axios.post(`${BASE_URL}/api/v1/transaction/getAllTransaction?transactionCategory=${tc}`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
+            setForm(response.data)
+          })
+       }
+       else if(tt !=="" && tc !=="" && from ==="" && to===""){
         axios.post(`${BASE_URL}/api/v1/transaction/getAllTransaction?transactionType=${tt}&transactionCategory=${tc}`,{headers:{Authorization:Token}})
           .then(response => {
             
+            setForm(response.data)
+          })
+       }
+
+       else if(tt !=="" && tc ==="" && from !=="" && to !==""){
+        axios.post(`${BASE_URL}/api/v1/transaction/getAllTransaction?transactionType=${tt}&startDate=${from}&endDate=${to}`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
+            setForm(response.data)
+          })
+       }
+
+       else if(tt ==="" && tc !=="" && from !=="" && to !==""){
+        axios.post(`${BASE_URL}/api/v1/transaction/getAllTransaction?transactionCategory=${tc}&startDate=${from}&endDate=${to}`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
+            setForm(response.data)
+          })
+       }
+       else if(tt !=="" && tc !=="" && from !=="" && to !==""){
+        axios.post(`${BASE_URL}/api/v1/transaction/getAllTransaction?transactionType=${tt}&transactionCategory=${tc}&startDate=${from}&endDate=${to}`,{headers:{Authorization:Token}})
+          .then(response => {
+            console.log(response)
             setForm(response.data)
           })
        }
@@ -107,14 +271,14 @@ function ListofTransaction(){
           
           
         
-    },[tt,tc])
+    },[tt,tc,from,to])
 
     return(
         <div className="row container-fluid px-0">
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}
-            title="Transaction List"
+            title="Transactions"
             columns={
                 [
                     { title: 'Transaction Id', field: '_id' },
@@ -150,8 +314,12 @@ function ListofTransaction(){
                         </MenuItem>
                         <MenuItem value="debit" >
                         Debit
-                        </MenuItem><MenuItem value="credit" >
+                        </MenuItem>
+                        <MenuItem value="credit" >
                         Credit
+                        </MenuItem>
+                        <MenuItem value="raw" >
+                        Raw
                         </MenuItem>
                        
 
@@ -171,8 +339,8 @@ function ListofTransaction(){
                         <MenuItem value="all" disabled>
                           Transaction Category
                         </MenuItem>
-                        <MenuItem value="online" >
-                        TDS Payment
+                        <MenuItem value="qqqq" >
+                        qqqq
                         </MenuItem>
                         <MenuItem value="cash" >
                         Cash
@@ -187,10 +355,35 @@ function ListofTransaction(){
                     
                     </FormControl>
 
+                    <TextField
+                    id="date-from"
+                    label="From"
+                    type="date"
+                    style={{width: "13.5%",marginTop: "-65px" }}
+                    value={fromval}
+                    onChange={changeFrom}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    />
+
+                  <TextField
+                    id="date-from"
+                    label="To"
+                    type="date"
+                    style={{width: "13.5%",marginTop: "-65px" }}
+                    value={toval}
+                    onChange={changeTo}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                    />
+                    
+        
   
   
                     
-                    <FormControl className={classes.formControl} style={{marginTop: "-50px",marginRight:"110px"}}>
+                    <FormControl className={classes.formControl} style={{marginTop: "-50px",marginRight:"125px"}}>
                     <button className="btn btn-secondary btn-user" onClick={reset} style={{backgroundColor : "white", color : "black"}}>
                     Reset Filter
                     </button>

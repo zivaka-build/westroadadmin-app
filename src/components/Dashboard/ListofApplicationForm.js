@@ -14,7 +14,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import InputLabel from '@material-ui/core/InputLabel';
 import { navigate } from "@reach/router";
-
+import {IoMdArrowBack} from 'react-icons/io'
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -89,28 +89,28 @@ function ListofApplicationForm(){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         else if(status==="" && snf!==""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         else if(status!=="" && snf===""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?status=${status}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         else if(status!=="" && snf!==""){
           axios.get(`${BASE_URL}/api/v1/applicationform/getlistofapplicationform?siteId=${snf}&status=${status}`,{headers:{Authorization:Token}})
           .then(response =>{
             console.log(response.data)
-            setForm(response.data.reverse())
+            setForm(response.data)
           })
         }
         
@@ -119,13 +119,18 @@ function ListofApplicationForm(){
 
     return(
         <div className="row container-fluid px-0">
+          <div className="mt-3 row container-fluid justify-content-center px-2" >
+            <div className="col-12">
+            <button className="btn btn-light" style={{backgroundColor : "white"}} onClick={()=>navigate("/dashboard/home")}><IoMdArrowBack />Back</button>
+            </div>
+        </div>
         <div className="col-12 mt-4">
         <MaterialTable
             data={form}
             title="Application Forms"
             columns={
                 [
-                    { title: 'Application Id', field: 'applicationId' },
+                    { title: 'Application Id', field: 'applicationId',defaultSort: 'desc', customSort: (a, b) => a.applicationId.toLowerCase() < b.applicationId.toLowerCase ? -1 : 1},
                     { title: 'Unit Name', field: 'unitName' },
                     { title: 'Car Parking Number', field: 'carParkings.length' },
                     { title: 'Status', field: 'status' },
@@ -138,6 +143,8 @@ function ListofApplicationForm(){
             options={{
                 search: true,
                 actionsColumnIndex: -1,
+                sorting: true
+
             }}
             components={{
                 Toolbar: (props) => (

@@ -69,13 +69,13 @@ function AddUnit() {
             </div>
         </div>
         <br />
-        <form>
+        <form onSubmit={addUnit}>
         <div className="row container-fluid justify-content-center">
         <div className="col-4">
         <Form.Group controlId="sitename">
             <Form.Label>Site Name</Form.Label>
-            <Form.Control  as="select" onChange={changeUnitName}>
-            <option>Select a Site Name</option> 
+            <Form.Control  as="select" onChange={changeUnitName} required>
+            <option value="">Select a Site Name</option> 
             {
                 site.map((s)=>(
                     <option value={s.siteId+" "+s.siteCode}>{s.siteName}</option>
@@ -86,11 +86,27 @@ function AddUnit() {
             </Form.Control>
         </Form.Group>
         </div>
+        
         <div className="col-4">
+        <Form.Group controlId="unitphase">
+            <Form.Label>Unit Phase</Form.Label>
+            <Form.Control  as="select" onChange={(e)=>setUphase(e.target.value)} required>
+            <option value="">Select a Unit Phase</option>   
+            <option value="PI">Phase 1</option>
+            <option value="PII">Phase 2</option>
+            </Form.Control>
+        </Form.Group>
+        </div>
+    </div>
+    <br />
+    <div className="row container-fluid justify-content-center">
+    <div className="col-4">
         <Form.Group controlId="unittype">
             <Form.Label>Unit Type Name</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setUtype(e.target.value)}>
-            <option>Select a Unit Type</option>   
+            <Form.Control  as="select" onChange={(e)=>setUtype(e.target.value)} required>
+            <option value="">Select a Unit Type</option>
+            { uphase === "PI" ?
+            <>   
             <option value="A">Flat A</option>
             <option value="B">Flat B</option>
             <option value="C">Flat C</option>
@@ -99,22 +115,22 @@ function AddUnit() {
             <option value="F">Flat F</option>
             <option value="G">Flat G</option>
             <option value="H">Flat H</option>
-            <option value="I">Flat I</option>
             <option value="J">Flat J</option>
+            </> : 
+            <>
+            <option value="K">Flat K</option>
+            <option value="L">Flat L</option>
+            <option value="M">Flat M</option>
+            <option value="N">Flat N</option>
+            <option value="P">Flat P</option>
+            <option value="Q">Flat Q</option>
+            <option value="R">Flat R</option>
+            <option value="S">Flat S</option>
+            <option value="T">Flat T</option>
+            <option value="U">Flat U</option>
+            </>
+            }
 
-            </Form.Control>
-        </Form.Group>
-        </div>
-    </div>
-    <br />
-    <div className="row container-fluid justify-content-center">
-        <div className="col-4">
-        <Form.Group controlId="unitphase">
-            <Form.Label>Unit Phase</Form.Label>
-            <Form.Control  as="select" onChange={(e)=>setUphase(e.target.value)}>
-            <option>Select a Unit Phase</option>   
-            <option value="PI">Phase 1</option>
-            <option value="PII">Phase 2</option>
             </Form.Control>
         </Form.Group>
         </div>
@@ -125,6 +141,7 @@ function AddUnit() {
             class="form-control"
             name="unitfloor"
             id="unitfloor"
+            required
             onChange={(e)=>setUfloor(e.target.value)}
             />
         </div>
@@ -135,7 +152,7 @@ function AddUnit() {
 
         </div>
         <div className="col-4">
-            <button className="btn btn-secondary btn-user" onClick={addUnit}>Add Unit</button>
+            <button className="btn btn-secondary btn-user" type="submit">Add Unit</button>
                                         
         </div>
     </div>

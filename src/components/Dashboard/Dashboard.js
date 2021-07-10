@@ -19,14 +19,18 @@ import { Link, navigate } from "@reach/router";
 import '../../assets/css/sidebar.css';
 import logo from '../../assets/img/appbar_logo.jpg'
 import sidebarbg from '../../assets/img/sidebar-bg.jpg'
+import {FaDraftingCompass} from 'react-icons/fa'
 import {BsBuilding} from 'react-icons/bs'
 import {BsPeople} from 'react-icons/bs'
 import {GiTakeMyMoney} from 'react-icons/gi'
 import {BsFillPieChartFill} from 'react-icons/bs'
 import {AiOutlineSetting} from 'react-icons/ai'
 import {AiOutlineCalculator} from 'react-icons/ai'
+import {RiCoupon2Fill} from 'react-icons/ri'
 import {FaTools} from 'react-icons/fa'
 import {BsBellFill} from 'react-icons/bs'
+import {FaReceipt} from 'react-icons/fa'
+import {GoTasklist} from 'react-icons/go'
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -190,8 +194,8 @@ const drawer = (
                 <AccordionDetails>
                     <List>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/initiateallotment'>
-                    <ListItem button key={'Create Application'}>
-                    <h7>Create Application</h7>
+                    <ListItem button key={'Initiate Booking'}>
+                    <h7>Initiate Booking</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofapplicationform'>
@@ -201,7 +205,7 @@ const drawer = (
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofunits'>
                     <ListItem button key={'Create Lead'}>
-                    <h7>View Units</h7>
+                    <h7>Flats / Units</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/carparkinglist'>
@@ -242,6 +246,11 @@ const drawer = (
                     <h7>View Lead</h7>
                     </ListItem>
                     </Link>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewcustomers'>
+                    <ListItem button key={'Customer List'}>
+                    <h7>Customer List</h7>
+                    </ListItem>
+                    </Link>
                     </List>
                 
                 </AccordionDetails>
@@ -263,16 +272,60 @@ const drawer = (
                 </AccordionSummary>
                 <AccordionDetails>
                     <List>
-                    
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
-                    <ListItem button key={'TDS'}>
-                    <h7>Transaction</h7>
+                
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
+                    <ListItem button key={'Demands'}>
+                    <h7>Demands</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewcreditvouchers'>
+                    <ListItem button key={'Money Receipt'}>
+                    <h7>Money Receipt</h7>
                     </ListItem>
                     </Link>
 
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofdemand'>
-                    <ListItem button key={'TDS'}>
-                    <h7>Demand</h7>
+                    <ListItem button key={'Debit Voucher'}>
+                    <h7>Debit Voucher</h7>
+                    </ListItem>
+                    </Link>
+
+                    
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addcash'>
+                    <ListItem button key={'Deposit Cash'}>
+                    <h7>Deposit Cash</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcashdeposit' onClick={()=>Cookies.set("ActiveCashKey", "first")}>
+                    <ListItem button key={'Cash Book'}>
+                    <h7>Cash Book</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/issuecheque'>
+                    <ListItem button key={'Issue Cheque'}>
+                    <h7>Issue Cheque</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
+                    <ListItem button key={'Cheque Book'}>
+                    <h7>Cheque Book</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/cashback'>
+                    <ListItem button key={'Cashback'}>
+                    <h7>Cashback</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewsalescomission'>
+                    <ListItem button key={'Sales Comission'}>
+                    <h7>Sales Comission</h7>
                     </ListItem>
                     </Link>
 
@@ -282,23 +335,12 @@ const drawer = (
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofcheque'>
-                    <ListItem button key={'TDS'}>
-                    <h7>Cheque</h7>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listoftransaction'>
+                    <ListItem button key={'Transactions'}>
+                    <h7>Transactions</h7>
                     </ListItem>
                     </Link>
 
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addloanbank'>
-                    <ListItem button key={'Add Loan Bank'}>
-                    <h7>Add Loan Bank</h7>
-                    </ListItem>
-                    </Link>
-
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
-                    <ListItem button key={'List of Loan Bank'}>
-                    <h7>List of Loan Bank</h7>
-                    </ListItem>
-                    </Link>
                     </List>
                 
                 </AccordionDetails>
@@ -353,13 +395,13 @@ const drawer = (
                 <AccordionDetails>
                     <List>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addmember'>
-                    <ListItem button key={'Add Member'}>
-                    <h7>Add Member</h7>
+                    <ListItem button key={'Add User'}>
+                    <h7>Add User</h7>
                     </ListItem>
                     </Link>
-                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/teammember'>
-                    <ListItem button key={'Manage Members'}>
-                    <h7>Manage Members</h7>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewuser'>
+                    <ListItem button key={'View User'}>
+                    <h7>View User</h7>
                     </ListItem>
                     </Link>
                     <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addsite'>
@@ -382,6 +424,53 @@ const drawer = (
                     <h7>View TDS Rates</h7>
                     </ListItem>
                     </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/listofbanks'>
+                    <ListItem button key={'List of Loan Bank'}>
+                    <h7>Loan Banks</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/addpaymentterm'>
+                    <ListItem button key={'Add Payment Term'}>
+                    <h7>Add Payment Term</h7>
+                    </ListItem>
+                    </Link>
+
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/viewhandoverlisttype'>
+                    <ListItem button key={'Handover List Type'}>
+                    <h7>Handover List Type</h7>
+                    </ListItem>
+                    </Link>
+                    
+                    </List>
+                
+                </AccordionDetails>
+            </Accordion>
+        </List>
+
+        <List>
+        
+        <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                    <FaDraftingCompass className="sidebar-icons"/>
+                   <Typography variant="h7" className="sidebar-menu">
+                   Engineering
+          </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <List>
+                    <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/paymentterms'>
+                    <ListItem button key={'Payment Terms'}>
+                    <h7>Payment Terms</h7>
+                    </ListItem>
+                    </Link>
+                    
+                    
                     </List>
                 
                 </AccordionDetails>
@@ -409,12 +498,16 @@ return (
           </IconButton>
           <div className={classes.topwrap}>
           <Typography className="ilead-heading" variant="h5" >
-            <img className="logo" src={logo} alt="logo"/>
+            <Link style={{ color: '#073b4c', textDecoration: 'none'}} to='/dashboard/home'>
+            <img className="logo" src={logo} alt="logo" />
+            </Link>
           </Typography>
           <div  style={{display: 'flex'}} >
-          <a href="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></a>
-          <a href="/" className="icon-link"><BsBellFill/></a>
-          <a href="/" className="icon-link"><FaTools/></a>
+          <Link to="/dashboard/homeloancalculator" className="icon-link"><AiOutlineCalculator /></Link>
+          <Link to="/" className="icon-link"><BsBellFill/></Link>
+          <Link to="/dashboard/tasklist" className="icon-link"><GoTasklist onClick={() => {Cookies.set('TaskActiveKey', 'first')}}/></Link>
+          <Link to="/dashboard/voucher" className="icon-link"><FaReceipt/></Link>
+          <Link to="/dashboard/cashbackpage" className="icon-link"><RiCoupon2Fill /></Link>
           <Button
           style={{backgroundColor:"white",borderTopLeftRadius:"30px",borderBottomLeftRadius:"30px"}}
           ref={anchorRef}
