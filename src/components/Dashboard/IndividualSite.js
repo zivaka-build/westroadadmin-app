@@ -509,7 +509,11 @@ function IndividualSite() {
                             name="sitecode"
                             id="sitecode"
                             value={sc}
-                            onChange={(e)=>setSc(e.target.value)}
+                            onChange={(e)=>{setSc(e.target.value)
+                                setDisp("none")}}
+                            
+                            
+                           
                             />
                         </div>
                         <div className="col-4">
@@ -520,7 +524,10 @@ function IndividualSite() {
                             name="sitename"
                             id="sitename"
                             value={sn}
-                            onChange={(e)=>setSn(e.target.value)}
+                            onChange={(e)=>{setSn(e.target.value)
+                            
+                                setDisp("none")
+                            }}
                             />
                         </div>
                         <div className="col-4">
@@ -531,7 +538,9 @@ function IndividualSite() {
                             name="hirano"
                             id="hirano"
                             value={hr}
-                            onChange={(e)=>setHr(e.target.value)}
+                            onChange={(e)=>{setHr(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                     </div>
@@ -545,7 +554,9 @@ function IndividualSite() {
                             name="scn"
                             id="scn"
                             value={scn}
-                            onChange={(e)=>setScn(e.target.value)}
+                            onChange={(e)=>{setScn(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                         <div className="col-6">
@@ -556,7 +567,9 @@ function IndividualSite() {
                             name="bpsn"
                             id="sitename"
                             value={bpsn}
-                            onChange={(e)=>setBpsn(e.target.value)}
+                            onChange={(e)=>{setBpsn(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                     </div>
@@ -570,7 +583,8 @@ function IndividualSite() {
                             name="desc"
                             id="desc"
                             value={desc}
-                            onChange={(e)=>setDesc(e.target.value)}
+                            onChange={(e)=>{setDesc(e.target.value)
+                                setDisp("none")}}
                             />
                         </div>
                        
@@ -585,7 +599,9 @@ function IndividualSite() {
                             name="fulladdress"
                             id="fulladdress"
                             value={adr}
-                            onChange={(e)=>setAdr(e.target.value)}
+                            onChange={(e)=>{setAdr(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                        
@@ -600,7 +616,9 @@ function IndividualSite() {
                             name="landmark"
                             id="landmark"
                             value={lm}
-                            onChange={(e)=>setLm(e.target.value)}
+                            onChange={(e)=>{setLm(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                         <div className="col-6">
@@ -611,7 +629,9 @@ function IndividualSite() {
                             name="pincode"
                             id="pincode"
                             value={pc}
-                            onChange={(e)=>setPc(e.target.value)}
+                            onChange={(e)=>{setPc(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                     </div>
@@ -625,7 +645,9 @@ function IndividualSite() {
                             name="city"
                             id="city"
                             value={ct}
-                            onChange={(e)=>setCt(e.target.value)}
+                            onChange={(e)=>{setCt(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                         <div className="col-6">
@@ -636,11 +658,13 @@ function IndividualSite() {
                             name="state"
                             id="state"
                             value={st}
-                            onChange={(e)=>setSt(e.target.value)}
+                            onChange={(e)=>{setSt(e.target.value)
+                                setDisp("none")}}
                             />
                         </div>
                     </div>
                     <br />
+
                     <div className="text-center" style={{display : disp}}><em>All details saved succesfully!</em></div>
                     <div className="row mt-2 justify-content-center">
     
@@ -661,7 +685,9 @@ function IndividualSite() {
                             name="fec"
                             id="fec"
                             value={fec}
-                            onChange={(e)=>setFec(e.target.value)}
+                            onChange={(e)=>{setFec(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                         <div className="col-4">
@@ -672,7 +698,8 @@ function IndividualSite() {
                             name="buaf"
                             id="buaf"
                             value={buaf}
-                            onChange={(e)=>setBuaf(e.target.value)}
+                            onChange={(e)=>{setBuaf(e.target.value)
+                                setDisp("none")}}
                             />
                         </div>
                         
@@ -687,7 +714,9 @@ function IndividualSite() {
                             name="sbuaf"
                             id="sbuaf"
                             value={sbuaf}
-                            onChange={(e)=>setSbuaf(e.target.value)}
+                            onChange={(e)=>{setSbuaf(e.target.value)
+                            
+                                setDisp("none")}}
                             />
                         </div>
                         
@@ -699,7 +728,9 @@ function IndividualSite() {
                             name="ugp"
                             id="ugp"
                             value={ugp}
-                            onChange={(e)=>setUgp(e.target.value)}
+                            onChange={(e)=>{setUgp(e.target.value)
+                                setDisp("none")
+                            }}
                             />
                         </div>
                     </div>

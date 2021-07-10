@@ -81,6 +81,9 @@ function IndividualPaymentTerms(){
         axios.post(`${BASE_URL}/api/v1/util/documentupload`,formData ,{headers:{'Authorization':Token}})
         .then(response=>{
             console.log(response)
+            setPreview("")
+            alert("Milestone Picture Is successfully uploaded")
+             window.location.reload()
             
         })
     }
